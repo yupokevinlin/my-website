@@ -1,7 +1,7 @@
 {
-  "name": "covid-19-interactive-world-map",
-  "version": "1.0.0",
-  "description": "Front end client for an interactive map and dashboard for the COVID-19 outbreak.",
+  "name": "my-website",
+  "version": "0.0.1",
+  "description": "My website.",
   "main": "index.js",
   "scripts": {
     "test": "jest",

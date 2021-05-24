@@ -1,7 +1,7 @@
 {
-  "name": "write-my-mp",
+  "name": "my-website",
   "version": "0.0.1",
-  "description": "Website to easily access MP contact information.",
+  "description": "My website.",
   "main": "index.js",
   "scripts": {
     "start": "concurrently \"npm --prefix ./server/ run start\" \"npm --prefix ./client/ run start\"",
