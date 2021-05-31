@@ -14,7 +14,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="1.0.2-2 (e86c870879, 2021-01-15)"
-   sodipodi:docname="drawing.svg">
+   sodipodi:docname="winter.svg">
   <defs
      id="defs2">
     <linearGradient
@@ -112,9 +112,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.34791667"
-     inkscape:cx="48.927782"
-     inkscape:cy="457.65429"
+     inkscape:zoom="1.9681139"
+     inkscape:cx="57.16967"
+     inkscape:cy="766.3242"
      inkscape:document-units="px"
      inkscape:current-layer="g5506"
      inkscape:document-rotation="0"
@@ -137,7 +137,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -552,8 +552,8 @@
             <path
                id="path1008-0"
                style="fill:#709dc5;fill-opacity:1;stroke:none;stroke-width:0.15875px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-               d="m 286.77692,141.71856 10.34325,16.83804 -6.9757,-2.72635 13.63079,17.80016 -10.42355,-3.84845 16.03623,19.00287 -12.50807,-3.12725 17.88015,16.11654 c -9.02587,-1.58685 -19.3792,-4.73444 -29.25305,-4.66302 -9.05504,0.0655 -17.43024,3.10694 -26.76244,4.66395 l 17.88014,-16.11623 -12.50807,3.12694 16.03622,-19.00287 -10.42354,3.84876 13.6308,-17.80016 -6.97601,2.72604 10.34354,-16.83804 0.0282,0.16402 z"
-               sodipodi:nodetypes="ccccccccacccccccccc" />
+               d="m 286.77692,141.71856 10.34325,16.83804 -6.9757,-2.72635 13.63079,17.80016 -10.42355,-3.84845 16.03623,19.00287 -12.50807,-3.12725 17.88015,16.11654 c -9.02587,-1.58685 -19.3792,-4.73444 -29.25305,-4.66302 -8.30031,0.06 -16.05702,2.62061 -24.47558,4.24627 0.0157,-1.02503 0.01,-0.87564 0,-1.64398 l 15.59328,-14.05457 -12.50807,3.12694 16.03622,-19.00287 -10.42354,3.84876 13.6308,-17.80016 -6.97601,2.72604 10.34354,-16.83804 0.0282,0.16402 z"
+               sodipodi:nodetypes="ccccccccsccccccccccc" />
             <ellipse
                style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.125788;stroke-opacity:1"
                id="path1058"
