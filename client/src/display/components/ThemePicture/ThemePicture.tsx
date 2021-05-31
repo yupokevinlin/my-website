@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 import {createStyles, Theme, useTheme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import Snowfall from "react-snowfall";
+import clsx from "clsx";
 
 export type ThemePictureProps = ThemePictureDataProps & ThemePictureStyleProps & ThemePictureEventProps;
 
@@ -22,6 +23,10 @@ const useStyles = makeStyles((theme: Theme) =>
     themePictureRoot: {
       height: "100%",
       width: "100%",
+      opacity: 1,
+    },
+    themePictureRootNotLoaded: {
+      opacity: 0,
     },
     themePicture: {
       width: "100%",
@@ -35,14 +40,22 @@ const ThemePicture: React.FC<ThemePictureProps> = (props) => {
   const theme: Theme = useTheme();
   const classes = useStyles();
 
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+
   const {
 
   } = props;
 
+  const handleLoad = (): void => {
+    setIsLoaded(true);
+  };
+
   return (
-    <div className={classes.themePictureRoot}>
+    <div className={clsx(classes.themePictureRoot, {
+      [classes.themePictureRootNotLoaded]: !isLoaded,
+    })}>
       <Snowfall color={"#fff"} snowflakeCount={500}/>
-      <img className={classes.themePicture} src={"./resources/winter.svg"}/>
+      <img className={classes.themePicture} src={"./resources/winter.svg"} onLoad={handleLoad}/>
     </div>
   );
 };
