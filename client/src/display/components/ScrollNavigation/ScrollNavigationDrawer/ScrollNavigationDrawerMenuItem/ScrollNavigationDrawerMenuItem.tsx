@@ -55,6 +55,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     colorBar: {
       height: "100%",
+      transition: theme.transitions.create("background-color", {
+        easing: theme.transitions.easing.sharp,
+        duration: 200,
+      }),
       [theme.breakpoints.up("xs")]: {
 
       },
@@ -86,6 +90,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     text: {
       color: "#666666",
+      transition: theme.transitions.create("font-weight", {
+        easing: theme.transitions.easing.sharp,
+        duration: 200,
+      }),
       [theme.breakpoints.up("xs")]: {
 
       },
@@ -97,7 +105,6 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.up("lg")]: {
         fontSize: "15px",
-        fontWeight: 300,
         marginLeft: "10px",
       },
     },
@@ -122,7 +129,7 @@ const ScrollNavigationDrawerMenuItem: React.FC<ScrollNavigationDrawerMenuItemPro
       <ButtonBase className={classes.root} onClick={handleButtonClick}>
         <div className={classes.colorBar} style={{backgroundColor: data.active ? data.color : "#ffffff00"}}/>
         <MaterialIcon className={classes.icon} iconName={data.icon} style={{color: data.color}}/>
-        <Typography className={classes.text}>{data.name}</Typography>
+        <Typography className={classes.text} style={{fontWeight: data.active ? 500 : 300}}>{data.name}</Typography>
       </ButtonBase>
       <Divider dir={"horizontal"}/>
     </React.Fragment>
