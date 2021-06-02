@@ -4,6 +4,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import {Breakpoint} from "@material-ui/core/styles/createBreakpoints";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
 import {
   ScrollNavigationDrawerMenuItemData,
   ScrollNavigationDrawerMenuItemName
@@ -142,7 +143,7 @@ const ScrollNavigationDrawer: React.FC<ScrollNavigationDrawerProps> = (props) =>
 
   const renderList = (): ReactElement => {
     return (
-      <div className={classes.listWrapper}>
+      <Paper className={classes.listWrapper} square>
         <div className={classes.header} onClick={handleHeaderClick}>
           <Typography className={classes.headerTitle}>
             Kevin Lin
@@ -157,7 +158,7 @@ const ScrollNavigationDrawer: React.FC<ScrollNavigationDrawerProps> = (props) =>
             <ScrollNavigationDrawerMenuItem data={menuItem} key={menuItem.name} handleMenuItemClick={handleMenuItemClick}/>
           ))
         }
-      </div>
+      </Paper>
     );
   };
 
