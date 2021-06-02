@@ -83,6 +83,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     headerTitle: {
+      userSelect: "none",
       [theme.breakpoints.up("xs")]: {
 
       },
@@ -102,6 +103,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     headerText: {
+      userSelect: "none",
       [theme.breakpoints.up("xs")]: {
 
       },
