@@ -47,13 +47,24 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   } = props;
 
   const handleItemClick = (name: ScrollNavigationDrawerMenuItemName): void => {
-    console.log(name);
+    setMenuItems(prevState => prevState.map(menuItem => {
+      if (menuItem.name === name) {
+        return {
+          ...menuItem,
+          active: true,
+        }
+      } else {
+        return {
+          ...menuItem,
+          active: false,
+        }
+      }
+    }));
   };
 
   return (
     <div className={classes.root}>
       <ScrollNavigation menuItems={menuItems} handleItemClick={handleItemClick}>
-        <ThemePicture/>
         <ThemePicture/>
       </ScrollNavigation>
     </div>
