@@ -28,6 +28,10 @@ const useStyles = makeStyles((theme: Theme) =>
       mouseEvents: "none",
       userDrag: "none",
       userSelect: "none",
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-end",
     },
     themePictureRootNotLoaded: {
       opacity: 0,
