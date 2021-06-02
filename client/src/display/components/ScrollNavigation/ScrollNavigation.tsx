@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {ReactElement, useEffect, useRef, useState} from "react";
 import {createStyles, Theme, useTheme, withWidth} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Breakpoint} from "@material-ui/core/styles/createBreakpoints";
@@ -8,6 +8,7 @@ import {
   ScrollNavigationDrawerMenuItemData,
   ScrollNavigationDrawerMenuItemName
 } from "./ScrollNavigationDrawer/ScrollNavigationDrawerMenuItem/types";
+import Section from "../Section/Section";
 
 export type ScrollNavigationProps = ScrollNavigationDataProps & ScrollNavigationStyleProps & ScrollNavigationEventProps;
 
@@ -20,7 +21,8 @@ export interface ScrollNavigationStyleProps {
 }
 
 export interface ScrollNavigationEventProps {
-  handleItemClick(name: ScrollNavigationDrawerMenuItemName): void;
+  handleItemClick(name: ScrollNavigationDrawerMenuItemName, wrapperElement: Element): void;
+  handleScroll(name: ScrollNavigationDrawerMenuItemName): void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -65,6 +67,7 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
     menuItems,
     width,
     handleItemClick,
+    handleScroll,
   } = props;
 
   const isSmXs: boolean = /xs|sm/.test(width);
@@ -74,14 +77,56 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
     setDrawerOpen(open);
   };
 
+  const handleScrollObserverIntersect = (entries: Array<IntersectionObserverEntry>): void => {
+    if (entries.length > 0) {
+      handleScroll(entries[0].target.id as ScrollNavigationDrawerMenuItemName);
+    }
+  };
+
+  const contentRef: React.MutableRefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  const contentWrapperRef: React.MutableRefObject<HTMLDivElement> = useRef<HTMLDivElement>(null);
+  const [scrollObserver, setScrollObserver] = useState<IntersectionObserver>(null);
+  useEffect(() => {
+    if (!!contentRef) {
+      const newScrollObserver: IntersectionObserver = new IntersectionObserver(handleScrollObserverIntersect, {
+        root: contentRef.current,
+        threshold: 1,
+      });
+      setScrollObserver(newScrollObserver);
+    }
+  }, []);
+
+  const renderChildren = (): ReactElement => {
+    const children: Array<any> = props.children as Array<any>;
+    return (
+      <React.Fragment>
+        {
+          children.map((child, index) => (
+            <Section name={child.props.id} scrollObserver={scrollObserver}>
+              {
+                child.props.children
+              }
+            </Section>
+          ))
+        }
+      </React.Fragment>
+    );
+  };
+
+  const handleScrollNavigationDrawerItemClick = (name: ScrollNavigationDrawerMenuItemName): void => {
+    if (contentWrapperRef.current) {
+      handleItemClick(name, contentWrapperRef.current);
+    }
+  };
+
   return (
     <div className={classes.scrollNavigationRoot}>
-      <ScrollNavigationDrawer width={width} drawerOpen={drawerOpen} menuItems={menuItems} handleItemClick={handleItemClick}/>
-      <div className={classes.content}>
+      <ScrollNavigationDrawer width={width} drawerOpen={drawerOpen} menuItems={menuItems} handleItemClick={handleScrollNavigationDrawerItemClick}/>
+      <div className={classes.content} ref={contentRef}>
         <Scrollbars>
-          <div className={classes.contentWrapper}>
+          <div className={classes.contentWrapper} ref={contentWrapperRef}>
             {
-              props.children
+              renderChildren()
             }
           </div>
         </Scrollbars>

@@ -58,6 +58,7 @@ const useStyles = makeStyles((theme: Theme) =>
       transition: theme.transitions.create("background-color", {
         easing: theme.transitions.easing.sharp,
         duration: 200,
+        delay: 300,
       }),
       [theme.breakpoints.up("xs")]: {
 
@@ -93,6 +94,7 @@ const useStyles = makeStyles((theme: Theme) =>
       transition: theme.transitions.create("font-weight", {
         easing: theme.transitions.easing.sharp,
         duration: 200,
+        delay: 300,
       }),
       [theme.breakpoints.up("xs")]: {
 
