@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      justifyContent: "flex-start",
+      justifyContent: "center",
       backgroundColor: theme.palette.primary.main,
       [theme.breakpoints.up("xs")]: {
         height: "60px",
@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.up("md")]: {
         height: "80px",
+        justifyContent: "flex-start",
       },
       [theme.breakpoints.up("lg")]: {
         height: "100px",
@@ -53,11 +54,9 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.primary.contrastText,
       [theme.breakpoints.up("xs")]: {
         fontSize: "26px",
-        marginLeft: "26px",
       },
       [theme.breakpoints.up("sm")]: {
         fontSize: "26px",
-        marginLeft: "26px",
       },
       [theme.breakpoints.up("md")]: {
         fontSize: "32px",
