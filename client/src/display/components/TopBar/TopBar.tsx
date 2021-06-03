@@ -4,6 +4,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import MaterialIcon, {MaterialIconNames} from "../MaterialIcon/MaterialIcon";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
 
 export type TopBarProps = TopBarDataProps & TopBarStyleProps & TopBarEventProps;
 
@@ -83,7 +84,7 @@ const TopBar: React.FC<TopBarProps> = (props) => {
   } = props;
 
   return (
-    <div className={classes.topBar}>
+    <Paper className={classes.topBar} square elevation={1}>
       <IconButton edge={"start"} className={classes.menuButton} color={"inherit"} onClick={handleDrawerOpen}>
         <MaterialIcon iconName={MaterialIconNames.Menu} className={classes.menuButtonIcon}/>
       </IconButton>
@@ -95,7 +96,7 @@ const TopBar: React.FC<TopBarProps> = (props) => {
           Full Stack Developer
         </Typography>
       </div>
-    </div>
+    </Paper>
   );
 };
 
