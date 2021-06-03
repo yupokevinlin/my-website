@@ -45,10 +45,15 @@ const useStyles = makeStyles((theme: Theme) =>
     //     duration: theme.transitions.duration.enteringScreen,
     //   }),
     // },
+    listPaper: {
+      height: "100%",
+      [theme.breakpoints.up("lg")]: {
+        width: "170px",
+      },
+    },
     listWrapper: {
       display: "flex",
       flexDirection: "column",
-      height: "100%",
       [theme.breakpoints.up("xs")]: {
 
       },
@@ -60,6 +65,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.up("lg")]: {
         width: "170px",
+        height: "477px",
       },
     },
     header: {
@@ -145,21 +151,23 @@ const ScrollNavigationDrawer: React.FC<ScrollNavigationDrawerProps> = (props) =>
 
   const renderList = (): ReactElement => {
     return (
-      <Paper className={classes.listWrapper} square>
-        <div className={classes.header} onClick={handleHeaderClick}>
-          <Typography className={classes.headerTitle}>
-            Kevin Lin
-          </Typography>
-          <Typography className={classes.headerText}>
-            Full Stack Developer
-          </Typography>
+      <Paper className={classes.listPaper} square>
+        <div className={classes.listWrapper}>
+          <div className={classes.header} onClick={handleHeaderClick}>
+            <Typography className={classes.headerTitle}>
+              Kevin Lin
+            </Typography>
+            <Typography className={classes.headerText}>
+              Full Stack Developer
+            </Typography>
+          </div>
+          <Divider dir={"horizontal"}/>
+          {
+            menuItems.map((menuItem, index) => (
+              <ScrollNavigationDrawerMenuItem data={menuItem} key={menuItem.name} handleMenuItemClick={handleMenuItemClick}/>
+            ))
+          }
         </div>
-        <Divider dir={"horizontal"}/>
-        {
-          menuItems.map((menuItem, index) => (
-            <ScrollNavigationDrawerMenuItem data={menuItem} key={menuItem.name} handleMenuItemClick={handleMenuItemClick}/>
-          ))
-        }
       </Paper>
     );
   };
