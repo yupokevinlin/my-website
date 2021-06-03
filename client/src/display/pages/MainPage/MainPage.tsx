@@ -75,12 +75,12 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 300,
       color: "#666666",
       [theme.breakpoints.up("xs")]: {
-        fontSize: "26px",
-        marginBottom: "26px",
+        fontSize: "22px",
+        marginBottom: "22px",
       },
       [theme.breakpoints.up("sm")]: {
-        fontSize: "26px",
-        marginBottom: "26px",
+        fontSize: "22px",
+        marginBottom: "22px",
       },
       [theme.breakpoints.up("md")]: {
         fontSize: "32px",
@@ -144,7 +144,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   const isXs: boolean = /xs/.test(width);
   const isSm: boolean = /sm/.test(width);
   const isMd: boolean = /md/.test(width);
-  const size: number = isXs ? 50 : isSm ? 60 : isMd ? 70 : 80;
+  const size: number = isXs ? 60 : isSm ? 60 : isMd ? 70 : 80;
 
   return (
     <React.Fragment>
