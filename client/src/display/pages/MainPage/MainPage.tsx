@@ -53,12 +53,14 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   const classes = useStyles();
 
   const [menuItems, setMenuItems] = useState<Array<ScrollNavigationDrawerMenuItemData>>(initialMenuItems);
+  const [isTopSelected, setIsTopSelected] = useState<boolean>(true);
 
   const {
 
   } = props;
 
   const handleScroll = (name: ScrollNavigationDrawerMenuItemName): void => {
+    setIsTopSelected(name === ScrollNavigationDrawerMenuItemName.PICTURE);
     setMenuItems(prevState => prevState.map(menuItem => {
       if (menuItem.name === name) {
         return {
@@ -84,7 +86,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
 
   return (
     <div className={classes.root}>
-      <ScrollNavigation menuItems={menuItems} handleItemClick={handleItemClick} handleScroll={handleScroll}>
+      <ScrollNavigation menuItems={menuItems} isTopSelected={isTopSelected} handleItemClick={handleItemClick} handleScroll={handleScroll}>
         <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.PICTURE}>
           <ThemePicture/>
         </div>
