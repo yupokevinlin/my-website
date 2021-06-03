@@ -50,7 +50,7 @@ export const initialMenuItems: Array<ScrollNavigationDrawerMenuItemData> = [
   {
     name: ScrollNavigationDrawerMenuItemName.RESUME,
     icon: MaterialIconNames.Description,
-    color: "#757575",
+    color: "#607d8b",
     active: false,
   },
 ];
