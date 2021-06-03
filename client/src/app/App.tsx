@@ -39,9 +39,9 @@ export namespace AppStore {
     let theme = createMuiTheme({
       palette: {
         primary: {
-          light: "#4dabf5",
-          main: "#2196f3",
-          dark: "#1769aa",
+          light: "#71a4d2",
+          main: "#4e8ec7",
+          dark: "#36638b",
           contrastText: "#fff",
         },
         secondary: {
