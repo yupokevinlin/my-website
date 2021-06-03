@@ -108,7 +108,7 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
     if (!!contentRef) {
       const newScrollObserver: IntersectionObserver = new IntersectionObserver(handleScrollObserverIntersect, {
         root: contentRef.current,
-        threshold: 1,
+        threshold: 0.8,
       });
       setScrollObserver(newScrollObserver);
     }
