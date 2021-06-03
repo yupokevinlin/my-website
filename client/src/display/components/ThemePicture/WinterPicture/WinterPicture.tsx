@@ -23,8 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     winterPictureRoot: {
       width: "100%",
-      height: "100vh",
-
+      height: "100%",
       mouseEvents: "none",
       userDrag: "none",
       userSelect: "none",
@@ -34,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100%",
       backgroundImage: "url(./resources/winter.svg), linear-gradient(0deg, #ffffff 50%, #e4ecf4 80%, #91b4d2 100%)",
       backgroundRepeat: "no-repeat",
-      backgroundPositionX: "80%",
+      backgroundPositionX: "70%",
       backgroundPositionY: "0%",
       backgroundAttachment: "scroll",
       backgroundClip: "border-box",
@@ -64,10 +63,13 @@ const WinterPicture: React.FC<WinterPictureProps> = (props) => {
     };
   }, []);
 
+  const snowflakeCount: number = getSnowflakeCount(width);
+  const snowflakeRadius: [number, number] = getSnowflakeRadius(width);
+
   return (
     <React.Fragment>
       <div className={classes.winterPicture}>
-        <Snowfall color={"#fff"} snowflakeCount={getSnowflakeCount(width)} radius={getSnowflakeRadius(width)}/>
+        <Snowfall color={"#fff"} snowflakeCount={snowflakeCount} radius={snowflakeRadius}/>
       </div>
     </React.Fragment>
   );
