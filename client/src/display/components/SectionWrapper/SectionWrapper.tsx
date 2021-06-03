@@ -36,13 +36,13 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "flex-start",
       backgroundColor: theme.palette.primary.main,
       [theme.breakpoints.up("xs")]: {
-        height: "70px",
+        height: "60px",
       },
       [theme.breakpoints.up("sm")]: {
-        height: "70px",
+        height: "60px",
       },
       [theme.breakpoints.up("md")]: {
-        height: "90px",
+        height: "80px",
       },
       [theme.breakpoints.up("lg")]: {
         height: "100px",
@@ -60,8 +60,8 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: "26px",
       },
       [theme.breakpoints.up("md")]: {
-        fontSize: "28px",
-        marginLeft: "28px",
+        fontSize: "32px",
+        marginLeft: "32px",
       },
       [theme.breakpoints.up("lg")]: {
         fontSize: "40px",
