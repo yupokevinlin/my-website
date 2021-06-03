@@ -2,9 +2,6 @@ import React from "react";
 import {createStyles, Theme, useTheme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {ScrollNavigationDrawerMenuItemData, ScrollNavigationDrawerMenuItemName} from "./types";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import MaterialIcon from "../../../MaterialIcon/MaterialIcon";
 import Divider from "@material-ui/core/Divider";
 import Typography from "@material-ui/core/Typography";
@@ -38,16 +35,16 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: 200,
       }),
       ["&:hover"]: {
-        filter: `brightness(${100 - 10}%)`,
+        filter: `brightness(90%)`,
       },
       [theme.breakpoints.up("xs")]: {
-
+        height: "38px",
       },
       [theme.breakpoints.up("sm")]: {
-
+        height: "38px",
       },
       [theme.breakpoints.up("md")]: {
-
+        height: "42px",
       },
       [theme.breakpoints.up("lg")]: {
         height: "46px",
@@ -60,28 +57,23 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: 200,
         delay: 300,
       }),
-      [theme.breakpoints.up("xs")]: {
-
-      },
-      [theme.breakpoints.up("sm")]: {
-
-      },
-      [theme.breakpoints.up("md")]: {
-
-      },
-      [theme.breakpoints.up("lg")]: {
-        width: "5px",
-      },
+      width: "5px",
     },
     icon: {
       [theme.breakpoints.up("xs")]: {
-
+        height: "22px",
+        width: "22px",
+        marginLeft: "12px",
       },
       [theme.breakpoints.up("sm")]: {
-
+        height: "22px",
+        width: "22px",
+        marginLeft: "12px",
       },
       [theme.breakpoints.up("md")]: {
-
+        height: "24px",
+        width: "24px",
+        marginLeft: "17px",
       },
       [theme.breakpoints.up("lg")]: {
         height: "28px",
@@ -97,13 +89,16 @@ const useStyles = makeStyles((theme: Theme) =>
         delay: 300,
       }),
       [theme.breakpoints.up("xs")]: {
-
+        fontSize: "13px",
+        marginLeft: "8px",
       },
       [theme.breakpoints.up("sm")]: {
-
+        fontSize: "13px",
+        marginLeft: "8px",
       },
       [theme.breakpoints.up("md")]: {
-
+        fontSize: "14px",
+        marginLeft: "9px",
       },
       [theme.breakpoints.up("lg")]: {
         fontSize: "15px",

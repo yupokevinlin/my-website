@@ -8,7 +8,7 @@ export interface ScrollNavigationDrawerMenuItemData {
 }
 
 export enum ScrollNavigationDrawerMenuItemName {
-  PICTURE = "Picture",
+  PICTURE = "Top",
   ABOUT = "About",
   EXPERIENCE = "Experience",
   PROJECTS = "Projects",

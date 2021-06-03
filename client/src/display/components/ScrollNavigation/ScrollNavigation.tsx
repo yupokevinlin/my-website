@@ -9,11 +9,13 @@ import {
   ScrollNavigationDrawerMenuItemName
 } from "./ScrollNavigationDrawer/ScrollNavigationDrawerMenuItem/types";
 import Section from "../Section/Section";
+import TopBar from "../TopBar/TopBar";
 
 export type ScrollNavigationProps = ScrollNavigationDataProps & ScrollNavigationStyleProps & ScrollNavigationEventProps;
 
 export interface ScrollNavigationDataProps {
   menuItems: Array<ScrollNavigationDrawerMenuItemData>;
+  isTopSelected: boolean;
 }
 
 export interface ScrollNavigationStyleProps {
@@ -33,22 +35,33 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100%",
       width: "100%",
     },
-    content: {
-      [theme.breakpoints.up("xs")]: {
-
-      },
-      [theme.breakpoints.up("sm")]: {
-
-      },
+    contentTopBarWrapper: {
+      height: "100%",
+      width: "100%",
       [theme.breakpoints.up("md")]: {
-
+        width: "calc(100% - 160px)",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "100%",
         width: "calc(100% - 170px)",
       },
     },
-    contentWrapper: {
+    contentOuterWrapper: {
+      height: "100%",
+      width: "100%",
+      [theme.breakpoints.up("xs")]: {
+        height: "calc(100% - 58px)",
+      },
+      [theme.breakpoints.up("sm")]: {
+        height: "calc(100% - 58px)",
+      },
+      [theme.breakpoints.up("md")]: {
+        height: "100%",
+      },
+      [theme.breakpoints.up("lg")]: {
+        height: "100%",
+      },
+    },
+    contentInnerWrapper: {
       height: "max-content",
       width: "100%",
       display: "flex",
@@ -65,16 +78,21 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
 
   const {
     menuItems,
+    isTopSelected,
     width,
     handleItemClick,
     handleScroll,
   } = props;
 
   const isSmXs: boolean = /xs|sm/.test(width);
-  const [drawerOpen, setDrawerOpen] = useState<boolean>(!isSmXs);
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
-  const handleDrawerToggle = (open: boolean): void => {
-    setDrawerOpen(open);
+  const handleDrawerOpen = (): void => {
+    setDrawerOpen(true);
+  };
+
+  const handleDrawerClose = (): void => {
+    setDrawerOpen(false);
   };
 
   const handleScrollObserverIntersect = (entries: Array<IntersectionObserverEntry>): void => {
@@ -121,15 +139,22 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
 
   return (
     <div className={classes.scrollNavigationRoot}>
-      <ScrollNavigationDrawer width={width} drawerOpen={drawerOpen} menuItems={menuItems} handleItemClick={handleScrollNavigationDrawerItemClick}/>
-      <div className={classes.content} ref={contentRef}>
-        <Scrollbars>
-          <div className={classes.contentWrapper} ref={contentWrapperRef}>
-            {
-              renderChildren()
-            }
-          </div>
-        </Scrollbars>
+      <ScrollNavigationDrawer width={width} drawerOpen={drawerOpen} menuItems={menuItems} isTopSelected={isTopSelected} handleItemClick={handleScrollNavigationDrawerItemClick} handleDialogClose={handleDrawerClose}/>
+      <div className={classes.contentTopBarWrapper}>
+        {
+          isSmXs ? (
+            <TopBar handleDrawerOpen={handleDrawerOpen}/>
+          ) : null
+        }
+        <div className={classes.contentOuterWrapper} ref={contentRef}>
+          <Scrollbars>
+            <div className={classes.contentInnerWrapper} ref={contentWrapperRef}>
+              {
+                renderChildren()
+              }
+            </div>
+          </Scrollbars>
+        </div>
       </div>
     </div>
   );
