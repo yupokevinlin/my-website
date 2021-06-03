@@ -15,7 +15,7 @@ export interface ThemePictureStyleProps {
 }
 
 export interface ThemePictureEventProps {
-
+  handleLoadComplete(): void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -42,12 +42,17 @@ const ThemePicture: React.FC<ThemePictureProps> = (props) => {
   const classes = useStyles();
 
   const {
-    width
+    width,
+    handleLoadComplete,
   } = props;
+
+  const handleWinterLoadComplete = (): void => {
+    handleLoadComplete();
+  };
 
   return (
     <div className={classes.themePictureRoot}>
-      <WinterPicture width={width} handleLoad={() => {console.log("winter")}}/>
+      <WinterPicture width={width} handleLoad={handleWinterLoadComplete}/>
     </div>
   );
 };
