@@ -8,6 +8,7 @@ import {
   ScrollNavigationDrawerMenuItemData,
   ScrollNavigationDrawerMenuItemName
 } from "../../components/ScrollNavigation/ScrollNavigationDrawer/ScrollNavigationDrawerMenuItem/types";
+import SectionWrapper from "../../components/SectionWrapper/SectionWrapper";
 
 export type MainPageProps = MainPageDataProps & MainPageStyleProps & MainPageEventProps;
 
@@ -91,39 +92,39 @@ const MainPage: React.FC<MainPageProps> = (props) => {
           <ThemePicture/>
         </div>
         <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.ABOUT}>
-          <div className={classes.scrollTest}>{
-            ScrollNavigationDrawerMenuItemName.ABOUT
-          }</div>
+          <SectionWrapper name={ScrollNavigationDrawerMenuItemName.ABOUT}>
+            <div className={classes.scrollTest}></div>
+          </SectionWrapper>
         </div>
         <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.EXPERIENCE}>
-          <div className={classes.scrollTest}>{
-            ScrollNavigationDrawerMenuItemName.EXPERIENCE
-          }</div>
+          <SectionWrapper name={ScrollNavigationDrawerMenuItemName.EXPERIENCE}>
+            <div className={classes.scrollTest}></div>
+          </SectionWrapper>
         </div>
         <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.PROJECTS}>
-          <div className={classes.scrollTest}>{
-            ScrollNavigationDrawerMenuItemName.PROJECTS
-          }</div>
+          <SectionWrapper name={ScrollNavigationDrawerMenuItemName.PROJECTS}>
+            <div className={classes.scrollTest}></div>
+          </SectionWrapper>
         </div>
         <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.SKILLS}>
-          <div className={classes.scrollTest}>{
-            ScrollNavigationDrawerMenuItemName.SKILLS
-          }</div>
+          <SectionWrapper name={ScrollNavigationDrawerMenuItemName.SKILLS}>
+            <div className={classes.scrollTest}></div>
+          </SectionWrapper>
         </div>
         <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.LANGUAGES}>
-          <div className={classes.scrollTest}>{
-            ScrollNavigationDrawerMenuItemName.LANGUAGES
-          }</div>
+          <SectionWrapper name={ScrollNavigationDrawerMenuItemName.LANGUAGES}>
+            <div className={classes.scrollTest}></div>
+          </SectionWrapper>
         </div>
         <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.EDUCATION}>
-          <div className={classes.scrollTest}>{
-            ScrollNavigationDrawerMenuItemName.EDUCATION
-          }</div>
+          <SectionWrapper name={ScrollNavigationDrawerMenuItemName.EDUCATION}>
+            <div className={classes.scrollTest}></div>
+          </SectionWrapper>
         </div>
         <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.CONTACT}>
-          <div className={classes.scrollTest}>{
-            ScrollNavigationDrawerMenuItemName.CONTACT
-          }</div>
+          <SectionWrapper name={ScrollNavigationDrawerMenuItemName.CONTACT}>
+            <div className={classes.scrollTest}></div>
+          </SectionWrapper>
         </div>
       </ScrollNavigation>
     </div>
