@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundImage: "url(./resources/winter.svg), linear-gradient(0deg, #ffffff 50%, #e4ecf4 80%, #91b4d2 100%)",
       backgroundRepeat: "no-repeat",
       backgroundPositionX: "70%",
-      backgroundPositionY: "0%",
+      backgroundPositionY: "70%",
       backgroundAttachment: "scroll",
       backgroundClip: "border-box",
       backgroundOrigin: "padding-box",
