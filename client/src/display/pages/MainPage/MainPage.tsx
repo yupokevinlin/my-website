@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {createStyles, Theme, useTheme, withWidth} from "@material-ui/core";
+import {createStyles, Theme, useTheme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import ThemePicture from "../../components/ThemePicture/ThemePicture";
 import ScrollNavigation from "../../components/ScrollNavigation/ScrollNavigation";
@@ -11,7 +11,6 @@ import {
 import SectionWrapper from "../../components/SectionWrapper/SectionWrapper";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import clsx from "clsx";
-import {Breakpoint} from "@material-ui/core/styles/createBreakpoints";
 import Typography from "@material-ui/core/Typography";
 
 export type MainPageProps = MainPageDataProps & MainPageStyleProps & MainPageEventProps;
@@ -21,7 +20,7 @@ export interface MainPageDataProps {
 }
 
 export interface MainPageStyleProps {
-  width: Breakpoint;
+
 }
 
 export interface MainPageEventProps {
@@ -47,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "max-content",
     },
     scrollTest: {
-      height: "600px",
+      height: "100vh",
       width: "100%",
     },
     loadingPage: {
@@ -74,22 +73,12 @@ const useStyles = makeStyles((theme: Theme) =>
     loadingText: {
       fontWeight: 300,
       color: "#666666",
-      [theme.breakpoints.up("xs")]: {
-        fontSize: "22px",
-        marginBottom: "22px",
-      },
-      [theme.breakpoints.up("sm")]: {
-        fontSize: "22px",
-        marginBottom: "22px",
-      },
-      [theme.breakpoints.up("md")]: {
-        fontSize: "32px",
-        marginBottom: "32px",
-      },
-      [theme.breakpoints.up("lg")]: {
-        fontSize: "40px",
-        marginBottom: "40px",
-      },
+      fontSize: "5vmin",
+      marginBottom: "5vmin",
+    },
+    loadingCircle: {
+      width: "10vmin !important",
+      height: "10vmin !important",
     },
   }),
 );
@@ -104,7 +93,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   const [unmountLoadingPage, setUnmountLoadingPage] = useState<boolean>(false);
 
   const {
-    width,
+
   } = props;
 
   const handleScroll = (name: ScrollNavigationDrawerMenuItemName): void => {
@@ -140,11 +129,6 @@ const MainPage: React.FC<MainPageProps> = (props) => {
       }, 500);
     }, 1000);
   };
-
-  const isXs: boolean = /xs/.test(width);
-  const isSm: boolean = /sm/.test(width);
-  const isMd: boolean = /md/.test(width);
-  const size: number = isXs ? 60 : isSm ? 60 : isMd ? 70 : 80;
 
   return (
     <React.Fragment>
@@ -198,7 +182,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
             <Typography className={classes.loadingText}>
               Loading Assets... Please Wait...
             </Typography>
-            <CircularProgress size={size} disableShrink/>
+            <CircularProgress className={classes.loadingCircle} disableShrink/>
           </div>
         ) : null
       }
@@ -206,5 +190,5 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   );
 };
 
-export default withWidth()(MainPage);
+export default MainPage;
 
