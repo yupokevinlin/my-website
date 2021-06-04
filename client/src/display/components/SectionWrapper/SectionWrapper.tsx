@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme: Theme) =>
     titleText: {
       fontWeight: 200,
       color: theme.palette.primary.contrastText,
+      userSelect: "none",
       [theme.breakpoints.up("xs")]: {
         fontSize: "5vh",
       },
