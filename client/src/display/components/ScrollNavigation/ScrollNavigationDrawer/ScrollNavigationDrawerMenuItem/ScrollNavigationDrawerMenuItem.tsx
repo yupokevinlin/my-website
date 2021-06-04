@@ -38,16 +38,13 @@ const useStyles = makeStyles((theme: Theme) =>
         filter: `brightness(90%)`,
       },
       [theme.breakpoints.up("xs")]: {
-        height: "38px",
-      },
-      [theme.breakpoints.up("sm")]: {
-        height: "38px",
+        height: "10vw",
       },
       [theme.breakpoints.up("md")]: {
-        height: "42px",
+        height: "4vw",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "46px",
+        height: "3vw",
       },
     },
     colorBar: {
@@ -57,28 +54,31 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: 200,
         delay: 300,
       }),
-      width: "5px",
+      [theme.breakpoints.up("xs")]: {
+        width: "1.5vw",
+      },
+      [theme.breakpoints.up("md")]: {
+        width: "0.6vw",
+      },
+      [theme.breakpoints.up("lg")]: {
+        width: "0.4vw",
+      },
     },
     icon: {
       [theme.breakpoints.up("xs")]: {
-        height: "22px",
-        width: "22px",
-        marginLeft: "12px",
-      },
-      [theme.breakpoints.up("sm")]: {
-        height: "22px",
-        width: "22px",
-        marginLeft: "12px",
+        height: "6vw",
+        width: "6vw",
+        marginLeft: "4vw",
       },
       [theme.breakpoints.up("md")]: {
-        height: "24px",
-        width: "24px",
-        marginLeft: "17px",
+        height: "2.4vw",
+        width: "2.4vw",
+        marginLeft: "1.8vw",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "28px",
-        width: "28px",
-        marginLeft: "17px",
+        height: "1.8vw",
+        width: "1.8vw",
+        marginLeft: "1.3vw",
       },
     },
     text: {
@@ -89,20 +89,16 @@ const useStyles = makeStyles((theme: Theme) =>
         delay: 300,
       }),
       [theme.breakpoints.up("xs")]: {
-        fontSize: "13px",
-        marginLeft: "8px",
-      },
-      [theme.breakpoints.up("sm")]: {
-        fontSize: "13px",
-        marginLeft: "8px",
+        fontSize: "4vw",
+        marginLeft: "4vw",
       },
       [theme.breakpoints.up("md")]: {
-        fontSize: "14px",
-        marginLeft: "9px",
+        fontSize: "1.3vw",
+        marginLeft: "1.3vw",
       },
       [theme.breakpoints.up("lg")]: {
-        fontSize: "15px",
-        marginLeft: "10px",
+        fontSize: "1vw",
+        marginLeft: "1vw",
       },
     },
   }),

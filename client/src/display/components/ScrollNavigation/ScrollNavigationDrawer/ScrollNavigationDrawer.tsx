@@ -8,14 +8,12 @@ import Paper from "@material-ui/core/Paper";
 import Dialog from "@material-ui/core/Dialog";
 import Slide from "@material-ui/core/Slide";
 import {TransitionProps} from "@material-ui/core/transitions";
-import Drawer from "@material-ui/core/Drawer";
 import {
   ScrollNavigationDrawerMenuItemData,
   ScrollNavigationDrawerMenuItemName
 } from "./ScrollNavigationDrawerMenuItem/types";
 import ScrollNavigationDrawerMenuItem from "./ScrollNavigationDrawerMenuItem/ScrollNavigationDrawerMenuItem";
 import {MaterialIconNames} from "../../MaterialIcon/MaterialIcon";
-import clsx from "clsx";
 
 export type ScrollNavigationDrawerProps = ScrollNavigationDrawerDataProps & ScrollNavigationDrawerStyleProps & ScrollNavigationDrawerEventProps;
 
@@ -58,35 +56,31 @@ const useStyles = makeStyles((theme: Theme) =>
     listPaper: {
       [theme.breakpoints.up("xs")]: {
         height: "100vh",
-        width: "130px",
+        width: "40vw",
       },
       [theme.breakpoints.up("md")]: {
         height: "100%",
-        width: "160px",
+        width: "15vw",
       },
       [theme.breakpoints.up("lg")]: {
         height: "100%",
-        width: "170px",
+        width: "12vw",
       },
     },
     listWrapper: {
       display: "flex",
       flexDirection: "column",
       [theme.breakpoints.up("xs")]: {
-        width: "130px",
-        height: "351px",
-      },
-      [theme.breakpoints.up("sm")]: {
-        width: "130px",
-        height: "351px",
+        width: "40vw",
+        height: "calc(9px + 90vw)",
       },
       [theme.breakpoints.up("md")]: {
-        width: "160px",
-        height: "435px",
+        width: "15vw",
+        height: "calc(9px + 40vw)",
       },
       [theme.breakpoints.up("lg")]: {
-        width: "170px",
-        height: "477px",
+        width: "12vw",
+        height: "calc(9px + 30vw)",
       },
     },
     header: {
@@ -96,76 +90,48 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       justifyContent: "center",
       cursor: "pointer",
-      [theme.breakpoints.up("xs")]: {
-        height: "70px",
-      },
-      [theme.breakpoints.up("sm")]: {
-        height: "80px",
-      },
       [theme.breakpoints.up("md")]: {
-        height: "90px",
+        height: "8vw",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "100px",
+        height: "6vw",
       },
     },
     headerTitle: {
       userSelect: "none",
       fontWeight: 300,
       color: theme.palette.primary.main,
-      [theme.breakpoints.up("xs")]: {
-        fontSize: "23px",
-        lineHeight: "23px",
-        height: "23px",
-        marginBottom: "6px",
-      },
-      [theme.breakpoints.up("sm")]: {
-        fontSize: "26px",
-        lineHeight: "26px",
-        height: "26px",
-        marginBottom: "8px",
-      },
       [theme.breakpoints.up("md")]: {
-        fontSize: "29px",
-        lineHeight: "29px",
-        height: "29px",
-        marginBottom: "10px",
+        fontSize: "2.7vw",
+        lineHeight: "2.7vw",
+        height: "2.7vw",
+        marginBottom: "0.8vw",
       },
       [theme.breakpoints.up("lg")]: {
-        fontSize: "32px",
-        lineHeight: "32px",
-        height: "32px",
-        marginBottom: "12px",
+        fontSize: "2.2vw",
+        lineHeight: "2.2vw",
+        height: "2.2vw",
+        marginBottom: "0.5vw",
       },
     },
     headerText: {
       userSelect: "none",
       fontWeight: 400,
       color: "#666666",
-      [theme.breakpoints.up("xs")]: {
-        fontSize: "11px",
-        lineHeight: "11px",
-        height: "11px",
-      },
-      [theme.breakpoints.up("sm")]: {
-        fontSize: "12px",
-        lineHeight: "12px",
-        height: "12px",
-      },
       [theme.breakpoints.up("md")]: {
-        fontSize: "13px",
-        lineHeight: "13px",
-        height: "13px",
+        fontSize: "1.2vw",
+        lineHeight: "1.2vw",
+        height: "1.2vw",
       },
       [theme.breakpoints.up("lg")]: {
-        fontSize: "14px",
-        lineHeight: "14px",
-        height: "14px",
+        fontSize: "1vw",
+        lineHeight: "1vw",
+        height: "1vw",
       },
     },
     dialogPaper: {
       height: "100vh",
-      width: "130px",
+      width: "40vw",
       margin: 0,
       borderRadius: 0,
     },

@@ -39,25 +39,18 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100%",
       width: "100%",
       [theme.breakpoints.up("md")]: {
-        width: "calc(100% - 160px)",
+        width: "calc(100% - 15vw)",
       },
       [theme.breakpoints.up("lg")]: {
-        width: "calc(100% - 170px)",
+        width: "calc(100% - 12vw)",
       },
     },
     contentOuterWrapper: {
-      height: "100%",
       width: "100%",
       [theme.breakpoints.up("xs")]: {
-        height: "calc(100% - 58px)",
-      },
-      [theme.breakpoints.up("sm")]: {
-        height: "calc(100% - 58px)",
+        height: "92vh",
       },
       [theme.breakpoints.up("md")]: {
-        height: "100%",
-      },
-      [theme.breakpoints.up("lg")]: {
         height: "100%",
       },
     },
@@ -137,6 +130,22 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
     }
   };
 
+  const getScrollbarWidth = (): string => {
+    switch (width) {
+      case "xl":
+      case "lg": {
+        return "0.4vw";
+      }
+      case "md": {
+        return "0.6vw";
+      }
+      case "sm":
+      case "xs": {
+        return "1.2vw";
+      }
+    }
+  };
+
   return (
     <div className={classes.scrollNavigationRoot}>
       <ScrollNavigationDrawer width={width} drawerOpen={drawerOpen} menuItems={menuItems} isTopSelected={isTopSelected} handleItemClick={handleScrollNavigationDrawerItemClick} handleDialogClose={handleDrawerClose}/>
@@ -147,7 +156,11 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
           ) : null
         }
         <div className={classes.contentOuterWrapper} ref={contentRef}>
-          <Scrollbars>
+          <Scrollbars
+            renderTrackVertical={({style, ...props}) => <div {...props} style={{...style, width: getScrollbarWidth(), bottom: "2px", top: "2px", right: "2px", display: "block", position: "absolute"}}  className={"track-vertical"}/>}
+            renderThumbHorizontal={({style, ...props}) => <div {...props} style={{...style}} className={"thumb-horizontal"}/>}
+            renderThumbVertical={({style, ...props}) => <div {...props} style={{...style, width: getScrollbarWidth(), backgroundColor: "#00000030", borderRadius: getScrollbarWidth()}} className={"thumb-vertical"}/>}
+          >
             <div className={classes.contentInnerWrapper} ref={contentWrapperRef}>
               {
                 renderChildren()

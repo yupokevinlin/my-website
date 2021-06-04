@@ -21,7 +21,7 @@ export interface ThemePictureEventProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     themePictureRoot: {
-      height: "calc(100vh - 58px)",
+      height: "92vh",
       width: "100%",
       mouseEvents: "none",
       userDrag: "none",
