@@ -41,10 +41,10 @@ const useStyles = makeStyles((theme: Theme) =>
         height: "10vw",
       },
       [theme.breakpoints.up("md")]: {
-        height: "4vw",
+        height: "3.6vw",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "3vw",
+        height: "2.7vw",
       },
     },
     colorBar: {
@@ -58,10 +58,10 @@ const useStyles = makeStyles((theme: Theme) =>
         width: "1.5vw",
       },
       [theme.breakpoints.up("md")]: {
-        width: "0.6vw",
+        width: "0.54vw",
       },
       [theme.breakpoints.up("lg")]: {
-        width: "0.4vw",
+        width: "0.36vw",
       },
     },
     icon: {
@@ -71,14 +71,14 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: "4vw",
       },
       [theme.breakpoints.up("md")]: {
-        height: "2.4vw",
-        width: "2.4vw",
-        marginLeft: "1.8vw",
+        height: "2.2vw",
+        width: "2.2vw",
+        marginLeft: "1.5vw",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "1.8vw",
-        width: "1.8vw",
-        marginLeft: "1.3vw",
+        height: "1.6vw",
+        width: "1.6vw",
+        marginLeft: "1.1vw",
       },
     },
     text: {
@@ -93,12 +93,12 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: "4vw",
       },
       [theme.breakpoints.up("md")]: {
-        fontSize: "1.3vw",
-        marginLeft: "1.3vw",
+        fontSize: "1.2vw",
+        marginLeft: "1.2vw",
       },
       [theme.breakpoints.up("lg")]: {
-        fontSize: "1vw",
-        marginLeft: "1vw",
+        fontSize: "0.9vw",
+        marginLeft: "0.9vw",
       },
     },
   }),

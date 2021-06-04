@@ -60,11 +60,11 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.up("md")]: {
         height: "100%",
-        width: "15vw",
+        width: "13vw",
       },
       [theme.breakpoints.up("lg")]: {
         height: "100%",
-        width: "12vw",
+        width: "10vw",
       },
     },
     listWrapper: {
@@ -75,11 +75,11 @@ const useStyles = makeStyles((theme: Theme) =>
         height: "calc(9px + 90vw)",
       },
       [theme.breakpoints.up("md")]: {
-        width: "15vw",
+        width: "13vw",
         height: "calc(9px + 40vw)",
       },
       [theme.breakpoints.up("lg")]: {
-        width: "12vw",
+        width: "10vw",
         height: "calc(9px + 30vw)",
       },
     },
@@ -91,10 +91,10 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       cursor: "pointer",
       [theme.breakpoints.up("md")]: {
-        height: "8vw",
+        height: "7vw",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "6vw",
+        height: "5vw",
       },
     },
     headerTitle: {
@@ -102,31 +102,31 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 300,
       color: theme.palette.primary.main,
       [theme.breakpoints.up("md")]: {
-        fontSize: "2.7vw",
-        lineHeight: "2.7vw",
-        height: "2.7vw",
-        marginBottom: "0.8vw",
+        fontSize: "2.3vw",
+        lineHeight: "2.3vw",
+        height: "2.3vw",
+        marginBottom: "0.65vw",
       },
       [theme.breakpoints.up("lg")]: {
-        fontSize: "2.2vw",
-        lineHeight: "2.2vw",
-        height: "2.2vw",
-        marginBottom: "0.5vw",
+        fontSize: "1.8vw",
+        lineHeight: "1.8vw",
+        height: "1.8vw",
+        marginBottom: "0.35vw",
       },
     },
     headerText: {
       userSelect: "none",
-      fontWeight: 300,
+      fontWeight: 400,
       color: "#666666",
       [theme.breakpoints.up("md")]: {
-        fontSize: "1.2vw",
-        lineHeight: "1.2vw",
-        height: "1.2vw",
+        fontSize: "1.15vw",
+        lineHeight: "1.15vw",
+        height: "1.15vw",
       },
       [theme.breakpoints.up("lg")]: {
-        fontSize: "1vw",
-        lineHeight: "1vw",
-        height: "1vw",
+        fontSize: "0.9vw",
+        lineHeight: "0.9vw",
+        height: "0.9vw",
       },
     },
     dialogPaper: {

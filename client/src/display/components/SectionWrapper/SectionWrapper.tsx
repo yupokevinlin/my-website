@@ -51,15 +51,15 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.primary.contrastText,
       userSelect: "none",
       [theme.breakpoints.up("xs")]: {
-        fontSize: "5vh",
+        fontSize: "4vh",
       },
       [theme.breakpoints.up("md")]: {
-        fontSize: "5vw",
-        marginLeft: "5vw",
+        fontSize: "4vw",
+        marginLeft: "4vw",
       },
       [theme.breakpoints.up("lg")]: {
-        fontSize: "3vw",
-        marginLeft: "3vw",
+        fontSize: "2.4vw",
+        marginLeft: "2.4vw",
       },
     },
   }),
@@ -78,7 +78,7 @@ const SectionWrapper: React.FC<SectionWrapperProps> = (props) => {
       <div className={classes.title}>
         <Typography className={classes.titleText} variant={"h3"}>
           {
-            name
+            name.toUpperCase()
           }
         </Typography>
       </div>

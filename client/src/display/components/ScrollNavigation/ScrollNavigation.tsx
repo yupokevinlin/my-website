@@ -40,10 +40,10 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100%",
       width: "100%",
       [theme.breakpoints.up("md")]: {
-        width: "calc(100% - 15vw)",
+        width: "calc(100% - 13vw)",
       },
       [theme.breakpoints.up("lg")]: {
-        width: "calc(100% - 12vw)",
+        width: "calc(100% - 10vw)",
       },
     },
     contentOuterWrapper: {
