@@ -116,7 +116,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     headerText: {
       userSelect: "none",
-      fontWeight: 400,
+      fontWeight: 300,
       color: "#666666",
       [theme.breakpoints.up("md")]: {
         fontSize: "1.2vw",
