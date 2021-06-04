@@ -36,35 +36,29 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       backgroundColor: theme.palette.primary.main,
       [theme.breakpoints.up("xs")]: {
-        height: "60px",
-      },
-      [theme.breakpoints.up("sm")]: {
-        height: "60px",
+        height: "8vh",
       },
       [theme.breakpoints.up("md")]: {
-        height: "80px",
+        height: "8vw",
         justifyContent: "flex-start",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "100px",
+        height: "5vw",
       },
     },
     titleText: {
-      fontWeight: 300,
+      fontWeight: 200,
       color: theme.palette.primary.contrastText,
       [theme.breakpoints.up("xs")]: {
-        fontSize: "26px",
-      },
-      [theme.breakpoints.up("sm")]: {
-        fontSize: "26px",
+        fontSize: "5vh",
       },
       [theme.breakpoints.up("md")]: {
-        fontSize: "32px",
-        marginLeft: "32px",
+        fontSize: "5vw",
+        marginLeft: "5vw",
       },
       [theme.breakpoints.up("lg")]: {
-        fontSize: "40px",
-        marginLeft: "40px",
+        fontSize: "3vw",
+        marginLeft: "3vw",
       },
     },
   }),
