@@ -56,10 +56,14 @@ const useStyles = makeStyles((theme: Theme) =>
     listPaper: {
       [theme.breakpoints.up("xs")]: {
         height: "100vh",
+        maxHeight: "-webkit-fill-available",
+        minHeight: "-webkit-fill-available",
         width: "40vw",
       },
       [theme.breakpoints.up("sm")]: {
         height: "100vh",
+        maxHeight: "-webkit-fill-available",
+        minHeight: "-webkit-fill-available",
         width: "24vw",
       },
       [theme.breakpoints.up("md")]: {
@@ -139,6 +143,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     dialogPaper: {
       height: "100vh",
+      maxHeight: "-webkit-fill-available",
+      minHeight: "-webkit-fill-available",
       margin: 0,
       borderRadius: 0,
       [theme.breakpoints.up("xs")]: {

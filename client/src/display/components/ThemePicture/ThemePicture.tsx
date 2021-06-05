@@ -32,6 +32,8 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "flex-end",
       [theme.breakpoints.up("md")]: {
         height: "100vh",
+        maxHeight: "-webkit-fill-available",
+        minHeight: "-webkit-fill-available",
       },
     },
   }),

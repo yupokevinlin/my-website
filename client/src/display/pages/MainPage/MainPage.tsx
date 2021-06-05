@@ -47,6 +47,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     scrollTest: {
       height: "100vh",
+      maxHeight: "-webkit-fill-available",
+      minHeight: "-webkit-fill-available",
       width: "100%",
     },
     loadingPage: {
@@ -58,6 +60,8 @@ const useStyles = makeStyles((theme: Theme) =>
       top: 0,
       left: 0,
       height: "100vh",
+      maxHeight: "-webkit-fill-available",
+      minHeight: "-webkit-fill-available",
       width: "100vw",
       opacity: 1,
       zIndex: theme.zIndex.modal + 1,
