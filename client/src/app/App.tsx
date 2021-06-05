@@ -7,6 +7,7 @@ import MainPage from "../display/pages/MainPage/MainPage";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import responsiveFontSizes from "@material-ui/core/styles/responsiveFontSizes";
 import {ThemeProvider} from "@material-ui/styles";
+import smoothScroll from "smoothscroll-polyfill";
 
 export type AppProps = AppDataProps & AppStyleProps & AppEventProps;
 
@@ -66,6 +67,10 @@ export namespace AppStore {
 const App: React.FC<AppProps> = (props) => {
   const theme: Theme = useTheme();
   const classes = useStyles();
+
+  useEffect(() => {
+    smoothScroll.polyfill();
+  }, []);
 
   const {
 
