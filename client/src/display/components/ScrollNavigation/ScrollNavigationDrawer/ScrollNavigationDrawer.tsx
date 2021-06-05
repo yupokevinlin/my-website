@@ -76,11 +76,11 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.up("md")]: {
         width: "13vw",
-        height: "calc(9px + 40vw)",
+        height: "calc(9px + 28.8vw)",
       },
       [theme.breakpoints.up("lg")]: {
         width: "10vw",
-        height: "calc(9px + 30vw)",
+        height: "calc(9px + 21.6vw)",
       },
     },
     header: {
