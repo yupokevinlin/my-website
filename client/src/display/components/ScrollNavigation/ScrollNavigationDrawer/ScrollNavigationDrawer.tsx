@@ -58,6 +58,10 @@ const useStyles = makeStyles((theme: Theme) =>
         height: "100vh",
         width: "40vw",
       },
+      [theme.breakpoints.up("sm")]: {
+        height: "100vh",
+        width: "24vw",
+      },
       [theme.breakpoints.up("md")]: {
         height: "100%",
         width: "13vw",
@@ -73,6 +77,10 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up("xs")]: {
         width: "40vw",
         height: "calc(9px + 90vw)",
+      },
+      [theme.breakpoints.up("sm")]: {
+        width: "30vw",
+        height: "calc(9px + 54vw)",
       },
       [theme.breakpoints.up("md")]: {
         width: "13vw",
@@ -131,9 +139,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     dialogPaper: {
       height: "100vh",
-      width: "40vw",
       margin: 0,
       borderRadius: 0,
+      [theme.breakpoints.up("xs")]: {
+        width: "40vw",
+      },
+      [theme.breakpoints.up("sm")]: {
+        width: "24vw",
+      },
     },
     dialogContainer: {
       display: "flex",

@@ -40,6 +40,9 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up("xs")]: {
         height: "10vw",
       },
+      [theme.breakpoints.up("sm")]: {
+        height: "6vw",
+      },
       [theme.breakpoints.up("md")]: {
         height: "3.6vw",
       },
@@ -57,6 +60,9 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up("xs")]: {
         width: "1.5vw",
       },
+      [theme.breakpoints.up("sm")]: {
+        width: "0.9vw",
+      },
       [theme.breakpoints.up("md")]: {
         width: "0.54vw",
       },
@@ -69,6 +75,11 @@ const useStyles = makeStyles((theme: Theme) =>
         height: "6vw",
         width: "6vw",
         marginLeft: "4vw",
+      },
+      [theme.breakpoints.up("sm")]: {
+        height: "3.6vw",
+        width: "3.6vw",
+        marginLeft: "2.4vw",
       },
       [theme.breakpoints.up("md")]: {
         height: "2.2vw",
@@ -91,6 +102,10 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up("xs")]: {
         fontSize: "4vw",
         marginLeft: "4vw",
+      },
+      [theme.breakpoints.up("sm")]: {
+        fontSize: "2.4vw",
+        marginLeft: "2.4vw",
       },
       [theme.breakpoints.up("md")]: {
         fontSize: "1.2vw",
