@@ -50,6 +50,10 @@ const useStyles = makeStyles((theme: Theme) =>
       maxHeight: "-webkit-fill-available",
       minHeight: "-webkit-fill-available",
       width: "100%",
+      backgroundColor: "#FFFFFF",
+      opacity: 0.8,
+      backgroundImage: "linear-gradient(#F3F3f3 0.15vh, transparent 0.15vh), linear-gradient(to right, #F3F3f3 0.15vh, #FFFFFF 0.15vh)",
+      backgroundSize: "3vh 3vh",
     },
     loadingPage: {
       display: "flex",
