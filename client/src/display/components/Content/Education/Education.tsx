@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: "#FFFFFF",
+      backgroundColor: theme.palette.background.paper,
       opacity: 0.8,
       [theme.breakpoints.up("xs")]: {
         height: "70vw",
@@ -217,7 +217,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     text: {
       fontWeight: 300,
-      color: "#000000",
+      color: theme.palette.secondary.dark,
       [theme.breakpoints.up("xs")]: {
         height: "3.6vw",
         fontSize: "3.6vw",
