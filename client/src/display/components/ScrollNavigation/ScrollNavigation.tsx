@@ -49,10 +49,10 @@ const useStyles = makeStyles((theme: Theme) =>
     contentOuterWrapper: {
       width: "100%",
       [theme.breakpoints.up("xs")]: {
-        height: "calc(100% - 57px)",
+        height: "calc(100vh - 57px)",
       },
       [theme.breakpoints.up("sm")]: {
-        height: "calc(100% - 67px)",
+        height: "calc(100vh - 67px)",
       },
       [theme.breakpoints.up("md")]: {
         height: "100%",
