@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme: Theme) =>
         height: "100vh",
         maxHeight: "-webkit-fill-available",
         minHeight: "-webkit-fill-available",
-        width: "150px",
+        width: "160px",
       },
       [theme.breakpoints.up("md")]: {
         height: "100%",
