@@ -78,20 +78,17 @@ const useStyles = makeStyles((theme: Theme) =>
     listWrapper: {
       display: "flex",
       flexDirection: "column",
+      width: "100%",
       [theme.breakpoints.up("xs")]: {
-        width: "40vw",
         height: "calc(9px + 90vw)",
       },
       [theme.breakpoints.up("sm")]: {
-        width: "30vw",
         height: "calc(9px + 54vw)",
       },
       [theme.breakpoints.up("md")]: {
-        width: "13vw",
         height: "calc(9px + 28.8vw)",
       },
       [theme.breakpoints.up("lg")]: {
-        width: "10vw",
         height: "calc(9px + 21.6vw)",
       },
     },
@@ -147,12 +144,7 @@ const useStyles = makeStyles((theme: Theme) =>
       minHeight: "-webkit-fill-available",
       margin: 0,
       borderRadius: 0,
-      [theme.breakpoints.up("xs")]: {
-        width: "40vw",
-      },
-      [theme.breakpoints.up("sm")]: {
-        width: "24vw",
-      },
+      width: "max-content",
     },
     dialogContainer: {
       display: "flex",
