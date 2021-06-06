@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
     },
     text: {
-      color: "#666666",
+      color: theme.palette.secondary.main,
       transition: theme.transitions.create("font-weight", {
         easing: theme.transitions.easing.sharp,
         duration: 200,

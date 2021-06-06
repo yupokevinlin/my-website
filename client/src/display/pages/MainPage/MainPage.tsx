@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     loadingText: {
       fontWeight: 300,
-      color: "#666666",
+      color: theme.palette.secondary.main,
       fontSize: "5vmin",
       marginBottom: "5vmin",
     },

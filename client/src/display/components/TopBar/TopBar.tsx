@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
     titleText: {
       userSelect: "none",
       fontWeight: 300,
-      color: "#666666",
+      color: theme.palette.secondary.main,
       fontSize: "2.2vh",
       lineHeight: "2.2vh",
       height: "2.2vh",

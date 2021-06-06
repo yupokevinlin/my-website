@@ -46,9 +46,9 @@ export namespace AppStore {
           contrastText: "#fff",
         },
         secondary: {
-          light: "#de464c",
-          main: "#d61820",
-          dark: "#951016",
+          light: "#aaaaaa",
+          main: "#666666",
+          dark: "#000000",
           contrastText: "#fff",
         }
       },

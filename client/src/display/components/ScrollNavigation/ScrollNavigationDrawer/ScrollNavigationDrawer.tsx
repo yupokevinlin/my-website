@@ -129,7 +129,7 @@ const useStyles = makeStyles((theme: Theme) =>
     headerText: {
       userSelect: "none",
       fontWeight: 400,
-      color: "#666666",
+      color: theme.palette.secondary.main,
       [theme.breakpoints.up("md")]: {
         fontSize: "1.15vw",
         lineHeight: "1.15vw",
@@ -205,7 +205,7 @@ const ScrollNavigationDrawer: React.FC<ScrollNavigationDrawerProps> = (props) =>
               <ScrollNavigationDrawerMenuItem data={{
                 name: ScrollNavigationDrawerMenuItemName.PICTURE,
                 icon: MaterialIconNames.ArrowUpward,
-                color: "#666666",
+                color: theme.palette.secondary.main,
                 active: isTopSelected,
               }} key={ScrollNavigationDrawerMenuItemName.PICTURE} handleMenuItemClick={handleMenuItemClick}/>
             ) : (
