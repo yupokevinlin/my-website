@@ -40,16 +40,19 @@ const useStyles = makeStyles((theme: Theme) =>
       height: "100%",
       width: "100%",
       [theme.breakpoints.up("md")]: {
-        width: "calc(100% - 13vw)",
+        width: "calc(100% - 172px)",
       },
       [theme.breakpoints.up("lg")]: {
-        width: "calc(100% - 10vw)",
+        width: "calc(100% - 192px)",
       },
     },
     contentOuterWrapper: {
       width: "100%",
       [theme.breakpoints.up("xs")]: {
-        height: "90vh",
+        height: "calc(100% - 57px)",
+      },
+      [theme.breakpoints.up("sm")]: {
+        height: "calc(100% - 67px)",
       },
       [theme.breakpoints.up("md")]: {
         height: "100%",
@@ -156,19 +159,7 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
   };
 
   const getScrollbarWidth = (): string => {
-    switch (width) {
-      case "xl":
-      case "lg": {
-        return "0.4vw";
-      }
-      case "md": {
-        return "0.6vw";
-      }
-      case "sm":
-      case "xs": {
-        return "1.2vw";
-      }
-    }
+    return "10px";
   };
 
   return (

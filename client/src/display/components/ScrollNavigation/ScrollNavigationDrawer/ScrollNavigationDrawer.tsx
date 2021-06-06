@@ -58,21 +58,21 @@ const useStyles = makeStyles((theme: Theme) =>
         height: "100vh",
         maxHeight: "-webkit-fill-available",
         minHeight: "-webkit-fill-available",
-        width: "40vw",
+        width: "128px",
       },
       [theme.breakpoints.up("sm")]: {
         height: "100vh",
         maxHeight: "-webkit-fill-available",
         minHeight: "-webkit-fill-available",
-        width: "24vw",
+        width: "150px",
       },
       [theme.breakpoints.up("md")]: {
         height: "100%",
-        width: "13vw",
+        width: "172px",
       },
       [theme.breakpoints.up("lg")]: {
         height: "100%",
-        width: "10vw",
+        width: "192px",
       },
     },
     listWrapper: {
@@ -80,16 +80,16 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "column",
       width: "100%",
       [theme.breakpoints.up("xs")]: {
-        height: "calc(9px + 90vw)",
+        height: "297px",
       },
       [theme.breakpoints.up("sm")]: {
-        height: "calc(9px + 54vw)",
+        height: "351px",
       },
       [theme.breakpoints.up("md")]: {
-        height: "calc(9px + 28.8vw)",
+        height: "383px",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "calc(9px + 21.6vw)",
+        height: "423px",
       },
     },
     header: {
@@ -100,10 +100,10 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       cursor: "pointer",
       [theme.breakpoints.up("md")]: {
-        height: "7vw",
+        height: "70px",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "5vw",
+        height: "78px",
       },
     },
     headerTitle: {
@@ -111,16 +111,16 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 300,
       color: theme.palette.primary.main,
       [theme.breakpoints.up("md")]: {
-        fontSize: "2.3vw",
-        lineHeight: "2.3vw",
-        height: "2.3vw",
-        marginBottom: "0.65vw",
+        fontSize: "30px",
+        lineHeight: "30px",
+        height: "30px",
+        marginBottom: "7px",
       },
       [theme.breakpoints.up("lg")]: {
-        fontSize: "1.8vw",
-        lineHeight: "1.8vw",
-        height: "1.8vw",
-        marginBottom: "0.35vw",
+        fontSize: "34px",
+        lineHeight: "34px",
+        height: "34px",
+        marginBottom: "8px",
       },
     },
     headerText: {
@@ -128,14 +128,14 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 400,
       color: theme.palette.secondary.main,
       [theme.breakpoints.up("md")]: {
-        fontSize: "1.15vw",
-        lineHeight: "1.15vw",
-        height: "1.15vw",
+        fontSize: "15px",
+        lineHeight: "15px",
+        height: "15px",
       },
       [theme.breakpoints.up("lg")]: {
-        fontSize: "0.9vw",
-        lineHeight: "0.9vw",
-        height: "0.9vw",
+        fontSize: "17px",
+        lineHeight: "17px",
+        height: "17px",
       },
     },
     dialogPaper: {

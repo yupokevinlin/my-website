@@ -38,16 +38,16 @@ const useStyles = makeStyles((theme: Theme) =>
         filter: `brightness(90%)`,
       },
       [theme.breakpoints.up("xs")]: {
-        height: "10vw",
+        height: "32px",
       },
       [theme.breakpoints.up("sm")]: {
-        height: "6vw",
+        height: "38px",
       },
       [theme.breakpoints.up("md")]: {
-        height: "3.6vw",
+        height: "38px",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "2.7vw",
+        height: "42px",
       },
     },
     colorBar: {
@@ -58,38 +58,38 @@ const useStyles = makeStyles((theme: Theme) =>
         delay: 300,
       }),
       [theme.breakpoints.up("xs")]: {
-        width: "1.5vw",
+        width: "5px",
       },
       [theme.breakpoints.up("sm")]: {
-        width: "0.9vw",
+        width: "6px",
       },
       [theme.breakpoints.up("md")]: {
-        width: "0.54vw",
+        width: "6px",
       },
       [theme.breakpoints.up("lg")]: {
-        width: "0.36vw",
+        width: "7px",
       },
     },
     icon: {
       [theme.breakpoints.up("xs")]: {
-        height: "6vw",
-        width: "6vw",
-        marginLeft: "4vw",
+        height: "19px",
+        width: "19px",
+        marginLeft: "13px",
       },
       [theme.breakpoints.up("sm")]: {
-        height: "3.6vw",
-        width: "3.6vw",
-        marginLeft: "2.4vw",
+        height: "27px",
+        width: "27px",
+        marginLeft: "19px",
       },
       [theme.breakpoints.up("md")]: {
-        height: "2.2vw",
-        width: "2.2vw",
-        marginLeft: "1.5vw",
+        height: "27px",
+        width: "27px",
+        marginLeft: "19px",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "1.6vw",
-        width: "1.6vw",
-        marginLeft: "1.1vw",
+        height: "30px",
+        width: "30px",
+        marginLeft: "21px",
       },
     },
     text: {
@@ -100,20 +100,20 @@ const useStyles = makeStyles((theme: Theme) =>
         delay: 300,
       }),
       [theme.breakpoints.up("xs")]: {
-        fontSize: "4vw",
-        marginLeft: "4vw",
+        fontSize: "13px",
+        marginLeft: "13px",
       },
       [theme.breakpoints.up("sm")]: {
-        fontSize: "2.4vw",
-        marginLeft: "2.4vw",
+        fontSize: "15px",
+        marginLeft: "15px",
       },
       [theme.breakpoints.up("md")]: {
-        fontSize: "1.2vw",
-        marginLeft: "1.2vw",
+        fontSize: "15px",
+        marginLeft: "15px",
       },
       [theme.breakpoints.up("lg")]: {
-        fontSize: "0.9vw",
-        marginLeft: "0.9vw",
+        fontSize: "17px",
+        marginLeft: "17px",
       },
     },
   }),

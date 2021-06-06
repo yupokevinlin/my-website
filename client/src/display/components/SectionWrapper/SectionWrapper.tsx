@@ -36,14 +36,17 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       backgroundColor: theme.palette.primary.main,
       [theme.breakpoints.up("xs")]: {
-        height: "8vh",
+        height: "46px",
+      },
+      [theme.breakpoints.up("sm")]: {
+        height: "57px",
       },
       [theme.breakpoints.up("md")]: {
-        height: "8vw",
+        height: "86px",
         justifyContent: "flex-start",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "5vw",
+        height: "96px",
       },
     },
     titleText: {
@@ -51,15 +54,24 @@ const useStyles = makeStyles((theme: Theme) =>
       color: theme.palette.primary.contrastText,
       userSelect: "none",
       [theme.breakpoints.up("xs")]: {
-        fontSize: "4vh",
+        fontSize: "23px",
+        lineHeight: "23px",
+        marginLeft: "23px",
+      },
+      [theme.breakpoints.up("sm")]: {
+        fontSize: "27px",
+        lineHeight: "27px",
+        marginLeft: "27px",
       },
       [theme.breakpoints.up("md")]: {
-        fontSize: "4vw",
-        marginLeft: "4vw",
+        fontSize: "38px",
+        lineHeight: "38px",
+        marginLeft: "38px",
       },
       [theme.breakpoints.up("lg")]: {
-        fontSize: "2.4vw",
-        marginLeft: "2.4vw",
+        fontSize: "42px",
+        lineHeight: "42px",
+        marginLeft: "42px",
       },
     },
   }),

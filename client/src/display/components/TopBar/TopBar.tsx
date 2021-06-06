@@ -28,20 +28,37 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "flex-start",
-      height: "10vh",
+      [theme.breakpoints.up("xs")]: {
+        height: "57px",
+      },
+      [theme.breakpoints.up("sm")]: {
+        height: "67px",
+      },
     },
     menuButton: {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       margin: 0,
-      width: "6vh",
-      height: "6vh",
-      marginLeft: "2vh",
+      [theme.breakpoints.up("xs")]: {
+        width: "33px",
+        height: "33px",
+        marginLeft: "11px",
+      },
+      [theme.breakpoints.up("sm")]: {
+        width: "39px",
+        height: "39px",
+        marginLeft: "13px",
+      },
     },
     menuButtonIcon: {
       color: theme.palette.primary.main,
-      fontSize: "4vh",
+      [theme.breakpoints.up("xs")]: {
+        fontSize: "22px",
+      },
+      [theme.breakpoints.up("sm")]: {
+        fontSize: "26px",
+      },
     },
     titleTextBar: {
       height: "100%",
@@ -50,6 +67,12 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center",
+      [theme.breakpoints.up("xs")]: {
+        width: "calc(100% - 66px)",
+      },
+      [theme.breakpoints.up("sm")]: {
+        width: "calc(100% - 78px)",
+      },
     },
     titleTextWrapper: {
       height: "max-content",
@@ -59,18 +82,33 @@ const useStyles = makeStyles((theme: Theme) =>
       userSelect: "none",
       fontWeight: 400,
       color: theme.palette.primary.main,
-      fontSize: "4vh",
-      lineHeight: "4vh",
-      height: "4vh",
-      marginBottom: "0.7vh",
+      [theme.breakpoints.up("xs")]: {
+        fontSize: "23px",
+        lineHeight: "23px",
+        height: "23px",
+        marginBottom: "4px",
+      },
+      [theme.breakpoints.up("sm")]: {
+        fontSize: "26px",
+        lineHeight: "26px",
+        height: "26px",
+        marginBottom: "5px",
+      },
     },
     titleText: {
       userSelect: "none",
       fontWeight: 300,
       color: theme.palette.secondary.main,
-      fontSize: "2.2vh",
-      lineHeight: "2.2vh",
-      height: "2.2vh",
+      [theme.breakpoints.up("xs")]: {
+        fontSize: "13px",
+        lineHeight: "13px",
+        height: "13px",
+      },
+      [theme.breakpoints.up("sm")]: {
+        fontSize: "15px",
+        lineHeight: "15px",
+        height: "15px",
+      },
     },
   }),
 );

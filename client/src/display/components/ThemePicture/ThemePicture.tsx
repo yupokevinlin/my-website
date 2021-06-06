@@ -21,7 +21,6 @@ export interface ThemePictureEventProps {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     themePictureRoot: {
-      height: "90vh",
       width: "100%",
       mouseEvents: "none",
       userDrag: "none",
@@ -30,11 +29,9 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "flex-end",
-      [theme.breakpoints.up("md")]: {
-        height: "100vh",
-        maxHeight: "-webkit-fill-available",
-        minHeight: "-webkit-fill-available",
-      },
+      height: "100vh",
+      maxHeight: "-webkit-fill-available",
+      minHeight: "-webkit-fill-available",
     },
   }),
 );
