@@ -4,7 +4,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import NavigationUtils from "../../../../helpers/NavigationUtils";
-import Divider from "@material-ui/core/Divider";
+import Link from "@material-ui/core/Link";
 
 export type EducationProps = EducationDataProps & EducationStyleProps & EducationEventProps;
 
@@ -131,9 +131,9 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "max-content",
     },
     titleLink: {
-      cursor: "pointer",
       color: theme.palette.primary.main,
       fontWeight: 300,
+      fontFamily: "Roboto, sans-serif",
       transition: theme.transitions.create("border-bottom", {
         easing: theme.transitions.easing.sharp,
         duration: 200,
@@ -143,44 +143,28 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: "4vw",
         lineHeight: "4vw",
         marginTop: "0.4vw",
-        marginBottom: "2vw",
-        borderBottom: `0.2vw solid #ffffff00`,
-        ["&:hover"]: {
-          borderBottom: `0.2vw solid ${theme.palette.primary.main}`,
-        },
+        marginBottom: "2.2vw",
       },
       [theme.breakpoints.up("sm")]: {
         height: "23px",
         fontSize: "23px",
         lineHeight: "23px",
         marginTop: "3px",
-        marginBottom: "16px",
-        borderBottom: `2px solid #ffffff00`,
-        ["&:hover"]: {
-          borderBottom: `2px solid ${theme.palette.primary.main}`,
-        },
+        marginBottom: "18px",
       },
       [theme.breakpoints.up("md")]: {
         height: "30px",
         fontSize: "30px",
         lineHeight: "30px",
         marginTop: "3.6px",
-        marginBottom: "16px",
-        borderBottom: `3.3px solid #ffffff00`,
-        ["&:hover"]: {
-          borderBottom: `3.3px solid ${theme.palette.primary.main}`,
-        },
+        marginBottom: "19px",
       },
       [theme.breakpoints.up("lg")]: {
         height: "37px",
         fontSize: "37px",
         lineHeight: "37px",
         marginTop: "4px",
-        marginBottom: "18px",
-        borderBottom: `4px solid #ffffff00`,
-        ["&:hover"]: {
-          borderBottom: `4px solid ${theme.palette.primary.main}`,
-        },
+        marginBottom: "22px",
       },
     },
     subTitle: {
@@ -270,9 +254,9 @@ const Education: React.FC<EducationProps> = (props) => {
             <img src={"./resources/ubc.svg"} className={classes.image}/>
           </div>
           <div className={classes.textWrapper}>
-            <Typography className={classes.titleLink} onClick={handleTitleClick}>
+            <Link className={classes.titleLink} onClick={handleTitleClick}>
               UNIVERSITY OF BRITISH COLUMBIA
-            </Typography>
+            </Link>
             <Typography className={classes.subTitle}>
               Vancouver, British Columbia, Canada
             </Typography>
