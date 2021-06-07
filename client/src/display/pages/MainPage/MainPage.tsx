@@ -13,6 +13,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import clsx from "clsx";
 import Typography from "@material-ui/core/Typography";
 import Education from "../../components/Content/Education/Education";
+import Contact from "../../components/Content/Contact/Contact";
 
 export type MainPageProps = MainPageDataProps & MainPageStyleProps & MainPageEventProps;
 
@@ -178,7 +179,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
           </div>
           <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.CONTACT}>
             <SectionWrapper name={ScrollNavigationDrawerMenuItemName.CONTACT}>
-              <div className={classes.scrollTest}></div>
+              <Contact/>
             </SectionWrapper>
           </div>
         </ScrollNavigation>
