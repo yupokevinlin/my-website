@@ -28,15 +28,16 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      justifyContent: "center",
       backgroundColor: theme.palette.background.paper,
       opacity: 0.8,
       [theme.breakpoints.up("xs")]: {
-        height: "100vw",
+        justifyContent: "flex-start",
+        height: "123vw",
         backgroundImage: "linear-gradient(#F3F3f3 1.05px, transparent 1.05px), linear-gradient(to right, #F3F3f3 1.05px, #FFFFFF 1.05px)",
         backgroundSize: "21px 21px",
       },
       [theme.breakpoints.up("sm")]: {
+        justifyContent: "center",
         height: "640px",
         backgroundImage: "linear-gradient(#F3F3f3 1.2px, transparent 1.2px), linear-gradient(to right, #F3F3f3 1.2px, #FFFFFF 1.2px)",
         backgroundSize: "24px 24px",
@@ -60,6 +61,7 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up("xs")]: {
         height: "90vw",
         width: "95vw",
+        marginTop: "5vw",
       },
       [theme.breakpoints.up("sm")]: {
         height: "560px",
