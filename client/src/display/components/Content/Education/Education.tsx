@@ -131,6 +131,7 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "max-content",
     },
     titleLink: {
+      cursor: "pointer",
       color: theme.palette.primary.main,
       fontWeight: 300,
       fontFamily: "Roboto, sans-serif",
