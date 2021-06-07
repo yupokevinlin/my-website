@@ -29,17 +29,17 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.background.paper,
       opacity: 0.8,
       [theme.breakpoints.up("xs")]: {
-        height: "80vw",
+        height: "86vw",
         backgroundImage: "linear-gradient(#F3F3f3 1.05px, transparent 1.05px), linear-gradient(to right, #F3F3f3 1.05px, #FFFFFF 1.05px)",
         backgroundSize: "21px 21px",
       },
       [theme.breakpoints.up("sm")]: {
-        height: "530px",
+        height: "580px",
         backgroundImage: "linear-gradient(#F3F3f3 1.2px, transparent 1.2px), linear-gradient(to right, #F3F3f3 1.2px, #FFFFFF 1.2px)",
         backgroundSize: "24px 24px",
       },
       [theme.breakpoints.up("md")]: {
-        height: "610px",
+        height: "670px",
         backgroundImage: "linear-gradient(#F3F3f3 1.35px, transparent 1.35px), linear-gradient(to right, #F3F3f3 1.35px, #FFFFFF 1.35px)",
         backgroundSize: "27px 27px",
       },
@@ -55,15 +55,15 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       justifyContent: "center",
       [theme.breakpoints.up("xs")]: {
-        height: "70vw",
+        height: "76vw",
         width: "95vw",
       },
       [theme.breakpoints.up("sm")]: {
-        height: "450px",
+        height: "500px",
         width: "90%",
       },
       [theme.breakpoints.up("md")]: {
-        height: "520px",
+        height: "580px",
         width: "90%",
       },
       [theme.breakpoints.up("lg")]: {
@@ -78,13 +78,13 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "flex-start",
       width: "90%",
       [theme.breakpoints.up("xs")]: {
-        height: "60vw",
+        height: "66vw",
       },
       [theme.breakpoints.up("sm")]: {
-        height: "370px",
+        height: "420px",
       },
       [theme.breakpoints.up("md")]: {
-        height: "430px",
+        height: "490px",
       },
       [theme.breakpoints.up("lg")]: {
         height: "550px",
@@ -196,13 +196,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     spacer: {
       [theme.breakpoints.up("xs")]: {
-        height: "3vw",
+        height: "6vw",
       },
       [theme.breakpoints.up("sm")]: {
-        height: "32px",
+        height: "56px",
       },
       [theme.breakpoints.up("md")]: {
-        height: "36px",
+        height: "63px",
       },
       [theme.breakpoints.up("lg")]: {
         height: "70px",
