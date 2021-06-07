@@ -66,14 +66,17 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.up("sm")]: {
         height: "560px",
         width: "90%",
+        marginTop: 0,
       },
       [theme.breakpoints.up("md")]: {
         height: "630px",
         width: "90%",
+        marginTop: 0,
       },
       [theme.breakpoints.up("lg")]: {
         height: "700px",
         width: "80%",
+        marginTop: 0,
       },
     },
     content: {
