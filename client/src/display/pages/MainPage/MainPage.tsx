@@ -15,6 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import Education from "../../components/Content/Education/Education";
 import Contact from "../../components/Content/Contact/Contact";
 import Languages from "../../components/Content/Languages/Languages";
+import Experience from "../../components/Content/Experience/Experience";
 
 export type MainPageProps = MainPageDataProps & MainPageStyleProps & MainPageEventProps;
 
@@ -155,7 +156,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
           </div>
           <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.EXPERIENCE}>
             <SectionWrapper name={ScrollNavigationDrawerMenuItemName.EXPERIENCE}>
-              <div className={classes.scrollTest}></div>
+              <Experience/>
             </SectionWrapper>
           </div>
           <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.PROJECTS}>
