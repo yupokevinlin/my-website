@@ -3,6 +3,7 @@ import {createStyles, Theme, useTheme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
+import clsx from "clsx";
 
 export type LanguagesProps = LanguagesDataProps & LanguagesStyleProps & LanguagesEventProps;
 
@@ -106,38 +107,38 @@ const useStyles = makeStyles((theme: Theme) =>
         fontSize: "4vw",
         lineHeight: "4vw",
         marginTop: "0.4vw",
-        marginBottom: "2.2vw",
+        marginBottom: "1.2vw",
       },
       [theme.breakpoints.up("sm")]: {
         height: "23px",
         fontSize: "23px",
         lineHeight: "23px",
         marginTop: "3px",
-        marginBottom: "18px",
+        marginBottom: "9px",
       },
       [theme.breakpoints.up("md")]: {
         height: "30px",
         fontSize: "30px",
         lineHeight: "30px",
         marginTop: "3.6px",
-        marginBottom: "19.3px",
+        marginBottom: "9.3px",
       },
       [theme.breakpoints.up("lg")]: {
         height: "37px",
         fontSize: "37px",
         lineHeight: "37px",
         marginTop: "4px",
-        marginBottom: "22px",
+        marginBottom: "11px",
       },
     },
     subTitle: {
       fontWeight: 400,
       color: theme.palette.secondary.main,
       [theme.breakpoints.up("xs")]: {
-        height: "3.6vw",
-        fontSize: "3.6vw",
-        lineHeight: "3.6vw",
-        marginBottom: "3.6vw",
+        height: "3.3vw",
+        fontSize: "3.3vw",
+        lineHeight: "3.3vw",
+        marginBottom: "3.3vw",
         marginLeft: "0.1vw",
       },
       [theme.breakpoints.up("sm")]: {
@@ -162,50 +163,107 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: "2px",
       },
     },
+    squaresWrapper: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      width: "max-content",
+      [theme.breakpoints.up("xs")]: {
+        height: "3.6vw",
+        marginLeft: "0.1vw",
+        marginBottom: "1vw",
+      },
+      [theme.breakpoints.up("sm")]: {
+        height: "19px",
+        marginLeft: "1px",
+        marginBottom: "4px",
+      },
+      [theme.breakpoints.up("md")]: {
+        height: "21px",
+        marginLeft: "2px",
+        marginBottom: "5px",
+      },
+      [theme.breakpoints.up("lg")]: {
+        height: "23px",
+        marginLeft: "2px",
+        marginBottom: "5px",
+      },
+    },
+    square: {
+      backgroundColor: theme.palette.primary.main,
+      [theme.breakpoints.up("xs")]: {
+        height: "3.6vw",
+        width: "3.6vw",
+        marginRight: "1.2vw",
+        boxShadow: `inset 0 0 0 0.3vw ${theme.palette.secondary.dark}`,
+      },
+      [theme.breakpoints.up("sm")]: {
+        height: "19px",
+        width: "19px",
+        marginRight: "6px",
+        boxShadow: `inset 0 0 0 1.5px ${theme.palette.secondary.dark}`,
+      },
+      [theme.breakpoints.up("md")]: {
+        height: "21px",
+        width: "21px",
+        marginRight: "7px",
+        boxShadow: `inset 0 0 0 1.75px ${theme.palette.secondary.dark}`,
+      },
+      [theme.breakpoints.up("lg")]: {
+        height: "23px",
+        width: "23px",
+        marginRight: "8px",
+        boxShadow: `inset 0 0 0 2px ${theme.palette.secondary.dark}`,
+      },
+    },
+    emptySquare: {
+      backgroundColor: theme.palette.background.paper,
+    },
     text: {
       fontWeight: 300,
       color: theme.palette.secondary.dark,
       [theme.breakpoints.up("xs")]: {
-        height: "3.6vw",
-        fontSize: "3.6vw",
-        lineHeight: "3.6vw",
-        marginTop: "2.4vw",
+        height: "3.3vw",
+        fontSize: "3.3vw",
+        lineHeight: "3.3vw",
+        marginTop: "1.2vw",
         marginLeft: "0.1vw",
       },
       [theme.breakpoints.up("sm")]: {
         height: "19px",
         fontSize: "19px",
         lineHeight: "19px",
-        marginTop: "12px",
+        marginTop: "6px",
         marginLeft: "1px",
       },
       [theme.breakpoints.up("md")]: {
         height: "21px",
         fontSize: "21px",
         lineHeight: "21px",
-        marginTop: "13px",
+        marginTop: "6.5px",
         marginLeft: "2px",
       },
       [theme.breakpoints.up("lg")]: {
         height: "23px",
         fontSize: "23px",
         lineHeight: "23px",
-        marginTop: "15px",
+        marginTop: "7.5px",
         marginLeft: "2px",
       },
     },
     spacer: {
       [theme.breakpoints.up("xs")]: {
-        height: "6vw",
+        height: "3.4vw",
       },
       [theme.breakpoints.up("sm")]: {
-        height: "56px",
+        height: "32px",
       },
       [theme.breakpoints.up("md")]: {
-        height: "63px",
+        height: "47px",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "70px",
+        height: "53px",
       },
     },
   }),
@@ -219,6 +277,10 @@ const Languages: React.FC<LanguagesProps> = (props) => {
 
   } = props;
 
+  const squaresArray: Array<number> = new Array(5).fill(0);
+
+  console.log(squaresArray);
+
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} elevation={3}>
@@ -227,6 +289,13 @@ const Languages: React.FC<LanguagesProps> = (props) => {
             <Typography className={classes.titleLink}>
               English
             </Typography>
+            <div className={classes.squaresWrapper}>
+              {
+                squaresArray.map((value, index) => (
+                  <div className={classes.square} key={index}/>
+                ))
+              }
+            </div>
             <Typography className={classes.subTitle}>
               Fluent
             </Typography>
@@ -234,6 +303,13 @@ const Languages: React.FC<LanguagesProps> = (props) => {
             <Typography className={classes.titleLink}>
               Mandarin
             </Typography>
+            <div className={classes.squaresWrapper}>
+              {
+                squaresArray.map((value, index) => (
+                  <div className={classes.square} key={index}/>
+                ))
+              }
+            </div>
             <Typography className={classes.subTitle}>
               Fluent
             </Typography>
@@ -241,8 +317,17 @@ const Languages: React.FC<LanguagesProps> = (props) => {
             <Typography className={classes.titleLink}>
               French
             </Typography>
+            <div className={classes.squaresWrapper}>
+              {
+                squaresArray.map((value, index) => (
+                  <div className={clsx(classes.square, {
+                    [classes.emptySquare]: index > 2,
+                  })} key={index}/>
+                ))
+              }
+            </div>
             <Typography className={classes.subTitle}>
-              Fluent
+              Proficient
             </Typography>
             <Typography className={classes.text}>
               • Alliance Française - DELF A1 Certification
