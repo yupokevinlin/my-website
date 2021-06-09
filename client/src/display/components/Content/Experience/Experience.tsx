@@ -414,7 +414,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Created an App written in Electron to parse thousands of excel spreadsheets and organize data.
+            • Created an App written in Electron, React, and Express to parse thousands of excel spreadsheets and organize data.
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
