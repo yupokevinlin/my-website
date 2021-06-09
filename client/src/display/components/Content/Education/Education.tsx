@@ -172,10 +172,10 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 400,
       color: theme.palette.secondary.main,
       [theme.breakpoints.up("xs")]: {
-        height: "3.6vw",
-        fontSize: "3.6vw",
-        lineHeight: "3.6vw",
-        marginBottom: "3.6vw",
+        height: "3.3vw",
+        fontSize: "3.3vw",
+        lineHeight: "3.3vw",
+        marginBottom: "3.3vw",
         marginLeft: "0.1vw",
       },
       [theme.breakpoints.up("sm")]: {
@@ -204,9 +204,9 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 300,
       color: theme.palette.secondary.dark,
       [theme.breakpoints.up("xs")]: {
-        height: "3.6vw",
-        fontSize: "3.6vw",
-        lineHeight: "3.6vw",
+        height: "3.3vw",
+        fontSize: "3.3vw",
+        lineHeight: "3.3vw",
         marginTop: "2.4vw",
         marginLeft: "0.1vw",
       },
