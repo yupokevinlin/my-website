@@ -282,7 +282,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     date: {
       fontWeight: 400,
-      color: theme.palette.primary.dark,
+      color: theme.palette.primary.main,
       [theme.breakpoints.up("xs")]: {
         fontSize: "3.3vw",
         lineHeight: "3.3vw",
@@ -302,7 +302,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     contentTitle: {
       fontWeight: 400,
-      color: theme.palette.secondary.main,
+      color: theme.palette.primary.dark,
       [theme.breakpoints.up("xs")]: {
         fontSize: "3.3vw",
         lineHeight: "3.3vw",
