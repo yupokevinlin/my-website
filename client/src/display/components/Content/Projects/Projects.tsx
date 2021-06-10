@@ -473,7 +473,7 @@ const Projects: React.FC<ProjectsProps> = (props) => {
                 <img className={classes.icon} src={"./resources/covid19TrackerAppIcon.svg"}/>
               </div>
               <div className={classes.titleWrapper}>
-                <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://service-link.ca/")}}>
+                <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://covid-19-tracker.app/")}}>
                   COVID-19 TRACKER APP
                 </Link>
               </div>
@@ -556,7 +556,7 @@ const Projects: React.FC<ProjectsProps> = (props) => {
                 <img className={classes.icon} src={"./resources/writeMyMPIcon.svg"}/>
               </div>
               <div className={classes.titleWrapper}>
-                <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://service-link.ca/")}}>
+                <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://writemymp.ca/")}}>
                   WRITE MY MP
                 </Link>
               </div>
