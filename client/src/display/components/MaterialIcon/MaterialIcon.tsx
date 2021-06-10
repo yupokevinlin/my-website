@@ -13,6 +13,8 @@ import Menu from "@material-ui/icons/Menu";
 import Devices from "@material-ui/icons/Devices";
 import LinkedIn from '@material-ui/icons/LinkedIn';
 import GitHub from '@material-ui/icons/GitHub';
+import {ExternalLinkIcon as ExternalLink} from "./SvgIcon/SvgIcons";
+
 
 export interface MaterialIconProps extends SvgIconProps {
   iconName: MaterialIconNames;
@@ -23,6 +25,7 @@ export enum MaterialIconNames {
   BarChart = "BarChart",
   Description = "Description",
   Devices = "Devices",
+  ExternalLink = "ExternalLink",
   Github = "Github",
   Language = "Language",
   LinkedIn = "LinkedIn",
@@ -49,6 +52,9 @@ const MaterialIcon: React.FC<MaterialIconProps> = (props) => {
     }
     case MaterialIconNames.Devices: {
       return <Devices {...svgIconProps}/>;
+    }
+    case MaterialIconNames.ExternalLink: {
+      return <ExternalLink {...svgIconProps}/>;
     }
     case MaterialIconNames.Github: {
       return <GitHub {...svgIconProps}/>;

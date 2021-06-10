@@ -3,8 +3,8 @@ import {SvgIcon, SvgIconProps} from "@material-ui/core";
 import {SvgIconData, svgIconDataObject} from "./types";
 
 
-export const SkullIcon: React.FC<SvgIconProps> = (props) => {
-  const data: SvgIconData = svgIconDataObject["Skull"];
+export const ExternalLinkIcon: React.FC<SvgIconProps> = (props) => {
+  const data: SvgIconData = svgIconDataObject["ExternalLink"];
   return (
     <SvgIcon {...props} viewBox={data.viewBox}>
       {
