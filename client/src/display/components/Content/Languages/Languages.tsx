@@ -279,8 +279,6 @@ const Languages: React.FC<LanguagesProps> = (props) => {
 
   const squaresArray: Array<number> = new Array(5).fill(0);
 
-  console.log(squaresArray);
-
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} elevation={3}>
