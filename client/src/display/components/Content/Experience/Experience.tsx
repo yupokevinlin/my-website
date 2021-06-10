@@ -375,6 +375,144 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           <div className={classes.textWrapper}>
             <div className={classes.topBarWrapper}>
               <div className={classes.iconWrapper}>
+                <img className={classes.icon} src={"./resources/serviceLink.svg"}/>
+              </div>
+              <div className={classes.titleWrapper}>
+                <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://service-link.ca/")}}>
+                  SERVICE LINK
+                </Link>
+              </div>
+              {
+                !isSmXs ? (
+                  <div className={classes.roleWrapper}>
+                    <Typography className={classes.role}>
+                      Software Engineer
+                    </Typography>
+                  </div>
+                ) : null
+              }
+            </div>
+          </div>
+          <div className={classes.divider}/>
+          {
+            isSmXs ? (
+              <React.Fragment>
+                <Typography className={classes.role}>
+                  Software Engineer
+                </Typography>
+                <div className={classes.textSpacer}/>
+              </React.Fragment>
+            ) : null
+          }
+          <Typography className={classes.description}>
+            Service Link is a workforce management system software company providing solutions to major utilities
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentTitle}>
+            ACHIEVEMENTS
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Architected and designed the new client UI using React, Microsoft Fluent UI, Typescript, Redux, and Sagas.
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Modernized and automated the build process and release notes generation using the Jenkins pipeline. Saved hours with each release.
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Integrated the application with customer ESRI map servers. Worked with customers for customization requirements.
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Integrated the client application login process with Microsoft Azure Active Directory.
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Transitioned the client application from jQuery to React. Dramatically increased UI development speed by introducing modular components.
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <div className={classes.divider}/>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.date}>
+            Jul 2019 - Present | Vancouver, Canada
+          </Typography>
+        </div>
+      </Paper>
+      <div className={classes.paperSpacer}/>
+      <Paper className={classes.paper} elevation={3}>
+        <div className={classes.content}>
+          <div className={classes.textWrapper}>
+            <div className={classes.topBarWrapper}>
+              <div className={classes.iconWrapper}>
+                <img className={classes.icon} src={"./resources/serviceLink.svg"}/>
+              </div>
+              <div className={classes.titleWrapper}>
+                <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://service-link.ca/")}}>
+                  SERVICE LINK
+                </Link>
+              </div>
+              {
+                !isSmXs ? (
+                  <div className={classes.roleWrapper}>
+                    <Typography className={classes.role}>
+                      Software Support Engineer
+                    </Typography>
+                  </div>
+                ) : null
+              }
+            </div>
+          </div>
+          <div className={classes.divider}/>
+          {
+            isSmXs ? (
+              <React.Fragment>
+                <Typography className={classes.role}>
+                  Software Support Engineer
+                </Typography>
+                <div className={classes.textSpacer}/>
+              </React.Fragment>
+            ) : null
+          }
+          <Typography className={classes.description}>
+            Service Link is a workforce management system software company providing solutions to major utilities
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentTitle}>
+            ACHIEVEMENTS
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Improved the application security using Nginx. Allowed the application to pass the HCL (IBM) AppScan.
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Customized the JIRA workflow using the JIRA script runner plugin.
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Created a dynamic PDF report generator using Apache PDFBox.
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Introduced and implemented the Gitflow Workflow to replace the Centralized Workflow. This greatly reduced merge conflicts and improved the quality of releases.
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <div className={classes.divider}/>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.date}>
+            Jul 2018 - Jul 2019 | Vancouver, Canada
+          </Typography>
+        </div>
+      </Paper>
+      <div className={classes.paperSpacer}/>
+      <Paper className={classes.paper} elevation={3}>
+        <div className={classes.content}>
+          <div className={classes.textWrapper}>
+            <div className={classes.topBarWrapper}>
+              <div className={classes.iconWrapper}>
                 <img className={classes.icon} src={"./resources/protrade.svg"}/>
               </div>
               <div className={classes.titleWrapper}>
@@ -418,13 +556,13 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Reworked old VBA macro enhanced excel spreadsheets and improved processing times by 3x.
+            • Improved old VBA macro enhanced excel spreadsheets and reduced processing times by 3x.
           </Typography>
           <div className={classes.textSpacer}/>
           <div className={classes.divider}/>
           <div className={classes.textSpacer}/>
           <Typography className={classes.date}>
-            Mar 2021 - Current | Vancouver, Canada
+            Mar 2021 - Present | Vancouver, Canada
           </Typography>
         </div>
       </Paper>
@@ -477,7 +615,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Designed a VBA enhanced excel spreadsheet to generate graphical reports.
+            • Created a VBA enhanced excel spreadsheet to generate graphical reports.
           </Typography>
           <div className={classes.textSpacer}/>
           <div className={classes.divider}/>
@@ -504,7 +642,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
                 !isSmXs ? (
                   <div className={classes.roleWrapper}>
                     <Typography className={classes.role}>
-                      Special Assistant to VP of Marketing
+                      Special Assistant
                     </Typography>
                   </div>
                 ) : null
@@ -516,7 +654,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
             isSmXs ? (
               <React.Fragment>
                 <Typography className={classes.role}>
-                  Special Assistant to VP of Marketing
+                  Special Assistant
                 </Typography>
                 <div className={classes.textSpacer}/>
               </React.Fragment>
