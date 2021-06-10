@@ -422,11 +422,11 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Integrated the application with customer ESRI map servers. Worked with customers for customization requirements.
+            • Integrated the client application login process with Microsoft Azure Active Directory.
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Integrated the client application login process with Microsoft Azure Active Directory.
+            • Integrated the application with customer ESRI map servers. Worked with customers for customization requirements.
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
@@ -485,7 +485,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Improved the application security using Nginx. Allowed the application to pass the HCL (IBM) AppScan.
+            • Improved application security using Nginx. Allowed the application to pass the HCL (IBM) AppScan.
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
