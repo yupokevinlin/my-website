@@ -17,6 +17,7 @@ import Contact from "../../components/Content/Contact/Contact";
 import Languages from "../../components/Content/Languages/Languages";
 import Experience from "../../components/Content/Experience/Experience";
 import Projects from "../../components/Content/Projects/Projects";
+import Skills from "../../components/Content/Skills/Skills";
 
 export type MainPageProps = MainPageDataProps & MainPageStyleProps & MainPageEventProps;
 
@@ -167,7 +168,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
           </div>
           <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.SKILLS}>
             <SectionWrapper name={ScrollNavigationDrawerMenuItemName.SKILLS}>
-              <div className={classes.scrollTest}></div>
+              <Skills/>
             </SectionWrapper>
           </div>
           <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.LANGUAGES}>
