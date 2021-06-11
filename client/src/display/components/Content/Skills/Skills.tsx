@@ -2,7 +2,6 @@ import React from "react";
 import {createStyles, Theme, useTheme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
-import NavigationUtils from "../../../../helpers/NavigationUtils";
 import Typography from "@material-ui/core/Typography";
 
 export type SkillsProps = SkillsDataProps & SkillsStyleProps & SkillsEventProps;
@@ -247,6 +246,7 @@ const useStyles = makeStyles((theme: Theme) =>
     contentText: {
       fontWeight: 300,
       color: theme.palette.secondary.dark,
+      textAlign: "center",
       [theme.breakpoints.up("xs")]: {
         fontSize: "3.3vw",
         lineHeight: "3.3vw",
@@ -270,25 +270,25 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       justifyContent: "space-evenly",
       [theme.breakpoints.up("xs")]: {
-        height: "19vw",
+        height: "23vw",
         width: "13vw",
         marginLeft: "4vw",
         marginRight: "4vw",
       },
       [theme.breakpoints.up("sm")]: {
-        height: "16vw",
+        height: "19vw",
         width: "12vw",
         marginLeft: "4vw",
         marginRight: "4vw",
       },
       [theme.breakpoints.up("md")]: {
-        height: "14vw",
+        height: "16vw",
         width: "11vw",
         marginLeft: "3vw",
         marginRight: "3vw",
       },
       [theme.breakpoints.up("lg")]: {
-        height: "11vw",
+        height: "13vw",
         width: "7.8vw",
         marginLeft: "2vw",
         marginRight: "2vw",
