@@ -21,13 +21,6 @@ export interface WinterPictureEventProps {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    winterPictureRoot: {
-      width: "100%",
-      height: "100%",
-      mouseEvents: "none",
-      userDrag: "none",
-      userSelect: "none",
-    },
     winterPicture: {
       width: "100%",
       height: "100%",

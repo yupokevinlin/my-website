@@ -2,7 +2,6 @@ import React, {useEffect} from "react";
 import {createStyles, Theme, useTheme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Breakpoint} from "@material-ui/core/styles/createBreakpoints";
-import Snowfall from "react-snowfall";
 import Goose from "../../AnimatedImages/Goose/Goose";
 
 export type AutumnPictureProps = AutumnPictureDataProps & AutumnPictureStyleProps & AutumnPictureEventProps;
@@ -21,14 +20,7 @@ export interface AutumnPictureEventProps {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    AutumnPictureRoot: {
-      width: "100%",
-      height: "100%",
-      mouseEvents: "none",
-      userDrag: "none",
-      userSelect: "none",
-    },
-    AutumnPicture: {
+    autumnPicture: {
       width: "100%",
       height: "100%",
       backgroundImage: "url(./resources/seasons/autumn.svg), linear-gradient(0deg, #ffffff 50%, #76d0ff 80%, #47bfff 100%)",
@@ -65,7 +57,7 @@ const AutumnPicture: React.FC<AutumnPictureProps> = (props) => {
 
   return (
     <React.Fragment>
-      <div className={classes.AutumnPicture}>
+      <div className={classes.autumnPicture}>
         <Goose/>
       </div>
     </React.Fragment>
