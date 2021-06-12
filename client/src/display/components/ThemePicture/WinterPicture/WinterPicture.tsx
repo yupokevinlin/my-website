@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
     winterPicture: {
       width: "100%",
       height: "100%",
-      backgroundImage: "url(./resources/winter.svg), linear-gradient(0deg, #ffffff 50%, #e4ecf4 80%, #91b4d2 100%)",
+      backgroundImage: "url(./resources/seasons/winter.svg), linear-gradient(0deg, #ffffff 50%, #e4ecf4 80%, #91b4d2 100%)",
       backgroundRepeat: "no-repeat",
       backgroundPositionX: "70%",
       backgroundPositionY: "70%",
@@ -57,7 +57,7 @@ const WinterPicture: React.FC<WinterPictureProps> = (props) => {
 
   useEffect(() => {
     const image: HTMLImageElement = document.createElement("img");
-    image.src = "./resources/winter.svg";
+    image.src = "./resources/seasons/winter.svg";
     image.onload = () => {
       handleLoad();
     };
