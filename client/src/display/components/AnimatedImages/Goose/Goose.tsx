@@ -27,7 +27,10 @@ const useStyles = makeStyles((theme: Theme) =>
       flexWrap: "nowrap",
       height: "135px",
       width: "200px",
-      animation: "$move 20s linear infinite, $sine 3s ease alternate infinite",
+      animation: "$move 15s linear infinite, $sine 3s ease alternate infinite",
+      [theme.breakpoints.up("sm")]: {
+        animation: "$move 20s linear infinite, $sine 3s ease alternate infinite",
+      },
     },
     goose1: {
       animation: "$animate .5s steps(6) infinite",
