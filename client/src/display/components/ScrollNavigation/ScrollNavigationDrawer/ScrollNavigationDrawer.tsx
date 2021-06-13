@@ -14,6 +14,9 @@ import {
 } from "./ScrollNavigationDrawerMenuItem/types";
 import ScrollNavigationDrawerMenuItem from "./ScrollNavigationDrawerMenuItem/ScrollNavigationDrawerMenuItem";
 import {MaterialIconNames} from "../../MaterialIcon/MaterialIcon";
+import ScrollNavigationDrawerSeasonSwitch
+  from "./ScrollNavigationDrawerSeasonSwitch/ScrollNavigationDrawerSeasonSwitch";
+import {ThemePictureSeason} from "../../ThemePicture/types";
 
 export type ScrollNavigationDrawerProps = ScrollNavigationDrawerDataProps & ScrollNavigationDrawerStyleProps & ScrollNavigationDrawerEventProps;
 
@@ -21,6 +24,7 @@ export interface ScrollNavigationDrawerDataProps {
   drawerOpen: boolean;
   menuItems: Array<ScrollNavigationDrawerMenuItemData>;
   isTopSelected: boolean;
+  season: ThemePictureSeason;
 }
 
 export interface ScrollNavigationDrawerStyleProps {
@@ -30,6 +34,7 @@ export interface ScrollNavigationDrawerStyleProps {
 export interface ScrollNavigationDrawerEventProps {
   handleItemClick(name: ScrollNavigationDrawerMenuItemName): void;
   handleDialogClose(): void;
+  handleSeasonChange(season: ThemePictureSeason): void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -54,6 +59,10 @@ const useStyles = makeStyles((theme: Theme) =>
       }),
     },
     listPaper: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "flex-start",
+      justifyContent: "space-between",
       [theme.breakpoints.up("xs")]: {
         height: "100vh",
         maxHeight: "-webkit-fill-available",
@@ -172,9 +181,11 @@ const ScrollNavigationDrawer: React.FC<ScrollNavigationDrawerProps> = (props) =>
     drawerOpen,
     menuItems,
     isTopSelected,
+    season,
     width,
     handleItemClick,
     handleDialogClose,
+    handleSeasonChange,
   } = props;
 
   const isSmXs: boolean = /xs|sm/.test(width);
@@ -220,6 +231,7 @@ const ScrollNavigationDrawer: React.FC<ScrollNavigationDrawerProps> = (props) =>
             ))
           }
         </div>
+        <ScrollNavigationDrawerSeasonSwitch season={season} handleSeasonChange={handleSeasonChange}/>
       </Paper>
     );
   };

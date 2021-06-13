@@ -150,7 +150,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <ScrollNavigation menuItems={menuItems} isTopSelected={isTopSelected} handleItemClick={handleItemClick} handleScroll={handleScroll}>
+        <ScrollNavigation menuItems={menuItems} isTopSelected={isTopSelected} season={season} handleItemClick={handleItemClick} handleScroll={handleScroll} handleSeasonChange={handleSeasonChange}>
           <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.PICTURE}>
             <ThemePicture handleLoadComplete={handleLoadComplete} season={season}/>
           </div>

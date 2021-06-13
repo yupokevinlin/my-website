@@ -11,12 +11,14 @@ import {
 import Section from "../Section/Section";
 import TopBar from "../TopBar/TopBar";
 import {initialElementsInView, IntersectingElements} from "./types";
+import {ThemePictureSeason} from "../ThemePicture/types";
 
 export type ScrollNavigationProps = ScrollNavigationDataProps & ScrollNavigationStyleProps & ScrollNavigationEventProps;
 
 export interface ScrollNavigationDataProps {
   menuItems: Array<ScrollNavigationDrawerMenuItemData>;
   isTopSelected: boolean;
+  season: ThemePictureSeason;
 }
 
 export interface ScrollNavigationStyleProps {
@@ -26,6 +28,7 @@ export interface ScrollNavigationStyleProps {
 export interface ScrollNavigationEventProps {
   handleItemClick(name: ScrollNavigationDrawerMenuItemName, wrapperElement: Element): void;
   handleScroll(name: ScrollNavigationDrawerMenuItemName): void;
+  handleSeasonChange(season: ThemePictureSeason): void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -76,9 +79,11 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
   const {
     menuItems,
     isTopSelected,
+    season,
     width,
     handleItemClick,
     handleScroll,
+    handleSeasonChange,
   } = props;
 
   const isSmXs: boolean = /xs|sm/.test(width);
@@ -164,7 +169,7 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
 
   return (
     <div className={classes.scrollNavigationRoot}>
-      <ScrollNavigationDrawer width={width} drawerOpen={drawerOpen} menuItems={menuItems} isTopSelected={isTopSelected} handleItemClick={handleScrollNavigationDrawerItemClick} handleDialogClose={handleDrawerClose}/>
+      <ScrollNavigationDrawer width={width} drawerOpen={drawerOpen} menuItems={menuItems} isTopSelected={isTopSelected} season={season} handleItemClick={handleScrollNavigationDrawerItemClick} handleDialogClose={handleDrawerClose} handleSeasonChange={handleSeasonChange}/>
       <div className={classes.contentTopBarWrapper}>
         {
           isSmXs ? (
