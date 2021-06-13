@@ -32,7 +32,7 @@ export interface MainPageStyleProps {
 }
 
 export interface MainPageEventProps {
-
+  handleSeasonChange(season: ThemePictureSeason): void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -107,9 +107,10 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   const [isTopSelected, setIsTopSelected] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [unmountLoadingPage, setUnmountLoadingPage] = useState<boolean>(false);
+  const [season, setSeason] = useState<ThemePictureSeason>(ThemePictureSeason.WINTER);
 
   const {
-
+    handleSeasonChange,
   } = props;
 
   const handleScroll = (name: ScrollNavigationDrawerMenuItemName): void => {
@@ -151,7 +152,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
       <div className={classes.root}>
         <ScrollNavigation menuItems={menuItems} isTopSelected={isTopSelected} handleItemClick={handleItemClick} handleScroll={handleScroll}>
           <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.PICTURE}>
-            <ThemePicture handleLoadComplete={handleLoadComplete} season={ThemePictureSeason.SUMMER}/>
+            <ThemePicture handleLoadComplete={handleLoadComplete} season={season}/>
           </div>
           <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.ABOUT}>
             <SectionWrapper name={ScrollNavigationDrawerMenuItemName.ABOUT}>
