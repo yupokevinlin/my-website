@@ -3,6 +3,7 @@ import {createStyles, Theme, useTheme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Breakpoint} from "@material-ui/core/styles/createBreakpoints";
 import Goose from "../../AnimatedImages/Goose/Goose";
+import CrowMallard from "../../AnimatedImages/CrowMallard/CrowMallard";
 
 export type AutumnPictureProps = AutumnPictureDataProps & AutumnPictureStyleProps & AutumnPictureEventProps;
 
@@ -59,6 +60,7 @@ const AutumnPicture: React.FC<AutumnPictureProps> = (props) => {
     <React.Fragment>
       <div className={classes.autumnPicture}>
         <Goose/>
+        <CrowMallard/>
       </div>
     </React.Fragment>
   );
