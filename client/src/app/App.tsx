@@ -6,6 +6,7 @@ import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import responsiveFontSizes from "@material-ui/core/styles/responsiveFontSizes";
 import {ThemeProvider} from "@material-ui/styles";
 import smoothScroll from "smoothscroll-polyfill";
+import {ThemePictureSeason} from "../display/components/ThemePicture/types";
 
 export type AppProps = AppDataProps & AppStyleProps & AppEventProps;
 
@@ -44,36 +45,112 @@ const App: React.FC<AppProps> = (props) => {
 
   } = props;
 
-  const getInitialMaterialUITheme = (): Theme => {
-    let theme = createMuiTheme({
-      palette: {
-        primary: {
-          light: "#71a4d2",
-          main: "#4e8ec7",
-          dark: "#36638b",
-          contrastText: "#fff",
-        },
-        secondary: {
-          light: "#aaaaaa",
-          main: "#666666",
-          dark: "#000000",
-          contrastText: "#fff",
-        }
-      },
-      typography: {
-        fontFamily: `"Roboto", sans-serif`,
-      },
-    });
+  const getMaterialUITheme = (season: ThemePictureSeason): Theme => {
+    let theme: Theme = null;
+    switch (season) {
+      case ThemePictureSeason.SPRING: {
+        theme = createMuiTheme({
+          palette: {
+            primary: {
+              light: "#77ad5d",
+              main: "#569935",
+              dark: "#3c6b25",
+              contrastText: "#fff",
+            },
+            secondary: {
+              light: "#aaaaaa",
+              main: "#666666",
+              dark: "#000000",
+              contrastText: "#fff",
+            }
+          },
+          typography: {
+            fontFamily: `"Roboto", sans-serif`,
+          },
+        });
+        break;
+      }
+      case ThemePictureSeason.SUMMER: {
+        theme = createMuiTheme({
+          palette: {
+            primary: {
+              light: "#102341",
+              main: "#17325E",
+              dark: "#455b7e",
+              contrastText: "#fff",
+            },
+            secondary: {
+              light: "#aaaaaa",
+              main: "#666666",
+              dark: "#000000",
+              contrastText: "#fff",
+            }
+          },
+          typography: {
+            fontFamily: `"Roboto", sans-serif`,
+          },
+        });
+        break;
+      }
+      case ThemePictureSeason.AUTUMN: {
+        theme = createMuiTheme({
+          palette: {
+            primary: {
+              light: "#a35019",
+              main: "#e97325",
+              dark: "#ed8f50",
+              contrastText: "#fff",
+            },
+            secondary: {
+              light: "#aaaaaa",
+              main: "#666666",
+              dark: "#000000",
+              contrastText: "#fff",
+            }
+          },
+          typography: {
+            fontFamily: `"Roboto", sans-serif`,
+          },
+        });
+        break;
+      }
+      case ThemePictureSeason.WINTER: {
+        theme = createMuiTheme({
+          palette: {
+            primary: {
+              light: "#71a4d2",
+              main: "#4e8ec7",
+              dark: "#36638b",
+              contrastText: "#fff",
+            },
+            secondary: {
+              light: "#aaaaaa",
+              main: "#666666",
+              dark: "#000000",
+              contrastText: "#fff",
+            }
+          },
+          typography: {
+            fontFamily: `"Roboto", sans-serif`,
+          },
+        });
+        break;
+      }
+    }
     theme = responsiveFontSizes(theme);
     return theme;
   };
 
-  const [theme, setTheme] = useState<Theme>(getInitialMaterialUITheme());
+  const [theme, setTheme] = useState<Theme>(getMaterialUITheme(ThemePictureSeason.WINTER));
+
+  const handleSeasonChange = (season: ThemePictureSeason): void => {
+    setTheme(getMaterialUITheme(season));
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.app}>
-        <MainPage/>
+        <MainPage handleSeasonChange={handleSeasonChange}/>
       </div>
     </ThemeProvider>
   );
