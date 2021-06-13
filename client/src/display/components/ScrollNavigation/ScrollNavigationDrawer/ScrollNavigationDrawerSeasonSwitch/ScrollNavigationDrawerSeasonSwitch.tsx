@@ -64,6 +64,14 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "flex-start",
       height: "100%",
       width: "100%",
+      transition: theme.transitions.create("filter", {
+        easing: theme.transitions.easing.sharp,
+        duration: 200,
+      }),
+      ["&:hover"]: {
+        filter: `brightness(90%)`,
+      },
+      backgroundColor: theme.palette.background.paper,
     },
     iconWrapper: {
       display: "flex",
@@ -169,7 +177,7 @@ const ScrollNavigationDrawerSeasonSwitch: React.FC<ScrollNavigationDrawerSeasonS
               <MaterialIcon iconName={MaterialIconNames.Flower} className={classes.icon} style={{color: "#ffffff"}}/>
             </div>
             <Typography className={classes.text}>
-              Spring
+              Theme
             </Typography>
           </div>
         );
@@ -181,7 +189,7 @@ const ScrollNavigationDrawerSeasonSwitch: React.FC<ScrollNavigationDrawerSeasonS
               <MaterialIcon iconName={MaterialIconNames.Brightness3} className={classes.icon} style={{color: "#b9c4d8", transform: "rotate(30deg)"}}/>
             </div>
             <Typography className={classes.text}>
-              Summer
+              Theme
             </Typography>
           </div>
         );
@@ -193,7 +201,7 @@ const ScrollNavigationDrawerSeasonSwitch: React.FC<ScrollNavigationDrawerSeasonS
               <MaterialIcon iconName={MaterialIconNames.Eco} className={classes.icon} style={{color: "#f6c510"}}/>
             </div>
             <Typography className={classes.text}>
-              Autumn
+              Theme
             </Typography>
           </div>
         );
@@ -205,7 +213,7 @@ const ScrollNavigationDrawerSeasonSwitch: React.FC<ScrollNavigationDrawerSeasonS
               <MaterialIcon iconName={MaterialIconNames.Snowflake} className={classes.icon} style={{color: "#ffffff"}}/>
             </div>
             <Typography className={classes.text}>
-              Winter
+              Theme
             </Typography>
           </div>
         );
