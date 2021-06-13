@@ -32,7 +32,7 @@ export interface MainPageStyleProps {
 }
 
 export interface MainPageEventProps {
-  handleSeasonChange(season: ThemePictureSeason): void;
+  handleSeasonThemeChange(season: ThemePictureSeason): void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -110,7 +110,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   const [season, setSeason] = useState<ThemePictureSeason>(ThemePictureSeason.WINTER);
 
   const {
-    handleSeasonChange,
+    handleSeasonThemeChange,
   } = props;
 
   const handleScroll = (name: ScrollNavigationDrawerMenuItemName): void => {
@@ -129,6 +129,11 @@ const MainPage: React.FC<MainPageProps> = (props) => {
       }
     }));
   };
+
+  const handleSeasonChange = (season: ThemePictureSeason): void => {
+    setSeason(season);
+    handleSeasonThemeChange(season);
+  }
 
   const handleItemClick = (name: ScrollNavigationDrawerMenuItemName, wrapperElement: Element): void => {
     const htmlCollection: HTMLCollectionOf<Element> = wrapperElement.getElementsByClassName(name);

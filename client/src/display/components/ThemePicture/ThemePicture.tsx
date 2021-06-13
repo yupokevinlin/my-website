@@ -72,7 +72,6 @@ const ThemePicture: React.FC<ThemePictureProps> = (props) => {
     return loadStatus.spring && loadStatus.summer && loadStatus.autumn && loadStatus.winter;
   };
 
-
   const handleSpringLoadComplete = (): void => {
     themePictureLoad.current = {
       ...themePictureLoad.current,

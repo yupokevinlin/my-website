@@ -143,14 +143,14 @@ const App: React.FC<AppProps> = (props) => {
 
   const [theme, setTheme] = useState<Theme>(getMaterialUITheme(ThemePictureSeason.WINTER));
 
-  const handleSeasonChange = (season: ThemePictureSeason): void => {
+  const handleSeasonThemeChange = (season: ThemePictureSeason): void => {
     setTheme(getMaterialUITheme(season));
   };
 
   return (
     <ThemeProvider theme={theme}>
       <div className={classes.app}>
-        <MainPage handleSeasonChange={handleSeasonChange}/>
+        <MainPage handleSeasonThemeChange={handleSeasonThemeChange}/>
       </div>
     </ThemeProvider>
   );
