@@ -11,9 +11,14 @@ import School from "@material-ui/icons/School";
 import Mail from "@material-ui/icons/Mail";
 import Menu from "@material-ui/icons/Menu";
 import Devices from "@material-ui/icons/Devices";
-import LinkedIn from '@material-ui/icons/LinkedIn';
-import GitHub from '@material-ui/icons/GitHub';
+import LinkedIn from "@material-ui/icons/LinkedIn";
+import GitHub from "@material-ui/icons/GitHub";
+import FilterVintage from "@material-ui/icons/FilterVintage";
+import Eco from "@material-ui/icons/Eco";
+import Brightness3 from "@material-ui/icons/Brightness3";
 import {ExternalLinkIcon as ExternalLink} from "./SvgIcon/SvgIcons";
+import {SnowflakeIcon as Snowflake} from "./SvgIcon/SvgIcons";
+
 
 
 export interface MaterialIconProps extends SvgIconProps {
@@ -23,9 +28,12 @@ export interface MaterialIconProps extends SvgIconProps {
 export enum MaterialIconNames {
   ArrowUpward = "ArrowUpward",
   BarChart = "BarChart",
+  Brightness3 = "Brightness3",
   Description = "Description",
   Devices = "Devices",
+  Eco = "Eco",
   ExternalLink = "ExternalLink",
+  FilterVintage = "FilterVintage",
   Github = "Github",
   Language = "Language",
   LinkedIn = "LinkedIn",
@@ -33,6 +41,7 @@ export enum MaterialIconNames {
   Mail = "Mail",
   Menu = "Menu",
   School = "School",
+  Snowflake = "Snowflake",
   TrendingUp = "TrendingUp",
 }
 
@@ -47,14 +56,23 @@ const MaterialIcon: React.FC<MaterialIconProps> = (props) => {
     case MaterialIconNames.BarChart: {
       return <BarChart {...svgIconProps}/>;
     }
+    case MaterialIconNames.Brightness3: {
+      return <Brightness3 {...svgIconProps}/>;
+    }
     case MaterialIconNames.Description: {
       return <Description {...svgIconProps}/>;
     }
     case MaterialIconNames.Devices: {
       return <Devices {...svgIconProps}/>;
     }
+    case MaterialIconNames.Eco: {
+      return <Eco {...svgIconProps}/>;
+    }
     case MaterialIconNames.ExternalLink: {
       return <ExternalLink {...svgIconProps}/>;
+    }
+    case MaterialIconNames.FilterVintage: {
+      return <FilterVintage {...svgIconProps}/>;
     }
     case MaterialIconNames.Github: {
       return <GitHub {...svgIconProps}/>;
@@ -76,6 +94,9 @@ const MaterialIcon: React.FC<MaterialIconProps> = (props) => {
     }
     case MaterialIconNames.School: {
       return <School {...svgIconProps}/>;
+    }
+    case MaterialIconNames.Snowflake: {
+      return <Snowflake {...svgIconProps}/>;
     }
     case MaterialIconNames.TrendingUp: {
       return <TrendingUp {...svgIconProps}/>;
