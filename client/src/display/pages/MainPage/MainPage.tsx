@@ -18,6 +18,8 @@ import Languages from "../../components/Content/Languages/Languages";
 import Experience from "../../components/Content/Experience/Experience";
 import Projects from "../../components/Content/Projects/Projects";
 import Skills from "../../components/Content/Skills/Skills";
+import About from "../../components/Content/About/About";
+import {ThemePictureSeason} from "../../components/ThemePicture/types";
 
 export type MainPageProps = MainPageDataProps & MainPageStyleProps & MainPageEventProps;
 
@@ -149,11 +151,11 @@ const MainPage: React.FC<MainPageProps> = (props) => {
       <div className={classes.root}>
         <ScrollNavigation menuItems={menuItems} isTopSelected={isTopSelected} handleItemClick={handleItemClick} handleScroll={handleScroll}>
           <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.PICTURE}>
-            <ThemePicture handleLoadComplete={handleLoadComplete}/>
+            <ThemePicture handleLoadComplete={handleLoadComplete} season={ThemePictureSeason.SUMMER}/>
           </div>
           <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.ABOUT}>
             <SectionWrapper name={ScrollNavigationDrawerMenuItemName.ABOUT}>
-              <div className={classes.scrollTest}></div>
+              <About/>
             </SectionWrapper>
           </div>
           <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.EXPERIENCE}>
