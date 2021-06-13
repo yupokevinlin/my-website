@@ -1,7 +1,5 @@
-import React, {useEffect} from "react";
-import {createStyles, Theme, useTheme} from "@material-ui/core";
-import {Provider} from "react-redux";
-import {configureStore} from "../state/store";
+import React, {useEffect, useState} from "react";
+import {createStyles, Theme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import MainPage from "../display/pages/MainPage/MainPage";
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
@@ -35,7 +33,17 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export namespace AppStore {
+const App: React.FC<AppProps> = (props) => {
+  const classes = useStyles();
+
+  useEffect(() => {
+    smoothScroll.polyfill();
+  }, []);
+
+  const {
+
+  } = props;
+
   const getInitialMaterialUITheme = (): Theme => {
     let theme = createMuiTheme({
       palette: {
@@ -60,30 +68,14 @@ export namespace AppStore {
     return theme;
   };
 
-  export const store = configureStore();
-  export const theme: Theme = getInitialMaterialUITheme();
-}
-
-const App: React.FC<AppProps> = (props) => {
-  const theme: Theme = useTheme();
-  const classes = useStyles();
-
-  useEffect(() => {
-    smoothScroll.polyfill();
-  }, []);
-
-  const {
-
-  } = props;
+  const [theme, setTheme] = useState<Theme>(getInitialMaterialUITheme());
 
   return (
-    <Provider store={AppStore.store}>
-      <ThemeProvider theme={AppStore.theme}>
-        <div className={classes.app}>
-          <MainPage/>
-        </div>
-      </ThemeProvider>
-    </Provider>
+    <ThemeProvider theme={theme}>
+      <div className={classes.app}>
+        <MainPage/>
+      </div>
+    </ThemeProvider>
   );
 };
 
