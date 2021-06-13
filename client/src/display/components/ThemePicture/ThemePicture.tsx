@@ -7,7 +7,6 @@ import SummerPicture from "./SummerPicture/SummerPicture";
 import AutumnPicture from "./AutumnPicture/AutumnPicture";
 import WinterPicture from "./WinterPicture/WinterPicture";
 import {ThemePictureLoad, ThemePictureSeason} from "./types";
-import {Simulate} from "react-dom/test-utils";
 import clsx from "clsx";
 
 export type ThemePictureProps = ThemePictureDataProps & ThemePictureStyleProps & ThemePictureEventProps;
