@@ -107,7 +107,10 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
           visibility: matchingEntry.intersectionRatio,
         }
       } else {
-        return elementInView;
+        return {
+          ...elementInView,
+          visibility: 0,
+        };
       }
     });
 
