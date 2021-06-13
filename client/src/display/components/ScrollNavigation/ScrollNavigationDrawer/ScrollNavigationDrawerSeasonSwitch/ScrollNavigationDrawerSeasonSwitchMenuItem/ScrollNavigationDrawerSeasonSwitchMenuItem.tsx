@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     text: {
       fontWeight: 300,
-      color: theme.palette.secondary.dark,
+      color: theme.palette.secondary.main,
       [theme.breakpoints.up("xs")]: {
         fontSize: "12px",
         lineHeight: "12px",
@@ -121,8 +121,8 @@ const useStyles = makeStyles((theme: Theme) =>
         marginRight: "18px",
       },
       [theme.breakpoints.up("lg")]: {
-        fontSize: "18px",
-        lineHeight: "18px",
+        fontSize: "17px",
+        lineHeight: "17px",
         marginLeft: "11px",
         marginRight: "22px",
       },
