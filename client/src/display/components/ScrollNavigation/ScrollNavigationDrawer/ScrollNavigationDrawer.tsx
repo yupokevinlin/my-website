@@ -90,15 +90,19 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "100%",
       [theme.breakpoints.up("xs")]: {
         height: "297px",
+        minHeight: "297px",
       },
       [theme.breakpoints.up("sm")]: {
         height: "351px",
+        minHeight: "351px",
       },
       [theme.breakpoints.up("md")]: {
         height: "383px",
+        minHeight: "383px",
       },
       [theme.breakpoints.up("lg")]: {
         height: "423px",
+        minHeight: "423px",
       },
     },
     header: {
