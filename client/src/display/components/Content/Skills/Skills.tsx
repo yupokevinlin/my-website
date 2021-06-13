@@ -414,6 +414,9 @@ const Skills: React.FC<SkillsProps> = (props) => {
             {
               renderItem("./resources/images/skills/reactnative.png", "React Native")
             }
+            {
+              renderItem("./resources/images/skills/electron.png", "Electron")
+            }
           </div>
         </div>
       </Paper>
