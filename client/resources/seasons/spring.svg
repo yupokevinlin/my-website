@@ -113,15 +113,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.69583335"
-     inkscape:cx="1139.4151"
+     inkscape:cx="1114.2654"
      inkscape:cy="425.52488"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer10"
      inkscape:document-rotation="0"
      showgrid="false"
      inkscape:window-width="1920"
      inkscape:window-height="1018"
-     inkscape:window-x="1913"
+     inkscape:window-x="-6"
      inkscape:window-y="-6"
      inkscape:window-maximized="1"
      units="px"
@@ -540,7 +540,7 @@
        id="path1025-0"
        sodipodi:nodetypes="ccccccccc" />
     <path
-       style="fill:#73a5ff;fill-opacity:1;stroke:none;stroke-width:0.241117px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#479fff;fill-opacity:1;stroke:none;stroke-width:0.241117px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="M 6.5579002e-6,247.91459 C 50.091326,236.4257 72.927338,210.48323 178.86763,228.61122 c 47.21296,-7.99416 93.48827,-17.86362 151.42491,-4.41043 19.43073,-6.40206 42.11031,0.19127 63.21624,0.49005 0,0 -79.94571,-5.91428 -118.05391,-17.29522 -4.21722,-1.25946 -8.41852,-2.97009 -11.97434,-5.56379 -2.57777,-1.88028 -5.20782,-4.11314 -6.49208,-7.03393 -0.79172,-1.80062 -1.32702,-4.10055 -0.49004,-5.88059 0.8369,-1.77988 2.99973,-2.68201 4.84102,-3.37343 1.55716,-0.58474 3.2991,-0.45566 4.95992,-0.54695 10.37101,-0.5701 31.15998,0 31.15998,0 l 26.03381,1.96019 c -5.10222,4.12963 2.06929,3.54553 -3.30784,0.61257 l -17.33545,-0.12252 c 0,0 -21.39527,-1.73405 -31.93961,-0.25989 -2.59832,0.36326 -6.42175,-0.14796 -7.55117,2.22008 -0.91415,1.91671 1.03245,4.29967 2.45024,5.88058 1.78093,1.98584 4.50029,2.95539 7.00933,3.86094 9.89997,3.57305 20.57168,4.602 31.01131,5.94003 37.02134,4.74496 75.3774,-1.10565 111.731,7.35072 10.84346,2.52234 23.55489,4.35154 30.87305,12.74126 2.55231,2.92602 4.78346,7.8537 2.94029,11.27111 -5.32114,9.8659 -31.85314,10.78105 -31.85314,10.78105 l -4.41043,0.68154 z"
        id="path4352"
        sodipodi:nodetypes="ccccaaaaaaccccaaaaaaaaccc" />
