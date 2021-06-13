@@ -111,12 +111,12 @@ const useStyles = makeStyles((theme: Theme) =>
         left: "110vw",
       },
       to: {
-        left: "-60vw",
+        left: "-80vw",
       },
     },
     "@keyframes moveRight": {
       from: {
-        left: "-60vw",
+        left: "-80vw",
       },
       to: {
         left: "110vw",
