@@ -18,7 +18,7 @@ import Eco from "@material-ui/icons/Eco";
 import Brightness3 from "@material-ui/icons/Brightness3";
 import {ExternalLinkIcon as ExternalLink} from "./SvgIcon/SvgIcons";
 import {SnowflakeIcon as Snowflake} from "./SvgIcon/SvgIcons";
-
+import {FlowerIcon as Flower} from "./SvgIcon/SvgIcons";
 
 
 export interface MaterialIconProps extends SvgIconProps {
@@ -34,6 +34,7 @@ export enum MaterialIconNames {
   Eco = "Eco",
   ExternalLink = "ExternalLink",
   FilterVintage = "FilterVintage",
+  Flower = "Flower",
   Github = "Github",
   Language = "Language",
   LinkedIn = "LinkedIn",
@@ -73,6 +74,9 @@ const MaterialIcon: React.FC<MaterialIconProps> = (props) => {
     }
     case MaterialIconNames.FilterVintage: {
       return <FilterVintage {...svgIconProps}/>;
+    }
+    case MaterialIconNames.Flower: {
+      return <Flower {...svgIconProps}/>;
     }
     case MaterialIconNames.Github: {
       return <GitHub {...svgIconProps}/>;
