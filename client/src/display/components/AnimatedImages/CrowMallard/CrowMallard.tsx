@@ -18,20 +18,6 @@ export interface CrowMallardEventProps {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    gooseGroup: {
-      position: "relative",
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      flexWrap: "nowrap",
-      height: "135px",
-      width: "200px",
-      animation: "$move 15s linear infinite, $sine 3s ease alternate infinite",
-      [theme.breakpoints.up("sm")]: {
-        animation: "$move 20s linear infinite, $sine 3s ease alternate infinite",
-      },
-    },
     crow: {
       position: "relative",
       left: "-30%",
@@ -45,9 +31,9 @@ const useStyles = makeStyles((theme: Theme) =>
       mouseEvents: "none",
       userDrag: "none",
       userSelect: "none",
-      animation: "$animate .5s steps(10) infinite, $move 15s linear infinite, $sineCrow 3s ease alternate infinite",
+      animation: "$animate .5s steps(10) infinite, $move 15s linear infinite, $sineCrow 2.5s ease alternate infinite",
       [theme.breakpoints.up("sm")]: {
-        animation: "$animate .5s steps(10) infinite, $move 20s linear infinite, $sineCrow 3s ease alternate infinite",
+        animation: "$animate .5s steps(10) infinite, $move 20s linear infinite, $sineCrow 2.5s ease alternate infinite",
       },
     },
     mallard: {
@@ -63,9 +49,9 @@ const useStyles = makeStyles((theme: Theme) =>
       mouseEvents: "none",
       userDrag: "none",
       userSelect: "none",
-      animation: "$animate .4s steps(7) infinite, $move 15s linear infinite, $sineMallard 3s ease alternate infinite",
+      animation: "$animate .4s steps(7) infinite, $move 15s linear infinite, $sineMallard 2s ease alternate infinite",
       [theme.breakpoints.up("sm")]: {
-        animation: "$animate .4s steps(7) infinite, $move 20s linear infinite, $sineMallard 3s ease alternate infinite",
+        animation: "$animate .4s steps(7) infinite, $move 20s linear infinite, $sineMallard 2s ease alternate infinite",
       },
     },
     "@keyframes animate": {
@@ -89,8 +75,8 @@ const useStyles = makeStyles((theme: Theme) =>
         left: "-60%",
       },
       to: {
-        left: "110%",
-      }
+        left: "130%",
+      },
     },
     "@keyframes sineCrow": {
       from: {
@@ -98,7 +84,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       to: {
         top: "10px",
-      }
+      },
     },
     "@keyframes sineMallard": {
       from: {
@@ -106,7 +92,7 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       to: {
         top: "30px",
-      }
+      },
     },
   }),
 );
