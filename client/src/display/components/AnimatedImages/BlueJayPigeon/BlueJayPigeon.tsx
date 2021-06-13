@@ -108,7 +108,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     "@keyframes moveLeft": {
       from: {
-        left: "150vw",
+        left: "110vw",
       },
       to: {
         left: "-60vw",
@@ -119,7 +119,7 @@ const useStyles = makeStyles((theme: Theme) =>
         left: "-60vw",
       },
       to: {
-        left: "150vw",
+        left: "110vw",
       },
     },
     "@keyframes sineBlueJay": {
