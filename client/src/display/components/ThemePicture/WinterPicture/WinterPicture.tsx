@@ -60,11 +60,9 @@ const WinterPicture: React.FC<WinterPictureProps> = (props) => {
   const snowflakeRadius: [number, number] = getSnowflakeRadius(width);
 
   return (
-    <React.Fragment>
-      <div className={classes.winterPicture}>
-        <Snowfall color={"#fff"} snowflakeCount={snowflakeCount} radius={snowflakeRadius}/>
-      </div>
-    </React.Fragment>
+    <div className={classes.winterPicture}>
+      <Snowfall color={"#fff"} snowflakeCount={snowflakeCount} radius={snowflakeRadius}/>
+    </div>
   );
 };
 

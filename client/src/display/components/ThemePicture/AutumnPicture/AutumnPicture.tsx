@@ -57,12 +57,10 @@ const AutumnPicture: React.FC<AutumnPictureProps> = (props) => {
   }, []);
 
   return (
-    <React.Fragment>
-      <div className={classes.autumnPicture}>
-        <Goose/>
-        <CrowMallard/>
-      </div>
-    </React.Fragment>
+    <div className={classes.autumnPicture}>
+      <Goose/>
+      <CrowMallard/>
+    </div>
   );
 };
 

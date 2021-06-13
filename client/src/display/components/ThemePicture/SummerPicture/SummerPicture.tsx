@@ -56,11 +56,9 @@ const SummerPicture: React.FC<SummerPictureProps> = (props) => {
   }, []);
 
   return (
-    <React.Fragment>
-      <Fireflies>
-        <div className={classes.summerPicture}/>
-      </Fireflies>
-    </React.Fragment>
+    <Fireflies>
+      <div className={classes.summerPicture}/>
+    </Fireflies>
   );
 };
 

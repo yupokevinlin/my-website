@@ -56,11 +56,9 @@ const SpringPicture: React.FC<SpringPictureProps> = (props) => {
   }, []);
 
   return (
-    <React.Fragment>
-      <div className={classes.springPicture}>
-        <BlueJayPigeon/>
-      </div>
-    </React.Fragment>
+    <div className={classes.springPicture}>
+      <BlueJayPigeon/>
+    </div>
   );
 };
 
