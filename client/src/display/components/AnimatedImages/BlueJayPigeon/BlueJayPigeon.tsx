@@ -108,18 +108,18 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     "@keyframes moveLeft": {
       from: {
-        left: "150%",
+        left: "150vw",
       },
       to: {
-        left: "-60%",
+        left: "-60vw",
       },
     },
     "@keyframes moveRight": {
       from: {
-        left: "-60%",
+        left: "-60vw",
       },
       to: {
-        left: "150%",
+        left: "150vw",
       },
     },
     "@keyframes sineBlueJay": {
@@ -151,11 +151,11 @@ const BlueJayPigeon: React.FC<BlueJayPigeonProps> = (props) => {
 
   return (
     <React.Fragment>
-      <div className={classes.blueJay1} style={{animationDelay: "0s", transform: "translateY(100px)"}}/>
-      <div className={classes.blueJay2} style={{animationDelay: "3s", transform: "translateY(150px)"}}/>
-      <div className={classes.blueJay1} style={{animationDelay: "7s", transform: "translateY(250px)"}}/>
-      <div className={classes.pigeon1} style={{animationDelay: "10s", transform: "translateY(-100px)"}}/>
-      <div className={classes.pigeon2} style={{animationDelay: "11s", transform: "translateY(-60px)"}}/>
+      <div className={classes.blueJay1} style={{animationDelay: "0s", transform: "translateY(10vh)"}}/>
+      <div className={classes.blueJay2} style={{animationDelay: "3s", transform: "translateY(calc(-55px + 25vh))"}}/>
+      <div className={classes.blueJay1} style={{animationDelay: "7s", transform: "translateY(calc(-110px + 40vh))"}}/>
+      <div className={classes.pigeon1} style={{animationDelay: "10s", transform: "translateY(calc(-165px + 10vh))"}}/>
+      <div className={classes.pigeon2} style={{animationDelay: "11s", transform: "translateY(calc(-220px + 20vh))"}}/>
     </React.Fragment>
   );
 };

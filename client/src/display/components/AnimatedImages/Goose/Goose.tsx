@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexWrap: "nowrap",
       height: "135px",
       width: "200px",
-      animation: "$move 15s linear infinite, $sine 3s ease alternate infinite",
+      animation: "$moveSmallScreen 15s linear infinite, $sine 3s ease alternate infinite",
       [theme.breakpoints.up("sm")]: {
         animation: "$move 20s linear infinite, $sine 3s ease alternate infinite",
       },
@@ -80,6 +80,14 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       to: {
         left: "-60%",
+      }
+    },
+    "@keyframes moveSmallScreen": {
+      from: {
+        left: "110vw",
+      },
+      to: {
+        left: "-100vw",
       }
     },
     "@keyframes sine": {

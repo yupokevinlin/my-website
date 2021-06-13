@@ -72,10 +72,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     "@keyframes move": {
       from: {
-        left: "-60%",
+        left: "-60vw",
       },
       to: {
-        left: "130%",
+        left: "130vw",
       },
     },
     "@keyframes sineCrow": {
@@ -107,10 +107,10 @@ const CrowMallard: React.FC<CrowMallardProps> = (props) => {
 
   return (
     <React.Fragment>
-      <div className={classes.crow} style={{animationDelay: "2s", transform: "translateY(50px)"}}/>
-      <div className={classes.mallard} style={{animationDelay: "3.5s", transform: "translateY(50px)"}}/>
-      <div className={classes.crow} style={{animationDelay: "10s", transform: "translateY(70px)"}}/>
-      <div className={classes.mallard} style={{animationDelay: "12.5s", transform: "translateY(80px)"}}/>
+      <div className={classes.crow} style={{animationDelay: "2s", transform: "translateY(10vh)"}}/>
+      <div className={classes.mallard} style={{animationDelay: "3.5s", transform: "translateY(calc(-55px + 20vh))"}}/>
+      <div className={classes.crow} style={{animationDelay: "10s", transform: "translateY(calc(-110px + 5vh))"}}/>
+      <div className={classes.mallard} style={{animationDelay: "12.5s", transform: "translateY(calc(-165px + 15vh))"}}/>
     </React.Fragment>
   );
 };
