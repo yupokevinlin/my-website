@@ -112,11 +112,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="7.8724557"
-     inkscape:cx="1217.4855"
-     inkscape:cy="773.24526"
+     inkscape:zoom="0.69583335"
+     inkscape:cx="1139.4151"
+     inkscape:cy="425.52488"
      inkscape:document-units="px"
-     inkscape:current-layer="layer10"
+     inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
      showgrid="false"
      inkscape:window-width="1920"
@@ -144,15 +144,7 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
-    <rect
-       style="display:inline;opacity:1;fill:#88b2ff;fill-opacity:1;stroke-width:2.559"
-       id="rect1260"
-       width="463.02084"
-       height="247.9146"
-       x="4.3623318e-06"
-       y="-1.5530944e-06" />
-  </g>
+     id="layer1" />
   <g
      inkscape:groupmode="layer"
      id="layer2"
