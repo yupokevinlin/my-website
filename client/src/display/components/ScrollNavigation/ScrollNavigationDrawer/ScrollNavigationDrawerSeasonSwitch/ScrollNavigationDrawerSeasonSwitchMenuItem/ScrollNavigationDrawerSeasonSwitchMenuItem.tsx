@@ -172,7 +172,7 @@ const ScrollNavigationDrawerSeasonSwitchMenuItem: React.FC<ScrollNavigationDrawe
       return (
         <ButtonBase className={classes.root} onClick={handleButtonClick}>
           <div className={classes.iconWrapper} style={{backgroundColor: "#e97325"}}>
-            <MaterialIcon iconName={MaterialIconNames.Eco} className={classes.icon} style={{color: "#f6c510"}}/>
+            <MaterialIcon iconName={MaterialIconNames.Eco} className={classes.icon} style={{color: "#f9d44e"}}/>
           </div>
           <Typography className={classes.text}>
             Autumn Theme
