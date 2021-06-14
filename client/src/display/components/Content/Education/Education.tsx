@@ -252,7 +252,7 @@ const Education: React.FC<EducationProps> = (props) => {
       <Paper className={classes.paper} elevation={3}>
         <div className={classes.content}>
           <div className={classes.imageWrapper}>
-            <img src={"./resources/ubc.svg"} className={classes.image}/>
+            <img src={"./resources/images/education/ubc.svg"} className={classes.image}/>
           </div>
           <div className={classes.textWrapper}>
             <Link className={classes.titleLink} onClick={handleTitleClick}>
