@@ -375,7 +375,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           <div className={classes.textWrapper}>
             <div className={classes.topBarWrapper}>
               <div className={classes.iconWrapper}>
-                <img className={classes.icon} src={"./resources/serviceLink.svg"}/>
+                <img className={classes.icon} src={"./resources/images/experience/serviceLink.svg"}/>
               </div>
               <div className={classes.titleWrapper}>
                 <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://service-link.ca/")}}>
@@ -446,7 +446,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           <div className={classes.textWrapper}>
             <div className={classes.topBarWrapper}>
               <div className={classes.iconWrapper}>
-                <img className={classes.icon} src={"./resources/serviceLink.svg"}/>
+                <img className={classes.icon} src={"./resources/images/experience/serviceLink.svg"}/>
               </div>
               <div className={classes.titleWrapper}>
                 <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://service-link.ca/")}}>
@@ -513,7 +513,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           <div className={classes.textWrapper}>
             <div className={classes.topBarWrapper}>
               <div className={classes.iconWrapper}>
-                <img className={classes.icon} src={"./resources/protrade.svg"}/>
+                <img className={classes.icon} src={"./resources/images/experience/protrade.svg"}/>
               </div>
               <div className={classes.titleWrapper}>
                 <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("http://www.protrade.org/")}}>
@@ -572,7 +572,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           <div className={classes.textWrapper}>
             <div className={classes.topBarWrapper}>
               <div className={classes.iconWrapper}>
-                <img className={classes.icon} src={"./resources/protrade.svg"}/>
+                <img className={classes.icon} src={"./resources/images/experience/protrade.svg"}/>
               </div>
               <div className={classes.titleWrapper}>
                 <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("http://www.protrade.org/")}}>
@@ -631,7 +631,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           <div className={classes.textWrapper}>
             <div className={classes.topBarWrapper}>
               <div className={classes.iconWrapper}>
-                <img className={classes.icon} src={"./resources/protrade.svg"}/>
+                <img className={classes.icon} src={"./resources/images/experience/protrade.svg"}/>
               </div>
               <div className={classes.titleWrapper}>
                 <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("http://www.protrade.org/")}}>
