@@ -470,7 +470,7 @@ const Projects: React.FC<ProjectsProps> = (props) => {
           <div className={classes.textWrapper}>
             <div className={classes.topBarWrapper}>
               <div className={classes.iconWrapper}>
-                <img className={classes.icon} src={"./resources/covid19TrackerAppIcon.svg"}/>
+                <img className={classes.icon} src={"./resources/images/projects/covid19TrackerAppIcon.svg"}/>
               </div>
               <div className={classes.titleWrapper}>
                 <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://covid-19-tracker.app/")}}>
@@ -513,9 +513,9 @@ const Projects: React.FC<ProjectsProps> = (props) => {
           <div className={classes.textSpacer}/>
           <Paper className={classes.imageWrapper} square elevation={3}>
             <ImageCarousel images={[
-              "/resources/covid-19-tracker-app1.jpg",
-              "/resources/covid-19-tracker-app2.jpg",
-              "/resources/covid-19-tracker-app3.jpg",
+              "/resources/images/projects/covid-19-tracker-app1.jpg",
+              "/resources/images/projects/covid-19-tracker-app2.jpg",
+              "/resources/images/projects/covid-19-tracker-app3.jpg",
             ]}/>
           </Paper>
           <div className={classes.textSpacer}/>
@@ -553,7 +553,7 @@ const Projects: React.FC<ProjectsProps> = (props) => {
           <div className={classes.textWrapper}>
             <div className={classes.topBarWrapper}>
               <div className={classes.iconWrapper}>
-                <img className={classes.icon} src={"./resources/writeMyMPIcon.svg"}/>
+                <img className={classes.icon} src={"./resources/images/projects/writeMyMPIcon.svg"}/>
               </div>
               <div className={classes.titleWrapper}>
                 <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://writemymp.ca/")}}>
@@ -596,8 +596,8 @@ const Projects: React.FC<ProjectsProps> = (props) => {
           <div className={classes.textSpacer}/>
           <Paper className={classes.imageWrapper} square elevation={3}>
             <ImageCarousel images={[
-              "/resources/writemymp1.jpg",
-              "/resources/writemymp2.jpg",
+              "/resources/images/projects/writemymp1.jpg",
+              "/resources/images/projects/writemymp2.jpg",
             ]}/>
           </Paper>
           <div className={classes.textSpacer}/>
@@ -620,6 +620,69 @@ const Projects: React.FC<ProjectsProps> = (props) => {
               className={classes.button}
               color={"primary"}
               onClick={() => {NavigationUtils.goToWebsite("https://github.com/yupokevinlin/write-my-mp")}}
+            >
+              <MaterialIcon iconName={MaterialIconNames.Github} className={classes.buttonIcon}/>
+              <Typography className={classes.buttonText}>
+                View
+              </Typography>
+            </Button>
+          </div>
+        </div>
+      </Paper>
+      <div className={classes.paperSpacer}/>
+      <Paper className={classes.paper} elevation={3}>
+        <div className={classes.content}>
+          <div className={classes.textWrapper}>
+            <div className={classes.topBarWrapper}>
+              <div className={classes.iconWrapper}>
+                <img className={classes.icon} src={"./resources/images/projects/electronTemplate.svg"}/>
+              </div>
+              <div className={classes.titleWrapper}>
+                <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://writemymp.ca/")}}>
+                  REACT ELECTRON TEMPLATE
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className={classes.divider}/>
+          <Typography className={classes.description}>
+            A template for setting up a hot reloadable electron dev environment
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentTitle}>
+            FRONT-END
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • React / Typescript / Electron
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentTitle}>
+            BUILD
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Webpack
+          </Typography>
+          <div className={classes.divider}/>
+          <div className={classes.textSpacer}/>
+          <Paper className={classes.imageWrapper} square elevation={3}>
+            <ImageCarousel images={[
+              "/resources/images/projects/electrontemplate1.jpg",
+              "/resources/images/projects/electrontemplate2.jpg",
+            ]}/>
+          </Paper>
+          <div className={classes.textSpacer}/>
+          <div className={classes.divider}/>
+          <div className={classes.textSpacer}/>
+          <div className={classes.buttonWrapper}>
+            <Button
+              variant={"contained"}
+              className={classes.button}
+              color={"primary"}
+              onClick={() => {NavigationUtils.goToWebsite("https://github.com/yupokevinlin/react-electron-typescript-template")}}
             >
               <MaterialIcon iconName={MaterialIconNames.Github} className={classes.buttonIcon}/>
               <Typography className={classes.buttonText}>
