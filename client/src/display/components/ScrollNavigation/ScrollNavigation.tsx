@@ -10,7 +10,7 @@ import {
 } from "./ScrollNavigationDrawer/ScrollNavigationDrawerMenuItem/types";
 import Section from "../Section/Section";
 import TopBar from "../TopBar/TopBar";
-import {initialElementsInView, IntersectingElements} from "./types";
+import {initialElementsInView, IntersectingElements, IntersectingElementsObject} from "./types";
 import {ThemePictureSeason} from "../ThemePicture/types";
 
 export type ScrollNavigationProps = ScrollNavigationDataProps & ScrollNavigationStyleProps & ScrollNavigationEventProps;
@@ -99,32 +99,9 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
   };
 
   const handleScrollObserverIntersect = (entries: Array<IntersectionObserverEntry>): void => {
-    elementsInView.current = elementsInView.current.map((elementInView) => {
-      const matchingEntry: IntersectionObserverEntry = entries.find(entry => entry.target.id === elementInView.name);
-      if (!!matchingEntry && matchingEntry.isIntersecting) {
-        return {
-          ...elementInView,
-          visibility: matchingEntry.intersectionRatio,
-        }
-      } else {
-        return {
-          ...elementInView,
-          visibility: 0,
-        };
-      }
-    });
-
-    const sortedElementsInView: Array<IntersectingElements> = elementsInView.current.sort((a, b) => {
-      if (a.visibility > b.visibility) {
-        return -1;
-      }
-      if (a.visibility < b.visibility) {
-        return 1;
-      }
-      return 0;
-    });
-    if (sortedElementsInView.length > 0) {
-      handleScroll(sortedElementsInView[0].name);
+    const intersectingEntry: IntersectionObserverEntry | null = entries.find(entry => entry.isIntersecting);
+    if (!!intersectingEntry) {
+      handleScroll(intersectingEntry.target.id as ScrollNavigationDrawerMenuItemName);
     }
   };
 
@@ -133,11 +110,10 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
   const [scrollObserver, setScrollObserver] = useState<IntersectionObserver>(null);
   useEffect(() => {
     if (!!contentRef) {
-      const thresholds: Array<number> = Array.from(Array(99).keys()).map(e => (e + 1) / 100);
       const newScrollObserver: IntersectionObserver = new IntersectionObserver(handleScrollObserverIntersect, {
         root: contentRef.current,
-        threshold: thresholds,
-        rootMargin: "0px",
+        threshold: 0,
+        rootMargin: "-50% 0px",
       });
       setScrollObserver(newScrollObserver);
     }
