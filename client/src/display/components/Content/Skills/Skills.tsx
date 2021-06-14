@@ -504,6 +504,9 @@ const Skills: React.FC<SkillsProps> = (props) => {
             {
               renderItem("./resources/images/skills/jira.png", "JIRA")
             }
+            {
+              renderItem("./resources/images/skills/docker.svg", "Docker")
+            }
           </div>
         </div>
       </Paper>
