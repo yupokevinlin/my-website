@@ -10,7 +10,6 @@ import {
 } from "./ScrollNavigationDrawer/ScrollNavigationDrawerMenuItem/types";
 import Section from "../Section/Section";
 import TopBar from "../TopBar/TopBar";
-import {initialElementsInView, IntersectingElements, IntersectingElementsObject} from "./types";
 import {ThemePictureSeason} from "../ThemePicture/types";
 
 export type ScrollNavigationProps = ScrollNavigationDataProps & ScrollNavigationStyleProps & ScrollNavigationEventProps;
@@ -88,7 +87,6 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
 
   const isSmXs: boolean = /xs|sm/.test(width);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
-  const elementsInView: React.MutableRefObject<Array<IntersectingElements>> = useRef<Array<IntersectingElements>>(initialElementsInView);
 
   const handleDrawerOpen = (): void => {
     setDrawerOpen(true);
