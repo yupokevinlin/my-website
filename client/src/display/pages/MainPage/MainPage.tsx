@@ -132,8 +132,52 @@ const MainPage: React.FC<MainPageProps> = (props) => {
 
   const handleSeasonChange = (season: ThemePictureSeason): void => {
     setSeason(season);
+    setFavIcon(season);
     handleSeasonThemeChange(season);
   }
+
+  const setFavIcon = (season: ThemePictureSeason): void => {
+    const mainIconElement: HTMLLinkElement = document.getElementById("main-icon") as HTMLLinkElement;
+    const shortcutIconElement: HTMLLinkElement = document.getElementById("shortcut-icon") as HTMLLinkElement;
+    switch (season) {
+      case ThemePictureSeason.SPRING: {
+        if (!!mainIconElement) {
+          mainIconElement.href = "./resources/icons/springIcon.svg";
+        }
+        if (!!shortcutIconElement) {
+          shortcutIconElement.href = "./resources/icons/springIcon.svg";
+        }
+        break;
+      }
+      case ThemePictureSeason.SUMMER: {
+        if (!!mainIconElement) {
+          mainIconElement.href = "./resources/icons/summerIcon.svg";
+        }
+        if (!!shortcutIconElement) {
+          shortcutIconElement.href = "./resources/icons/summerIcon.svg";
+        }
+        break;
+      }
+      case ThemePictureSeason.AUTUMN: {
+        if (!!mainIconElement) {
+          mainIconElement.href = "./resources/icons/autumnIcon.svg";
+        }
+        if (!!shortcutIconElement) {
+          shortcutIconElement.href = "./resources/icons/autumnIcon.svg";
+        }
+        break;
+      }
+      case ThemePictureSeason.WINTER: {
+        if (!!mainIconElement) {
+          mainIconElement.href = "./resources/icons/winterIcon.svg";
+        }
+        if (!!shortcutIconElement) {
+          shortcutIconElement.href = "./resources/icons/winterIcon.svg";
+        }
+        break;
+      }
+    }
+  };
 
   const handleItemClick = (name: ScrollNavigationDrawerMenuItemName, wrapperElement: Element): void => {
     const htmlCollection: HTMLCollectionOf<Element> = wrapperElement.getElementsByClassName(name);
