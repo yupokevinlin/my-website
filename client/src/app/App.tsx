@@ -74,9 +74,9 @@ const App: React.FC<AppProps> = (props) => {
         theme = createMuiTheme({
           palette: {
             primary: {
-              light: "#102341",
+              light: "#455b7e",
               main: "#17325E",
-              dark: "#455b7e",
+              dark: "#102341",
               contrastText: "#fff",
             },
             secondary: {
@@ -96,9 +96,9 @@ const App: React.FC<AppProps> = (props) => {
         theme = createMuiTheme({
           palette: {
             primary: {
-              light: "#a35019",
+              light: "#ed8f50",
               main: "#e97325",
-              dark: "#ed8f50",
+              dark: "#a35019",
               contrastText: "#fff",
             },
             secondary: {
