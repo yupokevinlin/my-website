@@ -8,6 +8,7 @@ import AutumnPicture from "./AutumnPicture/AutumnPicture";
 import WinterPicture from "./WinterPicture/WinterPicture";
 import {ThemePictureLoad, ThemePictureSeason} from "./types";
 import clsx from "clsx";
+import OverlayText from "./OverlayText/OverlayText";
 
 export type ThemePictureProps = ThemePictureDataProps & ThemePictureStyleProps & ThemePictureEventProps;
 
@@ -111,26 +112,28 @@ const ThemePicture: React.FC<ThemePictureProps> = (props) => {
 
   return (
     <div className={classes.themePictureRoot}>
-      <div className={clsx(classes.pictureWrapper, {
-        [classes.pictureWrapperHidden]: season !== ThemePictureSeason.SPRING
-      })}>
-        <SpringPicture width={width} handleLoad={handleSpringLoadComplete}/>
-      </div>
-      <div className={clsx(classes.pictureWrapper, {
-        [classes.pictureWrapperHidden]: season !== ThemePictureSeason.SUMMER
-      })} style={{top: "-100%"}}>
-        <SummerPicture width={width} handleLoad={handleSummerLoadComplete}/>
-      </div>
-      <div className={clsx(classes.pictureWrapper, {
-        [classes.pictureWrapperHidden]: season !== ThemePictureSeason.AUTUMN
-      })} style={{top: "-200%"}}>
-        <AutumnPicture width={width} handleLoad={handleAutumnLoadComplete}/>
-      </div>
-      <div className={clsx(classes.pictureWrapper, {
-        [classes.pictureWrapperHidden]: season !== ThemePictureSeason.WINTER
-      })} style={{top: "-300%"}}>
-        <WinterPicture width={width} handleLoad={handleWinterLoadComplete}/>
-      </div>
+      <OverlayText width={width}>
+        <div className={clsx(classes.pictureWrapper, {
+          [classes.pictureWrapperHidden]: season !== ThemePictureSeason.SPRING
+        })}>
+          <SpringPicture width={width} handleLoad={handleSpringLoadComplete}/>
+        </div>
+        <div className={clsx(classes.pictureWrapper, {
+          [classes.pictureWrapperHidden]: season !== ThemePictureSeason.SUMMER
+        })} style={{top: "-100%"}}>
+          <SummerPicture width={width} handleLoad={handleSummerLoadComplete}/>
+        </div>
+        <div className={clsx(classes.pictureWrapper, {
+          [classes.pictureWrapperHidden]: season !== ThemePictureSeason.AUTUMN
+        })} style={{top: "-200%"}}>
+          <AutumnPicture width={width} handleLoad={handleAutumnLoadComplete}/>
+        </div>
+        <div className={clsx(classes.pictureWrapper, {
+          [classes.pictureWrapperHidden]: season !== ThemePictureSeason.WINTER
+        })} style={{top: "-300%"}}>
+          <WinterPicture width={width} handleLoad={handleWinterLoadComplete}/>
+        </div>
+      </OverlayText>
     </div>
   );
 };
