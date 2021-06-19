@@ -405,7 +405,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
             ) : null
           }
           <Typography className={classes.description}>
-            Service Link is a workforce management system software company providing solutions to major utilities
+            Service Link is a workforce management system software company servicing major utilities
           </Typography>
           <div className={classes.textSpacer}/>
           <div className={classes.textSpacer}/>
@@ -476,7 +476,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
             ) : null
           }
           <Typography className={classes.description}>
-            Service Link is a workforce management system software company providing solutions to major utilities
+            Service Link is a workforce management system software company servicing major utilities
           </Typography>
           <div className={classes.textSpacer}/>
           <div className={classes.textSpacer}/>
