@@ -418,7 +418,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Modernized and automated the build process and release notes generation using the Jenkins pipeline. Saved hours with each release.
+            • Modernized and automated the build process and release notes generation using the Jenkins pipeline. Saved many hours with each release.
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
@@ -426,7 +426,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Integrated the application with customer ESRI map servers. Worked with customers for customization requirements.
+            • Overhauled the existing map to work with customer ESRI maps. Attracted new sales since ESRI is a core requirement for many customers.
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
@@ -485,7 +485,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Improved application security using Nginx. Allowed the application to pass the HCL (IBM) AppScan.
+            • Strengthened application security using Nginx. Allowed the application to pass the HCL (IBM) AppScan.
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
