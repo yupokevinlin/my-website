@@ -515,6 +515,26 @@ const Skills: React.FC<SkillsProps> = (props) => {
         <div className={classes.content}>
           <div className={classes.titleWrapper}>
             <div className={classes.titleLink}>
+              MACHINE LEARNING
+            </div>
+          </div>
+          <div className={classes.divider}/>
+          <div className={classes.textSpacer}/>
+          <div className={classes.itemWrapper}>
+            {
+              renderItem("./resources/images/skills/tensorflow.svg", "Tensorflow")
+            }
+            {
+              renderItem("./resources/images/skills/opencv.svg", "OpenCV")
+            }
+          </div>
+        </div>
+      </Paper>
+      <div className={classes.paperSpacer}/>
+      <Paper className={classes.paper} elevation={3}>
+        <div className={classes.content}>
+          <div className={classes.titleWrapper}>
+            <div className={classes.titleLink}>
               OTHER LANGUAGES
             </div>
           </div>
