@@ -58,8 +58,8 @@ const AutumnPicture: React.FC<AutumnPictureProps> = (props) => {
 
   return (
     <div className={classes.autumnPicture}>
-      <Goose/>
-      <CrowMallard/>
+      <Goose width={width}/>
+      <CrowMallard width={width}/>
     </div>
   );
 };

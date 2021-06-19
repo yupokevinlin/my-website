@@ -57,7 +57,7 @@ const SpringPicture: React.FC<SpringPictureProps> = (props) => {
 
   return (
     <div className={classes.springPicture}>
-      <BlueJayPigeon/>
+      <BlueJayPigeon width={width}/>
     </div>
   );
 };

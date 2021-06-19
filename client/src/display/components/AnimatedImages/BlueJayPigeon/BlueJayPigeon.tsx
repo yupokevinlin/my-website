@@ -1,6 +1,7 @@
 import React from "react";
 import {createStyles, Theme, useTheme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
+import {Breakpoint} from "@material-ui/core/styles/createBreakpoints";
 
 export type BlueJayPigeonProps = BlueJayPigeonDataProps & BlueJayPigeonStyleProps & BlueJayPigeonEventProps;
 
@@ -9,7 +10,7 @@ export interface BlueJayPigeonDataProps {
 }
 
 export interface BlueJayPigeonStyleProps {
-
+  width: Breakpoint;
 }
 
 export interface BlueJayPigeonEventProps {
@@ -31,8 +32,10 @@ const useStyles = makeStyles((theme: Theme) =>
       mouseEvents: "none",
       userDrag: "none",
       userSelect: "none",
-      animation: "$animate .5s steps(7) infinite, $moveLeft 15s linear infinite, $sineBlueJay 3s ease alternate infinite",
-      [theme.breakpoints.up("sm")]: {
+      [theme.breakpoints.up("xs")]: {
+        animation: "$animate .5s steps(7) infinite, $moveLeft 10s linear infinite, $sineBlueJay 3s ease alternate infinite",
+      },
+      [theme.breakpoints.up("md")]: {
         animation: "$animate .5s steps(7) infinite, $moveLeft 20s linear infinite, $sineBlueJay 3s ease alternate infinite",
       },
     },
@@ -49,8 +52,10 @@ const useStyles = makeStyles((theme: Theme) =>
       mouseEvents: "none",
       userDrag: "none",
       userSelect: "none",
-      animation: "$animate .5s steps(7) infinite, $moveRight 15s linear infinite, $sineBlueJay 3s ease alternate infinite",
-      [theme.breakpoints.up("sm")]: {
+      [theme.breakpoints.up("xs")]: {
+        animation: "$animate .5s steps(7) infinite, $moveRight 10s linear infinite, $sineBlueJay 3s ease alternate infinite",
+      },
+      [theme.breakpoints.up("md")]: {
         animation: "$animate .5s steps(7) infinite, $moveRight 20s linear infinite, $sineBlueJay 3s ease alternate infinite",
       },
     },
@@ -67,8 +72,10 @@ const useStyles = makeStyles((theme: Theme) =>
       mouseEvents: "none",
       userDrag: "none",
       userSelect: "none",
-      animation: "$animate .4s steps(9) infinite, $moveLeft 15s linear infinite, $sineBlueJay 2s ease alternate infinite",
-      [theme.breakpoints.up("sm")]: {
+      [theme.breakpoints.up("xs")]: {
+        animation: "$animate .4s steps(9) infinite, $moveLeft 10s linear infinite, $sineBlueJay 2s ease alternate infinite",
+      },
+      [theme.breakpoints.up("md")]: {
         animation: "$animate .4s steps(9) infinite, $moveLeft 20s linear infinite, $sineBlueJay 2s ease alternate infinite",
       },
     },
@@ -85,8 +92,10 @@ const useStyles = makeStyles((theme: Theme) =>
       mouseEvents: "none",
       userDrag: "none",
       userSelect: "none",
-      animation: "$animate .4s steps(9) infinite, $moveRight 15s linear infinite, $sineBlueJay 2s ease alternate infinite",
-      [theme.breakpoints.up("sm")]: {
+      [theme.breakpoints.up("xs")]: {
+        animation: "$animate .4s steps(9) infinite, $moveRight 10s linear infinite, $sineBlueJay 2s ease alternate infinite",
+      },
+      [theme.breakpoints.up("md")]: {
         animation: "$animate .4s steps(9) infinite, $moveRight 20s linear infinite, $sineBlueJay 2s ease alternate infinite",
       },
     },
@@ -146,16 +155,24 @@ const BlueJayPigeon: React.FC<BlueJayPigeonProps> = (props) => {
   const classes = useStyles();
 
   const {
-
+    width,
   } = props;
+
+  const isSmXs: boolean = /xs|sm/.test(width);
 
   return (
     <React.Fragment>
-      <div className={classes.blueJay1} style={{animationDelay: "0s", transform: "translateY(10vh)"}}/>
-      <div className={classes.blueJay2} style={{animationDelay: "3s", transform: "translateY(calc(-55px + 25vh))"}}/>
-      <div className={classes.blueJay1} style={{animationDelay: "7s", transform: "translateY(calc(-110px + 40vh))"}}/>
-      <div className={classes.pigeon1} style={{animationDelay: "10s", transform: "translateY(calc(-165px + 10vh))"}}/>
-      <div className={classes.pigeon2} style={{animationDelay: "11s", transform: "translateY(calc(-220px + 20vh))"}}/>
+      <div className={classes.blueJay1} style={{animationDelay: "0s", transform: isSmXs ? "translateY(5vh)" : "translateY(10vh)"}}/>
+      <div className={classes.blueJay2} style={{animationDelay: isSmXs ? "5s" : "3s", transform: isSmXs ? "translateY(calc(-55px + 22vh))" : "translateY(calc(-55px + 25vh))"}}/>
+      {
+        !isSmXs ? (
+          <React.Fragment>
+            <div className={classes.blueJay1} style={{animationDelay: "7s", transform: isSmXs ? "translateY(calc(-110px + 20vh))" : "translateY(calc(-110px + 40vh))"}}/>
+            <div className={classes.pigeon1} style={{animationDelay: "10s", transform: isSmXs ? "translateY(calc(-165px + 5vh))" : "translateY(calc(-165px + 10vh))"}}/>
+          </React.Fragment>
+        ) : null
+      }
+      <div className={classes.pigeon2} style={{animationDelay: "11s", transform: isSmXs ? "translateY(calc(-110px + 20vh))" : "translateY(calc(-220px + 20vh))"}}/>
     </React.Fragment>
   );
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import {createStyles, Theme, useTheme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
+import {Breakpoint} from "@material-ui/core/styles/createBreakpoints";
 
 export type CrowMallardProps = CrowMallardDataProps & CrowMallardStyleProps & CrowMallardEventProps;
 
@@ -9,7 +10,7 @@ export interface CrowMallardDataProps {
 }
 
 export interface CrowMallardStyleProps {
-
+  width: Breakpoint;
 }
 
 export interface CrowMallardEventProps {
@@ -31,8 +32,10 @@ const useStyles = makeStyles((theme: Theme) =>
       mouseEvents: "none",
       userDrag: "none",
       userSelect: "none",
-      animation: "$animate .5s steps(10) infinite, $move 15s linear infinite, $sineCrow 2.5s ease alternate infinite",
-      [theme.breakpoints.up("sm")]: {
+      [theme.breakpoints.up("xs")]: {
+        animation: "$animate .5s steps(10) infinite, $move 10s linear infinite, $sineCrow 2.5s ease alternate infinite",
+      },
+      [theme.breakpoints.up("md")]: {
         animation: "$animate .5s steps(10) infinite, $move 20s linear infinite, $sineCrow 2.5s ease alternate infinite",
       },
     },
@@ -49,8 +52,10 @@ const useStyles = makeStyles((theme: Theme) =>
       mouseEvents: "none",
       userDrag: "none",
       userSelect: "none",
-      animation: "$animate .4s steps(7) infinite, $move 15s linear infinite, $sineMallard 2s ease alternate infinite",
-      [theme.breakpoints.up("sm")]: {
+      [theme.breakpoints.up("xs")]: {
+        animation: "$animate .4s steps(7) infinite, $move 10s linear infinite, $sineMallard 2s ease alternate infinite",
+      },
+      [theme.breakpoints.up("md")]: {
         animation: "$animate .4s steps(7) infinite, $move 20s linear infinite, $sineMallard 2s ease alternate infinite",
       },
     },
@@ -102,15 +107,23 @@ const CrowMallard: React.FC<CrowMallardProps> = (props) => {
   const classes = useStyles();
 
   const {
-
+    width,
   } = props;
+
+  const isSmXs: boolean = /xs|sm/.test(width);
 
   return (
     <React.Fragment>
-      <div className={classes.crow} style={{animationDelay: "2s", transform: "translateY(10vh)"}}/>
-      <div className={classes.mallard} style={{animationDelay: "3.5s", transform: "translateY(calc(-55px + 20vh))"}}/>
-      <div className={classes.crow} style={{animationDelay: "10s", transform: "translateY(calc(-110px + 5vh))"}}/>
-      <div className={classes.mallard} style={{animationDelay: "12.5s", transform: "translateY(calc(-165px + 15vh))"}}/>
+      <div className={classes.crow} style={{animationDelay: "2s", transform: isSmXs ? "translateY(5vh)" : "translateY(10vh)"}}/>
+      <div className={classes.mallard} style={{animationDelay: isSmXs ? "5s" : "3.5s", transform: isSmXs ? "translateY(calc(-55px + 10vh))" : "translateY(calc(-55px + 20vh))"}}/>
+      {
+        !isSmXs ? (
+          <React.Fragment>
+            <div className={classes.crow} style={{animationDelay: "10s", transform: isSmXs ? "translateY(calc(-110px + 5vh))" : "translateY(calc(-110px + 5vh))"}}/>
+            <div className={classes.mallard} style={{animationDelay: "12.5s", transform: isSmXs ? "translateY(calc(-165px + 15vh))" : "translateY(calc(-165px + 15vh))"}}/>
+          </React.Fragment>
+        ) : null
+      }
     </React.Fragment>
   );
 };

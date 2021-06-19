@@ -1,6 +1,7 @@
 import React from "react";
 import {createStyles, Theme, useTheme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
+import {Breakpoint} from "@material-ui/core/styles/createBreakpoints";
 
 export type GooseProps = GooseDataProps & GooseStyleProps & GooseEventProps;
 
@@ -9,7 +10,7 @@ export interface GooseDataProps {
 }
 
 export interface GooseStyleProps {
-
+  width: Breakpoint;
 }
 
 export interface GooseEventProps {
@@ -27,8 +28,10 @@ const useStyles = makeStyles((theme: Theme) =>
       flexWrap: "nowrap",
       height: "135px",
       width: "200px",
-      animation: "$moveSmallScreen 15s linear infinite, $sine 3s ease alternate infinite",
-      [theme.breakpoints.up("sm")]: {
+      [theme.breakpoints.up("xs")]: {
+        animation: "$moveSmallScreen 15s linear infinite, $sine 3s ease alternate infinite",
+      },
+      [theme.breakpoints.up("md")]: {
         animation: "$move 20s linear infinite, $sine 3s ease alternate infinite",
       },
     },
@@ -76,10 +79,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     "@keyframes move": {
       from: {
-        left: "110%",
+        left: "110vw",
       },
       to: {
-        left: "-60%",
+        left: "-60vw",
       }
     },
     "@keyframes moveSmallScreen": {
