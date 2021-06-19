@@ -3,7 +3,7 @@ import {createStyles, Theme, useTheme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Breakpoint} from "@material-ui/core/styles/createBreakpoints";
 import Snowfall from "react-snowfall";
-import {getSnowflakeCount, getSnowflakeRadius} from "./types";
+import {getSnowflakeCount, getSnowflakeRadius, getSnowflakeSpeed, getSnowflakeWind} from "./types";
 
 export type WinterPictureProps = WinterPictureDataProps & WinterPictureStyleProps & WinterPictureEventProps;
 
@@ -58,10 +58,12 @@ const WinterPicture: React.FC<WinterPictureProps> = (props) => {
 
   const snowflakeCount: number = getSnowflakeCount(width);
   const snowflakeRadius: [number, number] = getSnowflakeRadius(width);
+  const snowflakeSpeed: [number, number] = getSnowflakeSpeed(width);
+  const snowflakeWind: [number, number] = getSnowflakeWind(width);
 
   return (
     <div className={classes.winterPicture}>
-      <Snowfall color={"#fff"} snowflakeCount={snowflakeCount} radius={snowflakeRadius}/>
+      <Snowfall color={"#fff"} snowflakeCount={snowflakeCount} radius={snowflakeRadius} speed={snowflakeSpeed} wind={snowflakeWind}/>
     </div>
   );
 };

@@ -39,3 +39,43 @@ export const getSnowflakeRadius = (width: Breakpoint): [number, number] => {
     }
   }
 };
+
+export const getSnowflakeSpeed = (width: Breakpoint): [number, number] => {
+  switch (width) {
+    case "xl": {
+      return [0.5, 3];
+    }
+    case "lg": {
+      return [0.5, 3];
+    }
+    case "md": {
+      return [0.5, 3];
+    }
+    case "sm": {
+      return [0.5, 1];
+    }
+    case "xs": {
+      return [0.5, 1];
+    }
+  }
+};
+
+export const getSnowflakeWind = (width: Breakpoint): [number, number] => {
+  switch (width) {
+    case "xl": {
+      return [-0.5, 2];
+    }
+    case "lg": {
+      return [-0.5, 2];
+    }
+    case "md": {
+      return [-0.5, 2];
+    }
+    case "sm": {
+      return [-0.5, 1];
+    }
+    case "xs": {
+      return [-0.5, 1];
+    }
+  }
+};
