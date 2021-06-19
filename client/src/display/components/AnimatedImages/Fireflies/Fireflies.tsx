@@ -110,7 +110,7 @@ const Fireflies: React.FC<FirefliesProps> = (props) => {
       }
       case "sm":
       case "xs": {
-        return 30;
+        return 20;
       }
     }
   };
