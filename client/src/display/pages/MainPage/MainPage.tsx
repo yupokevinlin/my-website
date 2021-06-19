@@ -187,7 +187,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
       matchingElement.scrollIntoView({behavior: "smooth"});
     }
     if (name === ScrollNavigationDrawerMenuItemName.RESUME) {
-      NavigationUtils.download("./resources/resume/resume.pdf")
+      NavigationUtils.download(`./resources/resume/${encodeURIComponent("Kevin Lin's Resume.pdf")}`)
     }
   };
 
