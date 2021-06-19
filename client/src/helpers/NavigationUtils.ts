@@ -12,6 +12,13 @@ export namespace NavigationUtils {
       newWindow.opener = null;
     }
   };
+
+  export const download = (downloadLink: string): void => {
+    const newWindow: Window = window.open(downloadLink, "_blank", "noopener,noreferrer")
+    if (newWindow) {
+      newWindow.opener = null;
+    }
+  };
 }
 
 export default NavigationUtils;

@@ -20,6 +20,7 @@ import Projects from "../../components/Content/Projects/Projects";
 import Skills from "../../components/Content/Skills/Skills";
 import About from "../../components/Content/About/About";
 import {ThemePictureSeason} from "../../components/ThemePicture/types";
+import NavigationUtils from "../../../helpers/NavigationUtils";
 
 export type MainPageProps = MainPageDataProps & MainPageStyleProps & MainPageEventProps;
 
@@ -184,6 +185,9 @@ const MainPage: React.FC<MainPageProps> = (props) => {
     if (htmlCollection.length === 1) {
       const matchingElement: Element = htmlCollection.item(0);
       matchingElement.scrollIntoView({behavior: "smooth"});
+    }
+    if (name === ScrollNavigationDrawerMenuItemName.RESUME) {
+      NavigationUtils.download("./resources/resume/resume.pdf")
     }
   };
 
