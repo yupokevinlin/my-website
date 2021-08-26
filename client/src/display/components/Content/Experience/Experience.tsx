@@ -378,7 +378,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
                 <img className={classes.icon} src={"./resources/images/experience/bestBuy.svg"}/>
               </div>
               <div className={classes.titleWrapper}>
-                <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://www.bestbuy.ca/")}}>
+                <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://www.bestbuy.com/")}}>
                   BEST BUY
                 </Link>
               </div>
