@@ -375,6 +375,61 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           <div className={classes.textWrapper}>
             <div className={classes.topBarWrapper}>
               <div className={classes.iconWrapper}>
+                <img className={classes.icon} src={"./resources/images/experience/bestBuy.svg"}/>
+              </div>
+              <div className={classes.titleWrapper}>
+                <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://www.bestbuy.ca/")}}>
+                  BEST BUY
+                </Link>
+              </div>
+              {
+                !isSmXs ? (
+                  <div className={classes.roleWrapper}>
+                    <Typography className={classes.role}>
+                      Software Developer II
+                    </Typography>
+                  </div>
+                ) : null
+              }
+            </div>
+          </div>
+          <div className={classes.divider}/>
+          {
+            isSmXs ? (
+              <React.Fragment>
+                <Typography className={classes.role}>
+                  Software Developer II
+                </Typography>
+                <div className={classes.textSpacer}/>
+              </React.Fragment>
+            ) : null
+          }
+          <Typography className={classes.description}>
+            Best Buy is a large American multinational consumer electronics retailer providing technology products and services
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentTitle}>
+            ACHIEVEMENTS
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Recently joined.
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <div className={classes.divider}/>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.date}>
+            Aug 2021 - Present | Vancouver, Canada
+          </Typography>
+        </div>
+      </Paper>
+      <div className={classes.paperSpacer}/>
+      <Paper className={classes.paper} elevation={3}>
+        <div className={classes.content}>
+          <div className={classes.textWrapper}>
+            <div className={classes.topBarWrapper}>
+              <div className={classes.iconWrapper}>
                 <img className={classes.icon} src={"./resources/images/experience/serviceLink.svg"}/>
               </div>
               <div className={classes.titleWrapper}>
@@ -436,7 +491,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           <div className={classes.divider}/>
           <div className={classes.textSpacer}/>
           <Typography className={classes.date}>
-            Jul 2019 - Present | Vancouver, Canada
+            Jul 2019 - Aug 2021 | Vancouver, Canada
           </Typography>
         </div>
       </Paper>
@@ -562,7 +617,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           <div className={classes.divider}/>
           <div className={classes.textSpacer}/>
           <Typography className={classes.date}>
-            Mar 2021 - Present | Vancouver, Canada
+            Mar 2021 - Jun 2021 | Vancouver, Canada
           </Typography>
         </div>
       </Paper>
