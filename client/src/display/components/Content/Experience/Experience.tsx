@@ -414,7 +414,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Recently joined.
+            • Worked on the Best Buy Purchase Family Mobile Activation Team.
           </Typography>
           <div className={classes.textSpacer}/>
           <div className={classes.divider}/>
