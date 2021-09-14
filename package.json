@@ -2,15 +2,24 @@
   "name": "my-website",
   "version": "0.0.1",
   "description": "My website.",
-  "main": "index.js",
   "scripts": {
-    "start": "concurrently \"npm --prefix ./server/ run start\" \"npm --prefix ./client/ run start\"",
-    "prod": "npm --prefix ./client/ run prod && npm --prefix ./server/ run prod"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "keywords": [],
   "author": "Kevin Lin",
   "license": "MIT",
   "dependencies": {
-    "concurrently": "^6.1.0"
+    "next": "^11.1.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.21",
+    "eslint": "^7.32.0",
+    "eslint-config-next": "^11.1.2",
+    "typescript": "^4.4.3"
   }
 }
