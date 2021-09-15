@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prod": "next start -p 80",
+    "prod": "next start -p 3002",
     "lint": "next lint"
   },
   "keywords": [],
