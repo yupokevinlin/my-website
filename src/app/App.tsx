@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {createMuiTheme, createStyles, Theme} from "@material-ui/core";
+import {createTheme, createStyles, Theme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import MainPage from "../display/pages/MainPage/MainPage";
 import responsiveFontSizes from "@material-ui/core/styles/responsiveFontSizes";
@@ -48,7 +48,7 @@ const App: React.FC<AppProps> = (props) => {
     let theme: Theme = null;
     switch (season) {
       case ThemePictureSeason.SPRING: {
-        theme = createMuiTheme({
+        theme = createTheme({
           palette: {
             primary: {
               light: "#77ad5d",
@@ -70,7 +70,7 @@ const App: React.FC<AppProps> = (props) => {
         break;
       }
       case ThemePictureSeason.SUMMER: {
-        theme = createMuiTheme({
+        theme = createTheme({
           palette: {
             primary: {
               light: "#455b7e",
@@ -92,7 +92,7 @@ const App: React.FC<AppProps> = (props) => {
         break;
       }
       case ThemePictureSeason.AUTUMN: {
-        theme = createMuiTheme({
+        theme = createTheme({
           palette: {
             primary: {
               light: "#ed8f50",
@@ -114,7 +114,7 @@ const App: React.FC<AppProps> = (props) => {
         break;
       }
       case ThemePictureSeason.WINTER: {
-        theme = createMuiTheme({
+        theme = createTheme({
           palette: {
             primary: {
               light: "#71a4d2",
