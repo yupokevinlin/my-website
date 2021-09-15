@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {createStyles, Theme} from "@material-ui/core";
+import {createMuiTheme, createStyles, Theme} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import MainPage from "../display/pages/MainPage/MainPage";
-import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 import responsiveFontSizes from "@material-ui/core/styles/responsiveFontSizes";
 import {ThemeProvider} from "@material-ui/styles";
 import smoothScroll from "smoothscroll-polyfill";
