@@ -394,9 +394,6 @@ const Skills: React.FC<SkillsProps> = (props) => {
               renderItem("./resources/images/skills/html5.png", "HTML")
             }
             {
-              renderItem("./resources/images/skills/jquery.png", "jQuery")
-            }
-            {
               renderItem("./resources/images/skills/javascript.png", "JavaScript")
             }
             {
@@ -404,6 +401,9 @@ const Skills: React.FC<SkillsProps> = (props) => {
             }
             {
               renderItem("./resources/images/skills/react.svg", "React JSX")
+            }
+            {
+              renderItem("./resources/images/skills/next.svg", "Next.js")
             }
             {
               renderItem("./resources/images/skills/redux.svg", "Redux")
@@ -416,6 +416,9 @@ const Skills: React.FC<SkillsProps> = (props) => {
             }
             {
               renderItem("./resources/images/skills/electron.png", "Electron")
+            }
+            {
+              renderItem("./resources/images/skills/jquery.png", "jQuery")
             }
           </div>
         </div>
