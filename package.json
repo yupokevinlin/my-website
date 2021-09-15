@@ -12,9 +12,22 @@
   "author": "Kevin Lin",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^4.11.3",
+    "@material-ui/icons": "^4.11.2",
+    "axios": "^0.21.4",
+    "clsx": "^1.1.1",
+    "moment": "^2.29.1",
     "next": "^11.1.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-custom-scrollbars": "^4.2.1",
+    "react-dom": "^17.0.2",
+    "react-redux": "^7.2.5",
+    "react-responsive-carousel": "^3.2.21",
+    "react-snowfall": "^1.1.0",
+    "redux": "^4.1.1",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-saga": "^1.1.3",
+    "smoothscroll-polyfill": "^0.4.4"
   },
   "devDependencies": {
     "@types/react": "^17.0.21",
