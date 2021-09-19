@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "relative",
       top: "-100%",
       left: "0%",
-      zIndex: 0,
+      zIndex: -1,
     },
     overlayTextContainer: {
       height: "100%",
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "relative",
       top: "0%",
       left: "0%",
-      zIndex: 1,
+      zIndex: 0,
     },
     overlayTextWrapper: {
       position: "relative",
