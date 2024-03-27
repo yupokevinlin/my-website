@@ -361,6 +361,9 @@ const Skills: React.FC<SkillsProps> = (props) => {
               renderItem("./resources/images/skills/css3.png", "CSS")
             }
             {
+              renderItem("./resources/images/skills/tailwind.png", "Tailwind CSS")
+            }
+            {
               renderItem("./resources/images/skills/sass.svg", "Sass")
             }
             {
@@ -405,6 +408,9 @@ const Skills: React.FC<SkillsProps> = (props) => {
               renderItem("./resources/images/skills/next.svg", "Next.js")
             }
             {
+              renderItem("./resources/images/skills/next-auth.png", "Next Auth")
+            }
+            {
               renderItem("./resources/images/skills/redux.svg", "Redux")
             }
             {
@@ -418,6 +424,38 @@ const Skills: React.FC<SkillsProps> = (props) => {
             }
             {
               renderItem("./resources/images/skills/jquery.png", "jQuery")
+            }
+            {
+              renderItem("./resources/images/skills/jest.png", "Jest")
+            }
+            {
+              renderItem("./resources/images/skills/rtl.png", "React Testing Library")
+            }
+            {
+              renderItem("./resources/images/skills/selenium.png", "Selenium")
+            }
+          </div>
+        </div>
+      </Paper>
+      <div className={classes.paperSpacer}/>
+      <Paper className={classes.paper} elevation={3}>
+        <div className={classes.content}>
+          <div className={classes.titleWrapper}>
+            <div className={classes.titleLink}>
+              FRONT END BUILD
+            </div>
+          </div>
+          <div className={classes.divider}/>
+          <div className={classes.textSpacer}/>
+          <div className={classes.itemWrapper}>
+            {
+              renderItem("./resources/images/skills/nx.png", "Nx")
+            }
+            {
+              renderItem("./resources/images/skills/vite.svg", "Vite")
+            }
+            {
+              renderItem("./resources/images/skills/webpack.png", "Webpack")
             }
           </div>
         </div>
@@ -434,13 +472,13 @@ const Skills: React.FC<SkillsProps> = (props) => {
           <div className={classes.textSpacer}/>
           <div className={classes.itemWrapper}>
             {
-              renderItem("./resources/images/skills/node.png", "Node")
+              renderItem("./resources/images/skills/node.png", "Node.js")
             }
             {
               renderItem("./resources/images/skills/express.svg", "Express")
             }
             {
-              renderItem("./resources/images/skills/nginx.png", "Nginx")
+              renderItem("./resources/images/skills/springboot.png", "Spring Boot")
             }
             {
               renderItem("./resources/images/skills/wildfly.svg", "Wildfly")
@@ -492,22 +530,16 @@ const Skills: React.FC<SkillsProps> = (props) => {
               renderItem("./resources/images/skills/github.png", "GitHub")
             }
             {
+              renderItem("./resources/images/skills/openshift.png", "OpenShift")
+            }
+            {
               renderItem("./resources/images/skills/jenkins.png", "Jenkins")
             }
             {
-              renderItem("./resources/images/skills/webpack.png", "Webpack")
-            }
-            {
-              renderItem("./resources/images/skills/selenium.png", "Selenium")
-            }
-            {
-              renderItem("./resources/images/skills/jest.png", "Jest")
-            }
-            {
-              renderItem("./resources/images/skills/jira.png", "JIRA")
-            }
-            {
               renderItem("./resources/images/skills/docker.svg", "Docker")
+            }
+            {
+              renderItem("./resources/images/skills/nginx.png", "Nginx")
             }
           </div>
         </div>
