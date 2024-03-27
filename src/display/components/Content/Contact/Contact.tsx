@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "column",
       alignItems: "center",
       backgroundColor: theme.palette.background.paper,
-      opacity: 0.8,
       [theme.breakpoints.up("xs")]: {
         justifyContent: "flex-start",
         height: "123vw",

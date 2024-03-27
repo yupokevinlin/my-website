@@ -28,7 +28,6 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       justifyContent: "center",
       backgroundColor: theme.palette.background.paper,
-      opacity: 0.8,
       [theme.breakpoints.up("xs")]: {
         height: "86vw",
         backgroundImage: "linear-gradient(#F3F3f3 1.05px, transparent 1.05px), linear-gradient(to right, #F3F3f3 1.05px, #FFFFFF 1.05px)",
