@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       justifyContent: "center",
       backgroundColor: theme.palette.background.paper,
-      opacity: 0.8,
       height: "max-content",
       [theme.breakpoints.up("xs")]: {
         backgroundImage: "linear-gradient(#F3F3f3 1.05px, transparent 1.05px), linear-gradient(to right, #F3F3f3 1.05px, #FFFFFF 1.05px)",
@@ -386,7 +385,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
                 !isSmXs ? (
                   <div className={classes.roleWrapper}>
                     <Typography className={classes.role}>
-                      Software Developer II
+                      Senior Software Engineer (Developer III)
                     </Typography>
                   </div>
                 ) : null
@@ -398,14 +397,14 @@ const Experience: React.FC<ExperienceProps> = (props) => {
             isSmXs ? (
               <React.Fragment>
                 <Typography className={classes.role}>
-                  Software Developer II
+                  Senior Software Engineer (Developer III)
                 </Typography>
                 <div className={classes.textSpacer}/>
               </React.Fragment>
             ) : null
           }
           <Typography className={classes.description}>
-            Best Buy is a large American multinational consumer electronics retailer providing technology products and services
+            Best Buy is a large American multinational retailer providing technology related products and services
           </Typography>
           <div className={classes.textSpacer}/>
           <div className={classes.textSpacer}/>
@@ -414,13 +413,80 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Worked on the Best Buy Purchase Family Mobile Activation Team.
+            • Lead front end developer on the Stores Mobile Activation team.
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Migrated the Mobile Activation application to Next.js and Nx Monorepo.
           </Typography>
           <div className={classes.textSpacer}/>
           <div className={classes.divider}/>
           <div className={classes.textSpacer}/>
           <Typography className={classes.date}>
-            Aug 2021 - Present | Vancouver, Canada
+            Mar 2024 - Present | Vancouver, Canada
+          </Typography>
+        </div>
+      </Paper>
+      <div className={classes.paperSpacer}/>
+      <Paper className={classes.paper} elevation={3}>
+        <div className={classes.content}>
+          <div className={classes.textWrapper}>
+            <div className={classes.topBarWrapper}>
+              <div className={classes.iconWrapper}>
+                <img className={classes.icon} src={"./resources/images/experience/bestBuy.svg"}/>
+              </div>
+              <div className={classes.titleWrapper}>
+                <Link className={classes.titleLink} onClick={() => {NavigationUtils.goToWebsite("https://www.bestbuy.com/")}}>
+                  BEST BUY
+                </Link>
+              </div>
+              {
+                !isSmXs ? (
+                  <div className={classes.roleWrapper}>
+                    <Typography className={classes.role}>
+                      Software Engineer (Developer II)
+                    </Typography>
+                  </div>
+                ) : null
+              }
+            </div>
+          </div>
+          <div className={classes.divider}/>
+          {
+            isSmXs ? (
+              <React.Fragment>
+                <Typography className={classes.role}>
+                  Software Engineer (Developer II)
+                </Typography>
+                <div className={classes.textSpacer}/>
+              </React.Fragment>
+            ) : null
+          }
+          <Typography className={classes.description}>
+            Best Buy is a large American multinational retailer providing technology related products and services
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentTitle}>
+            ACHIEVEMENTS
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Lead developer for the Enterprise Returns Application (ERA). The ERA application is used in all stores to help customers with returns and was urgently needed to not cause delay of the roll out of Best Buy’s new transaction system. This was completed on schedule in 4 months using Nx, TypeScript, Next.js, Next Auth, and React.
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Saved more than 3 hours weekly by automating the build, release, and release approval processes.
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.contentText}>
+            • Automated the migration from Bitbucket to GitHub using simple-git and Node.js to remove old and merged branches.
+          </Typography>
+          <div className={classes.textSpacer}/>
+          <div className={classes.divider}/>
+          <div className={classes.textSpacer}/>
+          <Typography className={classes.date}>
+            Aug 2021 - Mar 2024 | Vancouver, Canada
           </Typography>
         </div>
       </Paper>
@@ -441,7 +507,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
                 !isSmXs ? (
                   <div className={classes.roleWrapper}>
                     <Typography className={classes.role}>
-                      Software Engineer
+                      Junior Software Engineer
                     </Typography>
                   </div>
                 ) : null
@@ -453,14 +519,14 @@ const Experience: React.FC<ExperienceProps> = (props) => {
             isSmXs ? (
               <React.Fragment>
                 <Typography className={classes.role}>
-                  Software Engineer
+                  Junior Software Engineer
                 </Typography>
                 <div className={classes.textSpacer}/>
               </React.Fragment>
             ) : null
           }
           <Typography className={classes.description}>
-            Service Link is a workforce management system software company servicing some of the largest utility companies in North America
+            Service Link is a workforce management software company servicing some of the largest utility companies in North America
           </Typography>
           <div className={classes.textSpacer}/>
           <div className={classes.textSpacer}/>
@@ -469,7 +535,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Architected and designed the new client UI using React, Microsoft Fluent UI, Typescript, Redux, and Sagas.
+            • Architected and designed the new client UI using React, Microsoft Fluent UI, Typescript, Redux, and Redux Sagas.
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
@@ -477,11 +543,11 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Integrated the client application login process with Microsoft Azure Active Directory.
+            • Improved and simplified the client application login process with Microsoft Azure Active Directory.
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Overhauled the existing map to work with customer ESRI maps. Attracted new sales since ESRI is a core requirement for many customers.
+            • Attracted new customers by replacing the existing map with the ESRI map.
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
@@ -531,7 +597,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
             ) : null
           }
           <Typography className={classes.description}>
-            Service Link is a workforce management system software company servicing some of the largest utility companies in North America
+            Service Link is a workforce management software company servicing some of the largest utility companies in North America
           </Typography>
           <div className={classes.textSpacer}/>
           <div className={classes.textSpacer}/>
@@ -540,7 +606,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Strengthened application security using Nginx. Allowed the application to pass the HCL (IBM) AppScan.
+            • Strengthened application security using Nginx which allowed the application to pass the HCL (IBM) AppScan.
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
@@ -552,7 +618,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Introduced and implemented the Gitflow Workflow to replace the Centralized Workflow. This greatly reduced merge conflicts and improved the quality of releases.
+            • Greatly improved the quality of release by replacing the Centralized Workflow with the Gitflow Workflow.
           </Typography>
           <div className={classes.textSpacer}/>
           <div className={classes.divider}/>
@@ -725,7 +791,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
-            • Designed software to automatically send price updates via e-mails using VBA. Reduced time spent by 5x.
+            • Designed software to automatically send price updates via e-mails using VBA. Reduced time spent by 80%.
           </Typography>
           <div className={classes.textSpacer}/>
           <Typography className={classes.contentText}>
