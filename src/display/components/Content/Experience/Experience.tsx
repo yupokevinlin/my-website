@@ -507,7 +507,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
                 !isSmXs ? (
                   <div className={classes.roleWrapper}>
                     <Typography className={classes.role}>
-                      Junior Software Engineer
+                      Software Engineer
                     </Typography>
                   </div>
                 ) : null
@@ -519,7 +519,7 @@ const Experience: React.FC<ExperienceProps> = (props) => {
             isSmXs ? (
               <React.Fragment>
                 <Typography className={classes.role}>
-                  Junior Software Engineer
+                  Software Engineer
                 </Typography>
                 <div className={classes.textSpacer}/>
               </React.Fragment>
