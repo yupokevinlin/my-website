@@ -19,9 +19,9 @@
     "clsx": "^1.1.1",
     "moment": "^2.29.1",
     "next": "^11.1.2",
-    "react": "^17.0.2",
+    "react": "^18.3.1",
     "react-custom-scrollbars": "^4.2.1",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.3.1",
     "react-redux": "^7.2.5",
     "react-responsive-carousel": "^3.2.21",
     "react-snowfall": "^1.1.0",
@@ -32,11 +32,10 @@
     "three": "^0.164.1"
   },
   "devDependencies": {
-    "@types/react": "^17.0.21",
     "@types/three": "^0.164.0",
     "eslint": "^7.32.0",
     "eslint-config-next": "^11.1.2",
     "prettier": "^3.2.5",
-    "typescript": "^4.4.3"
+    "typescript": "^5.3.3"
   }
 }
