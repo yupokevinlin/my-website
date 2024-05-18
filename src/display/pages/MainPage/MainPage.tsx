@@ -22,18 +22,8 @@ import About from "../../components/Content/About/About";
 import {ThemePictureSeason} from "../../components/ThemePicture/types";
 import NavigationUtils from "../../../helpers/NavigationUtils";
 
-export type MainPageProps = MainPageDataProps & MainPageStyleProps & MainPageEventProps;
-
-export interface MainPageDataProps {
-
-}
-
-export interface MainPageStyleProps {
-
-}
-
-export interface MainPageEventProps {
-  handleSeasonThemeChange(season: ThemePictureSeason): void;
+export interface MainPageProps {
+  handleSeasonThemeChange: (season: ThemePictureSeason) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -100,7 +90,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const MainPage: React.FC<MainPageProps> = (props) => {
+const MainPage: React.FC<MainPageProps> = ({handleSeasonThemeChange}) => {
   const theme: Theme = useTheme();
   const classes = useStyles();
 
@@ -109,10 +99,6 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [unmountLoadingPage, setUnmountLoadingPage] = useState<boolean>(false);
   const [season, setSeason] = useState<ThemePictureSeason>(ThemePictureSeason.WINTER);
-
-  const {
-    handleSeasonThemeChange,
-  } = props;
 
   const handleScroll = (name: ScrollNavigationDrawerMenuItemName): void => {
     setIsTopSelected(name === ScrollNavigationDrawerMenuItemName.PICTURE);
@@ -203,7 +189,9 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   return (
     <React.Fragment>
       <div className={classes.root}>
-        <ScrollNavigation menuItems={menuItems} isTopSelected={isTopSelected} season={season} handleItemClick={handleItemClick} handleScroll={handleScroll} handleSeasonChange={handleSeasonChange}>
+        <ScrollNavigation menuItems={menuItems} isTopSelected={isTopSelected} season={season}
+                          handleItemClick={handleItemClick} handleScroll={handleScroll}
+                          handleSeasonChange={handleSeasonChange}>
           <div className={classes.sectionWrapper} id={ScrollNavigationDrawerMenuItemName.PICTURE}>
             <ThemePicture handleLoadComplete={handleLoadComplete} season={season}/>
           </div>
