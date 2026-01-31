@@ -1,0 +1,10 @@
+{
+  "name": "@my-website/my-website-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "implicitDependencies": [
+      "@my-website/my-website"
+    ]
+  }
+}
