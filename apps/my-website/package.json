@@ -6,5 +6,54 @@
     "next": "~16.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
+  },
+  "nx": {
+    "sourceRoot": "apps/my-website",
+    "targets": {
+      "build": {
+        "executor": "@nx/next:build",
+        "outputs": ["{options.outputPath}"],
+        "defaultConfiguration": "production",
+        "options": {
+          "outputPath": "dist/apps/my-website"
+        },
+        "configurations": {
+          "development": {
+            "outputPath": "dist/apps/my-website"
+          },
+          "production": {}
+        }
+      },
+      "serve": {
+        "executor": "@nx/next:server",
+        "defaultConfiguration": "development",
+        "options": {
+          "buildTarget": "@my-website/my-website:build",
+          "dev": true,
+          "port": 3000
+        },
+        "configurations": {
+          "development": {
+            "buildTarget": "@my-website/my-website:build:development",
+            "dev": true
+          },
+          "production": {
+            "buildTarget": "@my-website/my-website:build:production",
+            "dev": false
+          }
+        }
+      },
+      "serve-static": {
+        "executor": "@nx/web:file-server",
+        "dependsOn": [
+          "build"
+        ],
+        "options": {
+          "buildTarget": "@my-website/my-website:build:production",
+          "staticFilePath": "dist/apps/my-website",
+          "spa": true
+        }
+      }
+    }
   }
 }

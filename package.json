@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build:my-website": "nx run @my-website/my-website:build --skip-nx-cache",
-    "test:my-website": "nx run @my-website/my-website:test --skip-nx-cache",
-    "run:my-website": "nx run @my-website/my-website:serve --skip-nx-cache"
+    "build:my-website": "nx run my-website:build --skip-nx-cache",
+    "test:my-website": "nx run my-website:test --skip-nx-cache",
+    "start:my-website": "nx run my-website:serve --skip-nx-cache"
   },
   "private": true,
   "devDependencies": {
@@ -17,6 +17,7 @@
     "@nx/jest": "22.4.2",
     "@nx/js": "22.4.2",
     "@nx/next": "22.4.2",
+    "@nx/web": "22.4.2",
     "@swc-node/register": "1.9.1",
     "@swc/cli": "0.6.0",
     "@swc/core": "1.5.7",
