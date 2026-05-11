@@ -1,0 +1,305 @@
+@import "tailwindcss";
+
+/* ─── Tailwind v4 theme configuration ─────────────────────────── */
+@theme {
+  /* Custom breakpoints — rem equivalents of the previous px values */
+  --breakpoint-sm: 37.5rem;   /* 600px  */
+  --breakpoint-md: 56.25rem;  /* 900px  */
+  --breakpoint-lg: 75rem;     /* 1200px */
+  --breakpoint-xl: 96rem;     /* 1536px */
+
+  /* Custom animations (used as inline styles, kept here for reference) */
+  --animate-goose:          bird-animate 0.5s steps(6) infinite;
+  --animate-goose-opposite: bird-animate-opposite 0.5s steps(6) infinite;
+  --animate-firefly-1:      firefly-flash 10s linear infinite;
+  --animate-firefly-2:      firefly-flash 8s linear infinite;
+
+  /* Custom easing */
+  --ease-sharp: cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* ─── Season CSS custom properties (SSR/fallback defaults = winter) ─ */
+@layer base {
+  :root {
+    --primary-light:    #71a4d2;
+    --primary-main:     #4e8ec7;
+    --primary-dark:     #36638b;
+    --primary-darker:   #264458;
+    --primary-contrast: #fff;
+    --secondary-light:  #aaaaaa;
+    --secondary-main:   #666666;
+    --secondary-dark:   #000000;
+    --bg-paper:         #ffffff;
+  }
+}
+
+/* ─── Bird / firefly animation keyframes ────────────────────────── */
+@keyframes bird-animate          { from { background-position: 0 0; }     to { background-position: 100% 0; } }
+@keyframes bird-animate-opposite { from { background-position: 100% 0; }  to { background-position: 0 0; } }
+@keyframes bird-move-left        { from { left:  110vw; } to { left: -80vw; } }
+@keyframes bird-move-right       { from { left:  -80vw; } to { left: 110vw; } }
+@keyframes bird-sine-bluejay     { from { top: -1.25rem; }  to { top:  1.25rem; } }  /* ±20px */
+@keyframes crow-move             { from { left:  -60vw; } to { left: 130vw; } }
+@keyframes crow-sine             { from { top: -0.625rem; } to { top: 0.625rem; } }  /* ±10px */
+@keyframes mallard-sine          { from { top: -1.875rem; } to { top: 1.875rem; } }  /* ±30px */
+@keyframes goose-move            { from { left:  110vw; } to { left:  -60vw; } }
+@keyframes goose-move-small      { from { left:  110vw; } to { left: -100vw; } }
+@keyframes goose-sine            { from { top: -0.625rem; } to { top: 0.625rem; } }  /* ±10px */
+@keyframes firefly-flash {
+  0%   { opacity: 0; box-shadow: 0 0 0 0 #ffff00;                      background-color: #00000000; }
+  5%   { opacity: 1; box-shadow: 0 0 0.625rem 0.25rem #ffff00;         background-color: #ffffaa; }  /* 10px 4px */
+  20%  { opacity: 0; box-shadow: 0 0 0 0 #ffff00;                      background-color: #ffffaa; }
+  100% { opacity: 0; box-shadow: 0 0 0 0 #ffff00;                      background-color: #ffffaa; }
+}
+
+@keyframes circular-progress-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ─── Base / legacy global styles ──────────────────────────────── */
+@layer base {
+  body {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+      Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  html #__next {
+    height: 100vh;
+    max-height: 100vh;
+    max-height: -webkit-fill-available;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    width: 100vw;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+  .root {
+    height: 100vh;
+    max-height: 100vh;
+    max-height: -webkit-fill-available;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    width: 100vw;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    overflow: hidden;
+    font-size: 0.625rem; /* 10px */
+  }
+}
+
+/* ─── react-custom-scrollbars-2: hide native scrollbar on the view ── */
+@utility scrollbars-view {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+/* ─── Button utility classes ─────────────────────────────────────── */
+
+/* Strip native OS button appearance; adds keyboard focus ring */
+@utility btn-base {
+  position: relative;
+  appearance: none;
+  -webkit-appearance: none;
+  &:focus         { outline: none; }
+  &:focus-visible {
+    outline: 0.125rem dashed var(--primary-main); /* 2px */
+    outline-offset: 0.125rem;
+  }
+}
+
+/* Primary themed button — solid theme-colour background */
+@utility btn-primary {
+  background-color: var(--primary-main);
+  color: var(--primary-contrast);
+  transition: background-color 150ms ease;
+  &:hover  { background-color: var(--primary-dark); }
+  &:active { background-color: var(--primary-darker); }
+}
+
+/* Solid colour button — darken on hover/active via filter */
+@utility btn-solid {
+  transition: filter 150ms ease;
+  &:hover  { filter: brightness(0.9); }
+  &:active { filter: brightness(0.75); }
+}
+
+/* Ghost transparent button (IconButton) — neutral highlight */
+@utility btn-ghost {
+  transition: background-color 150ms ease;
+  &:hover  { background-color: rgba(0, 0, 0, 0.08); }
+  &:active { background-color: rgba(0, 0, 0, 0.16); }
+}
+
+@utility btn-ghost-rounded {
+  @apply rounded-full;
+}
+
+/* ─── Link and carousel-pip focus rings ─────────────────────────── */
+@utility link-base {
+  &:focus         { outline: none; }
+  &:focus-visible {
+    outline: 0.125rem dashed var(--primary-main);
+    outline-offset: 0.125rem;
+  }
+}
+
+@utility carousel-pip {
+  &:focus         { outline: none; }
+  &:focus-visible {
+    outline: 0.125rem dashed var(--primary-main);
+    outline-offset: 0.125rem;
+  }
+}
+
+/* ─── Shared content-section utilities ──────────────────────────── */
+
+@utility content-grid-bg {
+  background-color: var(--bg-paper);
+  background-image:
+    linear-gradient(#F3F3f3 1.05px, transparent 1.05px),
+    linear-gradient(to right, #F3F3f3 1.05px, #FFFFFF 1.05px);
+  background-size: 1.3125rem 1.3125rem; /* 21px */
+  @media (width >= 37.5rem) {           /* sm: 600px */
+    background-image:
+      linear-gradient(#F3F3f3 1.2px, transparent 1.2px),
+      linear-gradient(to right, #F3F3f3 1.2px, #FFFFFF 1.2px);
+    background-size: 1.5rem 1.5rem;     /* 24px */
+  }
+  @media (width >= 56.25rem) {          /* md: 900px */
+    background-image:
+      linear-gradient(#F3F3f3 1.35px, transparent 1.35px),
+      linear-gradient(to right, #F3F3f3 1.35px, #FFFFFF 1.35px);
+    background-size: 1.6875rem 1.6875rem; /* 27px */
+  }
+  @media (width >= 75rem) {             /* lg: 1200px */
+    background-image:
+      linear-gradient(#F3F3f3 1.5px, transparent 1.5px),
+      linear-gradient(to right, #F3F3f3 1.5px, #FFFFFF 1.5px);
+    background-size: 1.875rem 1.875rem; /* 30px */
+  }
+}
+
+@utility paper-spacer {
+  height: 5vw;
+  @media (width >= 37.5rem)  { height: 2.5rem; }    /* 40px */
+  @media (width >= 56.25rem) { height: 2.8125rem; } /* 45px */
+  @media (width >= 75rem)    { height: 3.125rem; }  /* 50px */
+}
+
+@utility text-spacer {
+  height: 2.4vw;
+  @media (width >= 37.5rem)  { height: 0.75rem; }   /* 12px */
+  @media (width >= 56.25rem) { height: 0.8125rem; } /* 13px */
+  @media (width >= 75rem)    { height: 0.9375rem; } /* 15px */
+}
+
+@utility content-paper {
+  @apply flex flex-col items-center justify-center h-max;
+  width: 95vw;
+  @media (width >= 37.5rem)  { width: 90%; }
+  @media (width >= 75rem)    { width: 80%; }
+}
+
+@utility content-inner {
+  @apply flex flex-col items-start justify-start h-max;
+  width: 90%;
+  margin-top: 5vw;
+  margin-bottom: 5vw;
+  @media (width >= 37.5rem)  { margin-top: 2.5rem;    margin-bottom: 2.5rem; }    /* 40px */
+  @media (width >= 56.25rem) { margin-top: 2.8125rem; margin-bottom: 2.8125rem; } /* 45px */
+  @media (width >= 75rem)    { margin-top: 3.125rem;  margin-bottom: 3.125rem; }  /* 50px */
+}
+
+@utility content-divider {
+  @apply w-full;
+  height: 1px;
+  background-color: var(--secondary-light);
+  margin-top: 2.4vw;
+  margin-bottom: 2.4vw;
+  @media (width >= 37.5rem)  { margin-top: 0.5625rem; margin-bottom: 0.5625rem; } /* 9px  */
+  @media (width >= 56.25rem) { margin-top: 0.625rem;  margin-bottom: 0.625rem; }  /* 10px */
+  @media (width >= 75rem)    { margin-top: 0.6875rem; margin-bottom: 0.6875rem; } /* 11px */
+}
+
+@utility content-top-bar {
+  @apply flex flex-row items-center justify-start w-full;
+  height: 6vw;
+  @media (width >= 37.5rem)  { height: 2.8125rem; } /* 45px */
+  @media (width >= 56.25rem) { height: 3.125rem; }  /* 50px */
+  @media (width >= 75rem)    { height: 3.4375rem; } /* 55px */
+}
+
+@utility content-font-title {
+  font-weight: 400 !important;
+  font-size: 3.3vw !important;
+  line-height: 3.3vw !important;
+  @media (width >= 37.5rem)  { font-size: 1.98vw !important; line-height: 1.98vw !important; }
+  @media (width >= 56.25rem) { font-size: 1.64vw !important; line-height: 1.64vw !important; }
+  @media (width >= 75rem)    { font-size: 1.20vw !important; line-height: 1.20vw !important; }
+}
+
+@utility content-font-body {
+  font-weight: 300 !important;
+  font-size: 3.3vw !important;
+  line-height: 5.28vw !important;
+  @media (width >= 37.5rem)  { font-size: 1.98vw !important; line-height: 3.17vw !important; }
+  @media (width >= 56.25rem) { font-size: 1.64vw !important; line-height: 2.62vw !important; }
+  @media (width >= 75rem)    { font-size: 1.20vw !important; line-height: 1.92vw !important; }
+}
+
+@utility content-font-intro {
+  font-weight: 400 !important;
+  font-size: 3.96vw !important;
+  line-height: 6.34vw !important;
+  padding-left: 3.96vw !important;
+  border-left-width: 1vw !important;
+  @media (width >= 37.5rem) {
+    font-size: 2.38vw !important;
+    line-height: 3.81vw !important;
+    padding-left: 2.38vw !important;
+    border-left-width: 0.6vw !important;
+  }
+  @media (width >= 56.25rem) {
+    font-size: 1.97vw !important;
+    line-height: 3.15vw !important;
+    padding-left: 1.97vw !important;
+    border-left-width: 0.45vw !important;
+  }
+  @media (width >= 75rem) {
+    font-size: 1.44vw !important;
+    line-height: 2.3vw  !important;
+    padding-left: 1.44vw !important;
+    border-left-width: 0.3vw !important;
+  }
+}
+
+@utility content-font-link {
+  font-weight: 300 !important;
+  font-family: Roboto, sans-serif !important;
+  cursor: pointer;
+  font-size: 4vw !important;
+  height: 4vw;
+  line-height: 4vw !important;
+  @media (width >= 37.5rem)  { font-size: 2.40vw !important; height: 2.40vw; line-height: 2.40vw !important; }
+  @media (width >= 56.25rem) { font-size: 2.34vw !important; height: 2.34vw; line-height: 2.34vw !important; }
+  @media (width >= 75rem)    { font-size: 1.93vw !important; height: 1.93vw; line-height: 1.93vw !important; }
+}
+
+/* ─── Font-weight modifier overrides (compound selectors) ────────── */
+/* Higher specificity (2 classes) correctly overrides the !important  */
+/* font-weight set by the base content-font-* utilities above.        */
+@layer utilities {
+  .content-font-body.font-weight-medium   { font-weight: 400 !important; }
+  .content-font-body.font-weight-semibold { font-weight: 500 !important; }
+  .content-font-link.font-weight-medium   { font-weight: 400 !important; }
+}
