@@ -121,11 +121,16 @@ export interface ScrollbarsProps {
   autoHideTimeout?: number;
   autoHideDuration?: number;
   children?: ReactNode;
-  renderView?: (props: RenderElementProps) => ReactElement;
-  renderTrackHorizontal?: (props: RenderElementProps) => ReactElement;
-  renderTrackVertical?: (props: RenderElementProps) => ReactElement;
-  renderThumbHorizontal?: (props: RenderElementProps) => ReactElement;
-  renderThumbVertical?: (props: RenderElementProps) => ReactElement;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderView?: (props: RenderElementProps) => ReactElement<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderTrackHorizontal?: (props: RenderElementProps) => ReactElement<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderTrackVertical?: (props: RenderElementProps) => ReactElement<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderThumbHorizontal?: (props: RenderElementProps) => ReactElement<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderThumbVertical?: (props: RenderElementProps) => ReactElement<any>;
   onScroll?: (event: Event) => void;
   onScrollFrame?: (values: ScrollValues) => void;
   onScrollStart?: () => void;
@@ -135,23 +140,28 @@ export interface ScrollbarsProps {
 
 // ─── Default render elements ──────────────────────────────────────────────────
 
-function renderViewDefault({ style, ...props }: RenderElementProps): ReactElement {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function renderViewDefault({ style, ...props }: RenderElementProps): ReactElement<any> {
   return <div style={style} {...props} />;
 }
 
-function renderTrackHorizontalDefault({ style, ...props }: RenderElementProps): ReactElement {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function renderTrackHorizontalDefault({ style, ...props }: RenderElementProps): ReactElement<any> {
   return <div style={{ ...style, right: 2, bottom: 2, left: 2, borderRadius: 3 }} {...props} />;
 }
 
-function renderTrackVerticalDefault({ style, ...props }: RenderElementProps): ReactElement {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function renderTrackVerticalDefault({ style, ...props }: RenderElementProps): ReactElement<any> {
   return <div style={{ ...style, right: 2, bottom: 2, top: 2, borderRadius: 3 }} {...props} />;
 }
 
-function renderThumbHorizontalDefault({ style, ...props }: RenderElementProps): ReactElement {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function renderThumbHorizontalDefault({ style, ...props }: RenderElementProps): ReactElement<any> {
   return <div style={{ ...style, cursor: "pointer", borderRadius: "inherit", backgroundColor: "rgba(0,0,0,.2)" }} {...props} />;
 }
 
-function renderThumbVerticalDefault({ style, ...props }: RenderElementProps): ReactElement {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function renderThumbVerticalDefault({ style, ...props }: RenderElementProps): ReactElement<any> {
   return <div style={{ ...style, cursor: "pointer", borderRadius: "inherit", backgroundColor: "rgba(0,0,0,.2)" }} {...props} />;
 }
 
