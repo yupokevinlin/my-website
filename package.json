@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start:my-website": "nx run my-website:dev -- --port 4200",
+    "start:my-website": "nx run my-website:dev",
     "build:my-website": "nx run my-website:build",
     "test:my-website": "nx run my-website:test"
   },
