@@ -50,4 +50,7 @@ out
 # local env files
 .env*.local
 
+# Playwright MCP artifacts
+.playwright-mcp
+
 test-output

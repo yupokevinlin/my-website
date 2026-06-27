@@ -1,14 +1,17 @@
 import { initializeApp, type FirebaseApp } from "firebase/app";
 import { getAnalytics, isSupported, type Analytics } from "firebase/analytics";
 
+// Firebase web config. These values are not secret — they identify the project
+// to Google's servers and are designed to be embedded in client code. Access is
+// governed by Firebase Security Rules and authorized domains, not by hiding them.
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
+  apiKey: "AIzaSyDQ59XkMi8VJ0rll4CyABt4s3wARPvZ_iE",
+  authDomain: "kevin-s-website-6e4a0.firebaseapp.com",
+  projectId: "kevin-s-website-6e4a0",
+  storageBucket: "kevin-s-website-6e4a0.firebasestorage.app",
+  messagingSenderId: "698107401133",
+  appId: "1:698107401133:web:aa3f071ba3304e111fc724",
+  measurementId: "G-SCCRYQZ7QE",
 };
 
 let app: FirebaseApp | undefined;
@@ -20,7 +23,6 @@ let app: FirebaseApp | undefined;
  */
 export async function initAnalytics(): Promise<Analytics | undefined> {
   if (typeof window === "undefined") return undefined;
-  if (!firebaseConfig.apiKey) return undefined;
 
   app ??= initializeApp(firebaseConfig);
 
