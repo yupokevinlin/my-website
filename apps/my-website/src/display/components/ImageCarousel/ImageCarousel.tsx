@@ -144,7 +144,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
               type="button"
               aria-label={`Go to slide ${i + 1}`}
               aria-current={i === current ? "true" : undefined}
-              className="carousel-pip rounded-full transition-colors duration-200 h-[1.6vw] w-[1.6vw] mx-[0.8vw] sm:h-[10px] sm:w-[10px] sm:mx-[5px] md:h-[11px] md:w-[11px] md:mx-[5.5px] lg:h-3 lg:w-3 lg:mx-[6px]"
+              className="carousel-pip rounded-full transition-[background-color] duration-200 h-[1.6vw] w-[1.6vw] mx-[0.8vw] sm:h-[10px] sm:w-[10px] sm:mx-[5px] md:h-[11px] md:w-[11px] md:mx-[5.5px] lg:h-3 lg:w-3 lg:mx-[6px]"
               style={{
                 appearance: "none",
                 WebkitAppearance: "none",
