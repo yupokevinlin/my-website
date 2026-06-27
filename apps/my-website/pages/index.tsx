@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import App from "../src/app/App";
+import App from "../src/root/App";
 
 const Index: NextPage = () => {
   return (

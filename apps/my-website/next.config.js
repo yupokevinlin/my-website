@@ -1,6 +1,5 @@
 //@ts-check
 
-const path = require("path");
 const { composePlugins, withNx } = require("@nx/next");
 
 /**
@@ -11,8 +10,8 @@ const nextConfig = {
   // See: https://nx.dev/recipes/next/next-config-setup
   nx: {},
   distDir: "../../dist/apps/my-website",
-  output: "standalone",
-  outputFileTracingRoot: path.join(__dirname, "../../"),
+  output: "export",
+  images: { unoptimized: true },
 };
 
 const plugins = [

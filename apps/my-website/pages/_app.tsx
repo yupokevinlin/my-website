@@ -1,6 +1,8 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { Roboto } from "next/font/google";
+import { useEffect } from "react";
+import { initAnalytics } from "../src/firebase/firebase";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -11,6 +13,10 @@ const roboto = Roboto({
 });
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
+  useEffect(() => {
+    initAnalytics();
+  }, []);
+
   return (
     <div className={roboto.variable} style={{ display: "contents" }}>
       <Component {...pageProps} />

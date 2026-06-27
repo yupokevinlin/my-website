@@ -4,12 +4,9 @@
   "license": "MIT",
   "scripts": {
     "start:my-website": "nx run my-website:dev",
-    "build:my-website": "nx run my-website:build --skip-nx-cache && npm run copy-assets:my-website",
-    "build-windows:my-website": "nx run my-website:build --skip-nx-cache && npm run copy-assets-windows:my-website",
-    "copy-assets:my-website": "mkdir -p dist/apps/my-website/standalone/dist/apps/my-website/static && mkdir -p dist/apps/my-website/standalone/apps/my-website/public && cp -r dist/apps/my-website/static/. dist/apps/my-website/standalone/dist/apps/my-website/static && cp -r apps/my-website/public/. dist/apps/my-website/standalone/apps/my-website/public",
-    "copy-assets-windows:my-website": "powershell -Command \"New-Item -ItemType Directory -Force -Path dist/apps/my-website/standalone/dist/apps/my-website/static | Out-Null; New-Item -ItemType Directory -Force -Path dist/apps/my-website/standalone/apps/my-website/public | Out-Null; Copy-Item -Recurse -Force dist/apps/my-website/static/* dist/apps/my-website/standalone/dist/apps/my-website/static/; Copy-Item -Recurse -Force apps/my-website/public/* dist/apps/my-website/standalone/apps/my-website/public/\"",
+    "build:my-website": "nx run my-website:build --skip-nx-cache",
     "test:my-website": "nx run my-website:test",
-    "prod:my-website": "node dist/apps/my-website/standalone/apps/my-website/server.js"
+    "deploy:my-website": "npm run build:my-website && firebase deploy --only hosting"
   },
   "private": true,
   "devDependencies": {
@@ -65,6 +62,7 @@
   ],
   "dependencies": {
     "clsx": "^2.1.1",
+    "firebase": "^12.15.0",
     "next": "~16.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

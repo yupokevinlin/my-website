@@ -507,8 +507,6 @@ const Scrollbars: React.FC<ScrollbarsProps> = ({
     const sw = getScrollbarWidth();
     setScrollbarWidth(sw);
 
-    view.addEventListener("scroll", handleScroll);
-
     if (sw) {
       trackH?.addEventListener("mouseenter", handleTrackMouseEnter);
       trackH?.addEventListener("mouseleave", handleTrackMouseLeave);
@@ -528,8 +526,6 @@ const Scrollbars: React.FC<ScrollbarsProps> = ({
       if (hideTracksTimeout.current !== undefined) clearTimeout(hideTracksTimeout.current);
       if (detectScrollingInterval.current !== undefined) clearInterval(detectScrollingInterval.current);
 
-      view.removeEventListener("scroll", handleScroll);
-
       if (sw) {
         trackH?.removeEventListener("mouseenter", handleTrackMouseEnter);
         trackH?.removeEventListener("mouseleave", handleTrackMouseLeave);
@@ -546,6 +542,17 @@ const Scrollbars: React.FC<ScrollbarsProps> = ({
   // We intentionally run this once on mount; handler identity is stable via useCallback.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Bind the scroll listener in its own effect so it re-subscribes whenever
+  // `handleScroll` changes — in particular after `scrollbarWidth` is measured
+  // post-mount. Binding it once on mount would capture a stale closure with
+  // `scrollbarWidth === 0`, which gates out the thumb-position update.
+  useEffect(() => {
+    const view = viewRef.current;
+    if (!view) return;
+    view.addEventListener("scroll", handleScroll);
+    return () => view.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   // Re-run update whenever children change.
   useEffect(() => {
