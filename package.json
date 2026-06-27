@@ -8,7 +8,8 @@
     "build-windows:my-website": "nx run my-website:build --skip-nx-cache && npm run copy-assets-windows:my-website",
     "copy-assets:my-website": "mkdir -p dist/apps/my-website/standalone/dist/apps/my-website/static && mkdir -p dist/apps/my-website/standalone/apps/my-website/public && cp -r dist/apps/my-website/static/. dist/apps/my-website/standalone/dist/apps/my-website/static && cp -r apps/my-website/public/. dist/apps/my-website/standalone/apps/my-website/public",
     "copy-assets-windows:my-website": "powershell -Command \"New-Item -ItemType Directory -Force -Path dist/apps/my-website/standalone/dist/apps/my-website/static | Out-Null; New-Item -ItemType Directory -Force -Path dist/apps/my-website/standalone/apps/my-website/public | Out-Null; Copy-Item -Recurse -Force dist/apps/my-website/static/* dist/apps/my-website/standalone/dist/apps/my-website/static/; Copy-Item -Recurse -Force apps/my-website/public/* dist/apps/my-website/standalone/apps/my-website/public/\"",
-    "test:my-website": "nx run my-website:test"
+    "test:my-website": "nx run my-website:test",
+    "prod:my-website": "node dist/apps/my-website/standalone/apps/my-website/server.js"
   },
   "private": true,
   "devDependencies": {
@@ -49,6 +50,8 @@
     "nx": "22.4.2",
     "postcss": "8.4.38",
     "prettier": "^2.6.2",
+    "sharp": "^0.35.2",
+    "svgo": "^4.0.1",
     "tailwindcss": "^4.0.0",
     "ts-jest": "^29.4.0",
     "ts-node": "10.9.1",

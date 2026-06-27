@@ -13,7 +13,7 @@ const Typography: React.FC<TypographyProps> = ({ className, style, align, childr
     className={className}
     style={{
       margin: 0,
-      fontFamily: "Roboto, sans-serif",
+      fontFamily: "var(--font-roboto), Roboto, sans-serif",
       ...(align ? { textAlign: align } : {}),
       ...style,
     }}

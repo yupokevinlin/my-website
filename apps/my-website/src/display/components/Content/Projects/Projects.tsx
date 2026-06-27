@@ -52,7 +52,7 @@ const Projects: React.FC = () => {
           <div className="content-divider"/>
           <div className="text-spacer"/>
           <Paper className="h-max w-full" square elevation={3}>
-            <ImageCarousel images={["/resources/images/projects/covid-19-tracker-app1.jpg", "/resources/images/projects/covid-19-tracker-app2.jpg", "/resources/images/projects/covid-19-tracker-app3.jpg"]}/>
+            <ImageCarousel imageWidth={3840} imageHeight={1874} images={["/resources/images/projects/covid-19-tracker-app1.jpg", "/resources/images/projects/covid-19-tracker-app2.jpg", "/resources/images/projects/covid-19-tracker-app3.jpg"]}/>
           </Paper>
           <div className="text-spacer"/>
           <div className="content-divider"/>
@@ -101,7 +101,7 @@ const Projects: React.FC = () => {
           <div className="content-divider"/>
           <div className="text-spacer"/>
           <Paper className="h-max w-full" square elevation={3}>
-            <ImageCarousel images={["/resources/images/projects/writemymp1.jpg", "/resources/images/projects/writemymp2.jpg"]}/>
+            <ImageCarousel imageWidth={3840} imageHeight={1874} images={["/resources/images/projects/writemymp1.jpg", "/resources/images/projects/writemymp2.jpg"]}/>
           </Paper>
           <div className="text-spacer"/>
           <div className="content-divider"/>
@@ -146,7 +146,7 @@ const Projects: React.FC = () => {
           <div className="content-divider"/>
           <div className="text-spacer"/>
           <Paper className="h-max w-full" square elevation={3}>
-            <ImageCarousel images={["/resources/images/projects/electrontemplate1.jpg", "/resources/images/projects/electrontemplate2.jpg"]}/>
+            <ImageCarousel imageWidth={3840} imageHeight={1874} images={["/resources/images/projects/electrontemplate1.jpg", "/resources/images/projects/electrontemplate2.jpg"]}/>
           </Paper>
           <div className="text-spacer"/>
           <div className="content-divider"/>

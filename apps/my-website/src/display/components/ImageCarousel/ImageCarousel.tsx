@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback, useRef } from "react";
 
 export interface ImageCarouselProps {
   images: Array<string>;
+  /** Intrinsic dimensions of the images, used to reserve space and prevent layout shift. */
+  imageWidth?: number;
+  imageHeight?: number;
 }
 
 const ChevronLeft: React.FC = () => (
@@ -16,7 +19,7 @@ const ChevronRight: React.FC = () => (
   </svg>
 );
 
-const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
+const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, imageWidth, imageHeight }) => {
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
@@ -83,11 +86,18 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images }) => {
           container naturally takes the height of the tallest image.
           Slides fade in/out via opacity — no absolute positioning needed.
         */}
-        <div style={{ display: "grid" }}>
+        <div
+          style={{
+            display: "grid",
+            aspectRatio: imageWidth && imageHeight ? `${imageWidth} / ${imageHeight}` : undefined,
+          }}
+        >
           {images.map((src, i) => (
             <img
               key={i}
               src={src}
+              width={imageWidth}
+              height={imageHeight}
               alt={i === current ? `Slide ${i + 1} of ${total}` : ""}
               aria-hidden={i !== current ? true : undefined}
               className="w-full h-auto block"

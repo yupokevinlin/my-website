@@ -65,8 +65,9 @@
     padding: 0;
     border: 0;
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-      Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    font-family: var(--font-roboto), -apple-system, BlinkMacSystemFont, Segoe UI,
+      Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
+      sans-serif;
     -webkit-font-smoothing: antialiased;
   }
   html #__next {
@@ -285,7 +286,7 @@
 
 @utility content-font-link {
   font-weight: 300 !important;
-  font-family: Roboto, sans-serif !important;
+  font-family: var(--font-roboto), Roboto, sans-serif !important;
   cursor: pointer;
   font-size: 4vw !important;
   height: 4vw;

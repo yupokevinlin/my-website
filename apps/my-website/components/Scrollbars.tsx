@@ -13,6 +13,7 @@ import React, {
   useCallback,
   useEffect,
   useRef,
+  useState,
 } from "react";
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
@@ -188,7 +189,10 @@ const Scrollbars: React.FC<ScrollbarsProps> = ({
   onScrollStop,
   onUpdate,
 }) => {
-  const scrollbarWidth = getScrollbarWidth();
+  // Start at 0 so the first client render matches the server (which has no
+  // DOM to measure). The real width is measured after mount to avoid a
+  // hydration mismatch on the view's margin styles.
+  const [scrollbarWidth, setScrollbarWidth] = useState(0);
 
   const viewRef = useRef<HTMLDivElement | null>(null);
   const trackHRef = useRef<HTMLDivElement | null>(null);
@@ -498,9 +502,14 @@ const Scrollbars: React.FC<ScrollbarsProps> = ({
 
     if (!view) return;
 
+    // Measure the native scrollbar width now that the DOM exists, and publish
+    // it to state so the view's margin styles update post-hydration.
+    const sw = getScrollbarWidth();
+    setScrollbarWidth(sw);
+
     view.addEventListener("scroll", handleScroll);
 
-    if (scrollbarWidth) {
+    if (sw) {
       trackH?.addEventListener("mouseenter", handleTrackMouseEnter);
       trackH?.addEventListener("mouseleave", handleTrackMouseLeave);
       trackH?.addEventListener("mousedown", handleHorizontalTrackMouseDown as EventListener);
@@ -521,7 +530,7 @@ const Scrollbars: React.FC<ScrollbarsProps> = ({
 
       view.removeEventListener("scroll", handleScroll);
 
-      if (scrollbarWidth) {
+      if (sw) {
         trackH?.removeEventListener("mouseenter", handleTrackMouseEnter);
         trackH?.removeEventListener("mouseleave", handleTrackMouseLeave);
         trackH?.removeEventListener("mousedown", handleHorizontalTrackMouseDown as EventListener);
@@ -550,10 +559,12 @@ const Scrollbars: React.FC<ScrollbarsProps> = ({
     ...style,
   };
 
+  // The native scrollbar is hidden via CSS (`scrollbars-view`), so it occupies
+  // no layout space and needs no negative-margin compensation. Applying margins
+  // based on the post-mount scrollbar-width measurement would reflow the content
+  // and cause a layout shift (CLS), so we deliberately leave the view flush.
   const viewStyle: CSSProperties = {
     ...viewStyleDefault,
-    marginRight: scrollbarWidth ? -scrollbarWidth : 0,
-    marginBottom: scrollbarWidth ? -scrollbarWidth : 0,
   };
 
   const autoHideTrackStyle: CSSProperties = autoHide
