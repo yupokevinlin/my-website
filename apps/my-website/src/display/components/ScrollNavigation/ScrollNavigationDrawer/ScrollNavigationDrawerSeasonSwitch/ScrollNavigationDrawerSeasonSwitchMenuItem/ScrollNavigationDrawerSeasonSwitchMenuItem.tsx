@@ -53,7 +53,7 @@ const ScrollNavigationDrawerSeasonSwitchMenuItem = React.forwardRef<
     <ButtonBase
       ref={ref}
       role="menuitem"
-      className="cursor-pointer select-none flex flex-row items-center !justify-start h-[22px] w-[138px] sm:h-[28px] sm:w-[166px] lg:h-[32px] lg:w-[207px]"
+      className="cursor-pointer select-none flex flex-row items-center !justify-start h-[22px] w-[138px] sm:h-[28px] sm:w-[166px] lg:h-[32px] lg:w-[207px] focus-visible:[outline-offset:-0.125rem]"
       style={{ backgroundColor: "var(--bg-paper)" }}
       onClick={() => handleSeasonChange(season)}
     >

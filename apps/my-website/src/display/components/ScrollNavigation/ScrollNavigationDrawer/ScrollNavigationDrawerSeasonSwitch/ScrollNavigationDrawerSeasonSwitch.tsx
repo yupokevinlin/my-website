@@ -123,7 +123,7 @@ const ScrollNavigationDrawerSeasonSwitch: React.FC<ScrollNavigationDrawerSeasonS
         aria-haspopup="menu"
         aria-expanded={menuOpen}
         aria-controls={menuOpen ? "season-menu" : undefined}
-        className="flex flex-row items-center justify-start h-[calc(100%-1px)] w-full transition-[filter] duration-200 hover:brightness-90"
+        className="flex flex-row items-center justify-start h-[calc(100%-1px)] w-full transition-[filter] duration-200 hover:brightness-90 focus-visible:[outline-offset:-0.125rem]"
         style={{ backgroundColor: "var(--bg-paper)" }}
         onClick={() => menuOpen ? closeMenu() : openMenu()}
         onKeyDown={handleTriggerKeyDown}

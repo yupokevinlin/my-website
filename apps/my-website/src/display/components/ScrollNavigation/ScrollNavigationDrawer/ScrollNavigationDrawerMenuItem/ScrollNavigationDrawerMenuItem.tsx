@@ -18,7 +18,7 @@ const ScrollNavigationDrawerMenuItem: React.FC<ScrollNavigationDrawerMenuItemPro
   return (
     <React.Fragment>
       <ButtonBase
-        className="flex flex-row items-center !justify-start w-full h-[32px] sm:h-[38px] lg:h-[42px]"
+        className="flex flex-row items-center !justify-start w-full h-[32px] sm:h-[38px] lg:h-[42px] focus-visible:[outline-offset:-0.125rem]"
         style={{ backgroundColor: "var(--bg-paper)" }}
         onClick={handleButtonClick}
       >

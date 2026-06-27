@@ -49,7 +49,7 @@ const ScrollNavigationDrawer: React.FC<ScrollNavigationDrawerProps> = (props) =>
         ) : (
           <React.Fragment>
             <ButtonBase
-              className="w-full flex flex-col items-center justify-center md:h-[70px] lg:h-[78px]"
+              className="w-full flex flex-col items-center justify-center md:h-[70px] lg:h-[78px] focus-visible:[outline-offset:-0.125rem]"
               onClick={handleHeaderClick}
             >
               <Typography
