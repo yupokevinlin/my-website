@@ -36,19 +36,19 @@ const Projects: React.FC = () => {
             </div>
           </div>
           <div className="content-divider"/>
-          <Typography className="content-font-body !italic" style={{ color: "var(--secondary-dark)" }}>An interactive website to track the Covid-19 pandemic</Typography>
+          <Typography className="content-font-body !italic" style={{ color: "var(--secondary-dark)" }}>An interactive website to track the COVID-19 pandemic</Typography>
           <div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>FRONT-END</Typography>
           <div className="text-spacer"/>
-          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• React / Typescript / Material UI / Redux / Redux Saga</Typography>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• React / TypeScript / Material UI / Redux / Redux Saga</Typography>
           <div className="text-spacer"/>
-          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Map: ESRI</Typography>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Map: Esri</Typography>
           <div className="text-spacer"/>
           <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Charts: D3</Typography>
           <div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>BACK-END</Typography>
           <div className="text-spacer"/>
-          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Node / Typescript / Express / Nginx</Typography>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Node / TypeScript / Express / Nginx</Typography>
           <div className="content-divider"/>
           <div className="text-spacer"/>
           <Paper className="h-max w-full" square elevation={3}>
@@ -89,13 +89,13 @@ const Projects: React.FC = () => {
           <div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>FRONT-END</Typography>
           <div className="text-spacer"/>
-          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• React / Typescript / Material UI / Redux / Redux Saga</Typography>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• React / TypeScript / Material UI / Redux / Redux Saga</Typography>
           <div className="text-spacer"/>
-          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Map: ESRI</Typography>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Map: Esri</Typography>
           <div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>BACK-END</Typography>
           <div className="text-spacer"/>
-          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Node / Typescript / Express / Nginx</Typography>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Node / TypeScript / Express / Nginx</Typography>
           <div className="text-spacer"/>
           <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Data Scraping: Cheerio</Typography>
           <div className="content-divider"/>
@@ -138,7 +138,7 @@ const Projects: React.FC = () => {
           <div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>FRONT-END</Typography>
           <div className="text-spacer"/>
-          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• React / Typescript / Electron</Typography>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• React / TypeScript / Electron</Typography>
           <div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>BUILD</Typography>
           <div className="text-spacer"/>
