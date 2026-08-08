@@ -3,7 +3,7 @@ import Paper from "@/components/Paper";
 import Typography from "@/components/Typography";
 
 const Skills: React.FC = () => {
-  const itemImageWrapperClass = "flex flex-col items-center justify-evenly h-[23vw] w-[13vw] mx-[4vw] sm:h-[19vw] sm:w-[12vw] md:h-[16vw] md:w-[11vw] md:mx-[3vw] lg:h-[13vw] lg:w-[7.8vw] lg:mx-[2vw]";
+  const itemImageWrapperClass = "flex flex-col items-center justify-start gap-[1.5vw] h-max w-[13vw] mx-[4vw] my-[3vw] sm:gap-[1.2vw] sm:w-[12vw] sm:my-[2.5vw] md:gap-[1vw] md:w-[11vw] md:mx-[3vw] md:my-[2vw] lg:gap-[0.8vw] lg:w-[7.8vw] lg:mx-[2vw] lg:my-[1.6vw]";
   const itemImageClass        = "h-[13vw] max-w-[13vw] sm:h-[12vw] sm:max-w-[12vw] md:h-[11vw] md:max-w-[11vw] lg:h-[7.8vw] lg:max-w-[7.8vw]";
   const itemTextClass         = "content-font-body !text-center";
 
@@ -26,7 +26,7 @@ const Skills: React.FC = () => {
           </div>
           <div className="content-divider"/>
           <div className="text-spacer"/>
-          <div className="h-max w-full flex flex-row items-center justify-evenly flex-wrap">
+          <div className="h-max w-full flex flex-row items-start justify-evenly flex-wrap">
             {items.map(([url, label]) => <React.Fragment key={label}>{renderItem(url, label)}</React.Fragment>)}
           </div>
         </div>
