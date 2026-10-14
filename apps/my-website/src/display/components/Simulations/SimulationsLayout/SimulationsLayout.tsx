@@ -75,7 +75,7 @@ const SimulationsLayout: React.FC<SimulationsLayoutProps> = (props) => {
         >
           <NextLink
             href="/ray-tracing"
-            className={clsx("link-base min-w-0 truncate text-[20px] sm:text-[22px] leading-none", SERIF)}
+            className={clsx("link-base min-w-0 truncate text-[20px] sm:text-[22px] leading-[1.4]", SERIF)}
             style={{ color: "var(--sim-text)", textDecoration: "none" }}
           >
             Relativistic Ray Tracing
