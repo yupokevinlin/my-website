@@ -1,8 +1,10 @@
-import React, { useRef } from "react";
+import React, { useCallback, useRef } from "react";
 import NextLink from "next/link";
 import clsx from "clsx";
-import { MotionConfig, motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { MotionConfig, motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import type { ScrollValues } from "@/components/Scrollbars";
 import SimulationsLayout from "../../components/Simulations/SimulationsLayout/SimulationsLayout";
+import DarkScrollbars from "../../components/Simulations/DarkScrollbars/DarkScrollbars";
 import Starfield from "../../components/Simulations/Starfield/Starfield";
 import RayDiagram from "../../components/Simulations/RayDiagram/RayDiagram";
 import Formula from "../../components/Simulations/Formula/Formula";
@@ -183,11 +185,17 @@ const STEPS: Array<{ n: string; title: string; text: string }> = [
 ];
 
 const SimulationsPage: React.FC = () => {
-  const scrollRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({ container: scrollRef });
-  const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 40 });
-  const { scrollYProgress: heroProgress } = useScroll({ container: scrollRef, target: heroRef, offset: ["start start", "end start"] });
+  // Scroll-linked motion is driven by the custom scrollbar's frame callback:
+  // overall progress for the bar under the header, and how far the hero has
+  // scrolled out of view for its parallax.
+  const scrollProgress = useMotionValue(0);
+  const heroProgress = useMotionValue(0);
+  const progress = useSpring(scrollProgress, { stiffness: 200, damping: 40 });
+  const handleScrollFrame = useCallback((v: ScrollValues): void => {
+    scrollProgress.set(Number.isFinite(v.top) ? v.top : 0);
+    heroProgress.set(Math.min(1, v.scrollTop / (heroRef.current?.offsetHeight || 1)));
+  }, [scrollProgress, heroProgress]);
   const heroY = useTransform(heroProgress, [0, 1], ["0%", "22%"]);
   const heroScale = useTransform(heroProgress, [0, 1], [1.04, 1.16]);
   const heroFade = useTransform(heroProgress, [0, 0.7], [1, 0]);
@@ -195,13 +203,13 @@ const SimulationsPage: React.FC = () => {
   return (
     <MotionConfig reducedMotion="user">
       <SimulationsLayout active="overview" overlayNav>
-        <div className="relative h-full w-full">
+        <div className="relative h-full w-full" style={{ colorScheme: "dark" }}>
           <motion.div
             aria-hidden
             className="pointer-events-none absolute left-0 right-0 top-[56px] z-30 h-[2px] origin-left"
             style={{ scaleX: progress, background: "linear-gradient(to right, #f2a65a, #b394ff, #6cc8ff)" }}
           />
-          <div ref={scrollRef} className="relative h-full w-full overflow-y-auto overflow-x-hidden" style={{ colorScheme: "dark" }}>
+          <DarkScrollbars onScrollFrame={handleScrollFrame}>
             {/* ── Hero ─────────────────────────────────────────── */}
             <section ref={heroRef} className="relative flex min-h-[100vh] items-end overflow-hidden">
               <motion.img
@@ -373,7 +381,7 @@ const SimulationsPage: React.FC = () => {
                 </div>
               </div>
             </footer>
-          </div>
+          </DarkScrollbars>
         </div>
       </SimulationsLayout>
     </MotionConfig>

@@ -6,6 +6,7 @@ import type { ParamDef, Params, ParamValue, Simulation } from "../../../simulati
 import SimulationsLayout from "../../components/Simulations/SimulationsLayout/SimulationsLayout";
 import ControlPanel from "../../components/Simulations/ControlPanel/ControlPanel";
 import LearnPanel from "../../components/Simulations/LearnPanel/LearnPanel";
+import DarkScrollbars from "../../components/Simulations/DarkScrollbars/DarkScrollbars";
 import { Preset, SimId, getChapter } from "../../components/Simulations/content";
 import { MONO, SANS, SERIF } from "../../components/Simulations/theme";
 import { CameraIcon, FullscreenIcon, InfoIcon, PauseIcon, PlayIcon, TuneIcon } from "../../components/Simulations/SimulationIcons/SimulationIcons";
@@ -127,7 +128,7 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
     if (!holder || !stageEl) return undefined;
     // a fresh canvas per mount: a context lost via dispose() can't be re-acquired
     const canvas = document.createElement("canvas");
-    canvas.className = "block";
+    canvas.className = "block shrink-0";
     holder.appendChild(canvas);
     let engine: Engine;
     let sim: Simulation;
@@ -158,15 +159,16 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
     if (engineRef.current) engineRef.current.windowSize = windowRes();
   }, [windowRes]);
 
-  // fit the canvas (fixed render resolution) into the stage, letterboxed
+  // scale the canvas (fixed render resolution) to cover the stage, centred;
+  // the stage clips the overflow, while snapshots keep the full frame
   const renderW = stats?.width ?? 3840;
   const renderH = stats?.height ?? 2160;
-  const fit = Math.min(stage[0] / renderW, stage[1] / renderH);
+  const fit = Math.max(stage[0] / renderW, stage[1] / renderH);
   useEffect(() => {
     const c = holderRef.current?.querySelector("canvas");
     if (!c) return;
-    c.style.width = `${Math.floor(renderW * fit)}px`;
-    c.style.height = `${Math.floor(renderH * fit)}px`;
+    c.style.width = `${Math.ceil(renderW * fit)}px`;
+    c.style.height = `${Math.ceil(renderH * fit)}px`;
   }, [renderW, renderH, fit]);
 
   const setParam = useCallback((key: string, value: ParamValue) => setParams((p) => ({ ...p, [key]: value })), []);
@@ -292,7 +294,7 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
 
   return (
     <SimulationsLayout active={id} hideChrome={uiHidden}>
-      <div className="relative flex h-full w-full flex-col overflow-y-auto md:flex-row md:overflow-hidden">
+      <div className="relative flex h-full w-full flex-col overflow-hidden md:flex-row">
         <div ref={stageRef} className="relative w-full shrink-0 aspect-video overflow-hidden bg-black md:aspect-auto md:h-full md:flex-1 md:shrink">
           <div ref={holderRef} className="absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none"/>
 
@@ -372,10 +374,10 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
 
         {panelOpen && !uiHidden && (
           <aside
-            className="w-full shrink-0 pb-[18px] md:absolute md:right-0 md:top-0 md:z-[1] md:h-full md:w-[330px] md:overflow-y-auto lg:static lg:w-[360px]"
+            className="flex min-h-0 w-full flex-1 flex-col md:absolute md:right-0 md:top-0 md:z-[1] md:h-full md:w-[330px] md:flex-none lg:static lg:w-[360px]"
             style={{ backgroundColor: "var(--sim-surface-solid)", borderLeft: "1px solid var(--sim-border)" }}
           >
-            <div className="sticky top-0 z-[1] flex flex-row px-[18px] pt-[12px]" style={{ backgroundColor: "var(--sim-surface-solid)", borderBottom: "1px solid var(--sim-border)" }}>
+            <div className="flex shrink-0 flex-row px-[18px] pt-[12px]" style={{ borderBottom: "1px solid var(--sim-border)" }}>
               {(["controls", "learn"] as const).map((t) => (
                 <button
                   key={t}
@@ -389,19 +391,25 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
                 </button>
               ))}
             </div>
-            {tab === "controls" ? (
-              <ControlPanel
-                defs={defs}
-                params={params}
-                copied={copied}
-                handleChange={setParam}
-                handleReset={() => setParams(defaultsOf(defs))}
-                handleCopyLink={copyLink}
-              />
-            ) : (
-              <LearnPanel chapter={chapter} handlePreset={applyPreset}/>
-            )}
-            <p className={clsx(MONO, "px-[18px] pt-[14px] text-[10px] leading-[15px] break-words")} style={{ color: "var(--sim-faint)" }}>{stats?.renderer}</p>
+            <div className="relative min-h-0 flex-1">
+              <DarkScrollbars>
+                <div className="pb-[18px]">
+                  {tab === "controls" ? (
+                    <ControlPanel
+                      defs={defs}
+                      params={params}
+                      copied={copied}
+                      handleChange={setParam}
+                      handleReset={() => setParams(defaultsOf(defs))}
+                      handleCopyLink={copyLink}
+                    />
+                  ) : (
+                    <LearnPanel chapter={chapter} handlePreset={applyPreset}/>
+                  )}
+                  <p className={clsx(MONO, "px-[18px] pt-[14px] text-[10px] leading-[15px] break-words")} style={{ color: "var(--sim-faint)" }}>{stats?.renderer}</p>
+                </div>
+              </DarkScrollbars>
+            </div>
           </aside>
         )}
       </div>
