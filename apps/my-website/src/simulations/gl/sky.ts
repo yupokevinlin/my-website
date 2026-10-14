@@ -5,6 +5,7 @@
 //  * A procedural "other universe" sky for the wormhole, baked once on the GPU.
 
 import { GLContext, Program } from "./gl";
+import { isConstrainedDevice } from "./device";
 
 export const FACES = ["px", "nx", "py", "ny", "pz", "nz"] as const;
 export const SKY_TIERS = [512, 1024, 2048, 4096] as const;
@@ -134,18 +135,21 @@ export class SkyLibrary {
     return tex;
   }
 
-  private renderToFaces(tex: WebGLTexture, N: number, drawFace: (face: number) => void) {
+  /** Draw into one face of the cube. Binds its own framebuffer, so it can be interleaved with frames. */
+  private renderFace(tex: WebGLTexture, N: number, face: number, draw: () => void) {
     const gl = this.ctx.gl;
     const fb = gl.createFramebuffer()!;
     gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
     gl.drawBuffers([gl.COLOR_ATTACHMENT0]);
     gl.viewport(0, 0, N, N);
-    for (let f = 0; f < 6; f++) {
-      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_CUBE_MAP_POSITIVE_X + f, tex, 0);
-      drawFace(f);
-    }
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_CUBE_MAP_POSITIVE_X + face, tex, 0);
+    draw();
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     gl.deleteFramebuffer(fb);
+  }
+
+  private finishCube(tex: WebGLTexture) {
+    const gl = this.ctx.gl;
     gl.bindTexture(gl.TEXTURE_CUBE_MAP, tex);
     gl.generateMipmap(gl.TEXTURE_CUBE_MAP);
   }
@@ -165,41 +169,50 @@ export class SkyLibrary {
   private async loadMilkyWay(N: number, onProgress?: (f: number) => void): Promise<WebGLTexture> {
     const gl = this.ctx.gl;
     let done = 0;
-    const bitmaps = await Promise.all(
+    // Download the six faces in parallel, but decode and upload them one at
+    // a time: a decoded 4096² face is 64 MB, and holding all six at once is
+    // enough to get a phone's browser tab closed.
+    const blobs = await Promise.all(
       FACES.map(async (f) => {
         const res = await fetch(`/ray-tracing/sky/milkyway/${N}/${f}.jpg`);
         if (!res.ok) throw new Error(`Sky face ${f} (${N}) missing: ${res.status}`);
-        const bmp = await createImageBitmap(await res.blob(), {
-          colorSpaceConversion: "none",
-          premultiplyAlpha: "none",
-        });
+        const blob = await res.blob();
         onProgress?.(++done / 6);
-        return bmp;
+        return blob;
       }),
     );
     const tex = this.allocCube(N);
     const src = gl.createTexture()!;
-    this.renderToFaces(tex, N, (face) => {
-      gl.activeTexture(gl.TEXTURE0);
-      gl.bindTexture(gl.TEXTURE_2D, src);
-      gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
-      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB8, gl.RGB, gl.UNSIGNED_BYTE, bitmaps[face]);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-      this.decode.use().tex("uSrc", 0, src).draw();
-      bitmaps[face].close();
-    });
+    for (let face = 0; face < 6; face++) {
+      const bmp = await createImageBitmap(blobs[face], {
+        colorSpaceConversion: "none",
+        premultiplyAlpha: "none",
+      });
+      this.renderFace(tex, N, face, () => {
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, src);
+        gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB8, gl.RGB, gl.UNSIGNED_BYTE, bmp);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+        this.decode.use().tex("uSrc", 0, src).draw();
+      });
+      bmp.close();
+    }
     gl.deleteTexture(src);
+    this.finishCube(tex);
     return tex;
   }
 
-  /** Procedural sky for the far side of the wormhole (baked once). */
-  alien(N = 2048): WebGLTexture {
+  /** Procedural sky for the far side of the wormhole (baked once; smaller on phones and tablets). */
+  alien(size = 2048): WebGLTexture {
     if (this.alienTex) return this.alienTex;
+    const N = isConstrainedDevice() ? Math.min(size, 1024) : size;
     const prog = new Program(this.ctx, ALIEN_FS);
     const tex = this.allocCube(N);
-    this.renderToFaces(tex, N, (face) => prog.use().set({ uFace: face, uSize: N }).draw());
+    for (let face = 0; face < 6; face++) this.renderFace(tex, N, face, () => prog.use().set({ uFace: face, uSize: N }).draw());
+    this.finishCube(tex);
     prog.dispose();
     this.alienTex = tex;
     return tex;

@@ -2,6 +2,7 @@
 // spectral LUTs, post-processing) and the animation loop.
 
 import { GLContext, Program, createContext } from "./gl";
+import { CONSTRAINED_MAX_PIXELS, CONSTRAINED_MAX_SKY, isConstrainedDevice } from "./device";
 import { PostFX } from "./postfx";
 import { SKY_TIERS, SkyLibrary, SkyTier } from "./sky";
 import { SpectrumLUTs, buildSpectrumLUTs } from "./spectrum";
@@ -26,7 +27,7 @@ export const GLOBAL_PARAMS: ParamDef[] = [
       { value: "720p", label: "HD (1280×720)" },
       { value: "window", label: "Match window" },
     ],
-    hint: "Internal render size. Snapshots are saved at this resolution.",
+    hint: "Internal render size. Snapshots are saved at this resolution. Phones and tablets render at most at screen size, up to about 1080p.",
   },
   {
     key: "skyTier", label: "Star map detail", group: "Output", kind: "select", default: "4096",
@@ -35,7 +36,7 @@ export const GLOBAL_PARAMS: ParamDef[] = [
       { value: "2048", label: "High: 2048² faces (11 MB)" },
       { value: "1024", label: "Medium: 1024² faces (2 MB)" },
     ],
-    hint: "NASA SVS Deep Star Maps 2020, preprocessed into HDR cube maps.",
+    hint: "NASA SVS Deep Star Maps 2020, preprocessed into HDR cube maps. Phones and tablets are limited to High.",
   },
   { key: "exposure", label: "Exposure", group: "Output", kind: "range", default: 0, min: -6, max: 8, step: 0.05, unit: "EV", digits: 2 },
   { key: "bloom", label: "Bloom", group: "Output", kind: "range", default: 0.06, min: 0, max: 0.4, step: 0.005, digits: 3 },
@@ -46,6 +47,9 @@ export const GLOBAL_PARAMS: ParamDef[] = [
   },
   { key: "timeScale", label: "Time speed", group: "Output", kind: "range", default: 1, min: 0, max: 4, step: 0.05, unit: "×", digits: 2 },
 ];
+
+/** Output defaults for phones and tablets (see device.ts): render at the screen's size, with the High star map. */
+export const CONSTRAINED_DEFAULTS: Params = { resolution: "window", skyTier: "2048" };
 
 export interface EngineStats {
   fps: number;
@@ -77,6 +81,8 @@ export class Engine {
   private lost = false;
   /** Size of the on-screen stage in device pixels (used by the "window" resolution). */
   windowSize: [number, number] = [1280, 720];
+  /** Phone or tablet: render size and star map detail are capped, whatever the settings ask for. */
+  readonly constrained = isConstrainedDevice();
 
   constructor(readonly canvas: HTMLCanvasElement) {
     this.ctx = createContext(canvas);
@@ -108,6 +114,15 @@ export class Engine {
       w = Math.floor(w * s);
       h = Math.floor(h * s);
     }
+    if (this.constrained) {
+      // never larger than the screen, so the first size on a phone is its final one
+      if (w * h > windowSize[0] * windowSize[1]) [w, h] = windowSize;
+      if (w * h > CONSTRAINED_MAX_PIXELS) {
+        const s = Math.sqrt(CONSTRAINED_MAX_PIXELS / (w * h));
+        w = Math.floor(w * s);
+        h = Math.floor(h * s);
+      }
+    }
     w = Math.max(16, Math.round(w));
     h = Math.max(16, Math.round(h));
     if (w === this.width && h === this.height) return;
@@ -120,7 +135,8 @@ export class Engine {
 
   /** Progressive sky loading: a small tier first for instant display, then the requested one. */
   requestSky(tierKey: string) {
-    const tier = Math.min(Number(tierKey) || 2048, this.ctx.caps.maxCube) as SkyTier;
+    const cap = this.constrained ? Math.min(CONSTRAINED_MAX_SKY, this.ctx.caps.maxCube) : this.ctx.caps.maxCube;
+    const tier = Math.min(Number(tierKey) || 2048, cap) as SkyTier;
     if (tier === this.skyRequested) return;
     this.skyRequested = tier;
     const chain = SKY_TIERS.filter((t) => t <= tier && (t === 512 || t === tier));

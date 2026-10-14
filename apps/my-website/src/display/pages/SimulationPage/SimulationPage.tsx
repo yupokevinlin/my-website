@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import clsx from "clsx";
-import { Engine, EngineStats, GLOBAL_PARAMS } from "../../../simulations/gl/engine";
+import { CONSTRAINED_DEFAULTS, Engine, EngineStats, GLOBAL_PARAMS } from "../../../simulations/gl/engine";
+import { isConstrainedDevice } from "../../../simulations/gl/device";
 import { getSimulation } from "../../../simulations/sims/registry";
 import type { ParamDef, Params, ParamValue, Simulation } from "../../../simulations/sims/types";
 import SimulationsLayout from "../../components/Simulations/SimulationsLayout/SimulationsLayout";
@@ -12,6 +13,8 @@ import { MONO, SANS, SERIF } from "../../components/Simulations/theme";
 import { CameraIcon, FullscreenIcon, InfoIcon, PauseIcon, PlayIcon, TuneIcon } from "../../components/Simulations/SimulationIcons/SimulationIcons";
 
 const defaultsOf = (defs: Array<ParamDef>): Params => Object.fromEntries(defs.map((d) => [d.key, d.default]));
+
+const noSubscribe = () => () => undefined;
 
 // shareable links: every non-default parameter lives in the URL hash
 const parseHash = (hash: string, defs: Array<ParamDef>): Params => {
@@ -75,26 +78,40 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
   const { id } = props;
   const desc = getSimulation(id);
   const chapter = getChapter(id);
+  // Phones and tablets default to rendering at the screen's size with the High
+  // star map; the desktop defaults use more graphics memory than they allow.
+  const constrained = useSyncExternalStore(noSubscribe, isConstrainedDevice, () => false);
   const defs = useMemo(() => {
-    const over = desc.globalDefaults ?? {};
+    const over = { ...(desc.globalDefaults ?? {}), ...(constrained ? CONSTRAINED_DEFAULTS : {}) };
     return [...desc.params, ...GLOBAL_PARAMS.map((d) => (d.key in over ? { ...d, default: over[d.key] } : d))];
-  }, [desc]);
+  }, [desc, constrained]);
   const [params, setParams] = useState<Params>(() => defaultsOf(defs));
   const paramsRef = useRef(params);
   paramsRef.current = params;
+  // After hydration the first render used the desktop defaults: move any
+  // output setting still at its desktop default to the device's default.
+  useEffect(() => {
+    if (!constrained) return;
+    setParams((p) => {
+      const next = { ...p };
+      for (const d of GLOBAL_PARAMS) if (d.key in CONSTRAINED_DEFAULTS && p[d.key] === d.default) next[d.key] = CONSTRAINED_DEFAULTS[d.key];
+      return next;
+    });
+  }, [constrained]);
 
   const stageRef = useRef<HTMLDivElement>(null);
   const holderRef = useRef<HTMLDivElement>(null);
   const engineRef = useRef<Engine | null>(null);
   const simRef = useRef<Simulation | null>(null);
   const [stats, setStats] = useState<EngineStats | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<{ title: string; message: string; hint: string } | null>(null);
   const [panelOpen, setPanelOpen] = useState<boolean>(true);
   const [tab, setTab] = useState<"controls" | "learn">("controls");
   const [uiHidden, setUiHidden] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
   const [saving, setSaving] = useState<boolean>(false);
-  const [stage, setStage] = useState<[number, number]>([1280, 720]);
+  // stage size in CSS pixels; [0, 0] until the ResizeObserver first reports it
+  const [stage, setStage] = useState<[number, number]>([0, 0]);
   const pausedScale = useRef(1);
 
   // ---- params from URL hash (shareable links and "try this" links) ----
@@ -146,14 +163,27 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
       engine.windowSize = [rect.width * dpr, rect.height * dpr];
       sim = desc.create(engine);
     } catch (e) {
-      setError(e instanceof Error ? e.message : String(e));
+      setError({
+        title: "This simulation needs WebGL 2 with float render targets",
+        message: e instanceof Error ? e.message : String(e),
+        hint: "Try a recent Chrome, Edge, Firefox or Safari with hardware acceleration enabled.",
+      });
       canvas.remove();
       return undefined;
     }
     engineRef.current = engine;
     simRef.current = sim;
     engine.start(sim, () => paramsRef.current, setStats);
+    // Browsers drop the WebGL context when graphics memory runs out (phones especially).
+    const lost = (): void => setError({
+      title: "The 3D view stopped",
+      message: "The browser stopped the 3D view, most likely because it ran out of graphics memory.",
+      hint: "Reload the page to try again. A lower render resolution or star map detail under Output also helps.",
+    });
+    canvas.addEventListener("webglcontextlost", lost);
     return () => {
+      // dispose() deliberately loses the context, which is not an error
+      canvas.removeEventListener("webglcontextlost", lost);
       sim.dispose();
       engine.dispose();
       engineRef.current = null;
@@ -163,8 +193,9 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
   }, [desc]);
 
   useEffect(() => {
-    if (engineRef.current) engineRef.current.windowSize = windowRes();
-  }, [windowRes]);
+    // the engine starts with the measured stage size; don't overwrite it with the placeholder
+    if (engineRef.current && stage[0] > 0) engineRef.current.windowSize = windowRes();
+  }, [windowRes, stage]);
 
   // scale the canvas (fixed render resolution) to cover the stage, centred;
   // the stage clips the overflow, while snapshots keep the full frame
@@ -310,11 +341,9 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
           {error && (
             <div className="absolute inset-0 flex items-center justify-center p-[16px]">
               <div className={clsx(glass, "max-w-[520px] p-[24px]")} style={glassStyle}>
-                <p className={clsx(SERIF, "text-[24px] mb-[10px]")} style={{ color: "var(--sim-text)" }}>This simulation needs WebGL 2 with float render targets</p>
-                <p className={clsx(SANS, "text-[14px] font-light mb-[8px]")} style={{ color: "var(--sim-body)" }}>{error}</p>
-                <p className={clsx(SANS, "text-[14px] font-light")} style={{ color: "var(--sim-muted)" }}>
-                  Try a recent desktop Chrome, Edge, Firefox or Safari with hardware acceleration enabled.
-                </p>
+                <p className={clsx(SERIF, "text-[24px] mb-[10px]")} style={{ color: "var(--sim-text)" }}>{error.title}</p>
+                <p className={clsx(SANS, "text-[14px] font-light mb-[8px]")} style={{ color: "var(--sim-body)" }}>{error.message}</p>
+                <p className={clsx(SANS, "text-[14px] font-light")} style={{ color: "var(--sim-muted)" }}>{error.hint}</p>
               </div>
             </div>
           )}
