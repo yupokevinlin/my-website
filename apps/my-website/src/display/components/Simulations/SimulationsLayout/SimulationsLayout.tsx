@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import NextLink from "next/link";
 import clsx from "clsx";
 import { ACCENTS, MONO, SANS, SERIF, SimAccentId, fontVars, themeVars } from "../theme";
-import { HomeIcon, MenuIcon } from "../SimulationIcons/SimulationIcons";
+import { HomeIcon, MenuBookIcon, MenuIcon } from "../SimulationIcons/SimulationIcons";
 
-const NAV: Array<{ id: SimAccentId | "home"; numeral: string; label: string; href: string }> = [
-  { id: "home", numeral: "", label: "Home", href: "/" },
-  { id: "overview", numeral: "", label: "Overview", href: "/ray-tracing" },
+const NAV: Array<{ id: SimAccentId | "home"; numeral: string; label: string; href: string; Icon?: typeof HomeIcon }> = [
+  { id: "home", numeral: "", label: "Home", href: "/", Icon: HomeIcon },
+  { id: "overview", numeral: "", label: "Overview", href: "/ray-tracing", Icon: MenuBookIcon },
   { id: "blackhole", numeral: "I", label: "Black Hole", href: "/ray-tracing/blackhole" },
   { id: "wormhole", numeral: "II", label: "Wormhole", href: "/ray-tracing/wormhole" },
   { id: "lightspeed", numeral: "III", label: "Light Speed", href: "/ray-tracing/lightspeed" },
@@ -42,7 +42,7 @@ const SimulationsLayout: React.FC<SimulationsLayoutProps> = (props) => {
         )}
         style={{ color: isActive ? "var(--sim-text)" : "var(--sim-muted)", textDecoration: "none" }}
       >
-        {item.id === "home" && <HomeIcon className="!h-[16px] !w-[16px] group-hover:text-[var(--sim-text)]"/>}
+        {item.Icon && <item.Icon className="!h-[16px] !w-[16px] group-hover:text-[var(--sim-text)]"/>}
         {item.numeral && (
           <span className={clsx(MONO, "text-[10px]")} style={{ color: isActive ? accent : "var(--sim-faint)" }}>{item.numeral}</span>
         )}

@@ -219,7 +219,7 @@ const SimulationsPage: React.FC = () => {
                     Light, bent by <em className="italic" style={{ color: "var(--sim-accent)" }}>spacetime</em>
                   </motion.h1>
                   <motion.p variants={item} className={clsx(body, "mt-[26px] max-w-[640px]")} style={{ color: "var(--sim-body)" }}>
-                    How does a black hole work, and what would one really look like? Eleven short lessons explain, with animated diagrams. Then three real-time simulations let you fly around a black hole, through a wormhole and close to the speed of light, at up to 4K. Every pixel is a ray of light, traced through curved spacetime.
+                    How does a black hole work, and what would one really look like? Eleven short lessons explain, with animated diagrams. Then three real-time simulations let you fly around a black hole, through a wormhole and close to the speed of light. Every pixel is a ray of light, traced through curved spacetime.
                   </motion.p>
                   <motion.div variants={item} className="mt-[34px] flex flex-wrap items-center gap-[14px]">
                     <a
