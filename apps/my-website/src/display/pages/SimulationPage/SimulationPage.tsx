@@ -1,0 +1,412 @@
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import clsx from "clsx";
+import { Engine, EngineStats, GLOBAL_PARAMS } from "../../../simulations/gl/engine";
+import { getSimulation } from "../../../simulations/sims/registry";
+import type { ParamDef, Params, ParamValue, Simulation } from "../../../simulations/sims/types";
+import SimulationsLayout from "../../components/Simulations/SimulationsLayout/SimulationsLayout";
+import ControlPanel from "../../components/Simulations/ControlPanel/ControlPanel";
+import LearnPanel from "../../components/Simulations/LearnPanel/LearnPanel";
+import { Preset, SimId, getChapter } from "../../components/Simulations/content";
+import { MONO, SANS, SERIF } from "../../components/Simulations/theme";
+import { CameraIcon, FullscreenIcon, InfoIcon, PauseIcon, PlayIcon, TuneIcon } from "../../components/Simulations/SimulationIcons/SimulationIcons";
+
+const defaultsOf = (defs: Array<ParamDef>): Params => Object.fromEntries(defs.map((d) => [d.key, d.default]));
+
+// shareable links: every non-default parameter lives in the URL hash
+const parseHash = (hash: string, defs: Array<ParamDef>): Params => {
+  const q = new URLSearchParams(hash.replace(/^#/, ""));
+  const out: Params = {};
+  for (const d of defs) {
+    const raw = q.get(d.key);
+    if (raw === null) continue;
+    if (d.kind === "range") {
+      const n = Number(raw);
+      if (Number.isFinite(n)) out[d.key] = Math.min(d.max ?? n, Math.max(d.min ?? n, n));
+    } else if (d.kind === "toggle") out[d.key] = raw === "1";
+    else if (d.options?.some((o) => o.value === raw)) out[d.key] = raw;
+  }
+  return out;
+};
+
+const encodeHash = (params: Params, defs: Array<ParamDef>): string => {
+  const q = new URLSearchParams();
+  for (const d of defs) {
+    const v = params[d.key];
+    if (v === d.default) continue;
+    if (typeof v === "boolean") q.set(d.key, v ? "1" : "0");
+    else if (typeof v === "number") {
+      const decimals = Math.max(0, Math.ceil(-Math.log10(d.step ?? 0.01)));
+      q.set(d.key, String(Number(v.toFixed(decimals))));
+    } else q.set(d.key, v);
+  }
+  const s = q.toString();
+  return s ? `#${s}` : "";
+};
+
+const glass = "rounded-[10px] backdrop-blur-md";
+const glassStyle: React.CSSProperties = { backgroundColor: "var(--sim-surface)", border: "1px solid var(--sim-border)" };
+
+const ToolButton: React.FC<{ title: string; onClick(): void; active?: boolean; children: React.ReactNode }> = ({ title, onClick, active, children }) => (
+  <button
+    type="button"
+    title={title}
+    aria-label={title}
+    className="btn-base flex h-[34px] min-w-[34px] items-center justify-center gap-[8px] rounded-[8px] px-[8px] cursor-pointer transition-colors hover:bg-white/10"
+    style={{ border: "none", background: active ? "rgba(255,255,255,0.08)" : "transparent", color: active ? "var(--sim-accent)" : "var(--sim-text)" }}
+    onClick={onClick}
+  >
+    {children}
+  </button>
+);
+
+export interface SimulationPageProps {
+  id: SimId;
+}
+
+const SimulationPage: React.FC<SimulationPageProps> = (props) => {
+  const { id } = props;
+  const desc = getSimulation(id);
+  const chapter = getChapter(id);
+  const defs = useMemo(() => {
+    const over = desc.globalDefaults ?? {};
+    return [...desc.params, ...GLOBAL_PARAMS.map((d) => (d.key in over ? { ...d, default: over[d.key] } : d))];
+  }, [desc]);
+  const [params, setParams] = useState<Params>(() => defaultsOf(defs));
+  const paramsRef = useRef(params);
+  paramsRef.current = params;
+
+  const stageRef = useRef<HTMLDivElement>(null);
+  const holderRef = useRef<HTMLDivElement>(null);
+  const engineRef = useRef<Engine | null>(null);
+  const simRef = useRef<Simulation | null>(null);
+  const [stats, setStats] = useState<EngineStats | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [panelOpen, setPanelOpen] = useState<boolean>(true);
+  const [tab, setTab] = useState<"controls" | "learn">("controls");
+  const [uiHidden, setUiHidden] = useState<boolean>(false);
+  const [copied, setCopied] = useState<boolean>(false);
+  const [saving, setSaving] = useState<boolean>(false);
+  const [stage, setStage] = useState<[number, number]>([1280, 720]);
+  const pausedScale = useRef(1);
+
+  // ---- params from URL hash (shareable links and "try this" links) ----
+  useEffect(() => {
+    const apply = (): void => {
+      const fromHash = parseHash(window.location.hash, defs);
+      if (Object.keys(fromHash).length) setParams((p) => ({ ...p, ...fromHash }));
+    };
+    apply();
+    window.addEventListener("hashchange", apply);
+    return () => window.removeEventListener("hashchange", apply);
+  }, [defs]);
+  useEffect(() => {
+    const t = setTimeout(() => {
+      const h = encodeHash(params, defs);
+      if (h !== window.location.hash) history.replaceState(history.state, "", window.location.pathname + h);
+    }, 300);
+    return () => clearTimeout(t);
+  }, [params, defs]);
+
+  // ---- stage size ----
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return undefined;
+    const ro = new ResizeObserver(([e]) => setStage([e.contentRect.width, e.contentRect.height]));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const windowRes = useCallback((): [number, number] => {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    return [Math.round(stage[0] * dpr), Math.round(stage[1] * dpr)];
+  }, [stage]);
+
+  // ---- engine + simulation lifecycle ----
+  useEffect(() => {
+    const holder = holderRef.current, stageEl = stageRef.current;
+    if (!holder || !stageEl) return undefined;
+    // a fresh canvas per mount: a context lost via dispose() can't be re-acquired
+    const canvas = document.createElement("canvas");
+    canvas.className = "block";
+    holder.appendChild(canvas);
+    let engine: Engine;
+    let sim: Simulation;
+    try {
+      engine = new Engine(canvas);
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const rect = stageEl.getBoundingClientRect();
+      engine.windowSize = [rect.width * dpr, rect.height * dpr];
+      sim = desc.create(engine);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+      canvas.remove();
+      return undefined;
+    }
+    engineRef.current = engine;
+    simRef.current = sim;
+    engine.start(sim, () => paramsRef.current, setStats);
+    return () => {
+      sim.dispose();
+      engine.dispose();
+      engineRef.current = null;
+      simRef.current = null;
+      canvas.remove();
+    };
+  }, [desc]);
+
+  useEffect(() => {
+    if (engineRef.current) engineRef.current.windowSize = windowRes();
+  }, [windowRes]);
+
+  // fit the canvas (fixed render resolution) into the stage, letterboxed
+  const renderW = stats?.width ?? 3840;
+  const renderH = stats?.height ?? 2160;
+  const fit = Math.min(stage[0] / renderW, stage[1] / renderH);
+  useEffect(() => {
+    const c = holderRef.current?.querySelector("canvas");
+    if (!c) return;
+    c.style.width = `${Math.floor(renderW * fit)}px`;
+    c.style.height = `${Math.floor(renderH * fit)}px`;
+  }, [renderW, renderH, fit]);
+
+  const setParam = useCallback((key: string, value: ParamValue) => setParams((p) => ({ ...p, [key]: value })), []);
+  const applyPreset = useCallback((preset: Preset) => setParams((p) => ({ ...p, ...preset.params })), []);
+
+  // ---- pointer interaction ----
+  useEffect(() => {
+    const el = holderRef.current;
+    if (!el) return undefined;
+    let dragging = false;
+    const down = (e: PointerEvent): void => {
+      dragging = true;
+      el.setPointerCapture(e.pointerId);
+    };
+    const move = (e: PointerEvent): void => {
+      if (!dragging || !simRef.current?.onDrag) return;
+      const h = el.getBoundingClientRect().height || 1;
+      const dx = e.movementX / h, dy = e.movementY / h;
+      setParams((p) => {
+        const ch = simRef.current?.onDrag?.(dx, dy, p);
+        return ch ? ({ ...p, ...ch } as Params) : p;
+      });
+    };
+    const up = (e: PointerEvent): void => {
+      dragging = false;
+      if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+    };
+    const wheel = (e: WheelEvent): void => {
+      if (!simRef.current?.onWheel) return;
+      e.preventDefault();
+      setParams((p) => {
+        const ch = simRef.current?.onWheel?.(e.deltaY, p);
+        return ch ? ({ ...p, ...ch } as Params) : p;
+      });
+    };
+    // any button drags the camera, so keep the browser menu off the view
+    const menu = (e: MouseEvent): void => e.preventDefault();
+    el.addEventListener("pointerdown", down);
+    el.addEventListener("pointermove", move);
+    el.addEventListener("pointerup", up);
+    el.addEventListener("pointercancel", up);
+    el.addEventListener("wheel", wheel, { passive: false });
+    el.addEventListener("contextmenu", menu);
+    return () => {
+      el.removeEventListener("pointerdown", down);
+      el.removeEventListener("pointermove", move);
+      el.removeEventListener("pointerup", up);
+      el.removeEventListener("pointercancel", up);
+      el.removeEventListener("wheel", wheel);
+      el.removeEventListener("contextmenu", menu);
+    };
+  }, []);
+
+  // ---- actions ----
+  const snapshot = useCallback(async () => {
+    const engine = engineRef.current;
+    if (!engine || saving) return;
+    setSaving(true);
+    try {
+      const blob = await engine.snapshot();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${desc.id}-${engine.width}x${engine.height}-${new Date().toISOString().replace(/[:.]/g, "-")}.png`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+    } finally {
+      setSaving(false);
+    }
+  }, [desc.id, saving]);
+
+  const fullscreen = useCallback(() => {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else stageRef.current?.requestFullscreen();
+  }, []);
+
+  const togglePause = useCallback(() => {
+    setParams((p) => {
+      const ts = Number(p.timeScale);
+      if (ts > 0) {
+        pausedScale.current = ts;
+        return { ...p, timeScale: 0 };
+      }
+      return { ...p, timeScale: pausedScale.current || 1 };
+    });
+  }, []);
+
+  const copyLink = useCallback(async () => {
+    const url = window.location.origin + window.location.pathname + encodeHash(paramsRef.current, defs);
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1600);
+  }, [defs]);
+
+  const openPanel = (next: "controls" | "learn"): void => {
+    if (panelOpen && tab === next) setPanelOpen(false);
+    else {
+      setTab(next);
+      setPanelOpen(true);
+    }
+  };
+
+  useEffect(() => {
+    const key = (e: KeyboardEvent): void => {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === "INPUT" || tag === "SELECT") return;
+      if (e.key === "h" || e.key === "H") setUiHidden((v) => !v);
+      else if (e.key === "f" || e.key === "F") fullscreen();
+      else if (e.key === "p" || e.key === "P") snapshot();
+      else if (e.key === " ") {
+        e.preventDefault();
+        togglePause();
+      }
+    };
+    window.addEventListener("keydown", key);
+    return () => window.removeEventListener("keydown", key);
+  }, [fullscreen, snapshot, togglePause]);
+
+  const hud = simRef.current?.hud?.(params) ?? [];
+  const status = stats?.status;
+  const paused = Number(params.timeScale) === 0;
+  const icon = "!h-[20px] !w-[20px]";
+
+  return (
+    <SimulationsLayout active={id} hideChrome={uiHidden}>
+      <div className="relative flex h-full w-full flex-col overflow-y-auto md:flex-row md:overflow-hidden">
+        <div ref={stageRef} className="relative w-full shrink-0 aspect-video overflow-hidden bg-black md:aspect-auto md:h-full md:flex-1 md:shrink">
+          <div ref={holderRef} className="absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing touch-none"/>
+
+          {error && (
+            <div className="absolute inset-0 flex items-center justify-center p-[16px]">
+              <div className={clsx(glass, "max-w-[520px] p-[24px]")} style={glassStyle}>
+                <p className={clsx(SERIF, "text-[24px] mb-[10px]")} style={{ color: "var(--sim-text)" }}>This simulation needs WebGL 2 with float render targets</p>
+                <p className={clsx(SANS, "text-[14px] font-light mb-[8px]")} style={{ color: "var(--sim-body)" }}>{error}</p>
+                <p className={clsx(SANS, "text-[14px] font-light")} style={{ color: "var(--sim-muted)" }}>
+                  Try a recent desktop Chrome, Edge, Firefox or Safari with hardware acceleration enabled.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {!uiHidden && (
+            <div className="pointer-events-none absolute left-[16px] top-[14px] sm:left-[22px] sm:top-[18px] flex flex-col gap-[12px] max-w-[calc(100%-200px)]">
+              <div style={{ textShadow: "0 1px 12px rgba(0,0,0,0.8)" }}>
+                <div className={clsx(MONO, "text-[10px] tracking-[0.22em] uppercase")} style={{ color: "var(--sim-accent)" }}>{chapter.kicker}</div>
+                <h1 className={clsx(SERIF, "text-[26px] leading-[30px] sm:text-[34px] sm:leading-[38px] font-normal mt-[4px]")} style={{ color: "var(--sim-text)" }}>{chapter.title}</h1>
+              </div>
+              {hud.length > 0 && (
+                <div className={clsx(glass, "hidden sm:flex flex-col gap-[3px] px-[12px] py-[9px] w-max")} style={glassStyle}>
+                  {hud.map((h) => (
+                    <div key={h.label} className="flex flex-row items-baseline justify-between gap-[18px]">
+                      <span className={clsx(SANS, "text-[11.5px] font-light whitespace-nowrap")} style={{ color: "var(--sim-muted)" }}>{h.label}</span>
+                      <span className={clsx(MONO, "text-[11.5px] tabular-nums whitespace-nowrap")} style={{ color: "var(--sim-text)" }}>{h.value}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {!uiHidden && (
+            <div className={clsx(glass, "absolute right-[12px] top-[12px] flex flex-row items-center gap-[2px] p-[4px]")} style={glassStyle}>
+              <ToolButton title={paused ? "Play (Space)" : "Pause (Space)"} onClick={togglePause}>
+                {paused ? <PlayIcon className={icon}/> : <PauseIcon className={icon}/>}
+              </ToolButton>
+              <span className="hidden sm:flex">
+                <ToolButton title="Fullscreen (F)" onClick={fullscreen}><FullscreenIcon className={icon}/></ToolButton>
+              </span>
+              <ToolButton title="Save a PNG at the render resolution (P)" onClick={snapshot}>
+                <CameraIcon className={icon}/>
+                <span className={clsx(MONO, "hidden lg:inline text-[11px] tabular-nums")}>{saving ? "saving…" : `${renderW}×${renderH}`}</span>
+              </ToolButton>
+              <span className="mx-[2px] h-[20px] w-[1px]" style={{ backgroundColor: "var(--sim-border)" }}/>
+              <ToolButton title="Learn" active={panelOpen && tab === "learn"} onClick={() => openPanel("learn")}><InfoIcon className={icon}/></ToolButton>
+              <ToolButton title="Controls" active={panelOpen && tab === "controls"} onClick={() => openPanel("controls")}><TuneIcon className={icon}/></ToolButton>
+            </div>
+          )}
+
+          {!uiHidden && (
+            <div className={clsx(glass, "pointer-events-none absolute left-[12px] bottom-[12px] sm:left-[22px] sm:bottom-[16px] flex flex-col gap-[6px] px-[12px] py-[8px] max-w-[calc(100%-24px)]")} style={glassStyle}>
+              {status && status.progress < 1 && (
+                <div className="h-[2px] w-[220px] max-w-full overflow-hidden rounded-full" style={{ backgroundColor: "rgba(255,255,255,0.1)" }}>
+                  <div className="h-full transition-[width] duration-200" style={{ width: `${status.progress * 100}%`, backgroundColor: "var(--sim-accent)" }}/>
+                </div>
+              )}
+              <span className={clsx(SANS, "text-[11.5px] font-light truncate")} style={{ color: "var(--sim-body)" }}>
+                {status?.label}
+                {stats?.skyLoading ? ` · ${stats.skyLoading}` : ""}
+              </span>
+              <span className={clsx(MONO, "text-[11px] tabular-nums")} style={{ color: "var(--sim-muted)" }}>
+                {stats ? `${stats.width}×${stats.height} · ${stats.fps.toFixed(0)} fps` : "starting…"}
+                {paused ? " · paused" : ""}
+              </span>
+            </div>
+          )}
+
+          {!uiHidden && (
+            <span className={clsx(SANS, "pointer-events-none absolute right-[18px] bottom-[16px] hidden lg:block text-[11.5px] font-light")} style={{ color: "rgba(236,232,225,0.45)" }}>
+              {desc.controlsHelp}
+            </span>
+          )}
+        </div>
+
+        {panelOpen && !uiHidden && (
+          <aside
+            className="w-full shrink-0 pb-[18px] md:absolute md:right-0 md:top-0 md:z-[1] md:h-full md:w-[330px] md:overflow-y-auto lg:static lg:w-[360px]"
+            style={{ backgroundColor: "var(--sim-surface-solid)", borderLeft: "1px solid var(--sim-border)" }}
+          >
+            <div className="sticky top-0 z-[1] flex flex-row px-[18px] pt-[12px]" style={{ backgroundColor: "var(--sim-surface-solid)", borderBottom: "1px solid var(--sim-border)" }}>
+              {(["controls", "learn"] as const).map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  className={clsx(MONO, "btn-base relative mr-[22px] pb-[10px] text-[10.5px] tracking-[0.2em] uppercase cursor-pointer")}
+                  style={{ border: "none", background: "transparent", color: tab === t ? "var(--sim-text)" : "var(--sim-faint)" }}
+                  onClick={() => setTab(t)}
+                >
+                  {t === "controls" ? "Controls" : "Learn"}
+                  <span className="absolute left-0 right-0 bottom-[-1px] h-[1px]" style={{ backgroundColor: "var(--sim-accent)", opacity: tab === t ? 1 : 0 }}/>
+                </button>
+              ))}
+            </div>
+            {tab === "controls" ? (
+              <ControlPanel
+                defs={defs}
+                params={params}
+                copied={copied}
+                handleChange={setParam}
+                handleReset={() => setParams(defaultsOf(defs))}
+                handleCopyLink={copyLink}
+              />
+            ) : (
+              <LearnPanel chapter={chapter} handlePreset={applyPreset}/>
+            )}
+            <p className={clsx(MONO, "px-[18px] pt-[14px] text-[10px] leading-[15px] break-words")} style={{ color: "var(--sim-faint)" }}>{stats?.renderer}</p>
+          </aside>
+        )}
+      </div>
+    </SimulationsLayout>
+  );
+};
+
+export default SimulationPage;
