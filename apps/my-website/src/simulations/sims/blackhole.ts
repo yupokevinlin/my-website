@@ -652,7 +652,7 @@ export const blackholeSim: SimulationDescriptor = {
   tagline: "Gargantua: a spinning black hole with a thin accretion disc",
   description:
     "Null geodesics are integrated through the curved spacetime of a spinning black hole (RK4 on Hamilton's equations) and cached in a 4K ray map. The differentially rotating disc (Interstellar-style concentric lanes and streaks of gas, each on its own Keplerian orbit, denser towards the hole) shows Doppler and gravitational shifts with relativistic beaming, in a cinematic or full blackbody colour model.",
-  controlsHelp: "Drag: orbit (horizontal = azimuth, vertical = inclination) · Wheel: distance",
+  controlsHelp: "Drag: orbit (horizontal = azimuth, vertical = inclination) · Wheel or pinch: distance",
   params: [
     { key: "spin", label: "Spin a/M (rotation)", group: "Black hole", kind: "range", default: 0.215, min: 0, max: 0.998, step: 0.001, digits: 3, retrace: true, hint: "0 = Schwarzschild (no rotation), 0.998 = Thorne limit" },
     {

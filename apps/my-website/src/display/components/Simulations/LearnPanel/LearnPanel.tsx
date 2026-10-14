@@ -89,7 +89,7 @@ const LearnPanel: React.FC<LearnPanelProps> = ({ chapter, handlePreset }) => {
 
       <Heading>Keys</Heading>
       <p className={clsx(MONO, "text-[11.5px] leading-[20px]")} style={{ color: "var(--sim-muted)" }}>
-        Drag · look or orbit<br/>Wheel · zoom or move<br/>Space · pause &nbsp; F · fullscreen<br/>P · snapshot &nbsp; H · hide interface
+        Drag · look or orbit<br/>Wheel or pinch · zoom or move<br/>Space · pause &nbsp; F · fullscreen<br/>P · snapshot &nbsp; H · hide interface
       </p>
       <p className={clsx(SANS, "text-[12.5px] font-light mt-[18px]")} style={{ color: "var(--sim-faint)" }}>
         More in the <NextLink href={`/ray-tracing#${chapter.id}`} className="link-base underline" style={{ color: "var(--sim-accent)" }}>illustrated overview</NextLink>.

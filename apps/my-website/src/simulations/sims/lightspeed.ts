@@ -268,7 +268,7 @@ export const lightspeedSim: SimulationDescriptor = {
   tagline: "Travel towards the galactic centre at relativistic speed",
   description:
     "Exact special-relativistic rendering: aberration bunches the sky forward, Doppler shifts every star's blackbody spectrum, and relativistic beaming (the searchlight effect) brightens the view ahead while darkening the sky behind.",
-  controlsHelp: "Drag: look around · Wheel: change speed",
+  controlsHelp: "Drag: look around · Wheel or pinch: change speed",
   params: [
     { key: "speed", label: "Speed", group: "Ship", kind: "range", default: 1.5, min: 0, max: 10, step: 0.001, digits: 3, format: formatSpeed, hint: "Rapidity η: β = tanh η, γ = cosh η. Equal steps feel like equal pushes of the engine." },
     {

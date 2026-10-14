@@ -216,40 +216,67 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
   useEffect(() => {
     const el = holderRef.current;
     if (!el) return undefined;
-    let dragging = false;
-    const down = (e: PointerEvent): void => {
-      dragging = true;
-      el.setPointerCapture(e.pointerId);
+    // One pointer drags the camera; two fingers pinch, which works like the wheel.
+    // Positions are tracked here because touch pointers don't report movementX/Y everywhere.
+    const pointers = new Map<number, { x: number; y: number }>();
+    let spread = 0; // distance between the two pinching fingers at the last move
+    const measureSpread = (): number => {
+      const [a, b] = Array.from(pointers.values());
+      return Math.hypot(a.x - b.x, a.y - b.y);
     };
-    const move = (e: PointerEvent): void => {
-      if (!dragging || !simRef.current?.onDrag) return;
-      const h = el.getBoundingClientRect().height || 1;
-      const dx = e.movementX / h, dy = e.movementY / h;
+    const zoom = (deltaY: number): void => {
       setParams((p) => {
-        const ch = simRef.current?.onDrag?.(dx, dy, p);
+        const ch = simRef.current?.onWheel?.(deltaY, p);
         return ch ? ({ ...p, ...ch } as Params) : p;
       });
     };
+    const down = (e: PointerEvent): void => {
+      el.setPointerCapture(e.pointerId);
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      spread = pointers.size === 2 ? measureSpread() : 0;
+    };
+    const move = (e: PointerEvent): void => {
+      const last = pointers.get(e.pointerId);
+      if (!last) return;
+      const mx = e.clientX - last.x, my = e.clientY - last.y;
+      last.x = e.clientX;
+      last.y = e.clientY;
+      if (pointers.size === 1 && simRef.current?.onDrag) {
+        const h = el.getBoundingClientRect().height || 1;
+        setParams((p) => {
+          const ch = simRef.current?.onDrag?.(mx / h, my / h, p);
+          return ch ? ({ ...p, ...ch } as Params) : p;
+        });
+      } else if (pointers.size === 2) {
+        const d = measureSpread();
+        // spreading the fingers zooms in, like scrolling up; doubling the spread
+        // halves the black hole distance
+        if (spread > 0 && d > 0) zoom(-Math.log(d / spread) * 1000);
+        spread = d;
+      }
+    };
     const up = (e: PointerEvent): void => {
-      dragging = false;
+      pointers.delete(e.pointerId);
+      spread = pointers.size === 2 ? measureSpread() : 0;
       if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
     };
     const wheel = (e: WheelEvent): void => {
       if (!simRef.current?.onWheel) return;
       e.preventDefault();
-      setParams((p) => {
-        const ch = simRef.current?.onWheel?.(e.deltaY, p);
-        return ch ? ({ ...p, ...ch } as Params) : p;
-      });
+      zoom(e.deltaY);
     };
     // any button drags the camera, so keep the browser menu off the view
     const menu = (e: MouseEvent): void => e.preventDefault();
+    // Safari's own pinch would zoom the page
+    const gesture = (e: Event): void => e.preventDefault();
     el.addEventListener("pointerdown", down);
     el.addEventListener("pointermove", move);
     el.addEventListener("pointerup", up);
     el.addEventListener("pointercancel", up);
     el.addEventListener("wheel", wheel, { passive: false });
     el.addEventListener("contextmenu", menu);
+    el.addEventListener("gesturestart", gesture);
+    el.addEventListener("gesturechange", gesture);
     return () => {
       el.removeEventListener("pointerdown", down);
       el.removeEventListener("pointermove", move);
@@ -257,6 +284,8 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
       el.removeEventListener("pointercancel", up);
       el.removeEventListener("wheel", wheel);
       el.removeEventListener("contextmenu", menu);
+      el.removeEventListener("gesturestart", gesture);
+      el.removeEventListener("gesturechange", gesture);
     };
   }, []);
 

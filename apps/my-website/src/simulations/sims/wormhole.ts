@@ -296,7 +296,7 @@ export const wormholeSim: SimulationDescriptor = {
   tagline: "Fly through the Interstellar wormhole into another galaxy",
   description:
     "The Ellis/Dneg wormhole used for Interstellar. Because it is spherically symmetric, every light ray is pre-integrated into a 2048×512 geodesic table, so flying through the throat and looking around is a texture lookup per pixel.",
-  controlsHelp: "Drag: look around · Wheel: move along the wormhole (manual mode)",
+  controlsHelp: "Drag: look around · Wheel or pinch: move along the wormhole (manual mode)",
   params: [
     { key: "throat", label: "Throat length a", group: "Wormhole", kind: "range", default: 1, min: 0, max: 5, step: 0.01, unit: "ρ", digits: 2, retrace: true, hint: "Half-length of the cylindrical interior, in units of the throat radius ρ" },
     { key: "lensing", label: "Lensing parameter M", group: "Wormhole", kind: "range", default: 0.15, min: 0.01, max: 2, step: 0.005, unit: "ρ", digits: 3, retrace: true, hint: "Larger M = smoother mouth and wider gravitational lensing" },
