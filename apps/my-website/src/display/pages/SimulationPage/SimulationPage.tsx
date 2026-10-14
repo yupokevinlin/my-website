@@ -44,8 +44,15 @@ const encodeHash = (params: Params, defs: Array<ParamDef>): string => {
   return s ? `#${s}` : "";
 };
 
-const glass = "rounded-[10px] backdrop-blur-md";
-const glassStyle: React.CSSProperties = { backgroundColor: "var(--sim-surface)", border: "1px solid var(--sim-border)" };
+// Frosted glass for the cards over the view: a light tint with a strong blur,
+// so the simulation shows through behind the readouts. The text shadow keeps
+// them readable over the bright disc.
+const glass = "rounded-[10px] backdrop-blur-[16px] backdrop-saturate-150";
+const glassStyle: React.CSSProperties = {
+  backgroundColor: "rgba(10, 11, 18, 0.42)",
+  border: "1px solid rgba(255, 255, 255, 0.1)",
+  textShadow: "0 1px 3px rgba(0, 0, 0, 0.7)",
+};
 
 const ToolButton: React.FC<{ title: string; onClick(): void; active?: boolean; children: React.ReactNode }> = ({ title, onClick, active, children }) => (
   <button
@@ -322,7 +329,7 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
                 <div className={clsx(glass, "hidden sm:flex flex-col gap-[3px] px-[12px] py-[9px] w-max")} style={glassStyle}>
                   {hud.map((h) => (
                     <div key={h.label} className="flex flex-row items-baseline justify-between gap-[18px]">
-                      <span className={clsx(SANS, "text-[11.5px] font-light whitespace-nowrap")} style={{ color: "var(--sim-muted)" }}>{h.label}</span>
+                      <span className={clsx(SANS, "text-[11.5px] font-light whitespace-nowrap")} style={{ color: "var(--sim-body)" }}>{h.label}</span>
                       <span className={clsx(MONO, "text-[11.5px] tabular-nums whitespace-nowrap")} style={{ color: "var(--sim-text)" }}>{h.value}</span>
                     </div>
                   ))}
@@ -358,7 +365,7 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
               {working && (
                 <span className={clsx(SANS, "text-[11.5px] font-light truncate")} style={{ color: "var(--sim-body)" }}>{working}</span>
               )}
-              <span className={clsx(MONO, "text-[11px] tabular-nums")} style={{ color: "var(--sim-muted)" }}>
+              <span className={clsx(MONO, "text-[11px] tabular-nums")} style={{ color: "var(--sim-body)" }}>
                 {stats ? `${stats.fps.toFixed(0)} fps` : "starting…"}
                 {paused ? " · paused" : ""}
               </span>
