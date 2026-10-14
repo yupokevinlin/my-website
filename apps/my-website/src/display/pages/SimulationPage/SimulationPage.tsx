@@ -289,6 +289,8 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
 
   const hud = simRef.current?.hud?.(params) ?? [];
   const status = stats?.status;
+  // only report work in progress (tracing, star map loading), not finished states
+  const working = [status && status.progress < 1 ? status.label : "", stats?.skyLoading ?? ""].filter(Boolean).join(" · ");
   const paused = Number(params.timeScale) === 0;
   const icon = "!h-[20px] !w-[20px]";
 
@@ -337,9 +339,8 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
               <span className="hidden sm:flex">
                 <ToolButton title="Fullscreen (F)" onClick={fullscreen}><FullscreenIcon className={icon}/></ToolButton>
               </span>
-              <ToolButton title="Save a PNG at the render resolution (P)" onClick={snapshot}>
+              <ToolButton title="Save a PNG at the render resolution (P)" active={saving} onClick={snapshot}>
                 <CameraIcon className={icon}/>
-                <span className={clsx(MONO, "hidden lg:inline text-[11px] tabular-nums")}>{saving ? "saving…" : `${renderW}×${renderH}`}</span>
               </ToolButton>
               <span className="mx-[2px] h-[20px] w-[1px]" style={{ backgroundColor: "var(--sim-border)" }}/>
               <ToolButton title="Learn" active={panelOpen && tab === "learn"} onClick={() => openPanel("learn")}><InfoIcon className={icon}/></ToolButton>
@@ -354,10 +355,9 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
                   <div className="h-full transition-[width] duration-200" style={{ width: `${status.progress * 100}%`, backgroundColor: "var(--sim-accent)" }}/>
                 </div>
               )}
-              <span className={clsx(SANS, "text-[11.5px] font-light truncate")} style={{ color: "var(--sim-body)" }}>
-                {status?.label}
-                {stats?.skyLoading ? ` · ${stats.skyLoading}` : ""}
-              </span>
+              {working && (
+                <span className={clsx(SANS, "text-[11.5px] font-light truncate")} style={{ color: "var(--sim-body)" }}>{working}</span>
+              )}
               <span className={clsx(MONO, "text-[11px] tabular-nums")} style={{ color: "var(--sim-muted)" }}>
                 {stats ? `${stats.width}×${stats.height} · ${stats.fps.toFixed(0)} fps` : "starting…"}
                 {paused ? " · paused" : ""}
