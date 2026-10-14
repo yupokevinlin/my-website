@@ -159,7 +159,7 @@ export const LESSONS: Array<Lesson> = [
     title: "Spin",
     lead: "Real black holes spin, and drag spacetime around with them.",
     paragraphs: [
-      "Stars rotate, and a collapsing core spins up like a figure skater pulling in their arms. The black hole keeps that rotation. In 1963 Roy Kerr found the exact solution for a spinning black hole. The black hole in Interstellar, and the one in these simulations, is a Kerr black hole.",
+      "Stars rotate, and a collapsing core spins up like a figure skater pulling in their arms. The black hole keeps that rotation. In 1963 Roy Kerr found the exact solution for a spinning black hole. The black hole in Interstellar, and the one in these simulations, is a spinning black hole of exactly this kind.",
       "A spinning black hole drags space around with it, an effect called frame dragging. Close in, the dragging is so strong that nothing can stay still: in the ergosphere, even a rocket at full thrust is carried around with the spin. The horizon shrinks, and gas orbiting in the same direction as the spin can circle much closer before it plunges, so the disc reaches further in and shines hotter.",
       "Spin changes the shadow too. Light passing on the side that turns towards us is helped along and can get closer, while light on the other side is held back. At high spin one edge of the shadow flattens and the whole shadow shifts sideways.",
     ],

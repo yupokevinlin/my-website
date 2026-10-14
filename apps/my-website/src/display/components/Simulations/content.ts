@@ -46,10 +46,10 @@ export const CHAPTERS: Array<Chapter> = [
     title: "The Black Hole",
     subtitle: "A star's worth of mass, folded so tightly that not even light escapes.",
     image: "/ray-tracing/images/blackhole.jpg",
-    imageCaption: "A Kerr black hole with spin 0.215, seen from just above its accretion disc.",
+    imageCaption: "A black hole with spin 0.215, seen from just above its accretion disc.",
     paragraphs: [
-      "Gargantua, the black hole in Interstellar, is a Kerr black hole: a mass that spins. Mass curves spacetime, and light, which always takes the straightest path available, follows the curve. Close to the hole the bending is so strong that light can orbit it, loop around behind it, or fall in for good.",
-      "Every pixel here is a ray of light traced backwards from the camera through the Kerr geometry. If the ray crosses the event horizon, the pixel is black: that is the shadow. If it crosses the thin disc of hot gas orbiting the hole, it picks up the disc's glow, shifted in colour and brightness by the speed of the gas and by gravity itself.",
+      "Gargantua, the black hole in Interstellar, is a spinning black hole. Mass curves spacetime, and light, which always takes the straightest path available, follows the curve. Close to the hole the bending is so strong that light can orbit it, loop around behind it, or fall in for good.",
+      "Every pixel here is a ray of light traced backwards from the camera through the curved spacetime around the hole. If the ray crosses the event horizon, the pixel is black: that is the shadow. If it crosses the thin disc of hot gas orbiting the hole, it picks up the disc's glow, shifted in colour and brightness by the speed of the gas and by gravity itself.",
     ],
     features: [
       { title: "The shadow", text: "Every direction from which no light can reach you. It is about two and a half times wider than the event horizon, because light passing close to the hole is captured too." },
@@ -156,7 +156,7 @@ export const GLOSSARY: Array<Feature> = [
   { title: "Shadow", text: "The dark patch a black hole casts on the sky: every direction from which no light reaches you. About 2.6 times as wide as the horizon." },
   { title: "Accretion disc", text: "A flat disc of gas spiralling into a black hole, heated by friction until it glows." },
   { title: "ISCO", text: "The innermost stable circular orbit: the closest gas can orbit before plunging in. Spin moves it inwards for gas orbiting with the spin." },
-  { title: "Frame dragging", text: "A spinning mass drags spacetime around with it, so nothing near a Kerr black hole can stay still." },
+  { title: "Frame dragging", text: "A spinning mass drags spacetime around with it, so nothing near a spinning black hole can stay still." },
   { title: "Ergosphere", text: "The region just outside a spinning black hole's horizon where frame dragging is so strong that nothing can stay still." },
   { title: "Spaghettification", text: "The stretching of a falling object by tides: gravity pulls its near end harder than its far end." },
   { title: "Hawking radiation", text: "The faint thermal glow that quantum effects should give every black hole, letting it slowly evaporate." },

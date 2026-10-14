@@ -53,7 +53,7 @@ const Projects: React.FC = () => {
           <div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>PHYSICS</Typography>
           <div className="text-spacer"/>
-          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Kerr black hole: light paths integrated through curved spacetime (RK4)</Typography>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Spinning black hole: light paths integrated through curved spacetime (RK4)</Typography>
           <div className="text-spacer"/>
           <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Interstellar wormhole: precomputed geodesic lookup table</Typography>
           <div className="text-spacer"/>
