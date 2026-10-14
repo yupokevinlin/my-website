@@ -359,7 +359,7 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
                 <span className={clsx(SANS, "text-[11.5px] font-light truncate")} style={{ color: "var(--sim-body)" }}>{working}</span>
               )}
               <span className={clsx(MONO, "text-[11px] tabular-nums")} style={{ color: "var(--sim-muted)" }}>
-                {stats ? `${stats.width}×${stats.height} · ${stats.fps.toFixed(0)} fps` : "starting…"}
+                {stats ? `${stats.fps.toFixed(0)} fps` : "starting…"}
                 {paused ? " · paused" : ""}
               </span>
             </div>
