@@ -270,7 +270,7 @@ export const lightspeedSim: SimulationDescriptor = {
     "Exact special-relativistic rendering: aberration bunches the sky forward, Doppler shifts every star's blackbody spectrum, and relativistic beaming (the searchlight effect) brightens the view ahead while darkening the sky behind.",
   controlsHelp: "Drag: look around · Wheel: change speed",
   params: [
-    { key: "speed", label: "Speed (rapidity)", group: "Ship", kind: "range", default: 1.5, min: 0, max: 10, step: 0.001, digits: 3, format: formatSpeed, hint: "Rapidity η: β = tanh η, γ = cosh η. Equal steps feel like equal pushes of the engine." },
+    { key: "speed", label: "Speed", group: "Ship", kind: "range", default: 1.5, min: 0, max: 10, step: 0.001, digits: 3, format: formatSpeed, hint: "Rapidity η: β = tanh η, γ = cosh η. Equal steps feel like equal pushes of the engine." },
     {
       key: "drive", label: "Drive", group: "Ship", kind: "select", default: "cruise",
       options: [{ value: "cruise", label: "Cruise at set speed" }, { value: "accel", label: "Accelerate at 1 g up to set speed" }],
@@ -286,9 +286,9 @@ export const lightspeedSim: SimulationDescriptor = {
     { key: "cmb", label: "Cosmic microwave background", group: "Relativity", kind: "toggle", default: false, hint: "Becomes visible ahead at extreme speeds (D > ~300)" },
     { key: "cmbLog", label: "CMB brightness (log₁₀)", group: "Relativity", kind: "range", default: -6, min: -14, max: 0, step: 0.1, digits: 1, visibleIf: (p) => !!p.cmb },
     { key: "nearStars", label: "Nearby 3D stars", group: "Stars", kind: "toggle", default: true },
-    { key: "density", label: "Star density", group: "Stars", kind: "range", default: 0.08, min: 0.01, max: 1, step: 0.01, digits: 2, visibleIf: (p) => !!p.nearStars },
-    { key: "cellSize", label: "Star spacing", group: "Stars", kind: "range", default: 5, min: 0.5, max: 50, step: 0.1, unit: "ly", digits: 1, visibleIf: (p) => !!p.nearStars },
-    { key: "starGain", label: "Nearby star brightness", group: "Stars", kind: "range", default: 0.3, min: 0, max: 20, step: 0.05, digits: 2, visibleIf: (p) => !!p.nearStars },
+    { key: "density", label: "Star density", group: "Stars", kind: "range", default: 0.2, min: 0.01, max: 1, step: 0.01, digits: 2, visibleIf: (p) => !!p.nearStars },
+    { key: "cellSize", label: "Star spacing", group: "Stars", kind: "range", default: 3, min: 0.5, max: 50, step: 0.1, unit: "ly", digits: 1, visibleIf: (p) => !!p.nearStars },
+    { key: "starGain", label: "Nearby star brightness", group: "Stars", kind: "range", default: 1, min: 0, max: 20, step: 0.05, digits: 2, visibleIf: (p) => !!p.nearStars },
     { key: "maxCells", label: "Star draw distance", group: "Stars", kind: "range", default: 64, min: 8, max: 256, step: 1, unit: "cells", digits: 0, visibleIf: (p) => !!p.nearStars },
     {
       key: "skyMode", label: "Background", group: "Sky", kind: "select", default: "milkyway",

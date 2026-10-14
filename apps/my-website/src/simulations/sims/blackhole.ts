@@ -659,7 +659,7 @@ export const blackholeSim: SimulationDescriptor = {
       key: "discDir", label: "Disc orbit", group: "Black hole", kind: "select", default: "pro", retrace: true,
       options: [{ value: "pro", label: "Prograde (with spin)" }, { value: "retro", label: "Retrograde (against spin)" }],
     },
-    { key: "distance", label: "Distance", group: "Camera", kind: "range", default: 26, min: 4, max: 60, step: 0.1, unit: "M", digits: 1, retrace: true },
+    { key: "distance", label: "Distance", group: "Camera", kind: "range", default: 31.8, min: 4, max: 60, step: 0.1, unit: "M", digits: 1, retrace: true },
     { key: "inclination", label: "Inclination", group: "Camera", kind: "range", default: 5, min: -85, max: 85, step: 0.1, unit: "°", digits: 1, retrace: true, hint: "Height above the disc plane" },
     { key: "fov", label: "Field of view", group: "Camera", kind: "range", default: 55, min: 15, max: 120, step: 0.5, unit: "°", digits: 1, retrace: true },
     { key: "azimuth", label: "Azimuth", group: "Camera", kind: "range", default: 0, min: 0, max: 360, step: 0.1, unit: "°", digits: 1, hint: "Free thanks to axisymmetry, no re-trace" },
