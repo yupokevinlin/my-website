@@ -13,6 +13,10 @@ export interface ControlPanelProps {
   handleCopyLink(): void;
 }
 
+// Opaque, so the browser's open dropdown menu is dark too (a translucent
+// background is drawn over white in Chrome's menu).
+const SELECT_BG = "#16171e";
+
 const formatValue = (def: ParamDef, v: number): string => {
   if (def.format) return def.format(v);
   const s = v.toFixed(def.digits ?? 2);
@@ -63,12 +67,12 @@ const Control: React.FC<{ def: ParamDef; value: ParamValue; onChange(v: ParamVal
         {label}
         <select
           className={clsx(SANS, "btn-base w-full h-[32px] rounded-[6px] px-[8px] text-[13px] font-light cursor-pointer")}
-          style={{ border: "1px solid var(--sim-border)", backgroundColor: "rgba(255,255,255,0.04)", color: "var(--sim-text)", colorScheme: "dark" }}
+          style={{ border: "1px solid var(--sim-border)", backgroundColor: SELECT_BG, color: "var(--sim-text)", colorScheme: "dark" }}
           value={String(value)}
           onChange={(e) => onChange(e.target.value)}
         >
           {(def.options ?? []).map((o) => (
-            <option key={o.value} value={o.value}>{o.label}</option>
+            <option key={o.value} value={o.value} style={{ backgroundColor: SELECT_BG, color: "#ece8e1" }}>{o.label}</option>
           ))}
         </select>
       </label>
