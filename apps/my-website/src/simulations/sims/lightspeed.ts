@@ -79,7 +79,7 @@ function exposureCompensation(eta: number) {
   return Math.pow(lum(blackbodyRGB(5800 * D)) / SUN_Y, -0.75);
 }
 
-function formatSpeed(eta: number) {
+export function formatSpeed(eta: number) {
   const beta = Math.tanh(eta);
   const oneMinus = 2 / (Math.exp(2 * eta) + 1);
   const gamma = Math.cosh(eta);

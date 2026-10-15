@@ -43,7 +43,7 @@ const Projects: React.FC = () => {
             </div>
           </div>
           <div className="content-divider"/>
-          <Typography className="content-font-body !italic" style={{ color: "var(--secondary-dark)" }}>Real-time 4K simulations of a black hole, a fall through its event horizon, a wormhole and near-light-speed travel</Typography>
+          <Typography className="content-font-body !italic" style={{ color: "var(--secondary-dark)" }}>Real-time 4K simulations of a black hole, a fall through its event horizon, a wormhole, near-light-speed travel and a flight past Earth</Typography>
           <div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>FRONT-END</Typography>
           <div className="text-spacer"/>
@@ -60,14 +60,18 @@ const Projects: React.FC = () => {
           <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Interstellar wormhole: precomputed geodesic lookup table</Typography>
           <div className="text-spacer"/>
           <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Special relativity: aberration, Doppler shift and beaming</Typography>
+          <div className="text-spacer"/>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Flying past Earth: Terrell rotation, and Earth&apos;s heat glow shifted into view</Typography>
           <div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>DATA</Typography>
           <div className="text-spacer"/>
           <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• NASA 16K HDR star map, preprocessed into cube maps with Node</Typography>
+          <div className="text-spacer"/>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• NASA Blue Marble, Black Marble and Moon maps, preprocessed into texture tiers</Typography>
           <div className="content-divider"/>
           <div className="text-spacer"/>
           <Paper className="h-max w-full" square elevation={3}>
-            <ImageCarousel imageWidth={1920} imageHeight={1080} images={["/ray-tracing/images/blackhole.jpg", "/ray-tracing/images/infall.jpg", "/ray-tracing/images/wormhole.jpg", "/ray-tracing/images/lightspeed.jpg", "/ray-tracing/images/blackhole-doppler.jpg"]}/>
+            <ImageCarousel imageWidth={1920} imageHeight={1080} images={["/ray-tracing/images/blackhole.jpg", "/ray-tracing/images/infall.jpg", "/ray-tracing/images/wormhole.jpg", "/ray-tracing/images/lightspeed.jpg", "/ray-tracing/images/flyby.jpg", "/ray-tracing/images/blackhole-doppler.jpg"]}/>
           </Paper>
           <div className="text-spacer"/>
           <div className="content-divider"/>

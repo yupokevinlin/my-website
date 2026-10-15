@@ -227,7 +227,7 @@ const SimulationsPage: React.FC = () => {
                     Light, bent by <em className="italic" style={{ color: "var(--sim-accent)" }}>spacetime</em>
                   </motion.h1>
                   <motion.p variants={item} className={clsx(body, "mt-[26px] max-w-[640px]")} style={{ color: "var(--sim-body)" }}>
-                    How does a black hole work, and what would one really look like? Eleven short lessons explain, with animated diagrams. Then four real-time simulations let you fly around a black hole and fall into one, through a wormhole and close to the speed of light. Every pixel is a ray of light, traced through curved spacetime.
+                    How does a black hole work, and what would one really look like? Eleven short lessons explain, with animated diagrams. Then five real-time simulations let you fly around a black hole and fall into one, through a wormhole, close to the speed of light, and past the Earth at nearly light speed. Every pixel is a ray of light, traced through curved spacetime.
                   </motion.p>
                   <motion.div variants={item} className="mt-[34px] flex flex-wrap items-center gap-[14px]">
                     <a
@@ -332,7 +332,7 @@ const SimulationsPage: React.FC = () => {
             {/* ── Part Three: the simulations ──────────────────── */}
             <PartHeader
               index={2}
-              intro="Four experiments to fly through. Each runs live in your browser at up to 4K; every setting can be changed, and every view can be shared as a link."
+              intro="Five experiments to fly through. Each runs live in your browser at up to 4K; every setting can be changed, and every view can be shared as a link."
             />
             {CHAPTERS.map((c, i) => (
               <ChapterSection key={c.id} chapter={c} reverse={i % 2 === 1}/>

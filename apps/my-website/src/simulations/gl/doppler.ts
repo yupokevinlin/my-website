@@ -1,6 +1,6 @@
 // GLSL shared by the simulations that shift the colour and brightness of
-// starlight: the light speed trip and the fall into a black hole. Both need
-// SPECTRUM_GLSL and the uniforms uDopplerColor, uBeaming.
+// light: the fall into a black hole, the light speed trip and the flight past
+// Earth. They need SPECTRUM_GLSL and the uniforms uDopplerColor, uBeaming.
 
 /**
  * Doppler shifts by a factor D (observed / emitted frequency) for an extended
@@ -8,13 +8,12 @@
  * D^3 B_(nu/D)(T) = B_nu(D T), so the shift is just a change of temperature.
  */
 export const DOPPLER_GLSL = /* glsl */ `
-// Doppler-shift an extended source (radiance) of rest-frame colour c.
-// The pixel is modelled as a blackbody of its colour temperature T; the shift
-// is applied as a per-channel ratio B(D T) / B(T), so D = 1 is exactly identity.
-vec3 shiftRadiance(vec3 c, float D) {
+// Doppler-shift light of rest-frame colour c whose spectrum is (a tint of) a
+// blackbody of temperature T. The shift is applied as a per-channel ratio
+// B(D T) / B(T), so D = 1 is exactly identity.
+vec3 shiftBlackbody(vec3 c, float T, float D) {
   float Y = luminance(c);
-  if (Y <= 1e-12) return vec3(0.0);
-  float T = colourTemperature(c);
+  if (Y <= 1e-30) return vec3(0.0);
   vec3 rest = planck(T), obs = planck(T * D);
   float restY = max(luminance(rest), 1e-30), obsY = luminance(obs);
   vec3 shifted = c * obs / max(rest, vec3(0.05 * restY));
@@ -23,6 +22,13 @@ vec3 shiftRadiance(vec3 c, float D) {
   if (uDopplerColor == 1) return shifted * (Y / sY);
   if (uBeaming == 1) return c * (obsY / restY);
   return c;
+}
+
+// Doppler-shift an extended source (radiance) of rest-frame colour c, modelled
+// as a blackbody of its colour temperature.
+vec3 shiftRadiance(vec3 c, float D) {
+  if (luminance(c) <= 1e-12) return vec3(0.0);
+  return shiftBlackbody(c, colourTemperature(c), D);
 }
 
 // Point star of temperature T and flux F (rest frame).
