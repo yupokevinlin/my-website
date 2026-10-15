@@ -1,6 +1,6 @@
 // GLSL shared by the simulations that shift the colour and brightness of
-// starlight: the light speed trip, the fall into a black hole and the warp
-// drive. Both need SPECTRUM_GLSL and the uniforms uDopplerColor, uBeaming.
+// starlight: the light speed trip and the fall into a black hole. Both need
+// SPECTRUM_GLSL and the uniforms uDopplerColor, uBeaming.
 
 /**
  * Doppler shifts by a factor D (observed / emitted frequency) for an extended

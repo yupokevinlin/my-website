@@ -2,10 +2,9 @@ import { blackholeSim } from "./blackhole";
 import { infallSim } from "./infall";
 import { lightspeedSim } from "./lightspeed";
 import type { SimulationDescriptor } from "./types";
-import { warpSim } from "./warp";
 import { wormholeSim } from "./wormhole";
 
-export const SIMULATIONS: SimulationDescriptor[] = [blackholeSim, wormholeSim, lightspeedSim, infallSim, warpSim];
+export const SIMULATIONS: SimulationDescriptor[] = [blackholeSim, infallSim, wormholeSim, lightspeedSim];
 
 export function getSimulation(id: string): SimulationDescriptor {
   const s = SIMULATIONS.find((s) => s.id === id);

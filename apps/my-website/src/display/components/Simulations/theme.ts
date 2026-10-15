@@ -18,7 +18,7 @@ export const mono = IBM_Plex_Mono({
   variable: "--font-sim-mono",
 });
 
-export type SimAccentId = "overview" | "blackhole" | "wormhole" | "lightspeed" | "infall" | "warp";
+export type SimAccentId = "overview" | "blackhole" | "infall" | "wormhole" | "lightspeed";
 
 export const ACCENTS: Record<SimAccentId, string> = {
   overview: "#f2a65a",
@@ -26,7 +26,6 @@ export const ACCENTS: Record<SimAccentId, string> = {
   wormhole: "#b394ff",
   lightspeed: "#6cc8ff",
   infall: "#ff7468",
-  warp: "#4fe0bd",
 };
 
 /** CSS custom properties for the dark theme, set on each page's root element. */

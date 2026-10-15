@@ -371,7 +371,6 @@ class Infall implements Simulation {
     } else {
       const tau = (Math.SQRT2 / 3) * Math.pow(r, 1.5);
       items.push(
-        { label: "Speed past hovering observers", value: r > 2 ? `${Math.sqrt(2 / r).toFixed(3)} c` : "none can hover here" },
         { label: "Your time to the singularity", value: formatDuration(tau * mass.suns * SUN_SECONDS) },
       );
     }

@@ -8,10 +8,9 @@ const NAV: Array<{ id: SimAccentId | "home"; numeral: string; label: string; hre
   { id: "home", numeral: "", label: "Home", href: "/", Icon: HomeIcon },
   { id: "overview", numeral: "", label: "Overview", href: "/ray-tracing", Icon: MenuBookIcon },
   { id: "blackhole", numeral: "I", label: "Black Hole", href: "/ray-tracing/blackhole" },
-  { id: "wormhole", numeral: "II", label: "Wormhole", href: "/ray-tracing/wormhole" },
-  { id: "lightspeed", numeral: "III", label: "Light Speed", href: "/ray-tracing/lightspeed" },
-  { id: "infall", numeral: "IV", label: "Falling In", href: "/ray-tracing/infall" },
-  { id: "warp", numeral: "V", label: "Warp Drive", href: "/ray-tracing/warp" },
+  { id: "infall", numeral: "II", label: "Falling In", href: "/ray-tracing/infall" },
+  { id: "wormhole", numeral: "III", label: "Wormhole", href: "/ray-tracing/wormhole" },
+  { id: "lightspeed", numeral: "IV", label: "Light Speed", href: "/ray-tracing/lightspeed" },
 ];
 
 export interface SimulationsLayoutProps {
@@ -24,7 +23,7 @@ export interface SimulationsLayoutProps {
 }
 
 // Dark frame for the /ray-tracing pages: a slim navigation bar with the
-// section title, a link back to the main site and the five simulations.
+// section title, a link back to the main site and the four simulations.
 const SimulationsLayout: React.FC<SimulationsLayoutProps> = (props) => {
   const { active, overlayNav, hideChrome, children } = props;
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
