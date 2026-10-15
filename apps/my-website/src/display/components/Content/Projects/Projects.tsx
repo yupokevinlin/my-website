@@ -43,7 +43,7 @@ const Projects: React.FC = () => {
             </div>
           </div>
           <div className="content-divider"/>
-          <Typography className="content-font-body !italic" style={{ color: "var(--secondary-dark)" }}>Real-time 4K simulations of a black hole, a wormhole and near-light-speed travel</Typography>
+          <Typography className="content-font-body !italic" style={{ color: "var(--secondary-dark)" }}>Real-time 4K simulations of a black hole, a wormhole, near-light-speed travel, a fall through an event horizon and a warp drive</Typography>
           <div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>FRONT-END</Typography>
           <div className="text-spacer"/>
@@ -58,6 +58,10 @@ const Projects: React.FC = () => {
           <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Interstellar wormhole: precomputed geodesic lookup table</Typography>
           <div className="text-spacer"/>
           <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Special relativity: aberration, Doppler shift and beaming</Typography>
+          <div className="text-spacer"/>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Falling into a black hole: the view of a free-falling observer, through the horizon</Typography>
+          <div className="text-spacer"/>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Alcubierre warp drive: light traced through the warp bubble&apos;s wall</Typography>
           <div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>DATA</Typography>
           <div className="text-spacer"/>
@@ -65,7 +69,7 @@ const Projects: React.FC = () => {
           <div className="content-divider"/>
           <div className="text-spacer"/>
           <Paper className="h-max w-full" square elevation={3}>
-            <ImageCarousel imageWidth={1920} imageHeight={1080} images={["/ray-tracing/images/blackhole.jpg", "/ray-tracing/images/wormhole.jpg", "/ray-tracing/images/lightspeed.jpg", "/ray-tracing/images/blackhole-doppler.jpg"]}/>
+            <ImageCarousel imageWidth={1920} imageHeight={1080} images={["/ray-tracing/images/blackhole.jpg", "/ray-tracing/images/wormhole.jpg", "/ray-tracing/images/lightspeed.jpg", "/ray-tracing/images/infall.jpg", "/ray-tracing/images/warp.jpg", "/ray-tracing/images/blackhole-doppler.jpg"]}/>
           </Paper>
           <div className="text-spacer"/>
           <div className="content-divider"/>

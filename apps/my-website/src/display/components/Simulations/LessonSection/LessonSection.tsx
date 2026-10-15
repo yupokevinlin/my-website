@@ -70,7 +70,7 @@ const LessonSection: React.FC<LessonSectionProps> = ({ lesson, total, flip, chil
           {lesson.tryIt && (
             <Reveal delay={0.1}>
               <a
-                href={presetHref("blackhole", lesson.tryIt.params)}
+                href={presetHref(lesson.tryIt.sim ?? "blackhole", lesson.tryIt.params)}
                 className={clsx(SANS, "link-base group mt-[26px] inline-flex items-center gap-[10px] rounded-full px-[18px] py-[10px] text-[14px] transition-colors hover:bg-white/[0.05]")}
                 style={{ border: "1px solid var(--sim-border)", color: "var(--sim-text)", textDecoration: "none" }}
               >

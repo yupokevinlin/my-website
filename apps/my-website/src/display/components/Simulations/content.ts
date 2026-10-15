@@ -3,7 +3,7 @@ import type { Params } from "../../../simulations/sims/types";
 // Educational copy for the /ray-tracing pages, shared by the overview essay
 // and each simulation's Learn tab.
 
-export type SimId = "blackhole" | "wormhole" | "lightspeed";
+export type SimId = "blackhole" | "wormhole" | "lightspeed" | "infall" | "warp";
 
 export interface Preset {
   label: string;
@@ -137,6 +137,74 @@ export const CHAPTERS: Array<Chapter> = [
       { label: "Accelerate at 1 g", description: "Start from rest under Earth gravity: after one year of ship time you reach 0.77c.", params: { drive: "accel", speed: 10 } },
     ],
   },
+  {
+    id: "infall",
+    numeral: "IV",
+    kicker: "Simulation IV · General relativity",
+    field: "General relativity",
+    title: "Into the Black Hole",
+    subtitle: "What you would really see on a one-way trip through the event horizon.",
+    image: "/ray-tracing/images/infall.jpg",
+    imageCaption: "Just inside the horizon. The black region below is still only part of the sky, ringed by blueshifted light.",
+    paragraphs: [
+      "What would you see if you fell into a black hole? Space flows inwards around a black hole like a river, faster the closer it gets, and at the horizon it flows at the speed of light. Dropped from far away, you are carried along with it, so you cross the horizon without feeling a thing. Nothing marks the boundary. Only afterwards does every path lead to the singularity.",
+      "Here the camera falls straight into a non-spinning black hole. Because the hole is perfectly round, a light ray's path depends only on your distance and the angle you look at, so every possible ray is traced once into a table. Your fall also changes the colours you see: light from below is blueshifted and light from above redshifted, by an amount that combines gravity and your own speed.",
+    ],
+    features: [
+      { title: "The black region below", text: "Every direction from which no light can reach you. It grows as you fall, yet as you cross the horizon it covers only a circle about 84° across. The horizon always seems to lie ahead." },
+      { title: "The ring at its edge", text: "Light that skimmed the photon sphere, at one and a half times the horizon radius. You are falling towards it, so it is blueshifted to a blue-white glow." },
+      { title: "Inside", text: "The singularity is no longer a place below you but a moment in your future. Dropped from far away, you reach it 4GM/3c³ of your own time after crossing the horizon: about 28 seconds for Sagittarius A*." },
+      { title: "The last view", text: "Near the singularity, the sky above dims to a deep red while light from the sides is squeezed into a thin, intensely blue band around you." },
+      { title: "Hovering instead", text: "Someone hovering just outside the horizon on a powerful rocket sees something else entirely: the whole outside universe squeezed into a small, brilliantly blueshifted circle overhead." },
+    ],
+    equations: [
+      { name: "The river of space", formula: "v = √(2GM / r)", note: "The speed at which space flows inwards, and the speed of anything dropped from far away. It reaches c at the horizon, r = 2GM/c², and exceeds it inside." },
+      { name: "Colour of the sky", formula: "D = 1 / (1 + (v/c) cos α)", note: "α is measured from straight up. The factor combines gravity and your own fall exactly: blue below, red above." },
+      { name: "Time left", formula: "τ = (2/3) · r^(3/2) / √(2GM)", note: "Your own time to the singularity. From the horizon: 4GM/3c³, about 28 s for Sagittarius A* and 12 hours for M87*." },
+    ],
+    presets: [
+      { label: "Hover at the edge", description: "Fire rockets to hold still just outside the horizon: the sky shrinks into a bright circle overhead.", params: { observer: "hover", radius: 2.05 } },
+      { label: "Stop at the photon sphere", description: "Pause where light could orbit the hole, then drag to look around.", params: { motion: "manual", radius: 3 } },
+      { label: "Just inside", description: "Past the point of no return, yet the horizon still seems to be below you.", params: { motion: "manual", radius: 1.5 } },
+      { label: "The other universe", description: "Inside an idealised, eternal black hole, a second universe appears below you.", params: { interior: "eternal", motion: "manual", radius: 1 } },
+      { label: "Real-time fall", description: "Fall at the true pace of your own clock: the inside takes a blink.", params: { pacing: "proper" } },
+      { label: "Lensing grid", description: "Replace the stars with a grid to see how the view is bent and squeezed.", params: { skyMode: "grid" } },
+    ],
+  },
+  {
+    id: "warp",
+    numeral: "V",
+    kicker: "Simulation V · General relativity",
+    field: "General relativity",
+    title: "The Warp Drive",
+    subtitle: "Faster than light without breaking the speed limit: move the space, not the ship.",
+    image: "/ray-tracing/images/warp.jpg",
+    imageCaption: "A warp bubble at 1.2 times the speed of light, seen from behind. Its wall glows where the negative energy would sit.",
+    paragraphs: [
+      "In 1994 the physicist Miguel Alcubierre found a shape of spacetime that could carry a ship faster than light. Space contracts in front of a bubble and expands behind it, and the ship, sitting still inside, is carried along. Locally nothing ever outruns light, so relativity allows it, and nobody aboard ages more slowly: a year on the ship is a year on Earth.",
+      "The catch is the wall of the bubble. It needs negative energy, which no known material has, and enormous amounts of it. Here light is traced through that wall. From outside, the bubble bends the stars behind it like a lens. From the cockpit, the stars ahead turn blue and those behind turn red, and above the speed of light no light can catch up with you from behind.",
+    ],
+    features: [
+      { title: "The bubble", text: "Empty space, made visible by how its wall bends the light passing through it. The ship rides in the flat region at its centre." },
+      { title: "Hardly any aberration", text: "Below light speed, every star seen from the cockpit sits within a degree of where it would be at rest. Compare the light speed trip, where the sky crowds forwards. Faster than light, the wall bends the view more, stretching the stars behind you backwards." },
+      { title: "Blue ahead, red behind", text: "Starlight is shifted by a simpler rule than near light speed, D = 1 + v cos θ, because there is no time dilation to correct it." },
+      { title: "The dark cone behind", text: "Above 1 c, light from behind can never catch up with the ship. Looking back from the cockpit, a black cone opens up, wider the faster you go." },
+      { title: "Negative energy", text: "The violet glow marks where the wall's exotic matter would have to sit: in a ring around the direction of travel, none at the front or back." },
+    ],
+    equations: [
+      { name: "The warp metric", formula: "ds² = −c²dt² + (dx − v f(r) dt)² + dy² + dz²", note: "f is 1 inside the bubble and 0 outside; v, the bubble's speed, can be anything, even more than c." },
+      { name: "Colour shift", formula: "D = 1 + (v/c) cos θ", note: "θ from straight ahead. Once v > c, light from directions with D ≤ 0 can never reach the ship." },
+      { name: "Energy needed", formula: "E ≈ −(v²/c²) · R² / (12 Δ) · c⁴/G", note: "R: bubble radius, Δ: wall thickness. A 100 m bubble at the speed of light with a 1 m wall needs over half the mass of the Sun, as negative energy." },
+    ],
+    presets: [
+      { label: "Below light speed", description: "At 0.9c, seen from the side: the wall bends the stars around the ship.", params: { speed: 0.9, orbit: 100, distance: 3.4 } },
+      { label: "Ten times light speed", description: "The bubble outruns its own light by far: only from almost straight behind can you see it at all.", params: { speed: 10, orbit: 178 } },
+      { label: "Cockpit view", description: "Sit inside the bubble: the stars ahead turn blue, those behind red.", params: { view: "cockpit" } },
+      { label: "Look back", description: "From the cockpit, behind you: the dark cone that light cannot cross.", params: { view: "cockpit", yaw: 180 } },
+      { label: "Thin wall", description: "A sharper wall bends light more strongly, and needs more negative energy.", params: { wall: 0.18 } },
+      { label: "Lensing grid", description: "Replace the stars with a grid to see how the wall bends light.", params: { skyMode: "grid", nearStars: false } },
+    ],
+  },
 ];
 
 export const getChapter = (id: SimId): Chapter => CHAPTERS.find((c) => c.id === id) ?? CHAPTERS[0];
@@ -145,7 +213,8 @@ export const getChapter = (id: SimId): Chapter => CHAPTERS.find((c) => c.id === 
 export const presetHref = (id: SimId, params: Params): string => {
   const q = new URLSearchParams();
   Object.entries(params).forEach(([k, v]) => q.set(k, typeof v === "boolean" ? (v ? "1" : "0") : String(v)));
-  return `/ray-tracing/${id}#${q.toString()}`;
+  const hash = q.toString();
+  return hash ? `/ray-tracing/${id}#${hash}` : `/ray-tracing/${id}`;
 };
 
 export const GLOSSARY: Array<Feature> = [
@@ -163,8 +232,12 @@ export const GLOSSARY: Array<Feature> = [
   { title: "Gravitational lensing", text: "The bending of light by mass. It magnifies, distorts and duplicates whatever lies behind." },
   { title: "Gravitational redshift", text: "Light climbing out of a gravitational well loses energy and shifts to redder colours." },
   { title: "Relativistic beaming", text: "A source moving towards you looks brighter, and one moving away looks dimmer, far beyond the everyday Doppler effect." },
+  { title: "Free fall", text: "Moving under gravity alone, with no rocket or ground pushing back. A falling observer feels weightless, and crosses a black hole's horizon without noticing it." },
+  { title: "Einstein–Rosen bridge", text: "In the idealised, eternal black hole, a tunnel to a second universe. It pinches off too quickly for anything to cross, and real black holes, formed by collapsing stars, do not have one." },
   { title: "Throat", text: "The narrowest part of a wormhole, where its spheres have their smallest radius ρ." },
   { title: "Rapidity", text: "A measure of speed that adds simply: two boosts of η₁ and η₂ make η₁ + η₂, while the speed tanh η never reaches c." },
+  { title: "Warp bubble", text: "In Alcubierre's solution of Einstein's equations, a region of flat space carried along by spacetime that contracts in front of it and expands behind it." },
+  { title: "Exotic matter", text: "Matter with negative energy density. A warp drive, or a wormhole held open, would need it; none is known to exist in useful amounts." },
   { title: "Aberration", text: "The change in the apparent direction of light caused by your own motion." },
 ];
 
@@ -178,4 +251,7 @@ export const CREDITS: Array<{ text: string; link: string; url: string }> = [
   { text: "Event Horizon Telescope Collaboration, ", link: "First Sagittarius A* Event Horizon Telescope Results. I. (2022)", url: "https://doi.org/10.3847/2041-8213/ac6674" },
   { text: "A. J. S. Hamilton and J. P. Lisle, ", link: "The river model of black holes (2008)", url: "https://arxiv.org/abs/gr-qc/0411060" },
   { text: "M. Moroz, ", link: "Tracing Geodesics", url: "https://michaelmoroz.github.io/TracingGeodesics/" },
+  { text: "A. J. S. Hamilton, ", link: "Inside black holes", url: "https://jila.colorado.edu/~ajsh/insidebh/" },
+  { text: "M. Alcubierre, ", link: "The warp drive: hyper-fast travel within general relativity (1994)", url: "https://arxiv.org/abs/gr-qc/0009013" },
+  { text: "M. J. Pfenning and L. H. Ford, ", link: "The unphysical nature of \"warp drive\" (1997)", url: "https://arxiv.org/abs/gr-qc/9702026" },
 ];

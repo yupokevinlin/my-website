@@ -179,7 +179,7 @@ const ChapterSection: React.FC<{ chapter: Chapter; reverse: boolean }> = ({ chap
 
 const STEPS: Array<{ n: string; title: string; text: string }> = [
   { n: "01", title: "Trace", text: "For each of the 8.3 million pixels of a 4K frame, a light ray is integrated backwards through curved spacetime with a fourth-order Runge–Kutta solver, until it falls in, crosses the disc, or escapes. On a modern GPU the whole frame takes about a second." },
-  { n: "02", title: "Cache", text: "The result is stored as a ray map: where each pixel's light came from. The wormhole goes further: its symmetry means every possible ray fits into one 2048 × 512 table, computed once." },
+  { n: "02", title: "Cache", text: "The result is stored as a ray map: where each pixel's light came from. The wormhole and the fall into the black hole go further: their symmetry means every possible ray fits into one table, computed once." },
   { n: "03", title: "Shade", text: "Each frame then only looks things up: the disc's position as it rotates, its Doppler and gravitational shift, and the colour of a blackbody at that temperature, from precomputed spectral tables." },
   { n: "04", title: "Expose", text: "Light is kept in high dynamic range, from faint stars to the blazing inner disc, then bloomed and tone-mapped like film. The stars come from NASA's 16K HDR map of the Milky Way." },
 ];
@@ -227,7 +227,7 @@ const SimulationsPage: React.FC = () => {
                     Light, bent by <em className="italic" style={{ color: "var(--sim-accent)" }}>spacetime</em>
                   </motion.h1>
                   <motion.p variants={item} className={clsx(body, "mt-[26px] max-w-[640px]")} style={{ color: "var(--sim-body)" }}>
-                    How does a black hole work, and what would one really look like? Eleven short lessons explain, with animated diagrams. Then three real-time simulations let you fly around a black hole, through a wormhole and close to the speed of light. Every pixel is a ray of light, traced through curved spacetime.
+                    How does a black hole work, and what would one really look like? Eleven short lessons explain, with animated diagrams. Then five real-time simulations let you fly around a black hole and fall into one, through a wormhole, close to the speed of light, and faster than light in a warp bubble. Every pixel is a ray of light, traced through curved spacetime.
                   </motion.p>
                   <motion.div variants={item} className="mt-[34px] flex flex-wrap items-center gap-[14px]">
                     <a
@@ -332,7 +332,7 @@ const SimulationsPage: React.FC = () => {
             {/* ── Part Three: the simulations ──────────────────── */}
             <PartHeader
               index={2}
-              intro="Three experiments to fly through. Each runs live in your browser at up to 4K; every setting can be changed, and every view can be shared as a link."
+              intro="Five experiments to fly through. Each runs live in your browser at up to 4K; every setting can be changed, and every view can be shared as a link."
             />
             {CHAPTERS.map((c, i) => (
               <ChapterSection key={c.id} chapter={c} reverse={i % 2 === 1}/>

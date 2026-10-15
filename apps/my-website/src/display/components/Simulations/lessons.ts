@@ -1,8 +1,9 @@
 import type { Params } from "../../../simulations/sims/types";
+import type { SimId } from "./content";
 
 // Part One of the /ray-tracing overview: how black holes work, as a series of
 // short illustrated lessons. Each lesson has its own animated diagram (see
-// SimulationsPage), and some link into the black hole simulation with a preset.
+// SimulationsPage), and some link into a simulation with a preset.
 
 export type LessonId =
   | "gravity"
@@ -31,7 +32,8 @@ export interface Lesson {
   keyIdea: { text: string; formula?: string };
   facts?: Array<Fact>;
   caption: string;
-  tryIt?: { label: string; params: Params };
+  /** Link into a simulation (the black hole unless given) with these settings. */
+  tryIt?: { label: string; params: Params; sim?: SimId };
 }
 
 export const LESSONS: Array<Lesson> = [
@@ -93,6 +95,7 @@ export const LESSONS: Array<Lesson> = [
     ],
     keyIdea: { text: "Near a mass, clocks run slow by a factor that falls to zero at the horizon.", formula: "dτ / dt = √(1 − r_s / r)" },
     caption: "The river model. Dots are space flowing inwards; arrows are flashes of light aimed outwards. Outside the horizon light makes slow progress, at the horizon it stands still, inside it is swept in.",
+    tryIt: { label: "Fall through the horizon yourself", params: {}, sim: "infall" },
   },
   {
     id: "photon-sphere",
@@ -182,6 +185,7 @@ export const LESSONS: Array<Lesson> = [
       { value: "0.0001 g", label: "at the horizon of Sagittarius A*" },
     ],
     caption: "An astronaut falling towards a small black hole is stretched along the direction of the fall and squeezed across it.",
+    tryIt: { label: "Fall into a 10-Sun black hole", params: { mass: "stellar" }, sim: "infall" },
   },
   {
     id: "hawking",

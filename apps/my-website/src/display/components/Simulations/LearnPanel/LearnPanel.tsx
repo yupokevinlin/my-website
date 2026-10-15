@@ -67,7 +67,7 @@ const LearnPanel: React.FC<LearnPanelProps> = ({ chapter, handlePreset }) => {
         ))}
       </div>
 
-      {chapter.id === "blackhole" && (
+      {(chapter.id === "blackhole" || chapter.id === "infall") && (
         <>
           <Heading>New to black holes?</Heading>
           <ol className="flex flex-col">
