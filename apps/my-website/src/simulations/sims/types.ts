@@ -39,15 +39,6 @@ export interface HudItem {
   value: string;
 }
 
-/** A small chart shown with the readout, e.g. a pulse profile. */
-export interface SimCurve {
-  label: string;
-  /** 0..1, evenly spaced across the chart. */
-  values: number[];
-  /** 0..1: where to mark the current moment. */
-  marker: number;
-}
-
 export interface SimStatus {
   /** 0..1 progress of the background bake, 1 when done. */
   progress: number;
@@ -61,7 +52,6 @@ export interface Simulation {
   onDrag?(dx: number, dy: number, params: Params): Partial<Params> | null;
   onWheel?(deltaY: number, params: Params): Partial<Params> | null;
   hud?(params: Params): HudItem[];
-  curve?(params: Params): SimCurve | null;
   status?(): SimStatus | null;
   dispose(): void;
 }
