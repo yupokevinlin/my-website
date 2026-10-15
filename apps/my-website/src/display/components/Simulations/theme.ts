@@ -18,13 +18,14 @@ export const mono = IBM_Plex_Mono({
   variable: "--font-sim-mono",
 });
 
-export type SimAccentId = "overview" | "blackhole" | "infall" | "wormhole" | "lightspeed";
+export type SimAccentId = "overview" | "blackhole" | "infall" | "wormhole" | "lightspeed" | "neutron";
 
 export const ACCENTS: Record<SimAccentId, string> = {
   overview: "#f2a65a",
   blackhole: "#f2a65a",
   wormhole: "#b394ff",
   lightspeed: "#6cc8ff",
+  neutron: "#7be0b0",
   infall: "#ff7468",
 };
 

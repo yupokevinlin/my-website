@@ -355,6 +355,7 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
   }, [fullscreen, snapshot, togglePause]);
 
   const hud = simRef.current?.hud?.(params) ?? [];
+  const curve = simRef.current?.curve?.(params) ?? null;
   const status = stats?.status;
   // only report work in progress (tracing, star map loading), not finished states
   const working = [status && status.progress < 1 ? status.label : "", stats?.skyLoading ?? ""].filter(Boolean).join(" · ");
@@ -391,6 +392,21 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
                       <span className={clsx(MONO, "text-[11.5px] tabular-nums whitespace-nowrap")} style={{ color: "var(--sim-text)" }}>{h.value}</span>
                     </div>
                   ))}
+                </div>
+              )}
+              {curve && (
+                <div className={clsx(glass, "hidden sm:block px-[12px] pt-[8px] pb-[10px] w-[280px]")} style={glassStyle}>
+                  <div className={clsx(SANS, "text-[11.5px] font-light mb-[6px]")} style={{ color: "var(--sim-body)" }}>{curve.label}</div>
+                  <svg viewBox="0 0 100 32" preserveAspectRatio="none" className="block h-[46px] w-full">
+                    <polyline
+                      points={curve.values.map((v, i) => `${(100 * i) / Math.max(curve.values.length - 1, 1)},${30 - 28 * v}`).join(" ")}
+                      fill="none"
+                      stroke="var(--sim-accent)"
+                      strokeWidth="1.5"
+                      vectorEffect="non-scaling-stroke"
+                    />
+                    <line x1={100 * curve.marker} x2={100 * curve.marker} y1="0" y2="32" stroke="rgba(255,255,255,0.55)" strokeWidth="1" vectorEffect="non-scaling-stroke"/>
+                  </svg>
                 </div>
               )}
             </div>

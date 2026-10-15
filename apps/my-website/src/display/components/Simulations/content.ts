@@ -3,7 +3,7 @@ import type { Params } from "../../../simulations/sims/types";
 // Educational copy for the /ray-tracing pages, shared by the overview essay
 // and each simulation's Learn tab.
 
-export type SimId = "blackhole" | "infall" | "wormhole" | "lightspeed";
+export type SimId = "blackhole" | "infall" | "wormhole" | "lightspeed" | "neutron";
 
 export interface Preset {
   label: string;
@@ -171,6 +171,40 @@ export const CHAPTERS: Array<Chapter> = [
       { label: "Accelerate at 1 g", description: "Start from rest under Earth gravity: after one year of ship time you reach 0.77c.", params: { drive: "accel", speed: 10 } },
     ],
   },
+  {
+    id: "neutron",
+    numeral: "V",
+    kicker: "Simulation V · General relativity",
+    field: "General relativity",
+    title: "The Neutron Star",
+    subtitle: "A dead star's core, crushed to the size of a city and spinning up to hundreds of times a second.",
+    image: "/ray-tracing/images/neutron.jpg",
+    imageCaption: "A neutron star of 1.4 Suns and 12 km, in X-ray false colour. The grid reaches past the edge: gravity lets you see round the back.",
+    paragraphs: [
+      "When a massive star dies, its core can collapse into a ball of neutrons about 12 km across, yet heavier than the Sun. A teaspoon of it would weigh billions of tonnes. Its gravity is so strong that light leaving the surface is bent around it, so from any direction you see more than half of the star: about three quarters of a typical one, and all of the most compact ones.",
+      "Many neutron stars are pulsars. Their magnetic poles are heated to millions of degrees and glow in X-rays, and as the star spins the hot spots swing in and out of view, so we see pulses. Light bending changes those pulses: a spot round the back is still partly in sight, so the pulses come out broader and shallower. NASA's NICER telescope measures exactly this to work out how big neutron stars are.",
+    ],
+    features: [
+      { title: "More than half", text: "The grid shows lines of latitude beyond the edge: you are seeing round the back. Turn light bending off and only the front half remains." },
+      { title: "The far cap as a ring", text: "Make the star more compact, heavier or smaller, and the whole surface comes into view. A hot cap directly behind the star is spread into a bright ring around its edge." },
+      { title: "Shallow pulses", text: "The pulse profile shows how bright the hot caps look over one turn. Because bending keeps the far cap in sight, the dips are shallow." },
+      { title: "Lopsided pulses", text: "The fastest pulsars spin so quickly that their surface moves at up to a fifth of the speed of light. The Doppler effect brightens a cap as it swings towards you, tilting each pulse." },
+      { title: "Redshifted light", text: "Light climbing out of the star's gravity loses about a fifth of its energy, so from far away the star looks cooler than it really is." },
+    ],
+    equations: [
+      { name: "Light bending", formula: "1 − cos α = (1 − cos ψ)(1 − r_s / R)", note: "α: the angle at which light leaves the surface; ψ: how far round the star the point lies. The edge, α = 90°, lies beyond ψ = 90°." },
+      { name: "Gravitational redshift", formula: "E_far = E_surface · √(1 − r_s / R)", note: "r_s = 2GM/c², about 4 km for 1.4 Suns." },
+      { name: "How much you can see", formula: "f ≈ 1 / [2 (1 − r_s / R)]", note: "About 76% for 1.4 Suns in 12 km, and all of it once R is below about 1.76 r_s." },
+    ],
+    presets: [
+      { label: "Straight light", description: "No light bending: you see exactly half of the star.", params: { gravity: false } },
+      { label: "Very compact", description: "See the whole surface, and the far cap as a ring.", params: { mass: 2.2, radius: 9 } },
+      { label: "Fastest known pulsar", description: "716 turns a second: the Doppler effect tilts the pulses.", params: { period: "1.396" } },
+      { label: "Visible light", description: "What your eyes would see: a blue-white glow all over.", params: { colour: "visible" } },
+      { label: "Above the pole", description: "Look down the spin axis and watch the caps circle round.", params: { inclination: 8 } },
+      { label: "Two pulses per turn", description: "Magnetic axis at right angles to the spin, seen side on.", params: { tilt: 90, inclination: 90 } },
+    ],
+  },
 ];
 
 export const getChapter = (id: SimId): Chapter => CHAPTERS.find((c) => c.id === id) ?? CHAPTERS[0];
@@ -196,6 +230,8 @@ export const GLOSSARY: Array<Feature> = [
   { title: "Spaghettification", text: "The stretching of a falling object by tides: gravity pulls its near end harder than its far end." },
   { title: "Hawking radiation", text: "The faint thermal glow that quantum effects should give every black hole, letting it slowly evaporate." },
   { title: "Gravitational lensing", text: "The bending of light by mass. It magnifies, distorts and duplicates whatever lies behind." },
+  { title: "Neutron star", text: "The collapsed core of a massive star: more than the Sun's mass in a ball about 12 km across, made mostly of neutrons." },
+  { title: "Pulsar", text: "A spinning neutron star whose beams or hot spots sweep past us, so we see it flash with every turn, up to 716 times a second." },
   { title: "Gravitational redshift", text: "Light climbing out of a gravitational well loses energy and shifts to redder colours." },
   { title: "Relativistic beaming", text: "A source moving towards you looks brighter, and one moving away looks dimmer, far beyond the everyday Doppler effect." },
   { title: "Free fall", text: "Moving under gravity alone, with no rocket or ground pushing back. A falling observer feels weightless, and crosses a black hole's horizon without noticing it." },
@@ -216,4 +252,6 @@ export const CREDITS: Array<{ text: string; link: string; url: string }> = [
   { text: "A. J. S. Hamilton and J. P. Lisle, ", link: "The river model of black holes (2008)", url: "https://arxiv.org/abs/gr-qc/0411060" },
   { text: "M. Moroz, ", link: "Tracing Geodesics", url: "https://michaelmoroz.github.io/TracingGeodesics/" },
   { text: "A. J. S. Hamilton, ", link: "Inside black holes", url: "https://jila.colorado.edu/~ajsh/insidebh/" },
+  { text: "A. M. Beloborodov, ", link: "Gravitational bending of light near compact objects (2002)", url: "https://arxiv.org/abs/astro-ph/0201117" },
+  { text: "J. Poutanen and A. M. Beloborodov, ", link: "Pulse profiles of millisecond pulsars and their Fourier amplitudes (2006)", url: "https://arxiv.org/abs/astro-ph/0608663" },
 ];

@@ -11,6 +11,7 @@ const NAV: Array<{ id: SimAccentId | "home"; numeral: string; label: string; hre
   { id: "infall", numeral: "II", label: "Falling In", href: "/ray-tracing/infall" },
   { id: "wormhole", numeral: "III", label: "Wormhole", href: "/ray-tracing/wormhole" },
   { id: "lightspeed", numeral: "IV", label: "Light Speed", href: "/ray-tracing/lightspeed" },
+  { id: "neutron", numeral: "V", label: "Neutron Star", href: "/ray-tracing/neutron" },
 ];
 
 export interface SimulationsLayoutProps {
@@ -23,7 +24,7 @@ export interface SimulationsLayoutProps {
 }
 
 // Dark frame for the /ray-tracing pages: a slim navigation bar with the
-// section title, a link back to the main site and the four simulations.
+// section title, a link back to the main site and the five simulations.
 const SimulationsLayout: React.FC<SimulationsLayoutProps> = (props) => {
   const { active, overlayNav, hideChrome, children } = props;
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
