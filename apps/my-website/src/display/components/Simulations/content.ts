@@ -3,7 +3,7 @@ import type { Params } from "../../../simulations/sims/types";
 // Educational copy for the /ray-tracing pages, shared by the overview essay
 // and each simulation's Learn tab.
 
-export type SimId = "blackhole" | "infall" | "wormhole" | "lightspeed" | "flyby";
+export type SimId = "blackhole" | "infall" | "wormhole" | "lightspeed";
 
 export interface Preset {
   label: string;
@@ -171,42 +171,6 @@ export const CHAPTERS: Array<Chapter> = [
       { label: "Accelerate at 1 g", description: "Start from rest under Earth gravity: after one year of ship time you reach 0.77c.", params: { drive: "accel", speed: 10 } },
     ],
   },
-  {
-    id: "flyby",
-    numeral: "V",
-    kicker: "Simulation V · Special relativity",
-    field: "Special relativity",
-    title: "Flying Past Earth",
-    subtitle: "Race past home at nearly the speed of light, and watch the planet turn, shrink and glow.",
-    image: "/ray-tracing/images/flyby.jpg",
-    imageCaption: "Approaching at 0.9c: South America and the Atlantic, blueshifted, with the night side turning away.",
-    paragraphs: [
-      "Race past the Earth at 90% of the speed of light and you might expect to see it squashed, since relativity shortens moving objects along their direction of travel. You won't. Light from the far parts of the planet set out earlier than light from the near parts, and the two effects cancel: a passing sphere always looks perfectly round. Instead it looks turned, as if it had rotated towards where you are heading. James Terrell and Roger Penrose worked this out in 1959, more than fifty years after Einstein's theory.",
-      "Every pixel here is a ray of light traced back to the Earth, which stands still while you move. Its colour shifts too. Ahead, sunlight off the oceans turns blue-white and city lights blaze. Go faster and something stranger happens: the Earth's own heat, infrared light no eye can see, is shifted into view, and the whole planet glows like a lamp.",
-    ],
-    features: [
-      { title: "Round, but turned", text: "However fast it passes, the Earth never looks squashed. When it appears directly beside you, you are seeing the side that faces where you are heading: it looks turned by 64° at 0.9c and 82° at 0.99c." },
-      { title: "Ahead: small and blue", text: "Aberration crowds everything ahead into a small patch of sky, so the Earth looks tiny and far away until the last moment. Its light arrives blueshifted and brighter." },
-      { title: "Beside you: still blue", text: "Even when it appears directly beside you, the Earth's light is blueshifted, by the factor γ: 2.3 times at 0.9c. Your own clock runs slow, so the world outside looks sped up." },
-      { title: "Behind: fading out", text: "Once past, the Earth fills much of the sky, but its light is redshifted towards the infrared and dimmed until it all but disappears." },
-      { title: "The heat glow", text: "The Earth glows at about 288 K, in the infrared. Head on at 0.98c its light is shifted ten times, and that glow becomes visible as a 2,900 K orange, brighter than the sunlit side. The colder cloud tops show darker, like an infrared weather image." },
-      { title: "The Moon's far side", text: "Fly on past the Moon. As it appears beside you, you see mostly its far side, the one that never faces Earth." },
-    ],
-    equations: [
-      { name: "Aberration", formula: "cos θ' = (cos θ + β) / (1 + β cos θ)", note: "θ: direction of the light in Earth's frame; θ': as seen from the ship. Both measured from the direction of travel." },
-      { name: "Doppler factor", formula: "D = γ (1 + β cos θ')", note: "At 0.99c: 14 times bluer ahead, 7 times beside you, 14 times redder behind." },
-      { name: "Apparent turn", formula: "α = arcsin β", note: "How far a passing sphere seems rotated when it appears directly beside you." },
-      { name: "Heat glow", formula: "T_seen = D · 288 K", note: "A blackbody stays a blackbody when Doppler shifted, only hotter or colder." },
-    ],
-    presets: [
-      { label: "Slow flyby", description: "The same path at 300 km/s, a thousandth of light speed, for comparison.", params: { speed: 0.001 } },
-      { label: "0.98c", description: "The Earth's own heat glows orange, brighter than its sunlit side.", params: { speed: 2.298 } },
-      { label: "Without aberration", description: "Where the Earth really is: no squeezing forwards, no turn.", params: { aberration: false } },
-      { label: "Stop at closest approach", description: "Halt where the Earth is nearest. It still appears ahead of you.", params: { motion: "manual", position: 0 } },
-      { label: "On to the Moon", description: "Pass the Moon as well, and see its far side as it goes by.", params: { moon: true } },
-      { label: "Aberration grid", description: "Replace the stars with a grid to see the sky crowd forwards.", params: { skyMode: "grid" } },
-    ],
-  },
 ];
 
 export const getChapter = (id: SimId): Chapter => CHAPTERS.find((c) => c.id === id) ?? CHAPTERS[0];
@@ -239,7 +203,6 @@ export const GLOSSARY: Array<Feature> = [
   { title: "Throat", text: "The narrowest part of a wormhole, where its spheres have their smallest radius ρ." },
   { title: "Rapidity", text: "A measure of speed that adds simply: two boosts of η₁ and η₂ make η₁ + η₂, while the speed tanh η never reaches c." },
   { title: "Aberration", text: "The change in the apparent direction of light caused by your own motion." },
-  { title: "Terrell rotation", text: "The apparent turning of a fast-moving object. Light from its far parts set out earlier, so it looks rotated rather than squashed; a sphere always stays round." },
 ];
 
 export const CREDITS: Array<{ text: string; link: string; url: string }> = [
@@ -253,9 +216,4 @@ export const CREDITS: Array<{ text: string; link: string; url: string }> = [
   { text: "A. J. S. Hamilton and J. P. Lisle, ", link: "The river model of black holes (2008)", url: "https://arxiv.org/abs/gr-qc/0411060" },
   { text: "M. Moroz, ", link: "Tracing Geodesics", url: "https://michaelmoroz.github.io/TracingGeodesics/" },
   { text: "A. J. S. Hamilton, ", link: "Inside black holes", url: "https://jila.colorado.edu/~ajsh/insidebh/" },
-  { text: "J. Terrell, ", link: "Invisibility of the Lorentz contraction (1959)", url: "https://doi.org/10.1103/PhysRev.116.1041" },
-  { text: "R. Penrose, ", link: "The apparent shape of a relativistically moving sphere (1959)", url: "https://doi.org/10.1017/S0305004100033776" },
-  { text: "Earth: NASA Earth Observatory (Reto Stöckli), ", link: "Blue Marble: Next Generation", url: "https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/" },
-  { text: "Night lights: NASA Earth Observatory (Joshua Stevens, Miguel Román), ", link: "Earth at Night, Black Marble 2016", url: "https://science.nasa.gov/earth/earth-observatory/earth-at-night/" },
-  { text: "Moon: NASA Scientific Visualization Studio (Ernie Wright), ", link: "CGI Moon Kit", url: "https://svs.gsfc.nasa.gov/4720" },
 ];
