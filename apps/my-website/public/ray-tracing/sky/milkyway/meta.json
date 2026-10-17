@@ -1,0 +1,22 @@
+{
+  "source": "https://svs.gsfc.nasa.gov/vis/a000000/a004800/a004851/starmap_2020_16k_gal.exr",
+  "credit": "NASA/Goddard Space Flight Center Scientific Visualization Studio. Gaia DR2: ESA/Gaia/DPAC.",
+  "frame": "galactic: +Z north galactic pole, +X galactic centre",
+  "encoding": "log2-jpeg",
+  "logMin": -17.5,
+  "logMax": 0.5,
+  "tiers": [
+    4096,
+    2048,
+    1024,
+    512
+  ],
+  "faces": [
+    "px",
+    "nx",
+    "py",
+    "ny",
+    "pz",
+    "nz"
+  ]
+}

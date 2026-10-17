@@ -6,6 +6,8 @@ import Link from "@/components/Link";
 import ImageCarousel from "../../ImageCarousel/ImageCarousel";
 import MaterialIcon, { MaterialIconNames } from "../../MaterialIcon/MaterialIcon";
 import NavigationUtils from "../../../../helpers/NavigationUtils";
+import { useRouter } from "next/router";
+import { PlayIcon } from "../../Simulations/SimulationIcons/SimulationIcons";
 
 // Icon/title wrapper sizes for the projects top-bar
 const iconWrapperClass = "flex flex-row items-center justify-center h-[6vw] w-[6vw] sm:h-[45px] sm:w-[45px] md:h-[50px] md:w-[50px] lg:h-[55px] lg:w-[55px]";
@@ -16,8 +18,67 @@ const buttonIconClass = "!text-white !h-[4.4vw] !w-[4.4vw] sm:!h-[23.2px] sm:!w-
 const buttonTextClass = "!text-white !text-[2.88vw] !leading-[2.88vw] !ml-[2.88vw] sm:!text-[15.2px] sm:!leading-[15.2px] sm:!ml-[15.2px] md:!text-[17.6px] md:!leading-[17.6px] md:!ml-[17.6px] lg:!text-[19.2px] lg:!leading-[19.2px] lg:!ml-[19.2px]";
 
 const Projects: React.FC = () => {
+  const router = useRouter();
+  const openRayTracing = (): void => {
+    router.push("/ray-tracing");
+  };
+
   return (
     <div className="w-full flex flex-col items-center justify-center h-max content-grid-bg">
+      <div className="paper-spacer"/>
+
+      {/* Relativistic Ray Tracing */}
+      <Paper className="content-paper" elevation={3}>
+        <div className="content-inner">
+          <div className="flex flex-col items-start justify-start h-full w-full">
+            <div className="content-top-bar">
+              <div className={iconWrapperClass}>
+                <img className="max-w-full max-h-full" src="./resources/images/projects/relativitySimulationsIcon.svg" alt="Relativistic Ray Tracing"/>
+              </div>
+              <div className={titleWrapperClass}>
+                <Link className="content-font-link" style={{ color: "var(--primary-main)" }} onClick={openRayTracing}>
+                  RELATIVISTIC RAY TRACING
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className="content-divider"/>
+          <Typography className="content-font-body !italic" style={{ color: "var(--secondary-dark)" }}>Real-time 4K simulations of a black hole, a fall through its event horizon, a wormhole and near-light-speed travel</Typography>
+          <div className="text-spacer"/><div className="text-spacer"/>
+          <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>FRONT-END</Typography>
+          <div className="text-spacer"/>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• React / TypeScript / Next.js</Typography>
+          <div className="text-spacer"/>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Graphics: WebGL 2 / GLSL ray tracing / HDR bloom and tone mapping</Typography>
+          <div className="text-spacer"/><div className="text-spacer"/>
+          <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>PHYSICS</Typography>
+          <div className="text-spacer"/>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Spinning black hole: light paths integrated through curved spacetime (RK4)</Typography>
+          <div className="text-spacer"/>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Falling into a black hole: the view of a free-falling observer, through the horizon</Typography>
+          <div className="text-spacer"/>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Interstellar wormhole: precomputed geodesic lookup table</Typography>
+          <div className="text-spacer"/>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• Special relativity: aberration, Doppler shift and beaming</Typography>
+          <div className="text-spacer"/><div className="text-spacer"/>
+          <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>DATA</Typography>
+          <div className="text-spacer"/>
+          <Typography className="content-font-body" style={{ color: "var(--secondary-dark)" }}>• NASA 16K HDR star map, preprocessed into cube maps with Node</Typography>
+          <div className="content-divider"/>
+          <div className="text-spacer"/>
+          <Paper className="h-max w-full" square elevation={3}>
+            <ImageCarousel imageWidth={1920} imageHeight={1080} images={["/ray-tracing/images/blackhole.jpg", "/ray-tracing/images/infall.jpg", "/ray-tracing/images/wormhole.jpg", "/ray-tracing/images/lightspeed.jpg", "/ray-tracing/images/blackhole-doppler.jpg"]}/>
+          </Paper>
+          <div className="text-spacer"/>
+          <div className="content-divider"/>
+          <div className="text-spacer"/>
+          <div className={buttonWrapperClass}>
+            <Button variant="contained" className={buttonClass} color="primary" onClick={openRayTracing}>
+              <PlayIcon className={buttonIconClass}/><Typography className={buttonTextClass}>Launch</Typography>
+            </Button>
+          </div>
+        </div>
+      </Paper>
       <div className="paper-spacer"/>
 
       {/* COVID-19 Tracker */}

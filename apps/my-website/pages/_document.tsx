@@ -6,8 +6,8 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <link id="main-icon" rel="icon" href="./resources/icons/winterIcon.svg" type="image/x-icon"/>
-          <link id="shortcut-icon" rel="shortcut icon" href="./resources/icons/winterIcon.svg" type="image/x-icon"/>
+          <link id="main-icon" rel="icon" href="/resources/icons/winterIcon.svg" type="image/x-icon"/>
+          <link id="shortcut-icon" rel="shortcut icon" href="/resources/icons/winterIcon.svg" type="image/x-icon"/>
           <noscript>You need to enable JavaScript to run this app.</noscript>
         </Head>
         <body>
