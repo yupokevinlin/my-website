@@ -1,5 +1,4 @@
 import React, { ReactElement, useEffect, useRef, useState } from "react";
-import { Breakpoint } from "@/components/types";
 import Scrollbars from "@/components/Scrollbars";
 import ScrollNavigationDrawer from "./ScrollNavigationDrawer/ScrollNavigationDrawer";
 
@@ -7,7 +6,6 @@ import { ScrollNavigationDrawerMenuItemData, ScrollNavigationDrawerMenuItemName 
 import Section from "../Section/Section";
 import TopBar from "../TopBar/TopBar";
 import { ThemePictureSeason } from "../ThemePicture/types";
-import useWidth from "../../../hooks/useWidth";
 
 export interface ScrollNavigationProps {
   menuItems: Array<ScrollNavigationDrawerMenuItemData>;
@@ -20,9 +18,7 @@ export interface ScrollNavigationProps {
 }
 
 const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
-  const width: Breakpoint = useWidth();
   const { menuItems, isTopSelected, season, handleItemClick, handleScroll, handleSeasonChange } = props;
-  const isSmXs: boolean = /xs|sm/.test(width);
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
 
   const handleDrawerOpen = (): void => { setDrawerOpen(true); };
@@ -74,7 +70,6 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
   return (
     <div className="flex flex-row h-full w-full">
       <ScrollNavigationDrawer
-        width={width}
         drawerOpen={drawerOpen}
         menuItems={menuItems}
         isTopSelected={isTopSelected}
@@ -84,7 +79,9 @@ const ScrollNavigation: React.FC<ScrollNavigationProps> = (props) => {
         handleSeasonChange={handleSeasonChange}
       />
       <div className="h-full w-full md:w-[calc(100%-172px)] lg:w-[calc(100%-192px)] overflow-hidden">
-        {isSmXs ? <TopBar handleDrawerOpen={handleDrawerOpen}/> : null}
+        <div className="md:hidden">
+          <TopBar handleDrawerOpen={handleDrawerOpen}/>
+        </div>
         <div
           className="w-full h-[calc(100vh-57px)] sm:h-[calc(100vh-67px)] md:h-full overflow-hidden"
           ref={contentRef}

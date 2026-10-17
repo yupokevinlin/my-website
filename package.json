@@ -4,8 +4,9 @@
   "license": "MIT",
   "scripts": {
     "start:my-website": "nx run my-website:dev",
-    "build:my-website": "nx run my-website:build",
-    "test:my-website": "nx run my-website:test"
+    "build:my-website": "nx run my-website:build --skip-nx-cache",
+    "test:my-website": "nx run my-website:test",
+    "deploy:my-website": "npm run build:my-website && firebase deploy --only hosting"
   },
   "private": true,
   "devDependencies": {
@@ -46,6 +47,8 @@
     "nx": "22.4.2",
     "postcss": "8.4.38",
     "prettier": "^2.6.2",
+    "sharp": "^0.35.2",
+    "svgo": "^4.0.1",
     "tailwindcss": "^4.0.0",
     "ts-jest": "^29.4.0",
     "ts-node": "10.9.1",
@@ -59,6 +62,8 @@
   ],
   "dependencies": {
     "clsx": "^2.1.1",
+    "firebase": "^12.15.0",
+    "framer-motion": "^13.4.6",
     "next": "~16.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

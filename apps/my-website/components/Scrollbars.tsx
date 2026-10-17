@@ -13,6 +13,7 @@ import React, {
   useCallback,
   useEffect,
   useRef,
+  useState,
 } from "react";
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
@@ -121,11 +122,16 @@ export interface ScrollbarsProps {
   autoHideTimeout?: number;
   autoHideDuration?: number;
   children?: ReactNode;
-  renderView?: (props: RenderElementProps) => ReactElement;
-  renderTrackHorizontal?: (props: RenderElementProps) => ReactElement;
-  renderTrackVertical?: (props: RenderElementProps) => ReactElement;
-  renderThumbHorizontal?: (props: RenderElementProps) => ReactElement;
-  renderThumbVertical?: (props: RenderElementProps) => ReactElement;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderView?: (props: RenderElementProps) => ReactElement<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderTrackHorizontal?: (props: RenderElementProps) => ReactElement<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderTrackVertical?: (props: RenderElementProps) => ReactElement<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderThumbHorizontal?: (props: RenderElementProps) => ReactElement<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  renderThumbVertical?: (props: RenderElementProps) => ReactElement<any>;
   onScroll?: (event: Event) => void;
   onScrollFrame?: (values: ScrollValues) => void;
   onScrollStart?: () => void;
@@ -135,23 +141,28 @@ export interface ScrollbarsProps {
 
 // ─── Default render elements ──────────────────────────────────────────────────
 
-function renderViewDefault({ style, ...props }: RenderElementProps): ReactElement {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function renderViewDefault({ style, ...props }: RenderElementProps): ReactElement<any> {
   return <div style={style} {...props} />;
 }
 
-function renderTrackHorizontalDefault({ style, ...props }: RenderElementProps): ReactElement {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function renderTrackHorizontalDefault({ style, ...props }: RenderElementProps): ReactElement<any> {
   return <div style={{ ...style, right: 2, bottom: 2, left: 2, borderRadius: 3 }} {...props} />;
 }
 
-function renderTrackVerticalDefault({ style, ...props }: RenderElementProps): ReactElement {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function renderTrackVerticalDefault({ style, ...props }: RenderElementProps): ReactElement<any> {
   return <div style={{ ...style, right: 2, bottom: 2, top: 2, borderRadius: 3 }} {...props} />;
 }
 
-function renderThumbHorizontalDefault({ style, ...props }: RenderElementProps): ReactElement {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function renderThumbHorizontalDefault({ style, ...props }: RenderElementProps): ReactElement<any> {
   return <div style={{ ...style, cursor: "pointer", borderRadius: "inherit", backgroundColor: "rgba(0,0,0,.2)" }} {...props} />;
 }
 
-function renderThumbVerticalDefault({ style, ...props }: RenderElementProps): ReactElement {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function renderThumbVerticalDefault({ style, ...props }: RenderElementProps): ReactElement<any> {
   return <div style={{ ...style, cursor: "pointer", borderRadius: "inherit", backgroundColor: "rgba(0,0,0,.2)" }} {...props} />;
 }
 
@@ -178,7 +189,10 @@ const Scrollbars: React.FC<ScrollbarsProps> = ({
   onScrollStop,
   onUpdate,
 }) => {
-  const scrollbarWidth = getScrollbarWidth();
+  // Start at 0 so the first client render matches the server (which has no
+  // DOM to measure). The real width is measured after mount to avoid a
+  // hydration mismatch on the view's margin styles.
+  const [scrollbarWidth, setScrollbarWidth] = useState(0);
 
   const viewRef = useRef<HTMLDivElement | null>(null);
   const trackHRef = useRef<HTMLDivElement | null>(null);
@@ -488,9 +502,12 @@ const Scrollbars: React.FC<ScrollbarsProps> = ({
 
     if (!view) return;
 
-    view.addEventListener("scroll", handleScroll);
+    // Measure the native scrollbar width now that the DOM exists, and publish
+    // it to state so the view's margin styles update post-hydration.
+    const sw = getScrollbarWidth();
+    setScrollbarWidth(sw);
 
-    if (scrollbarWidth) {
+    if (sw) {
       trackH?.addEventListener("mouseenter", handleTrackMouseEnter);
       trackH?.addEventListener("mouseleave", handleTrackMouseLeave);
       trackH?.addEventListener("mousedown", handleHorizontalTrackMouseDown as EventListener);
@@ -509,9 +526,7 @@ const Scrollbars: React.FC<ScrollbarsProps> = ({
       if (hideTracksTimeout.current !== undefined) clearTimeout(hideTracksTimeout.current);
       if (detectScrollingInterval.current !== undefined) clearInterval(detectScrollingInterval.current);
 
-      view.removeEventListener("scroll", handleScroll);
-
-      if (scrollbarWidth) {
+      if (sw) {
         trackH?.removeEventListener("mouseenter", handleTrackMouseEnter);
         trackH?.removeEventListener("mouseleave", handleTrackMouseLeave);
         trackH?.removeEventListener("mousedown", handleHorizontalTrackMouseDown as EventListener);
@@ -528,6 +543,17 @@ const Scrollbars: React.FC<ScrollbarsProps> = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Bind the scroll listener in its own effect so it re-subscribes whenever
+  // `handleScroll` changes — in particular after `scrollbarWidth` is measured
+  // post-mount. Binding it once on mount would capture a stale closure with
+  // `scrollbarWidth === 0`, which gates out the thumb-position update.
+  useEffect(() => {
+    const view = viewRef.current;
+    if (!view) return;
+    view.addEventListener("scroll", handleScroll);
+    return () => view.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
+
   // Re-run update whenever children change.
   useEffect(() => {
     scheduleUpdate();
@@ -540,10 +566,12 @@ const Scrollbars: React.FC<ScrollbarsProps> = ({
     ...style,
   };
 
+  // The native scrollbar is hidden via CSS (`scrollbars-view`), so it occupies
+  // no layout space and needs no negative-margin compensation. Applying margins
+  // based on the post-mount scrollbar-width measurement would reflow the content
+  // and cause a layout shift (CLS), so we deliberately leave the view flush.
   const viewStyle: CSSProperties = {
     ...viewStyleDefault,
-    marginRight: scrollbarWidth ? -scrollbarWidth : 0,
-    marginBottom: scrollbarWidth ? -scrollbarWidth : 0,
   };
 
   const autoHideTrackStyle: CSSProperties = autoHide
