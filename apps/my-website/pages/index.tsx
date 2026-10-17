@@ -1,11 +1,11 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import App from "../src/root/App";
+import HomePage from "../src/v2/HomePage";
 import { SITE_URL, homeJsonLd, homeSeo, profile } from "../src/data/profile";
 
 const Index: NextPage = () => {
   return (
-    <div className={"root"}>
+    <>
       <Head>
         <meta charSet="UTF-8"/>
         <meta
@@ -15,8 +15,6 @@ const Index: NextPage = () => {
         <title>{homeSeo.title}</title>
         <meta name="description" content={homeSeo.description}/>
         <link rel="canonical" href={`${SITE_URL}/`}/>
-        {/* The loading screen waits for this picture, so start it before the JavaScript */}
-        <link rel="preload" as="image" href="/resources/seasons/winter.svg"/>
 
         {/* Open Graph */}
         <meta property="og:type" content="website"/>
@@ -43,8 +41,8 @@ const Index: NextPage = () => {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(homeJsonLd) }}
         />
       </Head>
-      <App/>
-    </div>
+      <HomePage/>
+    </>
   );
 };
 

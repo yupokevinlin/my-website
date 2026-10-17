@@ -4,7 +4,8 @@ Kevin's personal site. Recruiters find it from LinkedIn, his resume and searches
 
 - Next.js 16 (pages router), React 19, Tailwind v4, in an Nx workspace. The app is `apps/my-website`.
 - Static export (`output: "export"`, `images.unoptimized`) to `dist/apps/my-website`, hosted on Firebase Hosting (`firebase.json`). There is no server and no Next.js image optimization.
-- Pages: `/`, the portfolio (`pages/index.tsx` → `src/root/App` → `src/display/pages/MainPage`), and the ray-tracing guide `/ray-tracing` with four simulation pages (`pages/ray-tracing/*.tsx`).
+- Pages: `/`, the portfolio (`pages/index.tsx` → `src/v2/HomePage`); `/v1`, the previous design (`pages/v1.tsx` → `src/root/App` → `src/display/pages/MainPage`), frozen and `noindex`, so don't update it; and the ray-tracing guide `/ray-tracing` with four simulation pages (`pages/ray-tracing/*.tsx`). `/v2` redirects to `/` (`firebase.json`).
+- Redesign in progress on the `v2` branch (plan: `redesign-plan.html`, kept out of git). The new home page's season comes from the calendar: `SEASON_SCRIPT` in `src/v2/season.ts` sets `html[data-season]` before the first paint, and the season colours are CSS variables in the "v2 home page" block of `styles/globals.css`. Until redesign step 2 lands, `/` still shows the old About to Contact sections under the new top bar and hero.
 - Test: `npx nx run my-website:test`. Build: `npm run build:my-website`. Deploy: `npm run deploy:my-website`. Deploying updates the live site, so do it only when Kevin asks.
 - Branches: `main` is the only long-lived branch. Work on a feature branch and open a pull request into `main`. There is no `develop` or `master`.
 

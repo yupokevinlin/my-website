@@ -11,6 +11,15 @@ export const profile = {
   alternateNames: ["Kevin Yupo Lin", "Yupo Lin"],
   // The top bar subtitle, shortened from the LinkedIn headline.
   headline: "Full-Stack + AI Engineer",
+  // The home page's eyebrow line, above the name.
+  title: "Senior Full-Stack + AI Engineer",
+  // The home page's one-line pitch, under the name.
+  pitch: "I build fast, accessible React and Next.js products and the AI features inside them. Tech lead at Best Buy Canada, and co-founder and CTO of ForteCare.",
+  // The stack named in the home page's quick-facts line.
+  heroSkills: ["React", "Next.js", "TypeScript", "Node.js", "LLMs"],
+  // First automation work, at Protrade in October 2016 (month 0 = January).
+  // "Years building software" counts from here at build time.
+  careerStart: { year: 2016, month: 9 },
   jobTitle: "Senior Software Engineer",
   employer: { name: "Best Buy Canada", url: "https://www.bestbuy.ca/" },
   school: { name: "The University of British Columbia", url: "https://www.ubc.ca/" },

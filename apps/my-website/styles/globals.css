@@ -305,3 +305,66 @@
   .content-font-body.font-weight-semibold { font-weight: 500 !important; }
   .content-font-link.font-weight-medium   { font-weight: 400 !important; }
 }
+
+/* ─── v2 home page ("/") ────────────────────────────────────────── */
+@layer base {
+  /* The v2 home page scrolls the document itself; /v1 and the ray-tracing  */
+  /* pages keep their own scroll containers. html.v2-page (set by HomePage) */
+  /* covers browsers without :has().                                        */
+  html:has(.v2) #__next,
+  html.v2-page #__next {
+    height: auto;
+    max-height: none;
+    min-height: 100vh;
+    overflow: visible;
+  }
+  html:has(.v2),
+  html.v2-page {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem; /* clears the sticky top bar */
+  }
+
+  /* Season colours. html[data-season] is set before the first paint by the */
+  /* script in _document.tsx; winter is the fallback. Accent text is at     */
+  /* least 4.5:1 on white, and so is white text on accent-strong.           */
+  .v2 {
+    --v2-accent:        #3878b1;
+    --v2-accent-strong: #36638b;
+    --v2-tint:          #e9f0f7;
+    --v2-ink:           #1d232b;
+    --v2-body:          #39424e;
+    --v2-muted:         #5b6573;
+    --v2-line:          #e6e9ee;
+    font-family: var(--font-v2-sans), system-ui, sans-serif;
+    color: var(--v2-ink);
+    background-color: #fff;
+  }
+  html[data-season="spring"] .v2 { --v2-accent: #49822d; --v2-accent-strong: #3c6b25; --v2-tint: #edf5e7; }
+  html[data-season="summer"] .v2 { --v2-accent: #17325e; --v2-accent-strong: #17325e; --v2-tint: #e8ecf3; }
+  html[data-season="autumn"] .v2 { --v2-accent: #be5713; --v2-accent-strong: #a35019; --v2-tint: #fbeee4; }
+
+  /* Only the current season's scene, scene label and switch ring show */
+  .v2-scene-layer  { opacity: 0; transition: opacity 0.7s ease; }
+  .v2-season-label { display: none; }
+  .v2-season-btn   { opacity: 0.6; }
+  html:not([data-season]) .v2-scene-layer[data-season="winter"],
+  html[data-season="winter"] .v2-scene-layer[data-season="winter"],
+  html[data-season="spring"] .v2-scene-layer[data-season="spring"],
+  html[data-season="summer"] .v2-scene-layer[data-season="summer"],
+  html[data-season="autumn"] .v2-scene-layer[data-season="autumn"] { opacity: 1; }
+  html:not([data-season]) .v2-season-label[data-season="winter"],
+  html[data-season="winter"] .v2-season-label[data-season="winter"],
+  html[data-season="spring"] .v2-season-label[data-season="spring"],
+  html[data-season="summer"] .v2-season-label[data-season="summer"],
+  html[data-season="autumn"] .v2-season-label[data-season="autumn"] { display: inline; }
+  html:not([data-season]) .v2-season-btn[data-season="winter"],
+  html[data-season="winter"] .v2-season-btn[data-season="winter"],
+  html[data-season="spring"] .v2-season-btn[data-season="spring"],
+  html[data-season="summer"] .v2-season-btn[data-season="summer"],
+  html[data-season="autumn"] .v2-season-btn[data-season="autumn"] { opacity: 1; box-shadow: 0 0 0 2px var(--v2-accent); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html:has(.v2), html.v2-page { scroll-behavior: auto; }
+    .v2-scene-layer { transition: none; }
+  }
+}

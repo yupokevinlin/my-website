@@ -1,6 +1,7 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import Page from "../pages/index";
+import V1Page from "../pages/v1";
 import { homeJsonLd, homeSeo, profile } from "../src/data/profile";
 
 // jsdom has neither of these; the scroll navigation and seasonal art use them
@@ -33,6 +34,15 @@ describe("Home page", () => {
     expect(meLinks).toEqual(expect.arrayContaining([profile.linkedIn, profile.gitHub]));
   });
 
+  it("switches the season from the top bar", () => {
+    const { getByRole } = render(<Page/>);
+    const spring = getByRole("button", { name: "Spring theme" });
+    fireEvent.click(spring);
+    expect(document.documentElement.dataset.season).toBe("spring");
+    expect(spring.getAttribute("aria-pressed")).toBe("true");
+    expect(getByRole("button", { name: "Winter theme" }).getAttribute("aria-pressed")).toBe("false");
+  });
+
   it("names every button for screen readers", () => {
     const { container } = render(<Page/>);
     container.querySelectorAll("button").forEach((button) => {
@@ -48,6 +58,14 @@ describe("Home page", () => {
     container.querySelectorAll("img").forEach((img) => {
       expect(img.getAttribute("alt")).not.toMatch(/^Slide \d/);
     });
+  });
+});
+
+describe("Previous version (/v1)", () => {
+  it("still renders the original design", () => {
+    const { container } = render(<V1Page/>);
+    expect(container.querySelector("h1")?.textContent).toBe(profile.name);
+    expect(container.textContent).toContain("Adaptive");
   });
 });
 
