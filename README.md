@@ -2,7 +2,7 @@
 
 A personal portfolio website built with **Next.js 16**, **React 19**, and **Tailwind CSS v4**, managed in an [Nx](https://nx.dev) monorepo.
 
-## ✨ Features
+## Features
 
 - Seasonal theme switcher (Winter, Spring, Summer, Autumn) with dynamic CSS custom properties and matching favicon
 - Animated hero section with season-specific SVG bird animations
@@ -11,7 +11,7 @@ A personal portfolio website built with **Next.js 16**, **React 19**, and **Tail
 - Resume download
 - Loading screen with progress indicator
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 apps/
@@ -19,7 +19,7 @@ apps/
   my-website-e2e/    # Playwright end-to-end tests
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -42,7 +42,7 @@ npx nx run my-website:dev -- --port 4200
 
 Open [http://localhost:4200](http://localhost:4200) in your browser.
 
-## 🔧 Available Scripts
+## Available Scripts
 
 | Command | Description |
 |---|---|
@@ -59,7 +59,7 @@ npx nx run my-website:test
 npx nx run my-website-e2e:e2e
 ```
 
-## 🧪 Testing
+## Testing
 
 Unit tests use **Jest** + **React Testing Library**:
 
@@ -73,7 +73,7 @@ End-to-end tests use **Playwright**:
 npx nx run my-website-e2e:e2e
 ```
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Category | Technology |
 |---|---|
@@ -85,7 +85,7 @@ npx nx run my-website-e2e:e2e
 | Testing | Jest 30, Playwright |
 | Linting | ESLint 9, Prettier |
 
-## 📁 Key Source Directories
+## Key Source Directories
 
 ```
 apps/my-website/
