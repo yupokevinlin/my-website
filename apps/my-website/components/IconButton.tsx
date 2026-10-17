@@ -7,12 +7,15 @@ export interface IconButtonProps {
   edge?: "start" | "end" | false;
   color?: "inherit" | "primary" | "secondary" | "default";
   onClick?: (e: React.MouseEvent) => void;
+  // Icon-only buttons need this so screen readers can announce them
+  "aria-label"?: string;
   children?: React.ReactNode;
 }
 
-const IconButton: React.FC<IconButtonProps> = ({ className, style, onClick, children }) => (
+const IconButton: React.FC<IconButtonProps> = ({ className, style, onClick, "aria-label": ariaLabel, children }) => (
   <button
     type="button"
+    aria-label={ariaLabel}
     className={clsx("btn-base btn-ghost btn-ghost-rounded", className)}
     style={{
       appearance: "none",

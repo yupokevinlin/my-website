@@ -45,7 +45,7 @@ export const CHAPTERS: Array<Chapter> = [
     field: "General relativity",
     title: "The Black Hole",
     subtitle: "A star's worth of mass, folded so tightly that not even light escapes.",
-    image: "/ray-tracing/images/blackhole.jpg",
+    image: "/ray-tracing/images/blackhole.webp",
     imageCaption: "A black hole with spin 0.215, seen from just above its accretion disc.",
     paragraphs: [
       "Gargantua, the black hole in Interstellar, is a spinning black hole. Mass curves spacetime, and light, which always takes the straightest path available, follows the curve. Close to the hole the bending is so strong that light can orbit it, loop around behind it, or fall in for good.",
@@ -78,7 +78,7 @@ export const CHAPTERS: Array<Chapter> = [
     field: "General relativity",
     title: "Into the Black Hole",
     subtitle: "What you would really see on a one-way trip through the event horizon.",
-    image: "/ray-tracing/images/infall.jpg",
+    image: "/ray-tracing/images/infall.webp",
     imageCaption: "Just inside the horizon. The black region below is still only part of the sky, ringed by blueshifted light.",
     paragraphs: [
       "What would you see if you fell into a black hole? Space flows inwards around a black hole like a river, faster the closer it gets, and at the horizon it flows at the speed of light. Dropped from far away, you are carried along with it, so you cross the horizon without feeling a thing. Nothing marks the boundary. Only afterwards does every path lead to the singularity.",
@@ -112,7 +112,7 @@ export const CHAPTERS: Array<Chapter> = [
     field: "General relativity",
     title: "The Wormhole",
     subtitle: "A tunnel through spacetime, seen as a crystal ball onto another galaxy.",
-    image: "/ray-tracing/images/wormhole.jpg",
+    image: "/ray-tracing/images/wormhole.webp",
     imageCaption: "Approaching the mouth: the far galaxy inside, our own sky wrapped into rings around it.",
     paragraphs: [
       "A wormhole connects two distant regions of space through a shortcut. The one in Interstellar, designed with physicist Kip Thorne, is a smooth, spherically symmetric tunnel described by three numbers: the radius of its throat ρ, the length of the throat 2a, and a lensing width set by M.",
@@ -145,7 +145,7 @@ export const CHAPTERS: Array<Chapter> = [
     field: "Special relativity",
     title: "Near Light Speed",
     subtitle: "Fly towards the centre of the Milky Way and watch the sky crowd in ahead of you.",
-    image: "/ray-tracing/images/lightspeed.jpg",
+    image: "/ray-tracing/images/lightspeed.webp",
     imageCaption: "At 0.99c the whole galaxy is squeezed forward into a narrow, blue-shifted band.",
     paragraphs: [
       "Nothing with mass can reach the speed of light, but it can get as close as you like. As it does, the sky changes in three ways at once. Aberration squeezes the view forwards, the way rain seems to slant towards you when you run. The Doppler effect shifts the light ahead to bluer colours and the light behind to redder ones. And beaming makes the view ahead brighter and the view behind darker.",

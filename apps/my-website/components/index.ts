@@ -2,6 +2,8 @@ export { default as Paper } from "./Paper";
 export type { PaperProps } from "./Paper";
 export { default as Typography } from "./Typography";
 export type { TypographyProps } from "./Typography";
+export { default as Anchor } from "./Anchor";
+export type { AnchorProps } from "./Anchor";
 export { default as Link } from "./Link";
 export type { LinkProps } from "./Link";
 export { default as Button } from "./Button";

@@ -1,3 +1,9 @@
+# Kevin Lin's portfolio: kevinyupolin.dev
+
+The project guide is in AGENTS.md, which other AI tools (Gemini, Codex) read too. It covers where things live, what to update when Kevin's experience changes, and the SEO rules. Edit it there, not here.
+
+@AGENTS.md
+
 <!-- nx configuration start-->
 <!-- Leave the start & end comments to automatically receive updates. -->
 

@@ -26,6 +26,7 @@
     --primary-dark:     #36638b;
     --primary-darker:   #264458;
     --primary-contrast: #fff;
+    --primary-text:     #3878b1; /* primary-main darkened to 4.5:1 on white, for small text */
     --secondary-light:  #aaaaaa;
     --secondary-main:   #666666;
     --secondary-dark:   #000000;

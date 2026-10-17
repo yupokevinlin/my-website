@@ -6,11 +6,12 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <link id="main-icon" rel="icon" href="/resources/icons/winterIcon.svg" type="image/x-icon"/>
-          <link id="shortcut-icon" rel="shortcut icon" href="/resources/icons/winterIcon.svg" type="image/x-icon"/>
-          <noscript>You need to enable JavaScript to run this app.</noscript>
+          <link id="main-icon" rel="icon" href="/resources/icons/winterIcon.svg" type="image/svg+xml"/>
+          <link id="shortcut-icon" rel="shortcut icon" href="/resources/icons/winterIcon.svg" type="image/svg+xml"/>
+          <link rel="apple-touch-icon" href="/resources/icons/apple-touch-icon.png"/>
         </Head>
         <body>
+          <noscript>You need to enable JavaScript to run this app.</noscript>
           <Main/>
           <NextScript/>
         </body>

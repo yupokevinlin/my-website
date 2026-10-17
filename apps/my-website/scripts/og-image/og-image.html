@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400;500&display=block" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    font-family: Roboto, sans-serif;
+    background-color: #fff;
+    background-image:
+      linear-gradient(#f0f0f0 1.5px, transparent 1.5px),
+      linear-gradient(to right, #f0f0f0 1.5px, #fff 1.5px);
+    background-size: 30px 30px;
+    position: relative;
+  }
+  .band {
+    height: 96px;
+    background: #4e8ec7;
+    display: flex;
+    align-items: center;
+    padding: 0 64px;
+    gap: 20px;
+    color: #fff;
+  }
+  .band img { width: 48px; height: 48px; }
+  .band span { font-weight: 200; font-size: 38px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .paper {
+    position: absolute;
+    left: 64px; right: 64px; top: 140px; bottom: 56px;
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 4px 6px -2px rgba(0,0,0,.2), 0 4px 8px 0 rgba(0,0,0,.14), 0 2px 14px 0 rgba(0,0,0,.12);
+    padding: 48px 64px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  h1 { font-weight: 300; font-size: 112px; line-height: 1; color: #4e8ec7; letter-spacing: -0.01em; }
+  h2 { font-weight: 400; font-size: 50px; line-height: 1.1; color: #36638b; margin-top: 22px; }
+  p {
+    margin-top: 34px;
+    font-weight: 300; font-size: 32px; line-height: 1.3; color: #555;
+    border-left: 6px solid #4e8ec7; padding-left: 22px;
+  }
+</style>
+</head>
+<body>
+  <div class="band"><img src="../../public/resources/icons/winterIcon.svg" alt=""><span>kevinyupolin.dev</span></div>
+  <div class="paper">
+    <h1>Kevin Lin</h1>
+    <h2>Senior Full-Stack + AI Engineer</h2>
+    <p>Vancouver, BC &nbsp;·&nbsp; React · Next.js · TypeScript · Node.js · LLMs</p>
+  </div>
+</body>
+</html>

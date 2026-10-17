@@ -17,11 +17,11 @@ const SectionWrapper: React.FC<SectionWrapperProps> = (props) => {
         style={{ backgroundColor: "var(--primary-main)" }}
       >
         <Typography
-          className="!font-extralight !select-none !text-[23px] !leading-[23px] !ml-[23px] sm:!text-[27px] sm:!leading-[27px] sm:!ml-[27px] md:!text-[38px] md:!leading-[38px] md:!ml-[38px] lg:!text-[42px] lg:!leading-[42px] lg:!ml-[42px]"
+          component="h2"
+          className="uppercase !font-extralight !select-none !text-[23px] !leading-[23px] !ml-[23px] sm:!text-[27px] sm:!leading-[27px] sm:!ml-[27px] md:!text-[38px] md:!leading-[38px] md:!ml-[38px] lg:!text-[42px] lg:!leading-[42px] lg:!ml-[42px]"
           style={{ color: "var(--primary-contrast)" }}
-          variant="h3"
         >
-          {name.toUpperCase()}
+          {name}
         </Typography>
       </div>
       {props.children}

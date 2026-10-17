@@ -1,7 +1,7 @@
 import React from "react";
 import { Paper, Typography, Button } from "@/components";
 import MaterialIcon, { MaterialIconNames } from "../../MaterialIcon/MaterialIcon";
-import NavigationUtils from "../../../../helpers/NavigationUtils";
+import { profile } from "../../../../data/profile";
 
 const Contact: React.FC = () => {
   const titleClass      = "!font-light !text-[4vw] !h-[4vw] !leading-[4vw] !mt-[0.4vw] !mb-[2.2vw] sm:!text-[23px] sm:!h-[23px] sm:!leading-[23px] sm:!mt-[3px] sm:!mb-[18px] md:!text-[30px] md:!h-[30px] md:!leading-[30px] md:!mt-[3.6px] md:!mb-[19.3px] lg:!text-[37px] lg:!h-[37px] lg:!leading-[37px] lg:!mt-[4px] lg:!mb-[22px]";
@@ -18,23 +18,23 @@ const Contact: React.FC = () => {
       >
         <div className="flex flex-row items-start justify-start w-[90%] h-[80vw] sm:h-[480px] md:h-[540px] lg:h-[600px]">
           <div className="flex flex-col items-start justify-start h-full w-max">
-            <Typography className={titleClass} style={{ color: "var(--primary-main)" }}>LinkedIn</Typography>
-            <Typography className={subTitleClass} style={{ color: "var(--secondary-main)" }}>https://www.linkedin.com/in/kevinyupolin</Typography>
-            <Button variant="contained" className={buttonRowClass} style={{ backgroundColor: "#0072b1" }} onClick={() => NavigationUtils.goToWebsite("https://www.linkedin.com/in/kevinyupolin")}>
+            <Typography component="h3" className={titleClass} style={{ color: "var(--primary-main)" }}>LinkedIn</Typography>
+            <Typography className={subTitleClass} style={{ color: "var(--secondary-main)" }}>{profile.linkedIn}</Typography>
+            <Button variant="contained" className={buttonRowClass} style={{ backgroundColor: "#0072b1" }} href={profile.linkedIn} rel="me">
               <MaterialIcon iconName={MaterialIconNames.LinkedIn} className={buttonIconClass}/>
               <Typography className={buttonTextClass}>Connect</Typography>
             </Button>
 
-            <Typography className={titleClass} style={{ color: "var(--primary-main)" }}>E Mail</Typography>
-            <Typography className={subTitleClass} style={{ color: "var(--secondary-main)" }}>kevinyupolin@gmail.com</Typography>
-            <Button variant="contained" className={buttonRowClass} style={{ backgroundColor: "#ea4335" }} onClick={() => NavigationUtils.sendEmail("kevinyupolin@gmail.com")}>
+            <Typography component="h3" className={titleClass} style={{ color: "var(--primary-main)" }}>E Mail</Typography>
+            <Typography className={subTitleClass} style={{ color: "var(--secondary-main)" }}>{profile.email}</Typography>
+            <Button variant="contained" className={buttonRowClass} style={{ backgroundColor: "#ea4335" }} href={`mailto:${profile.email}`}>
               <MaterialIcon iconName={MaterialIconNames.Mail} className={buttonIconClass}/>
               <Typography className={buttonTextClass}>Contact</Typography>
             </Button>
 
-            <Typography className={titleClass} style={{ color: "var(--primary-main)" }}>GitHub</Typography>
-            <Typography className={subTitleClass} style={{ color: "var(--secondary-main)" }}>https://github.com/yupokevinlin</Typography>
-            <Button variant="contained" className={buttonRowClass} style={{ backgroundColor: "#24292e" }} onClick={() => NavigationUtils.goToWebsite("https://github.com/yupokevinlin")}>
+            <Typography component="h3" className={titleClass} style={{ color: "var(--primary-main)" }}>GitHub</Typography>
+            <Typography className={subTitleClass} style={{ color: "var(--secondary-main)" }}>{profile.gitHub}</Typography>
+            <Button variant="contained" className={buttonRowClass} style={{ backgroundColor: "#24292e" }} href={profile.gitHub} rel="me">
               <MaterialIcon iconName={MaterialIconNames.Github} className={buttonIconClass}/>
               <Typography className={buttonTextClass}>View</Typography>
             </Button>

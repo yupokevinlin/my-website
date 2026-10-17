@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 
+export interface CarouselImage {
+  src: string;
+  /** What the screenshot shows. Search engines and screen readers read it. */
+  alt: string;
+}
+
 export interface ImageCarouselProps {
-  images: Array<string>;
+  images: Array<CarouselImage>;
   /** Intrinsic dimensions of the images, used to reserve space and prevent layout shift. */
   imageWidth?: number;
   imageHeight?: number;
@@ -92,14 +98,17 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({ images, imageWidth, image
             aspectRatio: imageWidth && imageHeight ? `${imageWidth} / ${imageHeight}` : undefined,
           }}
         >
-          {images.map((src, i) => (
+          {images.map((image, i) => (
             <img
               key={i}
-              src={src}
+              src={image.src}
               width={imageWidth}
               height={imageHeight}
-              alt={i === current ? `Slide ${i + 1} of ${total}` : ""}
+              alt={image.alt}
               aria-hidden={i !== current ? true : undefined}
+              // Every carousel sits well below the fold
+              loading="lazy"
+              decoding="async"
               className="w-full h-auto block"
               style={{
                 gridColumn: "1",
