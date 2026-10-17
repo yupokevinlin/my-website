@@ -18,5 +18,6 @@ await page.evaluate(() => document.fonts.ready);
 const png = await page.screenshot();
 await browser.close();
 
-await sharp(png).png({ compressionLevel: 9, palette: true, quality: 90 }).toFile(out);
+// Full-colour PNG: LinkedIn showed no image for the smaller palette version
+await sharp(png).png({ compressionLevel: 9 }).toFile(out);
 console.log(`Wrote ${out}`);
