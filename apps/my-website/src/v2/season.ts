@@ -4,7 +4,8 @@
 
 export type Season = "winter" | "spring" | "summer" | "autumn";
 
-export const SEASONS: Season[] = ["winter", "spring", "summer", "autumn"];
+// In calendar order, as the switch shows them
+export const SEASONS: Season[] = ["spring", "summer", "autumn", "winter"];
 
 export const SEASON_LABEL: Record<Season, string> = {
   winter: "Winter",
@@ -36,6 +37,7 @@ export const SEASON_SCENE: Record<Season, { image: string; sky: string }> = {
 
 // Runs in <head> before the page is drawn (see _document.tsx). Sets
 // html[data-season] from today's date and, on the home page, preloads that
-// season's picture and switches the favicon to match. Keep it in step with
-// seasonForMonth; specs/season.spec.ts checks they agree for every month.
-export const SEASON_SCRIPT = `(function(){try{var m=new Date().getMonth(),s=m>=2&&m<=4?"spring":m>=5&&m<=7?"summer":m>=8&&m<=10?"autumn":"winter",d=document;d.documentElement.setAttribute("data-season",s);if(location.pathname==="/"){var l=d.createElement("link");l.rel="preload";l.as="image";l.href="/resources/seasons/"+s+".svg";d.head.appendChild(l);["main-icon","shortcut-icon"].forEach(function(i){var e=d.getElementById(i);if(e)e.href="/resources/icons/"+s+"Icon.svg";});}}catch(e){}})();`;
+// season's picture (at high priority: it is the largest thing on screen) and
+// switches the favicon to match. Keep it in step with seasonForMonth;
+// specs/season.spec.ts checks they agree for every month.
+export const SEASON_SCRIPT = `(function(){try{var m=new Date().getMonth(),s=m>=2&&m<=4?"spring":m>=5&&m<=7?"summer":m>=8&&m<=10?"autumn":"winter",d=document;d.documentElement.setAttribute("data-season",s);if(location.pathname==="/"){var l=d.createElement("link");l.rel="preload";l.as="image";l.href="/resources/seasons/"+s+".svg";l.fetchPriority="high";d.head.appendChild(l);["main-icon","shortcut-icon"].forEach(function(i){var e=d.getElementById(i);if(e)e.href="/resources/icons/"+s+"Icon.svg";});}}catch(e){}})();`;

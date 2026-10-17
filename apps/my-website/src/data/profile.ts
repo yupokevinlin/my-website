@@ -22,6 +22,8 @@ export const profile = {
   careerStart: { year: 2016, month: 9 },
   jobTitle: "Senior Software Engineer",
   employer: { name: "Best Buy Canada", url: "https://www.bestbuy.ca/" },
+  // The start-up he co-founded; listed next to his employer in the JSON-LD
+  startup: { name: "ForteCare", url: "https://fortecare.ai/" },
   school: { name: "The University of British Columbia", url: "https://www.ubc.ca/" },
   location: { city: "Vancouver", region: "BC", country: "CA" },
   email: "kevinyupolin@gmail.com",
@@ -65,7 +67,10 @@ export const homeJsonLd = {
       image: homeSeo.image,
       jobTitle: profile.jobTitle,
       description: "Senior full-stack and AI engineer in Vancouver, BC, building React, Next.js and TypeScript products.",
-      worksFor: { "@type": "Organization", name: profile.employer.name, url: profile.employer.url },
+      worksFor: [
+        { "@type": "Organization", name: profile.employer.name, url: profile.employer.url },
+        { "@type": "Organization", name: profile.startup.name, url: profile.startup.url },
+      ],
       alumniOf: { "@type": "CollegeOrUniversity", name: profile.school.name, url: profile.school.url },
       address: {
         "@type": "PostalAddress",

@@ -12,6 +12,8 @@ export default class MyDocument extends Document {
           <link rel="apple-touch-icon" href="/resources/icons/apple-touch-icon.png"/>
           {/* Picks the season before the first paint; after the icon links, which it updates */}
           <script dangerouslySetInnerHTML={{ __html: SEASON_SCRIPT }}/>
+          {/* Without JavaScript, show the home page's scroll-in content in place */}
+          <noscript dangerouslySetInnerHTML={{ __html: "<style>.v2-reveal{opacity:1!important;transform:none!important}</style>" }}/>
         </Head>
         <body>
           <noscript>You need to enable JavaScript to run this app.</noscript>
