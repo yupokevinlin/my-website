@@ -333,7 +333,7 @@
   html:has(.v2),
   html.v2-page {
     scroll-behavior: smooth;
-    scroll-padding-top: 4.5rem; /* clears the sticky top bar */
+    scroll-padding-top: 4rem; /* the top bar's height, so a section starts right below it */
     /* The native scroll bar is hidden; PageScrollbar draws the site's own */
     scrollbar-width: none;
   }

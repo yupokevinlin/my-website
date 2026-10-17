@@ -18,8 +18,8 @@ const settle = {
 };
 
 // The season's picture fills the screen; who Kevin is and how to reach him
-// sits on a frosted card over the sky. The card is opaque enough, and its
-// text dark enough (accent-strong, not accent), for 4.5:1 over any scene.
+// sits on a frosted card over the sky. The blur evens out the scene behind
+// it, and the text is dark enough (accent-strong, not accent) for 4.5:1.
 export const Hero = (): ReactNode => (
   <section id="top" aria-labelledby="v2-name" className="relative isolate -mt-16 flex min-h-[100svh] flex-col overflow-hidden">
     <SeasonScene className="absolute inset-0 -z-10"/>
@@ -29,7 +29,7 @@ export const Hero = (): ReactNode => (
         variants={{ hidden: {}, show: { transition: { staggerChildren: 0.07 } } }}
         initial="hidden"
         animate="show"
-        className="w-full max-w-[600px] rounded-[28px] border border-white/70 bg-white/[0.86] p-6 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.5)] backdrop-blur-xl sm:p-9 md:p-11"
+        className="w-full max-w-[600px] rounded-[28px] border border-white/70 bg-white/[0.72] p-6 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.5)] backdrop-blur-xl sm:p-9 md:p-11"
       >
         <m.div variants={settle}>
           <Eyebrow onScene>{profile.title} · {profile.location.city}, {profile.location.region}</Eyebrow>
@@ -54,14 +54,14 @@ export const Hero = (): ReactNode => (
     <m.a
       href="#about"
       aria-label="Scroll to About"
-      className="absolute bottom-6 left-1/2 grid h-11 w-11 -translate-x-1/2 place-items-center rounded-full border border-white/70 bg-white/80 text-[var(--v2-ink)] shadow-lg backdrop-blur-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      className="absolute bottom-6 left-1/2 grid h-11 w-11 -translate-x-1/2 place-items-center rounded-full border border-white/60 bg-white/60 text-[var(--v2-ink)] shadow-lg backdrop-blur-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
       animate={{ y: [0, 6, 0] }}
       transition={{ duration: 2.2, ease: "easeInOut", repeat: Infinity }}
     >
       <ChevronDownIcon width={20} height={20}/>
     </m.a>
 
-    <p aria-hidden="true" className="absolute bottom-7 right-4 hidden rounded-full bg-white/80 px-3 py-1.5 text-[12.5px] font-medium text-[var(--v2-ink)] backdrop-blur-md sm:block md:right-8">
+    <p aria-hidden="true" className="absolute bottom-7 right-4 hidden rounded-full bg-white/60 px-3 py-1.5 text-[12.5px] font-medium text-[var(--v2-ink)] backdrop-blur-md sm:block md:right-8">
       {SEASONS.map((season) => <span key={season} data-season={season} className="v2-season-only">{SEASON_LABEL[season]} in Vancouver</span>)}
     </p>
   </section>
