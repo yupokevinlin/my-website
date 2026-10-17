@@ -1,6 +1,7 @@
 import React from "react";
 import { Paper, IconButton, Typography } from "@/components";
 import MaterialIcon, { MaterialIconNames } from "../MaterialIcon/MaterialIcon";
+import { profile } from "../../../data/profile";
 
 export interface TopBarProps {
   handleDrawerOpen(): void;
@@ -30,16 +31,17 @@ const TopBar: React.FC<TopBarProps> = (props) => {
       </IconButton>
       <div className="h-full flex flex-col items-center justify-center w-[calc(100%-66px)] sm:w-[calc(100%-78px)]">
         <Typography
+          component="h1"
           className="!select-none !font-normal !text-[23px] !leading-[23px] !h-[23px] !mb-1 sm:!text-[26px] sm:!leading-[26px] sm:!h-[26px] sm:!mb-[5px]"
           style={{ color: "var(--primary-main)" }}
         >
-          Kevin Lin
+          {profile.name}
         </Typography>
         <Typography
           className="!select-none !font-light !text-[13px] !leading-[13px] !h-[13px] sm:!text-[15px] sm:!leading-[15px] sm:!h-[15px]"
           style={{ color: "var(--secondary-main)" }}
         >
-          Full Stack Developer
+          {profile.headline}
         </Typography>
       </div>
     </Paper>

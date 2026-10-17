@@ -1,6 +1,5 @@
 ﻿import React from "react";
 import { Paper, Typography, Link } from "@/components";
-import NavigationUtils from "../../../../helpers/NavigationUtils";
 
 const Education: React.FC = () => {
   const titleClass    = "!cursor-pointer !font-light !font-[var(--font-roboto),Roboto,sans-serif] !text-[4vw] !h-[4vw] !leading-[4vw] !mt-[0.4vw] !mb-[2.2vw] sm:!text-[23px] sm:!h-[23px] sm:!leading-[23px] sm:!mt-[3px] sm:!mb-[18px] md:!text-[30px] md:!h-[30px] md:!leading-[30px] md:!mt-[3.6px] md:!mb-[19px] lg:!text-[37px] lg:!h-[37px] lg:!leading-[37px] lg:!mt-[4px] lg:!mb-[22px]";
@@ -19,9 +18,11 @@ const Education: React.FC = () => {
             <img src="./resources/images/education/ubc.svg" className={imageClass} alt="UBC"/>
           </div>
           <div className="flex flex-col items-start justify-start h-full w-max">
-            <Link className={titleClass} style={{ color: "var(--primary-main)" }} onClick={() => NavigationUtils.goToWebsite("https://www.ubc.ca")}>
-              UNIVERSITY OF BRITISH COLUMBIA
-            </Link>
+            <h3 className="contents">
+              <Link className={titleClass} style={{ color: "var(--primary-main)" }} href="https://www.ubc.ca">
+                UNIVERSITY OF BRITISH COLUMBIA
+              </Link>
+            </h3>
             <Typography className={subTitleClass} style={{ color: "var(--secondary-main)" }}>Vancouver, British Columbia, Canada</Typography>
             <Typography className={textClass} style={{ color: "var(--secondary-dark)" }}>• Bachelor of Science in Chemistry</Typography>
             <Typography className={textClass} style={{ color: "var(--secondary-dark)" }}>• President's Entrance Scholarship</Typography>

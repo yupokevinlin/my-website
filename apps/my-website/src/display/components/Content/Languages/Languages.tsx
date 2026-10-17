@@ -23,7 +23,7 @@ const Languages: React.FC = () => {
       >
         <div className="flex flex-row items-start justify-start w-[90%] h-[66vw] sm:h-[420px] md:h-[490px] lg:h-[550px]">
           <div className="flex flex-col items-start justify-start h-full w-max">
-            <Typography className={titleClass} style={{ color: "var(--primary-main)" }}>English</Typography>
+            <Typography component="h3" className={titleClass} style={{ color: "var(--primary-main)" }}>English</Typography>
             <div className={squaresWrapperClass}>
               {squaresArray.map((_, i) => (
                 <div key={i} className={squareSizeClass} style={{ backgroundColor: "var(--primary-main)", boxShadow: `inset 0 0 0 1.5px var(--secondary-dark)` }}/>
@@ -31,7 +31,7 @@ const Languages: React.FC = () => {
             </div>
             <Typography className={subTitleClass} style={{ color: "var(--secondary-main)" }}>Fluent</Typography>
             <div className={spacerClass}/>
-            <Typography className={titleClass} style={{ color: "var(--primary-main)" }}>Mandarin</Typography>
+            <Typography component="h3" className={titleClass} style={{ color: "var(--primary-main)" }}>Mandarin</Typography>
             <div className={squaresWrapperClass}>
               {squaresArray.map((_, i) => (
                 <div key={i} className={squareSizeClass} style={{ backgroundColor: "var(--primary-main)", boxShadow: `inset 0 0 0 1.5px var(--secondary-dark)` }}/>
@@ -39,7 +39,7 @@ const Languages: React.FC = () => {
             </div>
             <Typography className={subTitleClass} style={{ color: "var(--secondary-main)" }}>Fluent</Typography>
             <div className={spacerClass}/>
-            <Typography className={titleClass} style={{ color: "var(--primary-main)" }}>French</Typography>
+            <Typography component="h3" className={titleClass} style={{ color: "var(--primary-main)" }}>French</Typography>
             <div className={squaresWrapperClass}>
               {squaresArray.map((_, i) => (
                 <div key={i} className={squareSizeClass} style={{ backgroundColor: i > 2 ? "var(--bg-paper)" : "var(--primary-main)", boxShadow: `inset 0 0 0 1.5px var(--secondary-dark)` }}/>

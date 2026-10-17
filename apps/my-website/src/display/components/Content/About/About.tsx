@@ -12,15 +12,15 @@ const About: React.FC = () => {
             align="left"
             style={{ color: "var(--primary-main)", borderLeftColor: "var(--primary-main)", borderLeftStyle: "solid" }}
           >
-            Solutions-driven full stack developer with a passion for designing beautiful and intuitive UIs.
+            Senior full-stack and AI engineer building React, Next.js and LLM-powered products.
           </Typography>
           <div className="text-spacer"/><div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-body" align="left" style={{ color: "var(--secondary-dark)" }}>
-            Hi! I am Kevin Lin, a full stack developer based in Vancouver, Canada. My professional journey has taken me on many twists and turns. From modeling reactions as a chemist, automating excel sheets at a trading company, to working now as a full stack developer, I am always looking for better and more efficient ways of doing things.
+            Hi! I'm Kevin Lin, a senior software engineer in Vancouver, Canada. At Best Buy Canada I'm tech lead of the Mobile Activation team: I won the company hackathon with one of its first AI-enhanced customer experiences, led my team's shift to AI-driven development, and led development of Best Buy Canada's design system.
           </Typography>
           <div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-body" align="left" style={{ color: "var(--secondary-dark)" }}>
-            As a full stack developer, I enjoy using my solutions-driven work ethic, my incessant love for building things, and my unquenchable thirst of learning new things to make a difference. That is why I am excited to make a big impact at a high growth company.
+            My path into software started in chemistry at UBC and a stint automating spreadsheets at a trading company. Eight years into building software, I still love finding better and faster ways to do things, from shipping full-stack products to ray-tracing black holes in the browser.
           </Typography>
         </div>
       </Paper>

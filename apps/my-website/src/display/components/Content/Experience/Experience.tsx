@@ -1,6 +1,5 @@
 ﻿import React from "react";
 import { Paper, Typography, Link } from "@/components";
-import NavigationUtils from "../../../../helpers/NavigationUtils";
 import useWidth from "../../../../hooks/useWidth";
 import { Breakpoint } from "@/components/types";
 
@@ -35,7 +34,10 @@ const MONTH_MAP: Record<string, number> = {
   Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
   Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
 };
-const NOW = { year: 2026, month: 4 }; // May 2026
+// "Present" is the month the site was built. next.config.js inlines BUILD_DATE,
+// so the server HTML and the browser agree on it.
+const BUILT = new Date(process.env.BUILD_DATE ?? Date.now());
+const NOW = { year: BUILT.getUTCFullYear(), month: BUILT.getUTCMonth() };
 
 function parseMonthYear(s: string): { year: number; month: number; display: string } {
   const t = s.trim();
@@ -170,14 +172,16 @@ const Experience: React.FC = () => {
               </div>
               {/* Company info */}
               <div className="flex flex-col justify-center gap-[0.5vw] sm:gap-1">
-                <Link
-                  className="content-font-link font-weight-medium hover:!bg-transparent active:!bg-transparent"
-                  underline="hover"
-                  style={{ color: "var(--primary-main)", height: "auto", lineHeight: "1.2", alignSelf: "flex-start" }}
-                  onClick={() => NavigationUtils.goToWebsite(group.url)}
-                >
-                  {group.company}
-                </Link>
+                <h3 className="contents">
+                  <Link
+                    className="content-font-link font-weight-medium hover:!bg-transparent active:!bg-transparent"
+                    underline="hover"
+                    style={{ color: "var(--primary-main)", height: "auto", lineHeight: "1.2", alignSelf: "flex-start" }}
+                    href={group.url}
+                  >
+                    {group.company}
+                  </Link>
+                </h3>
                 <Typography
                   className="content-font-body"
                   style={{ color: "var(--secondary-main)" }}
@@ -227,6 +231,7 @@ const Experience: React.FC = () => {
                     {/* Right column: role content */}
                     <div style={{ flex: 1, paddingBottom: isLast ? 0 : "clamp(14px, 3.5vw, 22px)" }}>
                       <Typography
+                        component="h4"
                         className="content-font-body font-weight-medium"
                         style={{ color: "var(--primary-main)" }}
                       >

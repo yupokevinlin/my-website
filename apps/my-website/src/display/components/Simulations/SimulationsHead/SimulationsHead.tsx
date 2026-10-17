@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
+import { PERSON_ID, SITE_URL as SITE, profile } from "../../../../data/profile";
 
 export interface SimulationsHeadProps {
   title: string;
@@ -8,7 +9,42 @@ export interface SimulationsHeadProps {
   image: string;
 }
 
-const SITE = "https://kevinyupolin.dev";
+const GUIDE_PATH = "/ray-tracing";
+const GUIDE_NAME = "Relativistic Ray Tracing";
+// Bump GUIDE_MODIFIED, and the matching <lastmod> in public/sitemap.xml, when
+// the guide's content changes.
+const GUIDE_PUBLISHED = "2026-10-14";
+const GUIDE_MODIFIED = "2026-10-15";
+
+// The guide is a TechArticle by Kevin (the Person on the home page). Each
+// simulation page gets a breadcrumb: Kevin Lin > Relativistic Ray Tracing > page.
+const structuredData = (title: string, description: string, path: string, image: string): object => {
+  if (path === GUIDE_PATH) {
+    return {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      headline: GUIDE_NAME,
+      description,
+      url: `${SITE}${path}`,
+      image: `${SITE}${image}`,
+      inLanguage: "en",
+      datePublished: GUIDE_PUBLISHED,
+      dateModified: GUIDE_MODIFIED,
+      author: { "@type": "Person", "@id": PERSON_ID, name: profile.name, url: `${SITE}/` },
+    };
+  }
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: profile.name, item: `${SITE}/` },
+      { "@type": "ListItem", position: 2, name: GUIDE_NAME, item: `${SITE}${GUIDE_PATH}` },
+      // Page titles read "<name> - Kevin Lin"
+      { "@type": "ListItem", position: 3, name: title.split(" - ")[0], item: `${SITE}${path}` },
+    ],
+  };
+};
+
 const FAVICON = "/ray-tracing/favicon.svg";
 // The site-wide icon links from _document, which the home page points at the
 // current season's icon.
@@ -40,6 +76,7 @@ const SimulationsHead: React.FC<SimulationsHeadProps> = ({ title, description, p
 
       {/* Open Graph */}
       <meta property="og:type" content="website"/>
+      <meta property="og:site_name" content={profile.name}/>
       <meta property="og:url" content={`${SITE}${path}`}/>
       <meta property="og:title" content={title}/>
       <meta property="og:description" content={description}/>
@@ -50,6 +87,11 @@ const SimulationsHead: React.FC<SimulationsHeadProps> = ({ title, description, p
       <meta name="twitter:title" content={title}/>
       <meta name="twitter:description" content={description}/>
       <meta name="twitter:image" content={`${SITE}${image}`}/>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData(title, description, path, image)) }}
+      />
     </Head>
   );
 };

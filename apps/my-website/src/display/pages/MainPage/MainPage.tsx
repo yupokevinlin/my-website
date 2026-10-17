@@ -19,6 +19,7 @@ import Skills from "../../components/Content/Skills/Skills";
 import About from "../../components/Content/About/About";
 import { ThemePictureSeason } from "../../components/ThemePicture/types";
 import NavigationUtils from "../../../helpers/NavigationUtils";
+import { profile } from "../../../data/profile";
 
 type SeasonVars = Record<string, string>;
 
@@ -115,7 +116,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
       htmlCollection.item(0)?.scrollIntoView({ behavior: "smooth" });
     }
     if (name === ScrollNavigationDrawerMenuItemName.RESUME) {
-      NavigationUtils.download(`./resources/resume/${encodeURIComponent("Kevin Lin's Resume.pdf")}`);
+      NavigationUtils.download(profile.resume);
     }
   };
 

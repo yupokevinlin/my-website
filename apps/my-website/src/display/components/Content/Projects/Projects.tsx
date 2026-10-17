@@ -5,8 +5,6 @@ import Button from "@/components/Button";
 import Link from "@/components/Link";
 import ImageCarousel from "../../ImageCarousel/ImageCarousel";
 import MaterialIcon, { MaterialIconNames } from "../../MaterialIcon/MaterialIcon";
-import NavigationUtils from "../../../../helpers/NavigationUtils";
-import { useRouter } from "next/router";
 import { PlayIcon } from "../../Simulations/SimulationIcons/SimulationIcons";
 
 // Icon/title wrapper sizes for the projects top-bar
@@ -18,11 +16,6 @@ const buttonIconClass = "!text-white !h-[4.4vw] !w-[4.4vw] sm:!h-[23.2px] sm:!w-
 const buttonTextClass = "!text-white !text-[2.88vw] !leading-[2.88vw] !ml-[2.88vw] sm:!text-[15.2px] sm:!leading-[15.2px] sm:!ml-[15.2px] md:!text-[17.6px] md:!leading-[17.6px] md:!ml-[17.6px] lg:!text-[19.2px] lg:!leading-[19.2px] lg:!ml-[19.2px]";
 
 const Projects: React.FC = () => {
-  const router = useRouter();
-  const openRayTracing = (): void => {
-    router.push("/ray-tracing");
-  };
-
   return (
     <div className="w-full flex flex-col items-center justify-center h-max content-grid-bg">
       <div className="paper-spacer"/>
@@ -36,9 +29,11 @@ const Projects: React.FC = () => {
                 <img className="max-w-full max-h-full" src="./resources/images/projects/relativitySimulationsIcon.svg" alt="Relativistic Ray Tracing"/>
               </div>
               <div className={titleWrapperClass}>
-                <Link className="content-font-link" style={{ color: "var(--primary-main)" }} onClick={openRayTracing}>
-                  RELATIVISTIC RAY TRACING
-                </Link>
+                <h3 className="contents">
+                  <Link className="content-font-link" style={{ color: "var(--primary-main)" }} href="/ray-tracing">
+                    RELATIVISTIC RAY TRACING
+                  </Link>
+                </h3>
               </div>
             </div>
           </div>
@@ -67,13 +62,19 @@ const Projects: React.FC = () => {
           <div className="content-divider"/>
           <div className="text-spacer"/>
           <Paper className="h-max w-full" square elevation={3}>
-            <ImageCarousel imageWidth={1920} imageHeight={1080} images={["/ray-tracing/images/blackhole.jpg", "/ray-tracing/images/infall.jpg", "/ray-tracing/images/wormhole.jpg", "/ray-tracing/images/lightspeed.jpg", "/ray-tracing/images/blackhole-doppler.jpg"]}/>
+            <ImageCarousel imageWidth={1920} imageHeight={1080} images={[
+              { src: "/ray-tracing/images/blackhole.webp", alt: "Ray-traced spinning black hole, its glowing accretion disc bent over and under the shadow" },
+              { src: "/ray-tracing/images/infall.webp", alt: "Falling into a black hole: the dark horizon curving below the Milky Way" },
+              { src: "/ray-tracing/images/wormhole.webp", alt: "Interstellar-style wormhole showing a distorted view of the sky on its far side" },
+              { src: "/ray-tracing/images/lightspeed.webp", alt: "Starfield squeezed into a bright band ahead while travelling near the speed of light" },
+              { src: "/ray-tracing/images/blackhole-doppler.webp", alt: "Black hole accretion disc in true colours, brighter on the side moving toward the viewer" },
+            ]}/>
           </Paper>
           <div className="text-spacer"/>
           <div className="content-divider"/>
           <div className="text-spacer"/>
           <div className={buttonWrapperClass}>
-            <Button variant="contained" className={buttonClass} color="primary" onClick={openRayTracing}>
+            <Button variant="contained" className={buttonClass} color="primary" href="/ray-tracing">
               <PlayIcon className={buttonIconClass}/><Typography className={buttonTextClass}>Launch</Typography>
             </Button>
           </div>
@@ -90,14 +91,16 @@ const Projects: React.FC = () => {
                 <img className="max-w-full max-h-full" src="./resources/images/projects/covid19TrackerAppIcon.svg" alt="COVID-19 Tracker App"/>
               </div>
               <div className={titleWrapperClass}>
-                <Link className="content-font-link" style={{ color: "var(--primary-main)" }} onClick={() => NavigationUtils.goToWebsite("https://covid-19-tracker.app/")}>
-                  COVID-19 TRACKER APP
-                </Link>
+                <h3 className="contents">
+                  <Link className="content-font-link" style={{ color: "var(--primary-main)" }} href="https://github.com/yupokevinlin/covid-19-interactive-world-map">
+                    COVID-19 TRACKER APP
+                  </Link>
+                </h3>
               </div>
             </div>
           </div>
           <div className="content-divider"/>
-          <Typography className="content-font-body !italic" style={{ color: "var(--secondary-dark)" }}>An interactive website to track the COVID-19 pandemic</Typography>
+          <Typography className="content-font-body !italic" style={{ color: "var(--secondary-dark)" }}>An interactive website to track the COVID-19 pandemic. Archived: the code is on GitHub.</Typography>
           <div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>FRONT-END</Typography>
           <div className="text-spacer"/>
@@ -113,16 +116,17 @@ const Projects: React.FC = () => {
           <div className="content-divider"/>
           <div className="text-spacer"/>
           <Paper className="h-max w-full" square elevation={3}>
-            <ImageCarousel imageWidth={3840} imageHeight={1874} images={["/resources/images/projects/covid-19-tracker-app1.jpg", "/resources/images/projects/covid-19-tracker-app2.jpg", "/resources/images/projects/covid-19-tracker-app3.jpg"]}/>
+            <ImageCarousel imageWidth={1920} imageHeight={937} images={[
+              { src: "/resources/images/projects/covid-19-tracker-app1.webp", alt: "COVID-19 Tracker map of total cases by county in California" },
+              { src: "/resources/images/projects/covid-19-tracker-app2.webp", alt: "COVID-19 Tracker chart of daily cases in Canada" },
+              { src: "/resources/images/projects/covid-19-tracker-app3.webp", alt: "COVID-19 Tracker world summary of cases, deaths and recoveries by country" },
+            ]}/>
           </Paper>
           <div className="text-spacer"/>
           <div className="content-divider"/>
           <div className="text-spacer"/>
           <div className={buttonWrapperClass}>
-            <Button variant="contained" className={buttonClass} color="primary" onClick={() => NavigationUtils.goToWebsite("https://covid-19-tracker.app/")}>
-              <MaterialIcon iconName={MaterialIconNames.ExternalLink} className={buttonIconClass}/><Typography className={buttonTextClass}>Visit</Typography>
-            </Button>
-            <Button variant="contained" className={buttonClass} color="primary" onClick={() => NavigationUtils.goToWebsite("https://github.com/yupokevinlin/covid-19-interactive-world-map")}>
+            <Button variant="contained" className={buttonClass} color="primary" href="https://github.com/yupokevinlin/covid-19-interactive-world-map">
               <MaterialIcon iconName={MaterialIconNames.Github} className={buttonIconClass}/><Typography className={buttonTextClass}>View</Typography>
             </Button>
           </div>
@@ -139,14 +143,16 @@ const Projects: React.FC = () => {
                 <img className="max-w-full max-h-full" src="./resources/images/projects/writeMyMPIcon.svg" alt="Write My MP"/>
               </div>
               <div className={titleWrapperClass}>
-                <Link className="content-font-link" style={{ color: "var(--primary-main)" }} onClick={() => NavigationUtils.goToWebsite("https://writemymp.ca/")}>
-                  WRITE MY MP
-                </Link>
+                <h3 className="contents">
+                  <Link className="content-font-link" style={{ color: "var(--primary-main)" }} href="https://github.com/yupokevinlin/write-my-mp">
+                    WRITE MY MP
+                  </Link>
+                </h3>
               </div>
             </div>
           </div>
           <div className="content-divider"/>
-          <Typography className="content-font-body !italic" style={{ color: "var(--secondary-dark)" }}>A website to help Canadians contact their Members of Parliament</Typography>
+          <Typography className="content-font-body !italic" style={{ color: "var(--secondary-dark)" }}>A website to help Canadians contact their Members of Parliament. Archived: the code is on GitHub.</Typography>
           <div className="text-spacer"/><div className="text-spacer"/>
           <Typography className="content-font-title" style={{ color: "var(--primary-dark)" }}>FRONT-END</Typography>
           <div className="text-spacer"/>
@@ -162,16 +168,16 @@ const Projects: React.FC = () => {
           <div className="content-divider"/>
           <div className="text-spacer"/>
           <Paper className="h-max w-full" square elevation={3}>
-            <ImageCarousel imageWidth={3840} imageHeight={1874} images={["/resources/images/projects/writemymp1.jpg", "/resources/images/projects/writemymp2.jpg"]}/>
+            <ImageCarousel imageWidth={1920} imageHeight={937} images={[
+              { src: "/resources/images/projects/writemymp1.webp", alt: "Write My MP in French: riding map and a Member of Parliament's contact details" },
+              { src: "/resources/images/projects/writemymp2.webp", alt: "Write My MP: riding map, MP contact card and list of current Members of Parliament" },
+            ]}/>
           </Paper>
           <div className="text-spacer"/>
           <div className="content-divider"/>
           <div className="text-spacer"/>
           <div className={buttonWrapperClass}>
-            <Button variant="contained" className={buttonClass} color="primary" onClick={() => NavigationUtils.goToWebsite("https://writemymp.ca/")}>
-              <MaterialIcon iconName={MaterialIconNames.ExternalLink} className={buttonIconClass}/><Typography className={buttonTextClass}>Visit</Typography>
-            </Button>
-            <Button variant="contained" className={buttonClass} color="primary" onClick={() => NavigationUtils.goToWebsite("https://github.com/yupokevinlin/write-my-mp")}>
+            <Button variant="contained" className={buttonClass} color="primary" href="https://github.com/yupokevinlin/write-my-mp">
               <MaterialIcon iconName={MaterialIconNames.Github} className={buttonIconClass}/><Typography className={buttonTextClass}>View</Typography>
             </Button>
           </div>
@@ -188,9 +194,11 @@ const Projects: React.FC = () => {
                 <img className="max-w-full max-h-full" src="./resources/images/projects/electronTemplate.svg" alt="React Electron Template"/>
               </div>
               <div className={titleWrapperClass}>
-                <Link className="content-font-link" style={{ color: "var(--primary-main)" }} onClick={() => NavigationUtils.goToWebsite("https://github.com/yupokevinlin/react-electron-typescript-template")}>
-                  REACT ELECTRON TEMPLATE
-                </Link>
+                <h3 className="contents">
+                  <Link className="content-font-link" style={{ color: "var(--primary-main)" }} href="https://github.com/yupokevinlin/react-electron-typescript-template">
+                    REACT ELECTRON TEMPLATE
+                  </Link>
+                </h3>
               </div>
             </div>
           </div>
@@ -207,13 +215,16 @@ const Projects: React.FC = () => {
           <div className="content-divider"/>
           <div className="text-spacer"/>
           <Paper className="h-max w-full" square elevation={3}>
-            <ImageCarousel imageWidth={3840} imageHeight={1874} images={["/resources/images/projects/electrontemplate1.jpg", "/resources/images/projects/electrontemplate2.jpg"]}/>
+            <ImageCarousel imageWidth={1920} imageHeight={937} images={[
+              { src: "/resources/images/projects/electrontemplate1.webp", alt: "React Electron TypeScript template README on GitHub" },
+              { src: "/resources/images/projects/electrontemplate2.webp", alt: "Electron app built from the template, running with developer tools open" },
+            ]}/>
           </Paper>
           <div className="text-spacer"/>
           <div className="content-divider"/>
           <div className="text-spacer"/>
           <div className={buttonWrapperClass}>
-            <Button variant="contained" className={buttonClass} color="primary" onClick={() => NavigationUtils.goToWebsite("https://github.com/yupokevinlin/react-electron-typescript-template")}>
+            <Button variant="contained" className={buttonClass} color="primary" href="https://github.com/yupokevinlin/react-electron-typescript-template">
               <MaterialIcon iconName={MaterialIconNames.Github} className={buttonIconClass}/><Typography className={buttonTextClass}>View</Typography>
             </Button>
           </div>

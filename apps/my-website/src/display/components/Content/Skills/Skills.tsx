@@ -22,7 +22,7 @@ const Skills: React.FC = () => {
       <Paper className="content-paper" elevation={3}>
         <div className="content-inner">
           <div className={titleWrapperClass}>
-            <div className="content-font-link !cursor-default" style={{ color: "var(--primary-main)" }}>{title}</div>
+            <h3 className="content-font-link !cursor-default" style={{ color: "var(--primary-main)" }}>{title}</h3>
           </div>
           <div className="content-divider"/>
           <div className="text-spacer"/>

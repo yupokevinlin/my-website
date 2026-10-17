@@ -40,7 +40,7 @@ const DIAGRAMS: Record<LessonId, React.ReactNode> = {
   "photon-sphere": <PhotonSphereDiagram/>,
   accretion: <AccretionDiagram/>,
   lensing: <LensingDiagram/>,
-  doppler: <img className="block w-full aspect-video object-cover" src="/ray-tracing/images/blackhole-doppler.jpg" alt="A black hole in true colours, brighter and bluer on the left" loading="lazy"/>,
+  doppler: <img className="block w-full aspect-video object-cover" src="/ray-tracing/images/blackhole-doppler.webp" alt="A black hole in true colours, brighter and bluer on the left" loading="lazy"/>,
   spin: <SpinDiagram/>,
   tides: <TidesDiagram/>,
   hawking: <HawkingDiagram/>,
@@ -214,7 +214,7 @@ const SimulationsPage: React.FC = () => {
             <section ref={heroRef} className="relative flex min-h-[100vh] items-end overflow-hidden">
               <motion.img
                 className="absolute inset-0 h-full w-full object-cover"
-                src="/ray-tracing/images/hero.jpg"
+                src="/ray-tracing/images/hero.webp"
                 alt=""
                 fetchPriority="high"
                 style={{ y: heroY, scale: heroScale }}
