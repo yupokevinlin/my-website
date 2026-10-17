@@ -1,5 +1,6 @@
 // The home page's Projects section: two featured projects, then the earlier
-// ones in a compact row. Screenshots are WebP, 1200 px wide or less.
+// ones in a compact row, newest first. Screenshots are WebP, 1200 px wide or
+// less. Links to other sites open in a new tab; site paths (/v1) don't.
 
 export interface ProjectLink {
   label: string;
@@ -50,6 +51,14 @@ export const featuredProjects: FeaturedProject[] = [
 ];
 
 export const earlierProjects: EarlierProject[] = [
+  {
+    name: "This site, version 1",
+    description: "The site's first design: a full-screen seasonal scene with snow, birds and fireflies, which this one grew from.",
+    icon: "/resources/icons/winterIcon.svg",
+    tags: ["React", "TypeScript", "Material UI", "Redux"],
+    year: 2021,
+    href: "/v1",
+  },
   {
     name: "COVID-19 Tracker",
     description: "Interactive world map and charts for tracking the pandemic.",

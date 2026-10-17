@@ -1,21 +1,22 @@
-import React, { useEffect } from "react";
+import { type ReactNode, useEffect } from "react";
 import clsx from "clsx";
 import { LazyMotion, MotionConfig, domAnimation } from "framer-motion";
 import { sans } from "./fonts";
 import { SeasonProvider } from "./SeasonContext";
-import TopBar from "./components/TopBar";
-import Hero from "./components/Hero";
-import About from "./components/About";
-import Experience from "./components/Experience";
-import Projects from "./components/Projects";
-import Skills from "./components/Skills";
-import Contact from "./components/Contact";
-import Footer from "./components/Footer";
+import { TopBar } from "./components/TopBar/TopBar";
+import { Hero } from "./components/Hero/Hero";
+import { About } from "./components/About/About";
+import { Experience } from "./components/Experience/Experience";
+import { Projects } from "./components/Projects/Projects";
+import { Skills } from "./components/Skills/Skills";
+import { Contact } from "./components/Contact/Contact";
+import { Footer } from "./components/Footer/Footer";
+import { PageScrollbar } from "./components/PageScrollbar/PageScrollbar";
 
 // The home page at "/". The previous design lives on at /v1 (src/root/App).
 // Animations use framer-motion's small `m` components; visitors who ask for
 // reduced motion get none of the movement.
-const HomePage: React.FC = () => {
+export const HomePage = (): ReactNode => {
   // Lets the document scroll in browsers without :has() (see globals.css)
   useEffect(() => {
     document.documentElement.classList.add("v2-page");
@@ -38,11 +39,10 @@ const HomePage: React.FC = () => {
               <Contact/>
             </main>
             <Footer/>
+            <PageScrollbar/>
           </div>
         </MotionConfig>
       </LazyMotion>
     </SeasonProvider>
   );
 };
-
-export default HomePage;

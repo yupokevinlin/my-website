@@ -30,7 +30,7 @@ describe("Home page", () => {
   it("gives every company, project and skill group an h3, and every role an h4", () => {
     const { container } = render(<Page/>);
     const h3s = Array.from(container.querySelectorAll("h3"), (h) => h.textContent);
-    expect(h3s).toEqual(expect.arrayContaining(["ForteCare", "Best Buy Canada", "ServiceLink", "Protrade Asia Limited", "Relativistic Ray Tracing", "COVID-19 Tracker", "Frontend", "LinkedIn"]));
+    expect(h3s).toEqual(expect.arrayContaining(["ForteCare", "Best Buy Canada", "ServiceLink", "Protrade Asia Limited", "Relativistic Ray Tracing", "This site, version 1", "COVID-19 Tracker", "Frontend", "LinkedIn"]));
     const h4s = Array.from(container.querySelectorAll("h4"), (h) => h.textContent);
     expect(h4s).toEqual(expect.arrayContaining(["Chief Technology Officer & Co-Founder", "Senior Software Engineer", "Special Assistant"]));
   });
@@ -96,8 +96,8 @@ describe("Experience data", () => {
     }
   });
 
-  it("lists the current jobs first", () => {
-    expect(experience.slice(0, 2).map((company) => [company.name, company.roles[0].end])).toEqual([["ForteCare", "Present"], ["Best Buy Canada", "Present"]]);
+  it("lists the current jobs first, Best Buy Canada before ForteCare", () => {
+    expect(experience.slice(0, 2).map((company) => [company.name, company.roles[0].end])).toEqual([["Best Buy Canada", "Present"], ["ForteCare", "Present"]]);
   });
 
   it("formats durations like LinkedIn", () => {

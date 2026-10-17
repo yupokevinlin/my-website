@@ -308,9 +308,15 @@
 
 /* ─── v2 home page ("/") ────────────────────────────────────────── */
 /* Registered so a season switch eases the colours instead of jumping */
-@property --v2-accent        { syntax: "<color>"; inherits: true; initial-value: #346fa4; }
-@property --v2-accent-strong { syntax: "<color>"; inherits: true; initial-value: #36638b; }
-@property --v2-tint          { syntax: "<color>"; inherits: true; initial-value: #e9f0f7; }
+@property --v2-accent        { syntax: "<color>"; inherits: true; initial-value: #306596; }
+@property --v2-accent-strong { syntax: "<color>"; inherits: true; initial-value: #2c5e8b; }
+@property --v2-bright        { syntax: "<color>"; inherits: true; initial-value: #4a8bc4; }
+@property --v2-page          { syntax: "<color>"; inherits: true; initial-value: #e3edf7; }
+@property --v2-wash          { syntax: "<color>"; inherits: true; initial-value: #d3e2f1; }
+@property --v2-tint          { syntax: "<color>"; inherits: true; initial-value: #c6daee; }
+@property --v2-chip          { syntax: "<color>"; inherits: true; initial-value: #eef4fa; }
+@property --v2-line          { syntax: "<color>"; inherits: true; initial-value: #c2d4e6; }
+@property --v2-deep          { syntax: "<color>"; inherits: true; initial-value: #1d3b59; }
 
 @layer base {
   /* The v2 home page scrolls the document itself; /v1 and the ray-tracing  */
@@ -318,6 +324,7 @@
   /* covers browsers without :has().                                        */
   html:has(.v2) #__next,
   html.v2-page #__next {
+    width: auto; /* 100vw would add the scroll bar's width and scroll sideways */
     height: auto;
     max-height: none;
     min-height: 100vh;
@@ -327,44 +334,66 @@
   html.v2-page {
     scroll-behavior: smooth;
     scroll-padding-top: 4.5rem; /* clears the sticky top bar */
+    /* The native scroll bar is hidden; PageScrollbar draws the site's own */
+    scrollbar-width: none;
   }
+  html:has(.v2)::-webkit-scrollbar,
+  html.v2-page::-webkit-scrollbar { display: none; }
 
-  /* Season colours. html[data-season] is set before the first paint by the */
-  /* script in _document.tsx; winter is the fallback. Accent text is at     */
-  /* least 4.5:1 on white, the wash and the tint; so is white on accent-strong. */
+  /* Season colours. html[data-season] is set before the first paint by the  */
+  /* script in _document.tsx; winter is the fallback. The page, wash, tint   */
+  /* and chip backgrounds carry the season; cards stay white. Accent text is */
+  /* at least 4.5:1 on all of them, and white is on accent-strong and deep.  */
+  /* Bright is for decoration only (dots, lines, the underline), never text. */
   .v2 {
-    --v2-accent:        #346fa4;
-    --v2-accent-strong: #36638b;
-    --v2-tint:          #e9f0f7;
+    --v2-accent:        #306596;
+    --v2-accent-strong: #2c5e8b;
+    --v2-bright:        #4a8bc4;
+    --v2-page:          #e3edf7;
+    --v2-wash:          #d3e2f1;
+    --v2-tint:          #c6daee;
+    --v2-chip:          #eef4fa;
+    --v2-line:          #c2d4e6;
+    --v2-deep:          #1d3b59;
     --v2-ink:           #161b22;
     --v2-body:          #39424e;
-    --v2-muted:         #5b6573;
-    --v2-line:          #e3e7ec;
-    --v2-wash:          #f6f7f9;
+    --v2-muted:         #505a67;
     font-family: var(--font-v2-sans), system-ui, sans-serif;
     color: var(--v2-ink);
-    background-color: #fff;
-    transition: --v2-accent 0.6s ease, --v2-accent-strong 0.6s ease, --v2-tint 0.6s ease;
+    background-color: var(--v2-page);
+    transition-property: --v2-accent, --v2-accent-strong, --v2-bright, --v2-page, --v2-wash, --v2-tint, --v2-chip, --v2-line, --v2-deep;
+    transition-duration: 0.7s;
+    transition-timing-function: ease;
   }
-  html[data-season="spring"] .v2 { --v2-accent: #457a2a; --v2-accent-strong: #3c6b25; --v2-tint: #edf5e7; }
-  html[data-season="summer"] .v2 { --v2-accent: #17325e; --v2-accent-strong: #17325e; --v2-tint: #e8ecf3; }
-  html[data-season="autumn"] .v2 { --v2-accent: #b05012; --v2-accent-strong: #a35019; --v2-tint: #fbeee4; }
+  html[data-season="spring"] .v2 {
+    --v2-accent: #3f6f26; --v2-accent-strong: #3a6623; --v2-bright: #5a9a36;
+    --v2-page: #e8f2df; --v2-wash: #d6e9c6; --v2-tint: #c8e1b2; --v2-chip: #f1f7ea; --v2-line: #c4dbae; --v2-deep: #26491a;
+  }
+  html[data-season="summer"] .v2 {
+    --v2-accent: #17325e; --v2-accent-strong: #17325e; --v2-bright: #e8892f;
+    --v2-page: #e3e7f5; --v2-wash: #d3d9ef; --v2-tint: #c5cdea; --v2-chip: #eef0f9; --v2-line: #c3cbe6; --v2-deep: #111a30;
+  }
+  html[data-season="autumn"] .v2 {
+    --v2-accent: #984510; --v2-accent-strong: #8c3f0f; --v2-bright: #d8661a;
+    --v2-page: #f9e9d6; --v2-wash: #f2d9bb; --v2-tint: #ecc9a0; --v2-chip: #fcf3e8; --v2-line: #e3c49f; --v2-deep: #582609;
+  }
 
-  /* Only the current season's scene and label show; the scenes crossfade. */
-  /* The other pictures wait for html.v2-scenes-ready (after page load).   */
+  /* Only the current season's scenes, labels and icons show; the scenes   */
+  /* crossfade. The other pictures wait for html.v2-scenes-ready (after the */
+  /* page has loaded).                                                      */
   .v2-scene-layer  { opacity: 0; transition: opacity 0.8s ease; background-image: var(--v2-sky); }
   html.v2-scenes-ready .v2-scene-layer { background-image: var(--v2-scene); }
-  .v2-season-label { display: none; }
+  .v2-season-only  { display: none; }
   html:not([data-season]) .v2-scene-layer[data-season="winter"],
   html[data-season="winter"] .v2-scene-layer[data-season="winter"],
   html[data-season="spring"] .v2-scene-layer[data-season="spring"],
   html[data-season="summer"] .v2-scene-layer[data-season="summer"],
   html[data-season="autumn"] .v2-scene-layer[data-season="autumn"] { opacity: 1; background-image: var(--v2-scene); }
-  html:not([data-season]) .v2-season-label[data-season="winter"],
-  html[data-season="winter"] .v2-season-label[data-season="winter"],
-  html[data-season="spring"] .v2-season-label[data-season="spring"],
-  html[data-season="summer"] .v2-season-label[data-season="summer"],
-  html[data-season="autumn"] .v2-season-label[data-season="autumn"] { display: inline; }
+  html:not([data-season]) .v2-season-only[data-season="winter"],
+  html[data-season="winter"] .v2-season-only[data-season="winter"],
+  html[data-season="spring"] .v2-season-only[data-season="spring"],
+  html[data-season="summer"] .v2-season-only[data-season="summer"],
+  html[data-season="autumn"] .v2-season-only[data-season="autumn"] { display: inline-block; }
 
   /* The season switch: one ring that slides to the current season. Each */
   /* button is 2rem wide with a 0.25rem gap, in SEASONS order.           */

@@ -1,4 +1,5 @@
-// Kevin's jobs for the home page's Experience timeline, newest first. Keep it
+// Kevin's jobs for the home page's Experience section. Best Buy Canada, his main
+// job, comes first, then ForteCare, then past jobs newest first. Keep it
 // in step with LinkedIn and the resume; AGENTS.md lists everything else to
 // update when his experience changes.
 //
@@ -28,26 +29,6 @@ export interface Company {
 }
 
 export const experience: Company[] = [
-  {
-    name: "ForteCare",
-    url: "https://fortecare.ai/",
-    logo: "/resources/images/experience/fortecare.svg",
-    about: "Healthcare AI start-up automating the specialist referral journey",
-    roles: [
-      {
-        title: "Chief Technology Officer & Co-Founder",
-        start: "May 2026",
-        end: "Present",
-        location: "Los Angeles (remote)",
-        highlights: [
-          "Reduced de-identification cost by 100x and processing time by 10x, while raising accuracy from 97.3% to 99.5%.",
-          "Led AI integration across the platform and developed medical MCP servers and skills for LLMs.",
-          "Architected the platform: Next.js apps and 15 NestJS microservices on Azure Container Apps in an Nx monorepo, integrating with Epic and Cerner EHRs over FHIR and HL7.",
-        ],
-      },
-    ],
-    stack: ["TypeScript", "Next.js", "NestJS", "PostgreSQL", "Azure", "Claude API", "OpenAI", "Gemini", "FHIR", "HL7", "Nx"],
-  },
   {
     name: "Best Buy Canada",
     url: "https://www.bestbuy.ca/",
@@ -82,6 +63,26 @@ export const experience: Company[] = [
         ],
       },
     ],
+  },
+  {
+    name: "ForteCare",
+    url: "https://fortecare.ai/",
+    logo: "/resources/images/experience/fortecare.svg",
+    about: "Healthcare AI start-up automating the specialist referral journey",
+    roles: [
+      {
+        title: "Chief Technology Officer & Co-Founder",
+        start: "May 2026",
+        end: "Present",
+        location: "Los Angeles (remote)",
+        highlights: [
+          "Reduced de-identification cost by 100x and processing time by 10x, while raising accuracy from 97.3% to 99.5%.",
+          "Led AI integration across the platform and developed medical MCP servers and skills for LLMs.",
+          "Architected the platform: Next.js apps and 15 NestJS microservices on Azure Container Apps in an Nx monorepo, integrating with Epic and Cerner EHRs over FHIR and HL7.",
+        ],
+      },
+    ],
+    stack: ["TypeScript", "Next.js", "NestJS", "PostgreSQL", "Azure", "Claude API", "OpenAI", "Gemini", "FHIR", "HL7", "Nx"],
   },
   {
     name: "ServiceLink",

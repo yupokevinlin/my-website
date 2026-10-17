@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { type ReactNode, createContext, useCallback, useContext, useEffect, useState } from "react";
 import { Season, isSeason, seasonForMonth, seasonIcon } from "./season";
 
 interface SeasonState {
@@ -11,7 +11,12 @@ const SeasonContext = createContext<SeasonState>({ season: null, setSeason: () =
 
 export const useSeason = (): SeasonState => useContext(SeasonContext);
 
-export const SeasonProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export interface SeasonProviderProps {
+  children: ReactNode;
+}
+
+// Holds the season the head script picked, and switches it for the visit
+export const SeasonProvider = ({ children }: SeasonProviderProps): ReactNode => {
   const [season, setSeasonState] = useState<Season | null>(null);
 
   useEffect(() => {

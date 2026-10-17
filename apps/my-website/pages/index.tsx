@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import HomePage from "../src/v2/HomePage";
+import { HomePage } from "../src/v2/HomePage";
 import { SITE_URL, homeJsonLd, homeSeo, profile } from "../src/data/profile";
 
 const Index: NextPage = () => {
