@@ -6,6 +6,7 @@ Kevin's personal site. Recruiters find it from LinkedIn, his resume and searches
 - Static export (`output: "export"`, `images.unoptimized`) to `dist/apps/my-website`, hosted on Firebase Hosting (`firebase.json`). There is no server and no Next.js image optimization.
 - Pages: `/`, the portfolio (`pages/index.tsx` → `src/root/App` → `src/display/pages/MainPage`), and the ray-tracing guide `/ray-tracing` with four simulation pages (`pages/ray-tracing/*.tsx`).
 - Test: `npx nx run my-website:test`. Build: `npm run build:my-website`. Deploy: `npm run deploy:my-website`. Deploying updates the live site, so do it only when Kevin asks.
+- Branches: `main` is the only long-lived branch. Work on a feature branch and open a pull request into `main`. There is no `develop` or `master`.
 
 ## Where things live
 
