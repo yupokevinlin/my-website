@@ -15,6 +15,8 @@ const Index: NextPage = () => {
         <title>{homeSeo.title}</title>
         <meta name="description" content={homeSeo.description}/>
         <link rel="canonical" href={`${SITE_URL}/`}/>
+        {/* The loading screen waits for this picture, so start it before the JavaScript */}
+        <link rel="preload" as="image" href="/resources/seasons/winter.svg"/>
 
         {/* Open Graph */}
         <meta property="og:type" content="website"/>

@@ -5,10 +5,3 @@ export enum ThemePictureSeason {
   WINTER = "Winter",
 }
 
-export interface ThemePictureLoad {
-  spring: boolean;
-  summer: boolean;
-  autumn: boolean;
-  winter: boolean;
-}
-

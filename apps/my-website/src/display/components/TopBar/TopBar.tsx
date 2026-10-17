@@ -22,18 +22,19 @@ const TopBar: React.FC<TopBarProps> = (props) => {
         className="!flex !items-center !justify-center !m-0 !w-[33px] !h-[33px] !ml-[11px] sm:!w-[39px] sm:!h-[39px] sm:!ml-[13px]"
         color="inherit"
         onClick={handleDrawerOpen}
+        aria-label="Open menu"
       >
         <MaterialIcon
           iconName={MaterialIconNames.Menu}
           className="!text-[22px] sm:!text-[26px]"
-          style={{ color: "var(--primary-main)" }}
+          style={{ color: "var(--primary-text)" }}
         />
       </IconButton>
       <div className="h-full flex flex-col items-center justify-center w-[calc(100%-66px)] sm:w-[calc(100%-78px)]">
         <Typography
           component="h1"
           className="!select-none !font-normal !text-[23px] !leading-[23px] !h-[23px] !mb-1 sm:!text-[26px] sm:!leading-[26px] sm:!h-[26px] sm:!mb-[5px]"
-          style={{ color: "var(--primary-main)" }}
+          style={{ color: "var(--primary-text)" }}
         >
           {profile.name}
         </Typography>

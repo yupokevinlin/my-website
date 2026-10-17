@@ -33,6 +33,13 @@ describe("Home page", () => {
     expect(meLinks).toEqual(expect.arrayContaining([profile.linkedIn, profile.gitHub]));
   });
 
+  it("names every button for screen readers", () => {
+    const { container } = render(<Page/>);
+    container.querySelectorAll("button").forEach((button) => {
+      expect(button.getAttribute("aria-label") || button.textContent?.trim()).toBeTruthy();
+    });
+  });
+
   it("describes every image", () => {
     const { container } = render(<Page/>);
     container.querySelectorAll("img:not([aria-hidden=true])").forEach((img) => {

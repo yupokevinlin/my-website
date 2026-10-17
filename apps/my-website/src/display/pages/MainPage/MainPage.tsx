@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ThemePicture from "../../components/ThemePicture/ThemePicture";
 import ScrollNavigation from "../../components/ScrollNavigation/ScrollNavigation";
 import { initialMenuItems } from "./types";
@@ -30,6 +30,7 @@ const SEASON_VARS: Record<ThemePictureSeason, SeasonVars> = {
     "--primary-dark":     "#36638b",
     "--primary-darker":   "#264458",
     "--primary-contrast": "#fff",
+    "--primary-text":     "#3878b1",
   },
   [ThemePictureSeason.SPRING]: {
     "--primary-light":    "#77ad5d",
@@ -37,6 +38,7 @@ const SEASON_VARS: Record<ThemePictureSeason, SeasonVars> = {
     "--primary-dark":     "#3c6b25",
     "--primary-darker":   "#2d5119",
     "--primary-contrast": "#fff",
+    "--primary-text":     "#49822d",
   },
   [ThemePictureSeason.SUMMER]: {
     "--primary-light":    "#455b7e",
@@ -44,6 +46,7 @@ const SEASON_VARS: Record<ThemePictureSeason, SeasonVars> = {
     "--primary-dark":     "#102341",
     "--primary-darker":   "#0b1929",
     "--primary-contrast": "#fff",
+    "--primary-text":     "#17325E",
   },
   [ThemePictureSeason.AUTUMN]: {
     "--primary-light":    "#ed8f50",
@@ -51,8 +54,15 @@ const SEASON_VARS: Record<ThemePictureSeason, SeasonVars> = {
     "--primary-dark":     "#a35019",
     "--primary-darker":   "#7a3c12",
     "--primary-contrast": "#fff",
+    "--primary-text":     "#be5713",
   },
 };
+
+// The page opens on winter, and its picture is the only one the loading screen
+// waits for. The other seasons keep loading behind the page.
+const INITIAL_SEASON = ThemePictureSeason.WINTER;
+// Show the page after this long even if the picture is slow or fails to load.
+const MAX_LOADING_MS = 3000;
 
 const applySeasonVars = (season: ThemePictureSeason): void => {
   const vars = SEASON_VARS[season];
@@ -70,14 +80,25 @@ const MainPage: React.FC<MainPageProps> = (props) => {
   const [isTopSelected, setIsTopSelected] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [unmountLoadingPage, setUnmountLoadingPage] = useState<boolean>(false);
-  const [season, setSeason] = useState<ThemePictureSeason>(ThemePictureSeason.WINTER);
+  const [season, setSeason] = useState<ThemePictureSeason>(INITIAL_SEASON);
+  const loadedSeasons = useRef<Set<ThemePictureSeason>>(new Set());
+  const pendingSeason = useRef<ThemePictureSeason | null>(null);
 
   const { handleSeasonThemeChange } = props;
 
   // Apply CSS custom properties for the initial winter season on mount
   useEffect(() => {
-    applySeasonVars(ThemePictureSeason.WINTER);
+    applySeasonVars(INITIAL_SEASON);
+    const timer = setTimeout(() => setIsLoading(false), MAX_LOADING_MS);
+    return () => clearTimeout(timer);
   }, []);
+
+  // Unmount the loading screen once its fade-out has finished
+  useEffect(() => {
+    if (isLoading) return undefined;
+    const timer = setTimeout(() => setUnmountLoadingPage(true), 300);
+    return () => clearTimeout(timer);
+  }, [isLoading]);
 
   const handleScroll = (name: ScrollNavigationDrawerMenuItemName): void => {
     setIsTopSelected(name === ScrollNavigationDrawerMenuItemName.PICTURE);
@@ -89,11 +110,34 @@ const MainPage: React.FC<MainPageProps> = (props) => {
     );
   };
 
-  const handleSeasonChange = (newSeason: ThemePictureSeason): void => {
+  const applySeason = (newSeason: ThemePictureSeason): void => {
     setSeason(newSeason);
     setFavIcon(newSeason);
     handleSeasonThemeChange(newSeason);
     applySeasonVars(newSeason);
+  };
+
+  // Switch once the new season's picture has loaded, so the crossfade never
+  // shows a half-drawn background. By the time anyone opens the menu, all four
+  // have usually loaded and this switches straight away.
+  const handleSeasonChange = (newSeason: ThemePictureSeason): void => {
+    if (loadedSeasons.current.has(newSeason)) {
+      pendingSeason.current = null;
+      applySeason(newSeason);
+    } else {
+      pendingSeason.current = newSeason;
+    }
+  };
+
+  // Called once per season picture. It only reads refs, because the pictures
+  // keep the callback from the first render.
+  const handlePictureLoad = (loaded: ThemePictureSeason): void => {
+    loadedSeasons.current.add(loaded);
+    if (loaded === INITIAL_SEASON) setIsLoading(false);
+    if (pendingSeason.current === loaded) {
+      pendingSeason.current = null;
+      applySeason(loaded);
+    }
   };
 
   const setFavIcon = (s: ThemePictureSeason): void => {
@@ -120,15 +164,6 @@ const MainPage: React.FC<MainPageProps> = (props) => {
     }
   };
 
-  const handleLoadComplete = (): void => {
-    setTimeout(() => {
-      setIsLoading(false);
-      setTimeout(() => {
-        setUnmountLoadingPage(true);
-      }, 500);
-    }, 1000);
-  };
-
   return (
     <React.Fragment>
       <div className="h-full w-full">
@@ -141,7 +176,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
           handleSeasonChange={handleSeasonChange}
         >
           <div className="w-full h-max" id={ScrollNavigationDrawerMenuItemName.PICTURE}>
-            <ThemePicture handleLoadComplete={handleLoadComplete} season={season}/>
+            <ThemePicture handlePictureLoad={handlePictureLoad} season={season}/>
           </div>
           <div className="w-full h-max" id={ScrollNavigationDrawerMenuItemName.ABOUT}>
             <SectionWrapper name={ScrollNavigationDrawerMenuItemName.ABOUT}><About/></SectionWrapper>
@@ -169,7 +204,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
       {!unmountLoadingPage ? (
         <div
           className={clsx(
-            "flex flex-col items-center justify-center fixed top-0 left-0 h-screen w-screen z-[1301] bg-white transition-opacity duration-500",
+            "flex flex-col items-center justify-center fixed top-0 left-0 h-screen w-screen z-[1301] bg-white transition-opacity duration-300",
             isLoading ? "opacity-100" : "opacity-0"
           )}
         >
