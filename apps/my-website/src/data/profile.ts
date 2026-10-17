@@ -28,7 +28,8 @@ export const profile = {
 export const homeSeo = {
   title: "Kevin Lin | Senior Full-Stack & AI Engineer in Vancouver",
   description: "Kevin Lin is a senior full-stack and AI engineer in Vancouver, BC, building React, Next.js and TypeScript products. See his projects, experience and resume.",
-  image: `${SITE_URL}/resources/og-image.png`,
+  // LinkedIn caches images by URL for days, so bump ?v= whenever the image changes
+  image: `${SITE_URL}/resources/og-image.png?v=2`,
   imageAlt: "Kevin Lin, Senior Full-Stack + AI Engineer in Vancouver, BC",
 };
 
