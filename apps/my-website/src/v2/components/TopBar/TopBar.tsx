@@ -20,7 +20,7 @@ const TRACKED = ["top", "about", ...NAV_LINKS.map((link) => link.id)];
 
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
-const linkClass = "text-[15px] font-medium text-[var(--v2-body)] transition-colors hover:text-[var(--v2-ink)]";
+const linkClass = "rounded-md text-[15px] font-medium text-[var(--v2-body)] transition-colors hover:text-[var(--v2-ink)]";
 
 // Sticky, slim and frosted in the season's colour over the full-screen scene.
 // On phones the section links (and Resume, which the hero repeats) fold into
@@ -74,7 +74,7 @@ export const TopBar = (): ReactNode => {
       )}
     >
       <div className="mx-auto flex h-16 max-w-[1200px] items-center gap-3 px-4 sm:gap-5 md:px-8">
-        <a href="#top" className="mr-auto text-[19px] font-bold tracking-[-0.02em] text-[var(--v2-accent-strong)]">{profile.name}</a>
+        <a href="#top" className="mr-auto rounded-md text-[19px] font-bold tracking-[-0.02em] text-[var(--v2-accent-strong)]">{profile.name}</a>
         <nav aria-label="Sections" className="hidden md:block">
           <ul ref={listRef} className="relative flex items-center gap-7">
             {NAV_LINKS.map((link) => (

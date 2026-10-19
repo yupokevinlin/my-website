@@ -8,7 +8,7 @@ export const Footer = (): ReactNode => (
     <div className="mx-auto flex max-w-[1200px] flex-col gap-2 px-4 py-8 text-[14px] sm:flex-row sm:items-center sm:justify-between md:px-8">
       <p>
         © {NOW.year} {profile.name} ·{" "}
-        <a href="/v1" className="text-white underline underline-offset-4 hover:no-underline">Previous version</a>
+        <a href="/v1" className="rounded-sm text-white underline underline-offset-4 hover:no-underline">Previous version</a>
       </p>
       <p>The illustration follows Vancouver's seasons.</p>
     </div>

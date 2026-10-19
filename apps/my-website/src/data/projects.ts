@@ -52,7 +52,7 @@ export const featuredProjects: FeaturedProject[] = [
 
 export const earlierProjects: EarlierProject[] = [
   {
-    name: "This site, version 1",
+    name: "My Website, version 1",
     description: "The site's first design: a full-screen seasonal scene with snow, birds and fireflies, which this one grew from.",
     icon: "/resources/icons/winterIcon.svg",
     tags: ["React", "TypeScript", "Material UI", "Redux"],

@@ -391,6 +391,10 @@
   /* page has loaded).                                                      */
   .v2-scene-layer  { opacity: 0; transition: opacity 0.8s ease; background-image: var(--v2-sky); }
   html.v2-scenes-ready .v2-scene-layer { background-image: var(--v2-scene); }
+  /* Keyboard focus, as on the original site: a 2px dashed outline in the */
+  /* season's accent. An element over the scene can swap the colour.      */
+  .v2 :focus-visible { outline: 2px dashed var(--v2-accent); outline-offset: 2px; }
+
   .v2-season-only  { display: none; }
   html:not([data-season]) .v2-scene-layer[data-season="winter"],
   html[data-season="winter"] .v2-scene-layer[data-season="winter"],

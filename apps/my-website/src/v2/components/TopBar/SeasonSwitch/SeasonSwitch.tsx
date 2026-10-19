@@ -25,7 +25,7 @@ export const SeasonSwitch = ({ className }: SeasonSwitchProps): ReactNode => {
           aria-pressed={season === s}
           title={SEASON_LABEL[s]}
           onClick={() => setSeason(s)}
-          className="v2-season-btn relative grid h-8 w-8 cursor-pointer place-items-center rounded-full transition-[opacity,scale] duration-300 hover:scale-110 hover:opacity-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--v2-accent)]"
+          className="v2-season-btn relative grid h-8 w-8 cursor-pointer place-items-center rounded-full transition-[opacity,scale] duration-300 hover:scale-110 hover:opacity-100"
         >
           <img src={seasonIcon(s)} alt="" aria-hidden="true" width={24} height={24} className="h-6 w-6"/>
         </button>

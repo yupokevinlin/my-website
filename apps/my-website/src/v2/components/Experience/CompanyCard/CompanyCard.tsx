@@ -17,7 +17,7 @@ export const CompanyCard = ({ company, index }: CompanyCardProps): ReactNode => 
     <CompanyHeader
       company={company}
       title={
-        <a href={company.url} target="_blank" rel="noopener" className="rounded-sm hover:text-[var(--v2-accent)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--v2-accent)]">
+        <a href={company.url} target="_blank" rel="noopener" className="rounded-sm hover:text-[var(--v2-accent)]">
           {company.name}
         </a>
       }

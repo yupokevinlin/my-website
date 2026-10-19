@@ -22,9 +22,6 @@ export const Contact = (): ReactNode => (
     <Reveal className="mx-auto w-full max-w-[1060px] rounded-[32px] border border-white/70 bg-white/[0.72] px-6 py-12 text-center shadow-[0_30px_80px_-30px_rgba(15,23,42,0.5)] backdrop-blur-xl md:px-12 md:py-16">
       <Eyebrow onScene large className="justify-center">Contact</Eyebrow>
       <h2 id="contact-title" className="mt-3 text-[40px] font-bold leading-tight tracking-[-0.025em] text-[var(--v2-ink)] md:text-[60px]">Get in touch</h2>
-      <p className="mx-auto mt-4 max-w-[46ch] text-[17px] leading-relaxed text-[var(--v2-body)]">
-        Email is the fastest way to reach me. I'm in Vancouver, on Pacific time.
-      </p>
       <div className="mt-8 flex justify-center">
         <ButtonLink href={`mailto:${profile.email}`} className="px-6 py-4 text-[16px]"><MailIcon/> {profile.email}</ButtonLink>
       </div>

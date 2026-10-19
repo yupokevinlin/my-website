@@ -30,7 +30,7 @@ describe("Home page", () => {
   it("gives every company, project and skill group an h3, and every role an h4", () => {
     const { container } = render(<Page/>);
     const h3s = Array.from(container.querySelectorAll("h3"), (h) => h.textContent);
-    expect(h3s).toEqual(expect.arrayContaining(["ForteCare", "Best Buy Canada", "ServiceLink", "Protrade Asia Limited", "Relativistic Ray Tracing", "This site, version 1", "COVID-19 Tracker", "Frontend", "LinkedIn"]));
+    expect(h3s).toEqual(expect.arrayContaining(["ForteCare", "Best Buy Canada", "ServiceLink", "Protrade Asia Limited", "Relativistic Ray Tracing", "My Website, version 1", "COVID-19 Tracker", "Frontend", "LinkedIn"]));
     const h4s = Array.from(container.querySelectorAll("h4"), (h) => h.textContent);
     expect(h4s).toEqual(expect.arrayContaining(["Chief Technology Officer & Co-Founder", "Senior Software Engineer", "Special Assistant"]));
   });

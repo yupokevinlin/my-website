@@ -10,8 +10,6 @@ export interface ButtonLinkProps {
   children: ReactNode;
 }
 
-const focus = "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--v2-accent)]";
-
 const VARIANTS = {
   primary: "rounded-xl bg-[var(--v2-accent-strong)] px-5 py-3 text-white shadow-[0_8px_20px_-10px_var(--v2-accent-strong)] transition-[translate,box-shadow] hover:-translate-y-0.5 hover:shadow-[0_14px_26px_-12px_var(--v2-accent-strong)]",
   secondary: "rounded-xl border border-[var(--v2-line)] bg-white px-5 py-3 text-[var(--v2-ink)] transition-[translate,border-color] hover:-translate-y-0.5 hover:border-[var(--v2-accent)]",
@@ -27,7 +25,7 @@ export const ButtonLink = ({ href, variant = "primary", me, className, children 
     <a
       href={href}
       {...(newTab ? { target: "_blank", rel: me ? "me noopener" : "noopener" } : {})}
-      className={clsx("inline-flex items-center gap-1.5 text-[15px] font-semibold", VARIANTS[variant], focus, className)}
+      className={clsx("inline-flex items-center gap-1.5 text-[15px] font-semibold", VARIANTS[variant], className)}
     >
       {children}
     </a>

@@ -51,7 +51,7 @@ export const Hero = (): ReactNode => (
     <m.a
       href="#about"
       aria-label="Scroll to About"
-      className="absolute bottom-6 left-1/2 grid h-11 w-11 -translate-x-1/2 place-items-center rounded-full border border-white/60 bg-white/60 text-[var(--v2-ink)] shadow-lg backdrop-blur-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+      className="absolute bottom-6 left-1/2 grid h-11 w-11 -translate-x-1/2 place-items-center rounded-full border border-white/60 bg-white/60 text-[var(--v2-ink)] shadow-lg backdrop-blur-md focus-visible:outline-white"
       animate={{ y: [0, 6, 0] }}
       transition={{ duration: 2.2, ease: "easeInOut", repeat: Infinity }}
     >

@@ -31,7 +31,7 @@ export const RoleBlock = ({ role, id }: RoleBlockProps): ReactNode => {
             aria-expanded={open}
             aria-controls={id}
             onClick={() => setOpen((value) => !value)}
-            className="mt-3 inline-flex cursor-pointer items-center gap-1 rounded-md text-[14px] font-semibold text-[var(--v2-accent)] hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--v2-accent)]"
+            className="mt-3 inline-flex cursor-pointer items-center gap-1 rounded-md text-[14px] font-semibold text-[var(--v2-accent)] hover:underline"
           >
             {open ? "Show less" : `Show ${role.more.length} more`}
             <ChevronDownIcon width={16} height={16} className={clsx("transition-transform duration-300", open && "rotate-180")}/>

@@ -29,7 +29,7 @@ export const EarlyExperience = ({ company }: EarlyExperienceProps): ReactNode =>
             aria-expanded={open}
             aria-controls={id}
             onClick={() => setOpen((value) => !value)}
-            className={clsx("cursor-pointer text-left after:absolute after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-[var(--v2-accent)]", open ? "after:-inset-2 after:rounded-xl" : "after:inset-0 after:rounded-2xl")}
+            className={clsx("cursor-pointer text-left after:absolute after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-dashed focus-visible:after:outline-[var(--v2-accent)]", open ? "after:-inset-2 after:rounded-xl" : "after:inset-0 after:rounded-2xl")}
           >
             {company.name}
           </button>
