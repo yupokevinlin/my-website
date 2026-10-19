@@ -111,16 +111,19 @@ export const TopBar = (): ReactNode => {
           {menuOpen ? <CloseIcon width={22} height={22}/> : <MenuIcon width={22} height={22}/>}
         </button>
       </div>
+      {/* The menu floats over the page and fades rather than growing: an
+          animation to height "auto" makes framer-motion restore the scroll
+          position, which would undo a link's jump to its section. */}
       <AnimatePresence>
         {menuOpen ? (
           <m.nav
             id="v2-menu"
             aria-label="Sections"
-            className="overflow-hidden border-t border-[var(--v2-line)] md:hidden"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: EASE }}
+            className="absolute inset-x-0 top-full overflow-hidden border-y border-[var(--v2-line)] bg-[var(--v2-page)] shadow-[0_18px_30px_-22px_var(--v2-deep)] md:hidden"
+            initial={{ y: -8, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -8, opacity: 0 }}
+            transition={{ duration: 0.25, ease: EASE }}
           >
             <ul className="flex flex-col px-4 pb-3 pt-1">
               {NAV_LINKS.map((link) => (

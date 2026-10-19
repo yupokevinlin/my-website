@@ -1,31 +1,21 @@
 import { readFileSync } from 'node:fs';
 import { test, expect, Page } from '@playwright/test';
+import { SEASONS, VIEWPORTS, revealAll, transitionsDone } from './helpers';
 
-// Runs axe (WCAG 2 A and AA) on the home page in every season, at phone and
-// desktop widths. The season colours change the contrast of every accent, so
-// a new or changed season colour must pass here.
+// Runs axe (WCAG 2.2 A and AA) on the home page in every season, at phone,
+// tablet and desktop sizes. The season colours change the contrast of every
+// accent, so a new or changed season colour must pass here.
 const axeSource = readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 
-const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'];
-const VIEWPORTS = { phone: { width: 390, height: 844 }, desktop: { width: 1280, height: 900 } };
-
-// Scrolls to the bottom and back so every scroll-in animation has finished
-const revealAll = async (page: Page) => {
-  const height = await page.evaluate(() => document.documentElement.scrollHeight);
-  for (let y = 0; y < height; y += 500) {
-    // Two frames, so the scroll-in observer sees each position
-    await page.evaluate((top) => {
-      window.scrollTo({ top, behavior: 'instant' });
-      return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-    }, y);
-  }
-  await page.waitForFunction(() => [...document.querySelectorAll('.v2-reveal')].every((el) => getComputedStyle(el).opacity === '1'));
-  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
+const axeViolations = async (page: Page) => {
+  await page.addScriptTag({ content: axeSource });
+  return page.evaluate(async () => {
+    const axe = (window as unknown as { axe: { run: (context: object, options: object) => Promise<{ violations: Array<{ id: string; nodes: Array<{ target: string[] }> }> }> } }).axe;
+    // Next.js's dev tools overlay (the N button) is not part of the site
+    const result = await axe.run({ exclude: [['nextjs-portal']] }, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'] } });
+    return result.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`);
+  });
 };
-
-// Waits for the season colours (--v2-* custom properties) to finish easing in
-const transitionsDone = (page: Page) =>
-  page.waitForFunction(() => !document.getAnimations().some((animation) => animation instanceof CSSTransition && animation.transitionProperty.startsWith('--v2')));
 
 for (const [name, viewport] of Object.entries(VIEWPORTS)) {
   for (const season of SEASONS) {
@@ -36,13 +26,20 @@ for (const [name, viewport] of Object.entries(VIEWPORTS)) {
       await transitionsDone(page);
       await revealAll(page);
       await transitionsDone(page);
-      await page.addScriptTag({ content: axeSource });
-      const violations = await page.evaluate(async () => {
-        const axe = (window as unknown as { axe: { run: (context: Document, options: object) => Promise<{ violations: Array<{ id: string; nodes: Array<{ target: string[] }> }> }> } }).axe;
-        const result = await axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'] } });
-        return result.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`);
-      });
-      expect(violations).toEqual([]);
+      expect(await axeViolations(page)).toEqual([]);
     });
   }
 }
+
+test('the phone menu has no accessibility violations and closes with Escape', async ({ page }) => {
+  await page.setViewportSize(VIEWPORTS.phone);
+  await page.goto('/');
+  const menuButton = page.getByRole('button', { name: 'Open menu' });
+  await menuButton.click();
+  const menu = page.locator('#v2-menu');
+  await expect(menu.getByRole('link', { name: 'Experience' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Close menu' })).toHaveAttribute('aria-expanded', 'true');
+  expect(await axeViolations(page)).toEqual([]);
+  await page.keyboard.press('Escape');
+  await expect(menu).toHaveCount(0);
+});

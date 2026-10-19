@@ -18,29 +18,32 @@ const settle = {
 };
 
 // The season's picture fills the screen; who Kevin is and how to reach him
-// sits on a frosted card over the sky. The blur evens out the scene behind
-// it, and the text is dark enough (accent-strong, not accent) for 4.5:1.
+// sits on a frosted card over the sky. On phones the card sits at the top,
+// so the house, trees and river show beneath it, and the scene is at least
+// 46rem tall, so short phones see it too as they scroll. The blur evens out
+// the scene behind the card, and the text is dark enough (accent-strong, not
+// accent) for 4.5:1.
 export const Hero = (): ReactNode => (
-  <section id="top" aria-labelledby="v2-name" className="relative isolate -mt-16 flex min-h-[100svh] flex-col overflow-hidden">
+  <section id="top" aria-labelledby="v2-name" className="relative isolate -mt-16 flex min-h-[max(100svh,46rem)] flex-col overflow-hidden">
     <SeasonScene className="absolute inset-0 -z-10"/>
 
-    <div className="mx-auto flex w-full max-w-[1200px] flex-1 items-center px-4 pb-28 pt-24 md:px-8 md:pt-28">
+    <div className="mx-auto flex w-full max-w-[1200px] flex-1 items-start px-4 pb-28 pt-20 sm:items-center sm:pt-24 md:px-8 md:pt-28">
       <m.div
         variants={{ hidden: {}, show: { transition: { staggerChildren: 0.07 } } }}
         initial="hidden"
         animate="show"
-        className="w-full max-w-[600px] rounded-[28px] border border-white/70 bg-white/[0.72] p-6 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.5)] backdrop-blur-xl sm:p-9 md:p-11"
+        className="w-full max-w-[600px] rounded-[28px] border border-white/70 bg-white/[0.72] p-5 shadow-[0_30px_80px_-30px_rgba(15,23,42,0.5)] backdrop-blur-xl sm:p-9 md:p-11"
       >
         <m.div variants={settle}>
           <Eyebrow onScene>{profile.title} · {profile.location.city}, {profile.location.region}</Eyebrow>
         </m.div>
-        <m.h1 variants={settle} id="v2-name" className="mt-3 text-[48px] font-bold leading-[1.02] tracking-[-0.035em] text-[var(--v2-ink)] sm:text-[60px] md:text-[68px]">
+        <m.h1 variants={settle} id="v2-name" className="mt-2 text-[42px] font-bold leading-[1.02] tracking-[-0.035em] text-[var(--v2-ink)] sm:text-[60px] md:text-[68px]">
           {profile.name}
         </m.h1>
-        <m.p variants={settle} className="mt-5 text-[17px] leading-relaxed text-[var(--v2-body)] md:text-[19px]">
+        <m.p variants={settle} className="mt-3 text-[16px] leading-relaxed text-[var(--v2-body)] sm:mt-5 sm:text-[17px] md:text-[19px]">
           {profile.pitch(yearsSince(profile.careerStart))}
         </m.p>
-        <m.div variants={settle} className="mt-7 flex flex-wrap items-center gap-3">
+        <m.div variants={settle} className="mt-5 flex flex-wrap items-center gap-3 sm:mt-7">
           <ButtonLink href="#projects">See my work</ButtonLink>
           <ButtonLink href={profile.resume} variant="secondary">Resume</ButtonLink>
           <ButtonLink href="#contact" variant="text">Get in touch <ArrowRightIcon width={16} height={16}/></ButtonLink>

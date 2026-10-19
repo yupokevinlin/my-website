@@ -25,7 +25,7 @@ export const Contact = (): ReactNode => (
       <div className="mt-8 flex justify-center">
         <ButtonLink href={`mailto:${profile.email}`} className="px-6 py-4 text-[16px]"><MailIcon/> {profile.email}</ButtonLink>
       </div>
-      <ul className="mt-10 grid gap-3 sm:grid-cols-3">
+      <ul className="mx-auto mt-10 grid max-w-[560px] gap-3 lg:max-w-none lg:grid-cols-3">
         <li><ContactMethod label="LinkedIn" detail="linkedin.com/in/kevinyupolin" href={profile.linkedIn} icon={<LinkedInIcon/>} me/></li>
         <li><ContactMethod label="GitHub" detail="github.com/yupokevinlin" href={profile.gitHub} icon={<GitHubIcon/>} me/></li>
         <li><ContactMethod label="Resume" detail="Click here to download" href={profile.resume} icon={<FileIcon/>}/></li>
