@@ -38,16 +38,13 @@ export const Hero = (): ReactNode => (
           {profile.name}
         </m.h1>
         <m.p variants={settle} className="mt-5 text-[17px] leading-relaxed text-[var(--v2-body)] md:text-[19px]">
-          {profile.pitch}
+          {profile.pitch(yearsSince(profile.careerStart))}
         </m.p>
         <m.div variants={settle} className="mt-7 flex flex-wrap items-center gap-3">
           <ButtonLink href="#projects">See my work</ButtonLink>
           <ButtonLink href={profile.resume} variant="secondary">Resume</ButtonLink>
           <ButtonLink href="#contact" variant="text">Get in touch <ArrowRightIcon width={16} height={16}/></ButtonLink>
         </m.div>
-        <m.p variants={settle} className="mt-6 border-t border-[var(--v2-line)] pt-5 text-[14px] text-[var(--v2-body)]">
-          <span className="font-semibold text-[var(--v2-ink)]">{yearsSince(profile.careerStart)} years</span> building software · {profile.heroSkills.join(" · ")}
-        </m.p>
       </m.div>
     </div>
 

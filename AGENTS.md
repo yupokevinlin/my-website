@@ -17,7 +17,7 @@ All paths below are under `apps/my-website/`.
 | What | Where |
 |---|---|
 | Name, job title, employer, start-up, location, email, LinkedIn, GitHub, resume path | `src/data/profile.ts` (`profile`) |
-| Hero: eyebrow line, pitch, skills line, the date "years building software" counts from | `src/data/profile.ts` (`title`, `pitch`, `heroSkills`, `careerStart`) |
+| Hero: eyebrow line, pitch, the date its "years building software" counts from | `src/data/profile.ts` (`title`, `pitch`, `careerStart`) |
 | Home page title, description and share image | `src/data/profile.ts` (`homeSeo`) |
 | Home page JSON-LD (Person + WebSite) | `src/data/profile.ts` (`homeJsonLd`), rendered in `pages/index.tsx` |
 | Jobs and achievements | `src/data/experience.ts` (`experience`, and `earlyExperience` for the folded Protrade roles) |
@@ -38,7 +38,7 @@ For a new job, promotion, title change, new achievement or new project, go throu
 
 1. **Experience**: edit `src/data/experience.ts`. Best Buy Canada, his main job, comes first and ForteCare second; past jobs follow, newest first. Dates are `"Mon YYYY"` or `"Present"`; a company's roles sit in one card, newest first. Put the three or four strongest bullets in `highlights`, leading with the result or the number, and the rest in `more` (behind "Show more"). Durations count up to the build month on their own, so don't hardcode them.
 2. **Current role**: if the title or employer changed, update `jobTitle`, `employer`, `title` and `pitch` in `profile.ts`. Then rewrite `homeSeo.title` and `homeSeo.description` and the Person `description` in `homeJsonLd`. Keep the title at 60 characters or less, starting with "Kevin Lin". Keep the description between 150 and 160 characters.
-3. **About**: `src/data/about.ts` names his current roles, and so does its "Now" line. "Ten years into building software" and the hero's "10 years" count from `careerStart` (October 2016) at build time, so they update on their own.
+3. **About**: `src/data/about.ts` names his current roles, and so does its "Now" line. "Ten years into building software" and the hero pitch's "10+ years" count from `careerStart` (October 2016) at build time, so they update on their own.
 4. **Share image**: change the title line in `scripts/og-image/og-image.html`, run `render.mjs`, and look at the PNG before committing. Then bump the `?v=` number on `homeSeo.image` in `profile.ts`. LinkedIn caches images by URL, so it keeps showing the old picture (or none) until the URL changes. After deploying, re-inspect the page at linkedin.com/post-inspector.
 5. **Resume**: Kevin re-exports the PDF from Publisher. Keep the file name `kevin-lin-resume.pdf`, and set the PDF's document title to "Kevin Lin – Resume", because Google shows that title in results.
 6. **Skills**: add an entry to a group in `src/data/skills.ts`. If the skill has a logo, add a square mark (not a wordmark: it shows at 18 px) to `public/resources/images/skills/`.
