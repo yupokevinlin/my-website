@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Every public page. Set <lastmod> to the date a page's content last changed. -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://kevinyupolin.dev/</loc><lastmod>2026-10-17</lastmod></url>
+  <url><loc>https://kevinyupolin.dev/</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://kevinyupolin.dev/ray-tracing</loc><lastmod>2026-10-15</lastmod></url>
   <url><loc>https://kevinyupolin.dev/ray-tracing/blackhole</loc><lastmod>2026-10-15</lastmod></url>
   <url><loc>https://kevinyupolin.dev/ray-tracing/infall</loc><lastmod>2026-10-15</lastmod></url>

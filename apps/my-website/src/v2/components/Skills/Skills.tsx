@@ -3,7 +3,10 @@ import { skillGroups } from "../../../data/skills";
 import { Chip } from "../Chip/Chip";
 import { Reveal } from "../Reveal/Reveal";
 import { Section } from "../Section/Section";
+import { SkillIcon } from "../icons/SkillIcon/SkillIcon";
 import { WrenchIcon } from "../icons/WrenchIcon/WrenchIcon";
+
+const logoPath = (file: string) => `/resources/images/skills/${file}`;
 
 export const Skills = (): ReactNode => (
   <Section id="skills" label="Skills" icon={WrenchIcon} title="What I work with" wash>
@@ -12,11 +15,22 @@ export const Skills = (): ReactNode => (
         <Reveal key={group.name} delay={(i % 3) * 0.06} className="mb-5 break-inside-avoid">
           <div className="rounded-2xl border border-[var(--v2-line)] bg-white p-5 md:p-6">
             <h3 className="text-[17px] font-bold text-[var(--v2-ink)]">{group.name}</h3>
-            <ul aria-label={group.name} className="mt-4 flex flex-wrap gap-2">
-              {group.skills.map((skill) => (
-                <Chip key={skill.name} logo={skill.logo ? `/resources/images/skills/${skill.logo}` : undefined}>{skill.name}</Chip>
-              ))}
-            </ul>
+            {group.rows.map((row) => (
+              <div key={row.label ?? "main"} className="mt-4">
+                {row.label ? <p className="mb-2 text-[12px] font-semibold uppercase tracking-[0.12em] text-[var(--v2-muted)]">{row.label}</p> : null}
+                <ul aria-label={row.label ? `${group.name}: ${row.label}` : group.name} className="flex flex-wrap gap-2">
+                  {row.skills.map((skill) => (
+                    <Chip
+                      key={skill.name}
+                      logo={skill.logo ? logoPath(skill.logo) : undefined}
+                      icon={skill.icon ? <SkillIcon name={skill.icon} width={16} height={16}/> : undefined}
+                    >
+                      {skill.name}
+                    </Chip>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </Reveal>
       ))}

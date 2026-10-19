@@ -5,6 +5,9 @@ import V1Page from "../pages/v1";
 import { homeJsonLd, homeSeo, profile } from "../src/data/profile";
 import { earlyExperience, experience } from "../src/data/experience";
 import { formatDuration, monthsBetween, parseMonth } from "../src/v2/time";
+import { skillGroups } from "../src/data/skills";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
 
 // jsdom has neither of these; the scroll animations, top bar and seasonal art use them
 beforeAll(() => {
@@ -139,5 +142,12 @@ describe("Home page metadata", () => {
       ]),
       sameAs: expect.arrayContaining([profile.linkedIn, profile.gitHub]),
     });
+  });
+
+  it("gives every skill one picture: a logo that exists, or a line icon", () => {
+    for (const skill of skillGroups.flatMap((group) => group.rows.flatMap((row) => row.skills))) {
+      expect([skill.name, !!skill.logo !== !!skill.icon]).toEqual([skill.name, true]);
+      if (skill.logo) expect([skill.name, existsSync(join(__dirname, "../public/resources/images/skills", skill.logo))]).toEqual([skill.name, true]);
+    }
   });
 });
