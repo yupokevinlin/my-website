@@ -33,7 +33,7 @@ export const featuredProjects: FeaturedProject[] = [
     kicker: "Co-founder & CTO",
     description: "Automates the specialist referral journey, from intake to a finished visit note, with AI triage and summaries built on de-identified records, so patients reach the right specialist faster and physicians walk in prepared.",
     image: { src: "/resources/images/projects/fortecare.webp", alt: "ForteCare: the right specialist, at the right time", width: 1200, height: 630 },
-    tags: ["Next.js", "NestJS", "Azure", "Claude API", "FHIR"],
+    tags: ["Next.js", "NestJS", "Azure", "OpenAI API", "FHIR"],
     links: [{ label: "Visit fortecare.ai", href: "https://fortecare.ai/" }],
   },
   {
@@ -84,5 +84,6 @@ export const earlierProjects: EarlierProject[] = [
     tags: ["Electron", "React", "Webpack"],
     year: 2020,
     href: "https://github.com/yupokevinlin/react-electron-typescript-template",
+    archived: true,
   },
 ];
