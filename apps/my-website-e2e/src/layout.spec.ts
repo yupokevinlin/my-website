@@ -2,10 +2,10 @@ import { test, expect, Page } from '@playwright/test';
 import { VIEWPORTS, revealAll } from './helpers';
 
 // Checks that the home page lays out well at phone, tablet and desktop sizes:
-// nothing runs off the side, the season's picture shows around the hero card,
-// the top bar fits, no text is cut off, and text and tap targets are big
-// enough. The first test attaches a full-page screenshot at each size to the
-// report, to look over by eye.
+// nothing runs off the side, the season's picture shows around the hero and
+// Contact cards, the top bar fits, no text is cut off, and text and tap
+// targets are big enough. The first test attaches a full-page screenshot at
+// each size to the report, to look over by eye.
 
 const isPhone = (name: string) => name.includes('phone');
 
@@ -39,28 +39,33 @@ for (const [name, viewport] of Object.entries(VIEWPORTS)) {
       await testInfo.attach(`home-${name}.png`, { body: await page.screenshot({ fullPage: true }), contentType: 'image/png' });
     });
 
-    test('the season picture shows around the hero card', async ({ page }) => {
-      const hero = await page.locator('#top').boundingBox();
-      const card = await page.locator('#top h1').locator('xpath=ancestor::div[contains(@class,"rounded-")][1]').boundingBox();
-      expect(hero && card).toBeTruthy();
-      if (!hero || !card) return;
-      // The card stays inside the screen
-      expect(card.x).toBeGreaterThanOrEqual(0);
-      expect(card.x + card.width).toBeLessThanOrEqual(viewport.width);
-      // At least a quarter of the hero is picture, not card
-      const uncovered = 1 - (card.width * card.height) / (hero.width * hero.height);
-      expect(uncovered).toBeGreaterThan(0.25);
-      if (isPhone(name)) {
-        // On phones the picture shows below the card: at least 160px of it
-        expect(hero.y + hero.height - (card.y + card.height)).toBeGreaterThan(160);
-      }
-      // The picture itself has loaded
-      const sceneLoaded = await page.evaluate(() => {
-        const layer = [...document.querySelectorAll<HTMLElement>('#top .v2-scene-layer')].find((el) => getComputedStyle(el).opacity === '1');
-        return !!layer && getComputedStyle(layer).backgroundImage.includes('/resources/seasons/');
+    // The hero and Contact both put a frosted card over the season's picture
+    for (const [section, heading] of [['hero', '#top h1'], ['Contact', '#contact h2']]) {
+      test(`the season picture shows around the ${section} card`, async ({ page }) => {
+        const scene = page.locator(heading).locator('xpath=ancestor::section[1]');
+        await scene.scrollIntoViewIfNeeded();
+        const outer = await scene.boundingBox();
+        const card = await page.locator(heading).locator('xpath=ancestor::div[contains(@class,"rounded-[")][1]').boundingBox();
+        expect(outer && card).toBeTruthy();
+        if (!outer || !card) return;
+        // The card stays inside the screen
+        expect(card.x).toBeGreaterThanOrEqual(0);
+        expect(card.x + card.width).toBeLessThanOrEqual(viewport.width);
+        // At least a quarter of the section is picture, not card
+        const uncovered = 1 - (card.width * card.height) / (outer.width * outer.height);
+        expect(uncovered).toBeGreaterThan(0.25);
+        if (isPhone(name)) {
+          // On phones the picture shows below the card: at least 160px of it
+          expect(outer.y + outer.height - (card.y + card.height)).toBeGreaterThan(160);
+        }
+        // The picture itself has loaded
+        const sceneLoaded = await scene.evaluate((el) => {
+          const layer = [...el.querySelectorAll<HTMLElement>('.v2-scene-layer')].find((l) => getComputedStyle(l).opacity === '1');
+          return !!layer && getComputedStyle(layer).backgroundImage.includes('/resources/seasons/');
+        });
+        expect(sceneLoaded).toBe(true);
       });
-      expect(sceneLoaded).toBe(true);
-    });
+    }
 
     test('the top bar fits on one line', async ({ page }) => {
       const bar = page.locator('header').first();
