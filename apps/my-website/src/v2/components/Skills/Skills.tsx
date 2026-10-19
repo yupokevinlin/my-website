@@ -3,9 +3,10 @@ import { skillGroups } from "../../../data/skills";
 import { Chip } from "../Chip/Chip";
 import { Reveal } from "../Reveal/Reveal";
 import { Section } from "../Section/Section";
+import { WrenchIcon } from "../icons/WrenchIcon/WrenchIcon";
 
 export const Skills = (): ReactNode => (
-  <Section id="skills" label="Skills" title="What I work with" wash>
+  <Section id="skills" label="Skills" icon={WrenchIcon} title="What I work with" wash>
     <div className="columns-1 gap-5 md:columns-2 lg:columns-3">
       {skillGroups.map((group, i) => (
         <Reveal key={group.name} delay={(i % 3) * 0.06} className="mb-5 break-inside-avoid">

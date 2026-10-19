@@ -4,9 +4,10 @@ import { Reveal } from "../Reveal/Reveal";
 import { Section } from "../Section/Section";
 import { CompanyCard } from "./CompanyCard/CompanyCard";
 import { EarlyExperience } from "./EarlyExperience/EarlyExperience";
+import { BriefcaseIcon } from "../icons/BriefcaseIcon/BriefcaseIcon";
 
 export const Experience = (): ReactNode => (
-  <Section id="experience" label="Experience" title="Where I've worked" lead="The strongest results for each role are up front; the rest are a click away." wash>
+  <Section id="experience" label="Experience" icon={BriefcaseIcon} title="Where I've worked" wash>
     <ol className="space-y-6">
       {experience.map((company, i) => (
         <Reveal as="li" key={company.name}><CompanyCard company={company} index={i}/></Reveal>

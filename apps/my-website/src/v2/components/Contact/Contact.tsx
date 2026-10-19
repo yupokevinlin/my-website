@@ -16,7 +16,7 @@ import { ContactMethod } from "./ContactMethod/ContactMethod";
 export const Contact = (): ReactNode => (
   <section id="contact" aria-labelledby="contact-title" className="relative isolate overflow-hidden px-4 pb-20 pt-36 md:px-8 md:pb-28 md:pt-48">
     <div aria-hidden="true" className="absolute inset-0 -z-10">
-      <SceneLayers position="70% 100%"/>
+      <SceneLayers/>
       <div className="absolute inset-x-0 top-0 h-48 bg-[linear-gradient(to_bottom,var(--v2-wash),transparent)] md:h-64"/>
     </div>
     <Reveal className="mx-auto max-w-[1060px] rounded-[32px] border border-white/70 bg-white/[0.86] px-6 py-12 text-center shadow-[0_30px_80px_-30px_rgba(15,23,42,0.5)] backdrop-blur-xl md:px-12 md:py-16">
@@ -31,7 +31,7 @@ export const Contact = (): ReactNode => (
       <ul className="mt-10 grid gap-3 sm:grid-cols-3">
         <li><ContactMethod label="LinkedIn" detail="linkedin.com/in/kevinyupolin" href={profile.linkedIn} icon={<LinkedInIcon/>} me/></li>
         <li><ContactMethod label="GitHub" detail="github.com/yupokevinlin" href={profile.gitHub} icon={<GitHubIcon/>} me/></li>
-        <li><ContactMethod label="Resume" detail="PDF, one page" href={profile.resume} icon={<FileIcon/>}/></li>
+        <li><ContactMethod label="Resume" detail="Click here to download" href={profile.resume} icon={<FileIcon/>}/></li>
       </ul>
     </Reveal>
   </section>

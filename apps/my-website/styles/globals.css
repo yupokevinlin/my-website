@@ -317,6 +317,8 @@
 @property --v2-chip          { syntax: "<color>"; inherits: true; initial-value: #eef4fa; }
 @property --v2-line          { syntax: "<color>"; inherits: true; initial-value: #c2d4e6; }
 @property --v2-deep          { syntax: "<color>"; inherits: true; initial-value: #1d3b59; }
+@property --v2-icon-bg       { syntax: "<color>"; inherits: true; initial-value: #4e8ec7; }
+@property --v2-icon-fg       { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
 
 @layer base {
   /* The v2 home page scrolls the document itself; /v1 and the ray-tracing  */
@@ -358,24 +360,30 @@
     --v2-ink:           #161b22;
     --v2-body:          #39424e;
     --v2-muted:         #505a67;
+    /* The section icons, in the season icons' colours */
+    --v2-icon-bg:       #4e8ec7;
+    --v2-icon-fg:       #ffffff;
     font-family: var(--font-v2-sans), system-ui, sans-serif;
     color: var(--v2-ink);
     background-color: var(--v2-page);
-    transition-property: --v2-accent, --v2-accent-strong, --v2-bright, --v2-page, --v2-wash, --v2-tint, --v2-chip, --v2-line, --v2-deep;
+    transition-property: --v2-accent, --v2-accent-strong, --v2-bright, --v2-page, --v2-wash, --v2-tint, --v2-chip, --v2-line, --v2-deep, --v2-icon-bg, --v2-icon-fg;
     transition-duration: 0.7s;
     transition-timing-function: ease;
   }
   html[data-season="spring"] .v2 {
     --v2-accent: #3f6f26; --v2-accent-strong: #3a6623; --v2-bright: #5a9a36;
     --v2-page: #e8f2df; --v2-wash: #d6e9c6; --v2-tint: #c8e1b2; --v2-chip: #f1f7ea; --v2-line: #c4dbae; --v2-deep: #26491a;
+    --v2-icon-bg: #569935; --v2-icon-fg: #ffffff;
   }
   html[data-season="summer"] .v2 {
     --v2-accent: #17325e; --v2-accent-strong: #17325e; --v2-bright: #e8892f;
     --v2-page: #e3e7f5; --v2-wash: #d3d9ef; --v2-tint: #c5cdea; --v2-chip: #eef0f9; --v2-line: #c3cbe6; --v2-deep: #111a30;
+    --v2-icon-bg: #17325e; --v2-icon-fg: #b9c4d8;
   }
   html[data-season="autumn"] .v2 {
     --v2-accent: #984510; --v2-accent-strong: #8c3f0f; --v2-bright: #d8661a;
     --v2-page: #f9e9d6; --v2-wash: #f2d9bb; --v2-tint: #ecc9a0; --v2-chip: #fcf3e8; --v2-line: #e3c49f; --v2-deep: #582609;
+    --v2-icon-bg: #e97325; --v2-icon-fg: #f9d44e;
   }
 
   /* Only the current season's scenes, labels and icons show; the scenes   */

@@ -2,9 +2,10 @@ import type { ReactNode } from "react";
 import { about } from "../../../data/about";
 import { Reveal } from "../Reveal/Reveal";
 import { Section } from "../Section/Section";
+import { UserIcon } from "../icons/UserIcon/UserIcon";
 
 export const About = (): ReactNode => (
-  <Section id="about" label="About" title="A bit about me">
+  <Section id="about" label="About" icon={UserIcon} title="A bit about me">
     <div className="grid gap-10 md:grid-cols-[1.4fr_1fr] md:gap-14">
       <Reveal className="space-y-5 text-[17px] leading-[1.75] text-[var(--v2-body)]">
         {about.paragraphs.map((paragraph) => <p key={paragraph.slice(0, 24)}>{paragraph}</p>)}

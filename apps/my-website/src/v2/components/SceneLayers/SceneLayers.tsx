@@ -2,7 +2,8 @@ import type { CSSProperties, ReactNode } from "react";
 import { SEASONS, SEASON_SCENE } from "../../season";
 
 export interface SceneLayersProps {
-  // background-position of the illustration
+  // background-position of the illustration. The bottom edge stays in view,
+  // so on wide screens the sky is trimmed rather than the ground.
   position?: string;
 }
 
@@ -10,7 +11,7 @@ export interface SceneLayersProps {
 // shows the current season's (html[data-season]) and crossfades on a switch,
 // so the first paint is right before React runs. Only the current picture
 // loads at first; the others wait for html.v2-scenes-ready (see SeasonScene).
-export const SceneLayers = ({ position = "70% 70%" }: SceneLayersProps): ReactNode => (
+export const SceneLayers = ({ position = "70% 100%" }: SceneLayersProps): ReactNode => (
   <>
     {SEASONS.map((season) => (
       <div

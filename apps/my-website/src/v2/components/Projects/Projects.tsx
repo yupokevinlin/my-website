@@ -4,9 +4,10 @@ import { Reveal } from "../Reveal/Reveal";
 import { Section } from "../Section/Section";
 import { EarlierCard } from "./EarlierCard/EarlierCard";
 import { FeaturedCard } from "./FeaturedCard/FeaturedCard";
+import { CodeIcon } from "../icons/CodeIcon/CodeIcon";
 
 export const Projects = (): ReactNode => (
-  <Section id="projects" label="Projects" title="Things I've built" lead="A healthcare platform I co-founded and a physics simulation I built for fun, then some earlier work.">
+  <Section id="projects" label="Projects" icon={CodeIcon} title="Things I've built" lead="A healthcare platform I co-founded and a physics simulation I built for fun, then some earlier work.">
     <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
       {featuredProjects.map((project, i) => (
         <Reveal key={project.name} delay={i * 0.08}><FeaturedCard project={project}/></Reveal>
