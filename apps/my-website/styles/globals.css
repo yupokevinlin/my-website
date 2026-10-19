@@ -346,7 +346,7 @@
   /* script in _document.tsx; winter is the fallback. The page, wash, tint   */
   /* and chip backgrounds carry the season; cards stay white. Accent text is */
   /* at least 4.5:1 on all of them, and white is on accent-strong and deep.  */
-  /* Bright is for decoration only (dots, lines, the underline), never text. */
+  /* Bright is for decoration only (dots, lines, borders), never text.       */
   .v2 {
     --v2-accent:        #306596;
     --v2-accent-strong: #2c5e8b;

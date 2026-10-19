@@ -82,7 +82,6 @@ export const experience: Company[] = [
         ],
       },
     ],
-    stack: ["TypeScript", "Next.js", "NestJS", "PostgreSQL", "Azure", "Claude API", "OpenAI", "Gemini", "FHIR", "HL7", "Nx"],
   },
   {
     name: "ServiceLink",

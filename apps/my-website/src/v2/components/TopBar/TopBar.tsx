@@ -84,7 +84,7 @@ export const TopBar = (): ReactNode => {
             ))}
             <m.span
               aria-hidden="true"
-              className="pointer-events-none absolute bottom-0 left-0 h-[3px] rounded-full bg-[var(--v2-bright)]"
+              className="pointer-events-none absolute bottom-0 left-0 h-[3px] rounded-full bg-[var(--v2-accent-strong)]"
               initial={false}
               animate={underline ? { x: underline.x, width: underline.width, opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.45, ease: EASE }}

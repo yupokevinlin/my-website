@@ -10,18 +10,18 @@ import { LinkedInIcon } from "../icons/LinkedInIcon/LinkedInIcon";
 import { MailIcon } from "../icons/MailIcon/MailIcon";
 import { ContactMethod } from "./ContactMethod/ContactMethod";
 
-// The page ends where it began, in the season's landscape: the lower part of
-// the scene rises out of the Skills section's colour, with a frosted panel
-// over it. Text on the panel follows the hero card's contrast rules.
+// The page ends where it began, in the season's landscape: a full screen of
+// the scene, its sky rising out of the Skills section's colour, with a frosted
+// panel over it. Text on the panel follows the hero card's contrast rules.
 export const Contact = (): ReactNode => (
-  <section id="contact" aria-labelledby="contact-title" className="relative isolate overflow-hidden px-4 pb-20 pt-36 md:px-8 md:pb-28 md:pt-48">
+  <section id="contact" aria-labelledby="contact-title" className="relative isolate flex min-h-[100svh] flex-col justify-center overflow-hidden px-4 pb-20 pt-32 md:px-8 md:pb-24 md:pt-40">
     <div aria-hidden="true" className="absolute inset-0 -z-10">
       <SceneLayers/>
       <div className="absolute inset-x-0 top-0 h-48 bg-[linear-gradient(to_bottom,var(--v2-wash),transparent)] md:h-64"/>
     </div>
-    <Reveal className="mx-auto max-w-[1060px] rounded-[32px] border border-white/70 bg-white/[0.86] px-6 py-12 text-center shadow-[0_30px_80px_-30px_rgba(15,23,42,0.5)] backdrop-blur-xl md:px-12 md:py-16">
-      <Eyebrow onScene className="justify-center">Contact</Eyebrow>
-      <h2 id="contact-title" className="mt-2 text-[36px] font-bold leading-tight tracking-[-0.025em] text-[var(--v2-ink)] md:text-[52px]">Get in touch</h2>
+    <Reveal className="mx-auto w-full max-w-[1060px] rounded-[32px] border border-white/70 bg-white/[0.72] px-6 py-12 text-center shadow-[0_30px_80px_-30px_rgba(15,23,42,0.5)] backdrop-blur-xl md:px-12 md:py-16">
+      <Eyebrow onScene large className="justify-center">Contact</Eyebrow>
+      <h2 id="contact-title" className="mt-3 text-[40px] font-bold leading-tight tracking-[-0.025em] text-[var(--v2-ink)] md:text-[60px]">Get in touch</h2>
       <p className="mx-auto mt-4 max-w-[46ch] text-[17px] leading-relaxed text-[var(--v2-body)]">
         Email is the fastest way to reach me. I'm in Vancouver, on Pacific time.
       </p>

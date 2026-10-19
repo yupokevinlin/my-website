@@ -10,7 +10,7 @@ export const Footer = (): ReactNode => (
         © {NOW.year} {profile.name} ·{" "}
         <a href="/v1" className="text-white underline underline-offset-4 hover:no-underline">Previous version</a>
       </p>
-      <p>Built with Next.js. The illustration follows Vancouver's seasons.</p>
+      <p>The illustration follows Vancouver's seasons.</p>
     </div>
   </footer>
 );
