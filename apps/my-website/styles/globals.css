@@ -376,9 +376,9 @@
     --v2-icon-bg: #569935; --v2-icon-fg: #ffffff;
   }
   html[data-season="summer"] .v2 {
-    --v2-accent: #17325e; --v2-accent-strong: #17325e; --v2-bright: #e8892f;
+    --v2-accent: #17325e; --v2-accent-strong: #17325e; --v2-bright: #4d6fae;
     --v2-page: #e3e7f5; --v2-wash: #d3d9ef; --v2-tint: #c5cdea; --v2-chip: #eef0f9; --v2-line: #c3cbe6; --v2-deep: #111a30;
-    --v2-icon-bg: #17325e; --v2-icon-fg: #b9c4d8;
+    --v2-icon-bg: #17325e; --v2-icon-fg: #ffffff;
   }
   html[data-season="autumn"] .v2 {
     --v2-accent: #984510; --v2-accent-strong: #8c3f0f; --v2-bright: #d8661a;

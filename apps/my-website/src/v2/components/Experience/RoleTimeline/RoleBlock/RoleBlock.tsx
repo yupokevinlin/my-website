@@ -12,16 +12,18 @@ export interface RoleBlockProps {
   id: string;
 }
 
-// One role: title, dates, the strongest results, and the rest behind "Show more"
+// One role: title, dates, the strongest results, and the rest behind "Show more".
+// A current role shows all of its results.
 export const RoleBlock = ({ role, id }: RoleBlockProps): ReactNode => {
   const [open, setOpen] = useState(false);
   const { range, duration } = roleSpan(role);
+  const current = role.end === "Present";
   return (
     <div>
       <h4 className="text-[17px] font-semibold leading-snug text-[var(--v2-ink)]">{role.title}</h4>
       <p className="mt-0.5 text-[14px] text-[var(--v2-muted)]">{range} · {duration} · {role.location}</p>
-      <Bullets items={role.highlights} className="mt-3"/>
-      {role.more?.length ? (
+      <Bullets items={current ? [...role.highlights, ...(role.more ?? [])] : role.highlights} className="mt-3"/>
+      {!current && role.more?.length ? (
         <>
           <Collapse id={id} open={open}><Bullets items={role.more} className="pt-2.5"/></Collapse>
           <button

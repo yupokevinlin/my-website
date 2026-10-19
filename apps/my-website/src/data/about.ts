@@ -11,10 +11,18 @@ export const about = {
     "I'm also co-founder and CTO of ForteCare, where I architect a healthcare platform that brings AI into the specialist referral journey, from intake to a finished visit note.",
     `My path into software started in chemistry at UBC and a stint automating spreadsheets at a trading company. ${years} years into building software, I still love finding better and faster ways to do things, from shipping full-stack products to building AI into the products and the way my team works.`,
   ],
-  facts: [
-    { label: "Based in", value: "Vancouver, BC, Canada" },
-    { label: "Languages", value: "English and Mandarin (fluent), French (DELF A1)" },
-    { label: "Education", value: "BSc Chemistry, The University of British Columbia", detail: "President's Entrance Scholarship" },
-    { label: "Now", value: "Tech lead at Best Buy Canada, CTO at ForteCare" },
+  location: "Vancouver, BC, Canada",
+  // Shown as one badge each
+  languages: [
+    { name: "English", level: "Fluent" },
+    { name: "Mandarin", level: "Fluent" },
+    { name: "French", level: "DELF A1" },
   ],
+  education: {
+    degree: "BSc Chemistry",
+    school: "The University of British Columbia",
+    logo: "/resources/images/education/ubc.svg",
+    award: "President's Entrance Scholarship",
+  },
+  now: "Tech lead at Best Buy Canada, CTO at ForteCare",
 };

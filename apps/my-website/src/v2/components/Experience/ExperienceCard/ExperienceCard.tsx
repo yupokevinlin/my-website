@@ -11,7 +11,7 @@ export interface ExperienceCardProps {
 export const ExperienceCard = ({ quiet, children }: ExperienceCardProps): ReactNode => (
   <article
     className={clsx(
-      "rounded-2xl border p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-shadow hover:shadow-[0_22px_44px_-28px_var(--v2-deep)] md:p-7",
+      "relative rounded-2xl border p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-shadow hover:shadow-[0_22px_44px_-28px_var(--v2-deep)] md:p-7",
       quiet ? "border-dashed border-[var(--v2-line)] bg-white/70" : "border-[var(--v2-line)] bg-white",
     )}
   >

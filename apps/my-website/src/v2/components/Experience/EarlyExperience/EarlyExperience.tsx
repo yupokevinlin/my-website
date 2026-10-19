@@ -11,24 +11,25 @@ export interface EarlyExperienceProps {
   company: Company;
 }
 
-// Early roles, folded away. The company name is the button; its ::after
-// covers the whole header, so a click anywhere on it opens the roles.
+// Earlier roles, folded away. The company name is the button. While closed,
+// its ::after covers the whole card, so a click anywhere opens the roles;
+// once open it covers only the header, so the roles can be selected.
 export const EarlyExperience = ({ company }: EarlyExperienceProps): ReactNode => {
   const [open, setOpen] = useState(false);
   const id = `early-${company.name.toLowerCase().replace(/\W+/g, "-")}`;
   return (
     <ExperienceCard quiet>
-      <p className="mb-3 text-[12.5px] font-semibold uppercase tracking-[0.12em] text-[var(--v2-muted)]">Early experience</p>
+      <p className="mb-3 text-[12.5px] font-semibold uppercase tracking-[0.12em] text-[var(--v2-muted)]">Earlier experience</p>
       <CompanyHeader
         company={company}
-        className="relative"
+        className={clsx(open && "relative")}
         title={
           <button
             type="button"
             aria-expanded={open}
             aria-controls={id}
             onClick={() => setOpen((value) => !value)}
-            className="cursor-pointer text-left after:absolute after:-inset-2 after:rounded-xl after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-[var(--v2-accent)]"
+            className={clsx("cursor-pointer text-left after:absolute after:content-[''] focus-visible:outline-none focus-visible:after:outline-2 focus-visible:after:outline-[var(--v2-accent)]", open ? "after:-inset-2 after:rounded-xl" : "after:inset-0 after:rounded-2xl")}
           >
             {company.name}
           </button>

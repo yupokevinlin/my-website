@@ -120,7 +120,7 @@ export const experience: Company[] = [
   },
 ];
 
-// Folded under "Early experience" at the end of the timeline
+// Folded under "Earlier experience" at the end of the timeline
 export const earlyExperience: Company[] = [
   {
     name: "Protrade Asia Limited",

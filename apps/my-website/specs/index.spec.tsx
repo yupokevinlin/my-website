@@ -69,6 +69,12 @@ describe("Home page", () => {
     expect(region?.hasAttribute("inert")).toBe(false);
   });
 
+  it("shows every result of a current role, with no Show more", () => {
+    const { getByText } = render(<Page/>);
+    // A Best Buy Canada result from `more`, outside any folded region
+    expect(getByText(/mentored several back-end engineers/).closest("[inert]")).toBeNull();
+  });
+
   it("names every button for screen readers", () => {
     const { container } = render(<Page/>);
     container.querySelectorAll("button").forEach((button) => {
