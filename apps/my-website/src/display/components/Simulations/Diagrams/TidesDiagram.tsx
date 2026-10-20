@@ -2,6 +2,7 @@ import React from "react";
 import { MotionValue, motion, useTransform } from "framer-motion";
 import { useDiagramClock } from "../motion";
 import { C, LABEL } from "./shared";
+import { useGuideText } from "../useGuide";
 
 // Lesson 10: tidal stretching. The same astronaut falls into a black hole of
 // 10 Suns (stretched long before the horizon) and into Sagittarius A*
@@ -47,9 +48,10 @@ const Astronaut: React.FC<{ t: MotionValue<number>; cx: number; y0: number; y1: 
 };
 
 const TidesDiagram: React.FC = () => {
+  const text = useGuideText().diagrams.tides;
   const { ref, t } = useDiagramClock();
   return (
-    <svg ref={ref} viewBox="0 0 640 330" className="w-full h-auto" role="img" aria-label="An astronaut is stretched falling into a small black hole, but not into a supermassive one">
+    <svg ref={ref} viewBox="0 0 640 330" className="w-full h-auto" role="img" aria-label={text.aria}>
       <defs>
         <radialGradient id="td-small" cx="160" cy="330" r="80" gradientUnits="userSpaceOnUse">
           <stop offset="0.55" stopColor={C.accent} stopOpacity="0.45"/>
@@ -62,14 +64,14 @@ const TidesDiagram: React.FC = () => {
       </defs>
       <line x1="320" x2="320" y1="20" y2="310" stroke="rgba(255,255,255,0.08)"/>
 
-      <text x="160" y="22" textAnchor="middle" className={LABEL} fontSize="12" fill={C.text}>10 Suns</text>
-      <text x="160" y="39" textAnchor="middle" className={LABEL} fontSize="10" fill={C.muted}>horizon 30 km</text>
+      <text x="160" y="22" textAnchor="middle" className={LABEL} fontSize="12" fill={C.text}>{text.small}</text>
+      <text x="160" y="39" textAnchor="middle" className={LABEL} fontSize="10" fill={C.muted}>{text.smallHorizon}</text>
       <Astronaut t={t} cx={160} y0={70} y1={262} stretch/>
       <circle cx="160" cy="330" r="80" fill="url(#td-small)"/>
       <circle cx="160" cy="330" r="46" fill="#000" stroke={C.hot} strokeOpacity="0.6"/>
 
-      <text x="480" y="22" textAnchor="middle" className={LABEL} fontSize="12" fill={C.text}>Sagittarius A*</text>
-      <text x="480" y="39" textAnchor="middle" className={LABEL} fontSize="10" fill={C.muted}>horizon 13 million km</text>
+      <text x="480" y="22" textAnchor="middle" className={LABEL} fontSize="12" fill={C.text}>{text.large}</text>
+      <text x="480" y="39" textAnchor="middle" className={LABEL} fontSize="10" fill={C.muted}>{text.largeHorizon}</text>
       <Astronaut t={t} cx={480} y0={70} y1={300} stretch={false}/>
       <rect x="330" y="250" width="300" height="40" fill="url(#td-big)"/>
       <rect x="330" y="288" width="300" height="42" fill="#000"/>

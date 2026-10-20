@@ -8,7 +8,10 @@ import SimulationsLayout from "../../components/Simulations/SimulationsLayout/Si
 import ControlPanel from "../../components/Simulations/ControlPanel/ControlPanel";
 import LearnPanel from "../../components/Simulations/LearnPanel/LearnPanel";
 import DarkScrollbars from "../../components/Simulations/DarkScrollbars/DarkScrollbars";
-import { Preset, SimId, getChapter } from "../../components/Simulations/content";
+import { Preset, SimId } from "../../components/Simulations/content";
+import { useChapter, useGuideText } from "../../components/Simulations/useGuide";
+import { getSimulationsText, localizeParams } from "../../../i18n/content/simulations";
+import { useLocale } from "../../../i18n/LocaleContext";
 import { MONO, SANS, SERIF } from "../../components/Simulations/theme";
 import { CameraIcon, FullscreenIcon, InfoIcon, PauseIcon, PlayIcon, TuneIcon } from "../../components/Simulations/SimulationIcons/SimulationIcons";
 
@@ -77,14 +80,23 @@ export interface SimulationPageProps {
 const SimulationPage: React.FC<SimulationPageProps> = (props) => {
   const { id } = props;
   const desc = getSimulation(id);
-  const chapter = getChapter(id);
+  // The chapter, settings and readouts in the page's language
+  const chapter = useChapter(id);
+  const locale = useLocale();
+  const text = useGuideText();
+  const simText = getSimulationsText(locale);
+  const readouts = text.readouts;
+  const ui = text.simulation;
   // Phones and tablets default to rendering at the screen's size with the High
   // star map; the desktop defaults use more graphics memory than they allow.
   const constrained = useSyncExternalStore(noSubscribe, isConstrainedDevice, () => false);
   const defs = useMemo(() => {
     const over = { ...(desc.globalDefaults ?? {}), ...(constrained ? CONSTRAINED_DEFAULTS : {}) };
-    return [...desc.params, ...GLOBAL_PARAMS.map((d) => (d.key in over ? { ...d, default: over[d.key] } : d))];
-  }, [desc, constrained]);
+    return [
+      ...localizeParams(desc.params, simText[id].params),
+      ...localizeParams(GLOBAL_PARAMS.map((d) => (d.key in over ? { ...d, default: over[d.key] } : d)), simText.output.params),
+    ];
+  }, [desc, constrained, simText, id]);
   const [params, setParams] = useState<Params>(() => defaultsOf(defs));
   const paramsRef = useRef(params);
   paramsRef.current = params;
@@ -161,12 +173,12 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const rect = stageEl.getBoundingClientRect();
       engine.windowSize = [rect.width * dpr, rect.height * dpr];
-      sim = desc.create(engine);
+      sim = desc.create(engine, readouts);
     } catch (e) {
       setError({
-        title: "This simulation needs WebGL 2 with float render targets",
+        title: ui.noWebGl,
         message: e instanceof Error ? e.message : String(e),
-        hint: "Try a recent Chrome, Edge, Firefox or Safari with hardware acceleration enabled.",
+        hint: ui.noWebGlHint,
       });
       canvas.remove();
       return undefined;
@@ -176,9 +188,9 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
     engine.start(sim, () => paramsRef.current, setStats);
     // Browsers drop the WebGL context when graphics memory runs out (phones especially).
     const lost = (): void => setError({
-      title: "The 3D view stopped",
-      message: "The browser stopped the 3D view, most likely because it ran out of graphics memory.",
-      hint: "Reload the page to try again. A lower render resolution or star map detail under Output also helps.",
+      title: ui.lost,
+      message: ui.lostMessage,
+      hint: ui.lostHint,
     });
     canvas.addEventListener("webglcontextlost", lost);
     return () => {
@@ -190,7 +202,7 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
       simRef.current = null;
       canvas.remove();
     };
-  }, [desc]);
+  }, [desc, readouts, ui]);
 
   useEffect(() => {
     // the engine starts with the measured stage size; don't overwrite it with the placeholder
@@ -357,7 +369,9 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
   const hud = simRef.current?.hud?.(params) ?? [];
   const status = stats?.status;
   // only report work in progress (tracing, star map loading), not finished states
-  const working = [status && status.progress < 1 ? status.label : "", stats?.skyLoading ?? ""].filter(Boolean).join(" · ");
+  const sky = stats?.skyLoading;
+  const skyText = !sky ? "" : sky.failed ? ui.skyFailed(sky.size) : sky.percent !== undefined ? ui.skyProgress(sky.size, sky.percent) : ui.skyLoading(sky.size);
+  const working = [status && status.progress < 1 ? status.label : "", skyText].filter(Boolean).join(" · ");
   const paused = Number(params.timeScale) === 0;
   const icon = "!h-[20px] !w-[20px]";
 
@@ -380,13 +394,13 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
           {!uiHidden && (
             <div className="pointer-events-none absolute left-[16px] top-[14px] sm:left-[22px] sm:top-[18px] flex flex-col gap-[12px] max-w-[calc(100%-200px)]">
               <div style={{ textShadow: "0 1px 12px rgba(0,0,0,0.8)" }}>
-                <div className={clsx(MONO, "text-[10px] tracking-[0.22em] uppercase")} style={{ color: "var(--sim-accent)" }}>{chapter.kicker}</div>
+                <div className={clsx(MONO, "text-[10px] tracking-[0.22em] uppercase")} style={{ color: "var(--sim-accent)" }}>{text.overview.chapter.kicker(chapter.numeral, chapter.field)}</div>
                 <h1 className={clsx(SERIF, "text-[26px] leading-[30px] sm:text-[34px] sm:leading-[38px] font-normal mt-[4px]")} style={{ color: "var(--sim-text)" }}>{chapter.title}</h1>
               </div>
               {hud.length > 0 && (
                 <div className={clsx(glass, "hidden sm:flex flex-col gap-[3px] px-[12px] py-[9px] w-max")} style={glassStyle}>
-                  {hud.map((h) => (
-                    <div key={h.label} className="flex flex-row items-baseline justify-between gap-[18px]">
+                  {hud.map((h, i) => (
+                    <div key={i} className="flex flex-row items-baseline justify-between gap-[18px]">
                       <span className={clsx(SANS, "text-[11.5px] font-light whitespace-nowrap")} style={{ color: "var(--sim-body)" }}>{h.label}</span>
                       <span className={clsx(MONO, "text-[11.5px] tabular-nums whitespace-nowrap")} style={{ color: "var(--sim-text)" }}>{h.value}</span>
                     </div>
@@ -398,18 +412,18 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
 
           {!uiHidden && (
             <div className={clsx(glass, "absolute right-[12px] top-[12px] flex flex-row items-center gap-[2px] p-[4px]")} style={glassStyle}>
-              <ToolButton title={paused ? "Play (Space)" : "Pause (Space)"} onClick={togglePause}>
+              <ToolButton title={paused ? ui.play : ui.pause} onClick={togglePause}>
                 {paused ? <PlayIcon className={icon}/> : <PauseIcon className={icon}/>}
               </ToolButton>
               <span className="hidden sm:flex">
-                <ToolButton title="Fullscreen (F)" onClick={fullscreen}><FullscreenIcon className={icon}/></ToolButton>
+                <ToolButton title={ui.fullscreen} onClick={fullscreen}><FullscreenIcon className={icon}/></ToolButton>
               </span>
-              <ToolButton title="Save a PNG at the render resolution (P)" active={saving} onClick={snapshot}>
+              <ToolButton title={ui.snapshot} active={saving} onClick={snapshot}>
                 <CameraIcon className={icon}/>
               </ToolButton>
               <span className="mx-[2px] h-[20px] w-[1px]" style={{ backgroundColor: "var(--sim-border)" }}/>
-              <ToolButton title="Learn" active={panelOpen && tab === "learn"} onClick={() => openPanel("learn")}><InfoIcon className={icon}/></ToolButton>
-              <ToolButton title="Controls" active={panelOpen && tab === "controls"} onClick={() => openPanel("controls")}><TuneIcon className={icon}/></ToolButton>
+              <ToolButton title={ui.learn} active={panelOpen && tab === "learn"} onClick={() => openPanel("learn")}><InfoIcon className={icon}/></ToolButton>
+              <ToolButton title={ui.controls} active={panelOpen && tab === "controls"} onClick={() => openPanel("controls")}><TuneIcon className={icon}/></ToolButton>
             </div>
           )}
 
@@ -424,15 +438,15 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
                 <span className={clsx(SANS, "text-[11.5px] font-light truncate")} style={{ color: "var(--sim-body)" }}>{working}</span>
               )}
               <span className={clsx(MONO, "text-[11px] tabular-nums")} style={{ color: "var(--sim-body)" }}>
-                {stats ? `${stats.fps.toFixed(0)} fps` : "starting…"}
-                {paused ? " · paused" : ""}
+                {stats ? ui.fps(stats.fps.toFixed(0)) : ui.starting}
+                {paused ? ` · ${ui.paused}` : ""}
               </span>
             </div>
           )}
 
           {!uiHidden && (
             <span className={clsx(SANS, "pointer-events-none absolute right-[18px] bottom-[16px] hidden lg:block text-[11.5px] font-light")} style={{ color: "rgba(236,232,225,0.45)" }}>
-              {desc.controlsHelp}
+              {simText[id].controlsHelp}
             </span>
           )}
         </div>
@@ -451,7 +465,7 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
                   style={{ border: "none", background: "transparent", color: tab === t ? "var(--sim-text)" : "var(--sim-faint)" }}
                   onClick={() => setTab(t)}
                 >
-                  {t === "controls" ? "Controls" : "Learn"}
+                  {t === "controls" ? ui.controls : ui.learn}
                   <span className="absolute left-0 right-0 bottom-[-1px] h-[1px]" style={{ backgroundColor: "var(--sim-accent)", opacity: tab === t ? 1 : 0 }}/>
                 </button>
               ))}

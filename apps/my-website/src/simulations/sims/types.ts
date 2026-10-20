@@ -1,4 +1,9 @@
 import type { Engine } from "../gl/engine";
+import type { Messages } from "../../i18n/messages";
+
+// Every simulation's readout and progress text, in the page's language; each
+// simulation reads its own part
+export type Readouts = Messages["rayTracing"]["readouts"];
 
 export type ParamValue = number | boolean | string;
 export type Params = Record<string, ParamValue>;
@@ -65,7 +70,7 @@ export interface SimulationDescriptor {
   params: ParamDef[];
   /** Per-simulation defaults for the shared Output settings (by key). */
   globalDefaults?: Params;
-  create(engine: Engine): Simulation;
+  create(engine: Engine, text: Readouts): Simulation;
 }
 
 export const num = (p: Params, k: string) => Number(p[k]);

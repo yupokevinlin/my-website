@@ -2,6 +2,8 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { Roboto } from "next/font/google";
 import { useEffect } from "react";
+import { LocaleProvider } from "../src/i18n/LocaleContext";
+import { toLocale } from "../src/i18n/locales";
 
 // /v1 and the ray-tracing guide use Roboto; the home page uses Inter. Not
 // preloaded, so the home page never downloads it.
@@ -24,9 +26,12 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   }, []);
 
   return (
-    <div className={roboto.variable} style={{ display: "contents" }}>
-      <Component {...pageProps} />
-    </div>
+    // Pages under pages/[locale]/ pass their language as a prop; the rest are English
+    <LocaleProvider locale={toLocale(pageProps.locale)}>
+      <div className={roboto.variable} style={{ display: "contents" }}>
+        <Component {...pageProps} />
+      </div>
+    </LocaleProvider>
   );
 };
 

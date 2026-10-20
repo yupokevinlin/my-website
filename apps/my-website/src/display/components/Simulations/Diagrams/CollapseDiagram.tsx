@@ -2,6 +2,7 @@ import React from "react";
 import { MotionValue, motion, useTransform } from "framer-motion";
 import { useDiagramClock } from "../motion";
 import { C, LABEL, ramp, smooth } from "./shared";
+import { useGuideText } from "../useGuide";
 
 // Lesson 3: a massive star, its core collapse, the supernova and the black
 // hole left behind, as a looping sequence driven by the diagram clock.
@@ -10,24 +11,27 @@ const PERIOD = 10;
 const CX = 300;
 const CY = 135;
 
-const STAGES: Array<{ label: string; from: number; to: number }> = [
-  { label: "Massive star", from: 0, to: 0.3 },
-  { label: "Core collapse", from: 0.3, to: 0.42 },
-  { label: "Supernova", from: 0.42, to: 0.62 },
-  { label: "Black hole", from: 0.62, to: 1 },
+// The stages' names are in the dictionary (diagrams.collapse.stages), in this order
+const STAGES: Array<{ from: number; to: number }> = [
+  { from: 0, to: 0.3 },
+  { from: 0.3, to: 0.42 },
+  { from: 0.42, to: 0.62 },
+  { from: 0.62, to: 1 },
 ];
 
 const Stage: React.FC<{ p: MotionValue<number>; index: number }> = ({ p, index }) => {
   const s = STAGES[index];
+  const label = useGuideText().diagrams.collapse.stages[index];
   const opacity = useTransform(p, (v) => (v >= s.from && v < s.to ? 1 : 0.32));
   return (
     <motion.text x={75 + index * 150} y="282" textAnchor="middle" className={LABEL} fontSize="12" fill={C.text} style={{ opacity }}>
-      {s.label}
+      {label}
     </motion.text>
   );
 };
 
 const CollapseDiagram: React.FC = () => {
+  const text = useGuideText().diagrams.collapse;
   const { ref, t } = useDiagramClock();
   const p = useTransform(t, (s) => (s % PERIOD) / PERIOD);
 
@@ -47,7 +51,7 @@ const CollapseDiagram: React.FC = () => {
   const holeOpacity = useTransform(p, (v) => ramp(v, 0.55, 0.65) * (1 - ramp(v, 0.95, 1)));
 
   return (
-    <svg ref={ref} viewBox="0 0 600 300" className="w-full h-auto" role="img" aria-label="A massive star collapses, explodes as a supernova and leaves a black hole">
+    <svg ref={ref} viewBox="0 0 600 300" className="w-full h-auto" role="img" aria-label={text.aria}>
       <defs>
         <radialGradient id="cl-star" cx="0.42" cy="0.4" r="0.7">
           <stop offset="0" stopColor="#fffaf0"/>
@@ -81,8 +85,8 @@ const CollapseDiagram: React.FC = () => {
       </motion.g>
 
       <line x1="40" x2="560" y1="258" y2="258" stroke="rgba(255,255,255,0.12)"/>
-      {STAGES.map((s, i) => (
-        <Stage key={s.label} p={p} index={i}/>
+      {STAGES.map((_, i) => (
+        <Stage key={i} p={p} index={i}/>
       ))}
     </svg>
   );

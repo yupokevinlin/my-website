@@ -7,16 +7,15 @@ import { profile } from "../../../data/profile";
 import { CloseIcon } from "../icons/CloseIcon/CloseIcon";
 import { MenuIcon } from "../icons/MenuIcon/MenuIcon";
 import { SeasonSwitch } from "./SeasonSwitch/SeasonSwitch";
+import { LanguageSwitcher } from "./LanguageSwitcher/LanguageSwitcher";
+import { LanguageLinks } from "./LanguageLinks/LanguageLinks";
+import { useMessages } from "../../../i18n/LocaleContext";
 
-export const NAV_LINKS = [
-  { id: "experience", label: "Experience" },
-  { id: "projects", label: "Projects" },
-  { id: "skills", label: "Skills" },
-  { id: "contact", label: "Contact" },
-];
+// The sections in the top bar, by id; their names are in the dictionary
+export const NAV_LINKS = ["experience", "projects", "skills", "contact"] as const;
 
 // Sections the reader can be in; only NAV_LINKS ones get the underline
-const TRACKED = ["top", "about", ...NAV_LINKS.map((link) => link.id)];
+const TRACKED = ["top", "about", ...NAV_LINKS];
 
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
@@ -24,7 +23,8 @@ const linkClass = "rounded-md text-[15px] font-medium text-[var(--v2-body)] tran
 
 // Sticky, slim and frosted in the season's colour over the full-screen scene.
 // On phones the section links (and Resume, which the hero repeats) fold into
-// a menu; the season switch stays in the bar.
+// a menu; the season switch stays in the bar. The language switcher sits in
+// the bar from 600px; on phones the languages are at the end of the menu.
 export const TopBar = (): ReactNode => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -32,6 +32,8 @@ export const TopBar = (): ReactNode => {
   const barRef = useRef<HTMLElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const active = useActiveSection(TRACKED);
+  const { nav } = useMessages().home;
+  const { common } = useMessages();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -75,11 +77,11 @@ export const TopBar = (): ReactNode => {
     >
       <div className="mx-auto flex h-16 max-w-[1200px] items-center gap-3 px-4 sm:gap-5 md:px-8">
         <a href="#top" className="mr-auto rounded-md text-[19px] font-bold tracking-[-0.02em] text-[var(--v2-accent-strong)]">{profile.name}</a>
-        <nav aria-label="Sections" className="hidden md:block">
+        <nav aria-label={nav.sections} className="hidden md:block">
           <ul ref={listRef} className="relative flex items-center gap-7">
-            {NAV_LINKS.map((link) => (
-              <li key={link.id}>
-                <a href={`#${link.id}`} aria-current={active === link.id ? "true" : undefined} className={clsx(linkClass, "block py-2", active === link.id && "text-[var(--v2-ink)]")}>{link.label}</a>
+            {NAV_LINKS.map((id) => (
+              <li key={id}>
+                <a href={`#${id}`} aria-current={active === id ? "true" : undefined} className={clsx(linkClass, "block py-2", active === id && "text-[var(--v2-ink)]")}>{nav[id]}</a>
               </li>
             ))}
             <m.span
@@ -92,17 +94,18 @@ export const TopBar = (): ReactNode => {
           </ul>
         </nav>
         <SeasonSwitch/>
+        <LanguageSwitcher path="/" className="hidden sm:block"/>
         <a
           href={profile.resume}
           target="_blank"
           rel="noopener"
           className="hidden rounded-xl bg-[var(--v2-accent-strong)] px-4 py-2 text-[14px] font-semibold text-white transition-opacity hover:opacity-90 sm:inline-flex"
         >
-          Resume
+          {nav.resume}
         </a>
         <button
           type="button"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-label={menuOpen ? nav.closeMenu : nav.openMenu}
           aria-expanded={menuOpen}
           aria-controls={menuOpen ? "v2-menu" : undefined}
           onClick={() => setMenuOpen((open) => !open)}
@@ -118,7 +121,7 @@ export const TopBar = (): ReactNode => {
         {menuOpen ? (
           <m.nav
             id="v2-menu"
-            aria-label="Sections"
+            aria-label={nav.sections}
             className="absolute inset-x-0 top-full overflow-hidden border-y border-[var(--v2-line)] bg-[var(--v2-page)] shadow-[0_18px_30px_-22px_var(--v2-deep)] md:hidden"
             initial={{ y: -8, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -126,11 +129,15 @@ export const TopBar = (): ReactNode => {
             transition={{ duration: 0.25, ease: EASE }}
           >
             <ul className="flex flex-col px-4 pb-3 pt-1">
-              {NAV_LINKS.map((link) => (
-                <li key={link.id}><a href={`#${link.id}`} onClick={() => setMenuOpen(false)} className={clsx(linkClass, "block py-3")}>{link.label}</a></li>
+              {NAV_LINKS.map((id) => (
+                <li key={id}><a href={`#${id}`} onClick={() => setMenuOpen(false)} className={clsx(linkClass, "block py-3")}>{nav[id]}</a></li>
               ))}
-              <li><a href={profile.resume} target="_blank" rel="noopener" onClick={() => setMenuOpen(false)} className={clsx(linkClass, "block py-3")}>Resume</a></li>
+              <li><a href={profile.resume} target="_blank" rel="noopener" onClick={() => setMenuOpen(false)} className={clsx(linkClass, "block py-3")}>{nav.resume}</a></li>
             </ul>
+            <div className="border-t border-[var(--v2-line)] px-4 pb-3 pt-3 sm:hidden">
+              <p className="pb-1 text-[12px] font-semibold uppercase tracking-[0.12em] text-[var(--v2-muted)]">{common.language}</p>
+              <LanguageLinks path="/" onPick={() => setMenuOpen(false)} className="grid grid-cols-2 gap-x-4" linkClassName={clsx(linkClass, "py-2.5 aria-[current=true]:text-[var(--v2-accent-strong)]")}/>
+            </div>
           </m.nav>
         ) : null}
       </AnimatePresence>

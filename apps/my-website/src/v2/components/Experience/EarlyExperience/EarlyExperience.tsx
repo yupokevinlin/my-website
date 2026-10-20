@@ -6,6 +6,7 @@ import { ChevronDownIcon } from "../../icons/ChevronDownIcon/ChevronDownIcon";
 import { CompanyHeader } from "../CompanyHeader/CompanyHeader";
 import { ExperienceCard } from "../ExperienceCard/ExperienceCard";
 import { RoleTimeline } from "../RoleTimeline/RoleTimeline";
+import { useMessages } from "../../../../i18n/LocaleContext";
 
 export interface EarlyExperienceProps {
   company: Company;
@@ -16,10 +17,11 @@ export interface EarlyExperienceProps {
 // once open it covers only the header, so the roles can be selected.
 export const EarlyExperience = ({ company }: EarlyExperienceProps): ReactNode => {
   const [open, setOpen] = useState(false);
+  const messages = useMessages();
   const id = `early-${company.name.toLowerCase().replace(/\W+/g, "-")}`;
   return (
     <ExperienceCard quiet>
-      <p className="mb-3 text-[12.5px] font-semibold uppercase tracking-[0.12em] text-[var(--v2-muted)]">Earlier experience</p>
+      <p className="mb-3 text-[12.5px] font-semibold uppercase tracking-[0.12em] text-[var(--v2-muted)]">{messages.home.experience.earlier}</p>
       <CompanyHeader
         company={company}
         className={clsx(open && "relative")}

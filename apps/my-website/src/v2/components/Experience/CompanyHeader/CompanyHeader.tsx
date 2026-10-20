@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import clsx from "clsx";
 import type { Company } from "../../../../data/experience";
+import { useLocale, useMessages } from "../../../../i18n/LocaleContext";
 import { companySpan } from "../dates";
 import { CompanyLogo } from "./CompanyLogo/CompanyLogo";
 
@@ -16,7 +17,7 @@ export interface CompanyHeaderProps {
 
 // Logo, name, dates and what the company does
 export const CompanyHeader = ({ company, title, className, children }: CompanyHeaderProps): ReactNode => {
-  const { range, duration } = companySpan(company);
+  const { range, duration } = companySpan(company, useLocale(), useMessages());
   return (
     <div className={clsx("flex items-start gap-4", className)}>
       <CompanyLogo src={company.logo}/>

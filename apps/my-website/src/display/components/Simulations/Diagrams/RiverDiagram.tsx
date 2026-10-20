@@ -2,6 +2,7 @@ import React from "react";
 import { MotionValue, motion, useTransform } from "framer-motion";
 import { useDiagramClock } from "../motion";
 import { C, LABEL, seeded } from "./shared";
+import { useGuideText } from "../useGuide";
 
 // Lesson 4: the river model of a black hole (Hamilton & Lisle). Space flows
 // inwards at v = c·√(r_s/r), reaching c at the horizon; outward-aimed light
@@ -40,15 +41,16 @@ const lightTrack = (r0: number): Array<number> => {
   }
   return out;
 };
-// Labels sit beside their photon's start, pointing away from the horizon.
-const PHOTONS: Array<{ r0: number; label: string; anchor: "start" | "middle" | "end"; dx: number }> = [
-  { r0: 2.2, label: "escapes, slowly", anchor: "middle", dx: 0 },
-  { r0: 1, label: "stands still", anchor: "start", dx: 8 },
-  { r0: 0.72, label: "swept inwards", anchor: "end", dx: -8 },
+// Labels sit beside their photon's start, pointing away from the horizon;
+// their text is in the dictionary (diagrams.river.photons), in this order.
+const PHOTONS: Array<{ r0: number; anchor: "start" | "middle" | "end"; dx: number }> = [
+  { r0: 2.2, anchor: "middle", dx: 0 },
+  { r0: 1, anchor: "start", dx: 8 },
+  { r0: 0.72, anchor: "end", dx: -8 },
 ];
 const TRACKS = PHOTONS.map((p) => lightTrack(p.r0));
 
-const Photon: React.FC<{ t: MotionValue<number>; track: Array<number>; photon: (typeof PHOTONS)[number] }> = ({ t, track, photon }) => {
+const Photon: React.FC<{ t: MotionValue<number>; track: Array<number>; photon: (typeof PHOTONS)[number]; label: string }> = ({ t, track, photon, label }) => {
   const k = useTransform(t, (s) => (s % PHOTON_PERIOD) / PHOTON_PERIOD);
   const r = useTransform(k, (v) => track[Math.min(track.length - 1, Math.floor(v * (track.length - 1)))]);
   const px = useTransform(r, (v) => x(v));
@@ -58,15 +60,16 @@ const Photon: React.FC<{ t: MotionValue<number>; track: Array<number>; photon: (
     <>
       <motion.line x1={tail} x2={px} y1="218" y2="218" stroke={C.hot} strokeWidth="2.2" strokeLinecap="round" style={{ opacity }}/>
       <motion.path d="M-7 -5 L2 0 L-7 5 z" fill={C.hot} style={{ x: px, y: 218, opacity }}/>
-      <text x={x(photon.r0) + photon.dx} y="246" textAnchor={photon.anchor} className={LABEL} fontSize="11" fill={C.muted}>{photon.label}</text>
+      <text x={x(photon.r0) + photon.dx} y="246" textAnchor={photon.anchor} className={LABEL} fontSize="11" fill={C.muted}>{label}</text>
     </>
   );
 };
 
 const RiverDiagram: React.FC = () => {
+  const text = useGuideText().diagrams.river;
   const { ref, t } = useDiagramClock();
   return (
-    <svg ref={ref} viewBox="0 0 640 270" className="w-full h-auto" role="img" aria-label="Space flowing into a black hole like a river, with light aimed outwards">
+    <svg ref={ref} viewBox="0 0 640 270" className="w-full h-auto" role="img" aria-label={text.aria}>
       <defs>
         <linearGradient id="rv-inside" x1={X0} x2={x(1)} y1="0" y2="0" gradientUnits="userSpaceOnUse">
           <stop offset="0" stopColor="#000" stopOpacity="1"/>
@@ -80,18 +83,18 @@ const RiverDiagram: React.FC = () => {
       <rect x={X0} y="34" width={S} height="200" fill="url(#rv-inside)"/>
       <circle cx={X0} cy="134" r="26" fill="url(#rv-centre)"/>
       <line x1={x(1)} x2={x(1)} y1="26" y2="234" stroke={C.accent} strokeDasharray="4 4"/>
-      <text x={x(1)} y="18" textAnchor="middle" className={LABEL} fontSize="12" fill={C.accent}>event horizon</text>
+      <text x={x(1)} y="18" textAnchor="middle" className={LABEL} fontSize="12" fill={C.accent}>{text.horizon}</text>
 
       {FLOW.map((f, i) => (
         <FlowDot key={i} t={t} y={f.y} offset={f.offset}/>
       ))}
       {PHOTONS.map((p, i) => (
-        <Photon key={p.label} t={t} track={TRACKS[i]} photon={p}/>
+        <Photon key={i} t={t} track={TRACKS[i]} photon={p} label={text.photons[i]}/>
       ))}
 
-      <text x="600" y="48" textAnchor="end" className={LABEL} fontSize="11" fill="#8f9bd6">← space flows in, ever faster</text>
-      <text x={X0 + 6} y="262" className={LABEL} fontSize="11" fill={C.faint}>centre</text>
-      <text x="600" y="262" textAnchor="end" className={LABEL} fontSize="11" fill={C.faint}>far away →</text>
+      <text x="600" y="48" textAnchor="end" className={LABEL} fontSize="11" fill="#8f9bd6">{text.flow}</text>
+      <text x={X0 + 6} y="262" className={LABEL} fontSize="11" fill={C.faint}>{text.centre}</text>
+      <text x="600" y="262" textAnchor="end" className={LABEL} fontSize="11" fill={C.faint}>{text.farAway}</text>
     </svg>
   );
 };

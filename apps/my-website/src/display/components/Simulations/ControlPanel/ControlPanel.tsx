@@ -3,6 +3,7 @@ import clsx from "clsx";
 import type { ParamDef, Params, ParamValue } from "../../../../simulations/sims/types";
 import { ExpandMoreIcon } from "../SimulationIcons/SimulationIcons";
 import { MONO, SANS } from "../theme";
+import { useGuideText } from "../useGuide";
 
 export interface ControlPanelProps {
   defs: Array<ParamDef>;
@@ -24,7 +25,7 @@ const formatValue = (def: ParamDef, v: number): string => {
 };
 
 const RetraceMark: React.FC = () => (
-  <span className="ml-[6px] text-[11px]" style={{ color: "var(--sim-accent)" }} title="Changing this re-traces the light paths">⟳</span>
+  <span className="ml-[6px] text-[11px]" style={{ color: "var(--sim-accent)" }} title={useGuideText().controls.retraces}>⟳</span>
 );
 
 const Switch: React.FC<{ checked: boolean; onChange(v: boolean): void; label: string }> = ({ checked, onChange, label }) => (
@@ -110,7 +111,9 @@ const ControlPanel: React.FC<ControlPanelProps> = (props) => {
     defs.forEach((d) => m.set(d.group, [...(m.get(d.group) ?? []), d]));
     return [...m.entries()];
   }, [defs]);
+  // Groups are keyed by their English id; only their names are translated
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({ Output: true, Quality: true });
+  const text = useGuideText().controls;
   const ghost = clsx(MONO, "btn-base flex-1 h-[32px] rounded-[6px] text-[10.5px] tracking-[0.14em] uppercase cursor-pointer transition-colors hover:bg-white/5");
 
   return (
@@ -124,7 +127,7 @@ const ControlPanel: React.FC<ControlPanelProps> = (props) => {
             onClick={() => setCollapsed((c) => ({ ...c, [group]: !c[group] }))}
             aria-expanded={!collapsed[group]}
           >
-            <span className={clsx(MONO, "text-[10.5px] tracking-[0.2em] uppercase")} style={{ color: "var(--sim-muted)" }}>{group}</span>
+            <span className={clsx(MONO, "text-[10.5px] tracking-[0.2em] uppercase")} style={{ color: "var(--sim-muted)" }}>{text.groups[group] ?? group}</span>
             <ExpandMoreIcon
               className="!h-[18px] !w-[18px] transition-transform duration-150"
               style={{ color: "var(--sim-faint)", transform: collapsed[group] ? "rotate(-90deg)" : "none" }}
@@ -143,14 +146,14 @@ const ControlPanel: React.FC<ControlPanelProps> = (props) => {
       ))}
       <div className="flex flex-row gap-[8px] px-[18px] pt-[16px]">
         <button type="button" className={ghost} style={{ border: "1px solid var(--sim-border)", background: "transparent", color: "var(--sim-body)" }} onClick={handleReset}>
-          Reset
+          {text.reset}
         </button>
         <button type="button" className={ghost} style={{ border: "1px solid var(--sim-accent)", background: "transparent", color: "var(--sim-accent)" }} onClick={handleCopyLink}>
-          {copied ? "Copied ✓" : "Share link"}
+          {copied ? text.copied : text.shareLink}
         </button>
       </div>
       <p className={clsx(SANS, "px-[18px] pt-[12px] text-[12px] font-light leading-[17px]")} style={{ color: "var(--sim-faint)" }}>
-        <span style={{ color: "var(--sim-accent)" }}>⟳</span> re-traces the light paths: an instant preview, then full resolution.
+        <span style={{ color: "var(--sim-accent)" }}>⟳</span> {text.retraceNote}
       </p>
     </div>
   );

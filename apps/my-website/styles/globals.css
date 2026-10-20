@@ -363,7 +363,7 @@
     /* The section icons, in the season icons' colours */
     --v2-icon-bg:       #4e8ec7;
     --v2-icon-fg:       #ffffff;
-    font-family: var(--font-v2-sans), system-ui, sans-serif;
+    font-family: var(--font-v2-sans), var(--font-cjk), system-ui, sans-serif;
     color: var(--v2-ink);
     background-color: var(--v2-page);
     transition-property: --v2-accent, --v2-accent-strong, --v2-bright, --v2-page, --v2-wash, --v2-tint, --v2-chip, --v2-line, --v2-deep, --v2-icon-bg, --v2-icon-fg;
@@ -424,4 +424,35 @@
     html:has(.v2), html.v2-page { scroll-behavior: auto; }
     .v2, .v2-scene-layer, .v2-season-ring { transition: none; }
   }
+}
+
+/* ─── Chinese and Japanese ──────────────────────────────────────── */
+/* Inter, Roboto and the guide's serif and mono fonts have no CJK glyphs, so */
+/* each font list takes --font-cjk right after its Latin font: the system   */
+/* fonts for the page's language (html lang, set per page in _document).    */
+/* Elsewhere it names a font that doesn't exist, so the browser skips it    */
+/* and English pages render as before.                                     */
+:root {
+  --font-cjk: "no-cjk-font";
+}
+html:lang(zh-CN) {
+  --font-cjk: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC";
+}
+html:lang(zh-TW) {
+  --font-cjk: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", "Noto Sans CJK TC", "Source Han Sans TC";
+}
+html:lang(ja) {
+  --font-cjk: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", "Meiryo", "Noto Sans JP", "Noto Sans CJK JP";
+}
+/* Not in a layer, so these win over Tailwind's utilities: the guide's body */
+/* text, wide tracking on small capitals (meant for Latin letters), and     */
+/* italics, which CJK fonts can only fake by slanting                       */
+html:is(:lang(zh-CN), :lang(zh-TW), :lang(ja)) body {
+  font-family: var(--font-roboto), var(--font-cjk), sans-serif;
+}
+html:is(:lang(zh-CN), :lang(zh-TW), :lang(ja)) .uppercase {
+  letter-spacing: 0.04em;
+}
+html:is(:lang(zh-CN), :lang(zh-TW), :lang(ja)) .italic {
+  font-style: normal;
 }

@@ -45,6 +45,6 @@ export const themeVars = (accent: SimAccentId): React.CSSProperties =>
 export const fontVars = `${serif.variable} ${mono.variable}`;
 
 // Tailwind arbitrary-property helpers
-export const SERIF = "[font-family:var(--font-sim-serif),Georgia,serif]";
-export const MONO = "[font-family:var(--font-sim-mono),ui-monospace,monospace]";
-export const SANS = "[font-family:var(--font-roboto),Roboto,sans-serif]";
+export const SERIF = "[font-family:var(--font-sim-serif),var(--font-cjk),Georgia,serif]";
+export const MONO = "[font-family:var(--font-sim-mono),var(--font-cjk),ui-monospace,monospace]";
+export const SANS = "[font-family:var(--font-roboto),var(--font-cjk),Roboto,sans-serif]";

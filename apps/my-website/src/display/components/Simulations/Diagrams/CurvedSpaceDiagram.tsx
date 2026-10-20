@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { animate, motion, useInView, useMotionValue, useTransform } from "framer-motion";
 import { EASE, useDiagramClock } from "../motion";
 import { C, LABEL, f1 } from "./shared";
+import { useGuideText } from "../useGuide";
 
 // Lesson 1: the rubber-sheet picture. A grid sags into a well around a mass
 // (the dent deepens when the figure scrolls into view) and a moon circles it.
@@ -39,6 +40,7 @@ const ORBIT = 0.42;
 const PERIOD = 6;
 
 const CurvedSpaceDiagram: React.FC = () => {
+  const text = useGuideText().diagrams.curvedSpace;
   const { ref, t } = useDiagramClock();
   const inView = useInView(ref, { once: true, amount: 0.4 });
   const dent = useMotionValue(0);
@@ -68,7 +70,7 @@ const CurvedSpaceDiagram: React.FC = () => {
   });
 
   return (
-    <svg ref={ref} viewBox="0 0 600 330" className="w-full h-auto" role="img" aria-label="A grid dented by a mass, with a moon orbiting in the dent">
+    <svg ref={ref} viewBox="0 0 600 330" className="w-full h-auto" role="img" aria-label={text.aria}>
       <defs>
         <radialGradient id="cs-mass" cx="0.38" cy="0.35" r="0.7">
           <stop offset="0" stopColor="#fff4e0"/>
@@ -86,7 +88,7 @@ const CurvedSpaceDiagram: React.FC = () => {
       <motion.circle cx={CX} cy={massY} r={glowR} fill="url(#cs-glow)"/>
       <motion.circle cx={CX} cy={massY} r={massR} fill="url(#cs-mass)"/>
       <motion.circle cx={moonX} cy={moonY} r="6" fill="#cfd6ee"/>
-      <text x="300" y="318" textAnchor="middle" className={LABEL} fontSize="12" fill={C.muted}>mass curves the grid · the moon follows the curve</text>
+      <text x="300" y="318" textAnchor="middle" className={LABEL} fontSize="12" fill={C.muted}>{text.caption}</text>
     </svg>
   );
 };

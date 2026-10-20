@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import clsx from "clsx";
+import { useLocaleHref } from "../../hooks/useHomeContent";
 
 export interface ButtonLinkProps {
   href: string;
@@ -18,12 +19,14 @@ const VARIANTS = {
 };
 
 // A link that looks like a button. Other sites and the resume PDF open in a
-// new tab; links within the page don't.
+// new tab; links within the page don't. Site pages that exist in every
+// language (the guide) link to the page's language.
 export const ButtonLink = ({ href, variant = "primary", me, className, children }: ButtonLinkProps): ReactNode => {
   const newTab = /^https?:/.test(href) || href.endsWith(".pdf");
+  const localeHref = useLocaleHref();
   return (
     <a
-      href={href}
+      href={localeHref(href)}
       {...(newTab ? { target: "_blank", rel: me ? "me noopener" : "noopener" } : {})}
       className={clsx("inline-flex items-center gap-1.5 text-[15px] font-semibold", VARIANTS[variant], className)}
     >

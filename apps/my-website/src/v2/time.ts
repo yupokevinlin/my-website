@@ -27,15 +27,6 @@ export const parseMonth = (value: string): YearMonth => {
 export const monthsBetween = (from: YearMonth, to: YearMonth): number =>
   (to.year - from.year) * 12 + (to.month - from.month);
 
-// LinkedIn style: "2 yrs 7 mos", "11 mos", "3 yrs"
-export const formatDuration = (months: number): string => {
-  const years = Math.floor(months / 12);
-  const rest = months % 12;
-  const y = years ? `${years} yr${years === 1 ? "" : "s"}` : "";
-  const m = rest || !years ? `${rest} mo${rest === 1 ? "" : "s"}` : "";
-  return [y, m].filter(Boolean).join(" ");
-};
-
 const WORDS = ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty"];
 
 // For sentences: 10 -> "Ten"

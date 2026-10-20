@@ -1,0 +1,443 @@
+import type { Messages } from "./en";
+
+// Simplified Chinese. Text only: everything else comes from the English (see en.ts).
+export const MESSAGES_ZH_CN: Messages = {
+  common: {
+    language: "语言",
+    changeLanguage: "切换语言",
+    skipToContent: "跳至主要内容",
+    javascriptRequired: "请启用 JavaScript 以运行此应用。",
+  },
+  home: {
+    seasons: {
+      spring: "春季",
+      summer: "夏季",
+      autumn: "秋季",
+      winter: "冬季",
+    },
+    seasonGroup: "季节",
+    seasonTheme: (season) => `${season}主题`,
+    seasonInCity: (season) => `温哥华的${season}`,
+    nav: {
+      sections: "页面导航",
+      experience: "经历",
+      projects: "项目",
+      skills: "技能",
+      contact: "联系",
+      resume: "简历",
+      openMenu: "打开菜单",
+      closeMenu: "关闭菜单",
+    },
+    hero: {
+      // The eyebrow line stays short: "高级全栈 + AI 工程师 · 温哥华"
+      place: (city) => city,
+      seeMyWork: "查看我的作品",
+      resume: "简历",
+      getInTouch: "联系我",
+      scrollToAbout: "滚动至“关于”",
+    },
+    about: {
+      label: "关于",
+      title: "简单介绍一下我",
+      basedIn: "所在地",
+      languages: "语言",
+      education: "教育背景",
+      // "英属哥伦比亚大学化学理学学士"
+      degreeAt: (degree, school) => `${school}${degree}`,
+      now: "目前",
+    },
+    experience: {
+      label: "经历",
+      title: "我工作过的地方",
+      present: "至今",
+      showMore: (count) => `展开其余${count}项`,
+      showLess: "收起",
+      earlier: "早期经历",
+      stack: (company) => `${company} 技术栈`,
+      // "2年7个月", "11个月", "3年"
+      duration: (years, months) => {
+        const y = years ? `${years}年` : "";
+        const m = months || !years ? `${months}个月` : "";
+        return `${y}${m}`;
+      },
+    },
+    projects: {
+      label: "项目",
+      title: "我打造的作品",
+      lead: "一个我联合创办的医疗平台、一个出于兴趣打造的物理模拟，以及一些早期作品。",
+      earlier: "早期项目",
+      archived: "已归档",
+      tools: (project) => `${project} 使用的技术`,
+    },
+    skills: {
+      label: "技能",
+      title: "我常用的技术",
+    },
+    contact: {
+      label: "联系",
+      title: "联系我",
+      linkedIn: "LinkedIn",
+      gitHub: "GitHub",
+      resume: "简历",
+      resumeDetail: "点击下载",
+    },
+    footer: {
+      previousVersion: "旧版网站",
+      seasonsNote: "插画会随温哥华的四季变换。",
+    },
+  },
+  rayTracing: {
+    heads: {
+      overview: {
+        name: "相对论光线追踪",
+        description: "黑洞如何运作？光为何会弯曲？这份图解指南带你一探究竟，并配有实时 4K 光线追踪模拟：旋转的黑洞、穿越事件视界的坠落、《星际穿越》中的虫洞，以及近光速旅行。",
+      },
+      blackhole: {
+        name: "黑洞",
+        description: "一个快速旋转的黑洞，周围环绕着被引力透镜扭曲的吸积盘。每一条光线都穿过弯曲时空进行追踪，在浏览器中以 4K 分辨率实时渲染，可自由环绕飞行。",
+      },
+      infall: {
+        name: "坠入黑洞",
+        description: "穿过黑洞的事件视界，看看你真正会看到怎样的景象：星空如何扭曲，时间如何变慢。每一条光线都经过弯曲时空的追踪计算，在浏览器中实时呈现，分辨率最高可达 4K。",
+      },
+      wormhole: {
+        name: "虫洞",
+        description: "穿越电影《星际穿越》中的虫洞，飞向遥远的另一个星系。每一条光线都预先沿虫洞弯曲的几何结构积分计算，在浏览器中实时渲染，分辨率最高可达 4K。",
+      },
+      lightspeed: {
+        name: "接近光速",
+        description: "以接近光速的速度飞向银河系中心，亲眼看到狭义相对论的种种效应：相对论性光行差、多普勒色移和相对论性集束。在浏览器中实时模拟，分辨率最高可达 4K。",
+      },
+    },
+    layout: {
+      brand: "相对论光线追踪",
+      menu: "菜单",
+      nav: {
+        home: "首页",
+        overview: "概览",
+        blackhole: "黑洞",
+        infall: "坠入黑洞",
+        wormhole: "虫洞",
+        lightspeed: "近光速",
+      },
+    },
+    overview: {
+      dopplerAlt: "真实色彩下的黑洞，左侧更亮、更蓝",
+      hero: {
+        kicker: "黑洞与相对论图解指南",
+        // "被<em>时空</em>弯曲的光"
+        titleBefore: "被",
+        titleEmphasis: "时空",
+        titleAfter: "弯曲的光",
+        text: "黑洞是如何运作的？它真正看起来是什么样子？十一节简短的课程配合动画图解为你一一解答。随后，四个实时模拟让你环绕黑洞飞行、坠入黑洞、穿越虫洞，并以接近光速的速度飞行。每一个像素都是一束光线，沿着弯曲的时空追踪而来。",
+        startLearning: "开始学习 ↓",
+        openBlackHole: "打开黑洞模拟 →",
+      },
+      parts: [
+        {
+          label: "第一部分",
+          title: "黑洞如何运作",
+          intro: "黑洞是宇宙中最简单的天体，也是最奇特的：它只有质量、自旋，以及一道任何东西都无法逃离的边界。这十一节简短的课程从物体为何会下落讲起，一直讲到黑洞为何会发光。无需数学基础；如果你感兴趣，公式也都在。",
+        },
+        {
+          label: "第二部分",
+          title: "追踪光线",
+          intro: "要画出一个黑洞，你需要知道射入你眼睛的每一束光来自何方。在平直空间中这很简单，因为光沿直线传播。而在黑洞附近，光沿着前面课程中讲到的弯曲路径传播，于是画出黑洞就变成了一道计算题。",
+        },
+        {
+          label: "第三部分",
+          title: "模拟",
+          intro: "四个可以亲身飞越的实验。每个都在你的浏览器中实时运行，分辨率最高可达 4K；每项设置都可以调整，每个视角都可以通过链接分享。",
+        },
+      ],
+      tracing: {
+        title: "让光倒着走",
+        paragraphs: [
+          "光线追踪是逆着光的方向进行的。从相机出发，每个像素发出一条光线射入场景，并在弯曲的几何结构中逐步推进。如果它落入视界，这个像素就是黑色；如果它穿过吸积盘，就取吸积盘的辉光，并计入多普勒效应和引力造成的频移；如果它逃逸出去，就取它最终离开方向上天空的颜色。",
+          "在太阳附近，这种弯曲非常微小：掠过太阳边缘的星光仅偏折1.75角秒，约为两千分之一度。而在黑洞附近，它塑造了你看到的一切。",
+        ],
+        caption: "从侧面看相机发出的光线。瞄得离黑洞近一些，光就会被捕获，形成阴影；瞄得稍远一些，光会从上方绕过，让你看到吸积盘的背面。",
+      },
+      realTime: {
+        title: "实现实时渲染",
+        text: "让光穿过弯曲时空的计算代价高昂，因此工作被拆分开来：困难的部分只需计算一次，而所有运动的部分都很轻量。正因如此，这些模拟才能在浏览器标签页中以完整的 4K 分辨率运行。",
+        steps: [
+          {
+            title: "追踪",
+            text: "一帧 4K 画面共有830万个像素，每个像素对应一条光线，用四阶龙格–库塔法在弯曲时空中反向积分，直到它落入黑洞、穿过吸积盘或逃逸。在现代 GPU 上，整帧画面大约需要一秒。",
+          },
+          {
+            title: "缓存",
+            text: "结果存储为一张光线映射图，记录每个像素的光来自哪里。虫洞和坠入黑洞的模拟更进一步：由于它们的对称性，所有可能的光线都能装进同一张表，且只需计算一次。",
+          },
+          {
+            title: "着色",
+            text: "之后每一帧只需查表：吸积盘旋转时的位置、它的多普勒频移和引力频移，以及该温度下黑体的颜色，均取自预先计算的光谱表。",
+          },
+          {
+            title: "曝光",
+            text: "光以高动态范围保存，从暗弱的恒星到炽热的吸积盘内区，然后像胶片一样加上辉光并进行色调映射。星空取自 NASA 的 16K HDR 银河系星图。",
+          },
+        ],
+      },
+      chapter: {
+        kicker: (numeral, field) => `模拟 ${numeral} · ${field}`,
+        open: "打开模拟",
+        seeing: "你看到的是什么",
+        physics: "背后的物理",
+        tryThis: "试试看",
+      },
+      glossary: {
+        kicker: "术语表",
+        title: "几个关键词",
+      },
+      credits: "资料来源与致谢",
+      requirements: {
+        title: "运行要求",
+        text: "需要支持 WebGL 2 和浮点渲染目标的桌面浏览器：较新版本的 Chrome、Edge、Firefox 或 Safari。在 4K 分辨率下，黑洞模拟约占用400 MB 显存；如果显卡较弱，请在“输出”中降低渲染分辨率。",
+      },
+      back: "← 返回 kevinyupolin.dev",
+    },
+    lesson: {
+      number: (n) => `第${n}课`,
+      of: (total) => `共${total}课`,
+      keyIdea: "核心要点",
+      tryIt: "动手试试",
+    },
+    learn: {
+      tryThis: "试试看",
+      seeing: "你看到的是什么",
+      physics: "背后的物理",
+      newToBlackHoles: "初次了解黑洞？",
+      keys: "操作方式",
+      keyDrag: "拖动 · 环顾或环绕",
+      keyWheel: "滚轮或双指缩放 · 缩放或移动",
+      keySpace: "空格键 · 暂停",
+      keyFullscreen: "F · 全屏",
+      keySnapshot: "P · 截图",
+      keyHide: "H · 隐藏界面",
+      // "更多内容请见<link>图解概览</link>。"
+      moreBefore: "更多内容请见",
+      moreLink: "图解概览",
+      moreAfter: "。",
+    },
+    controls: {
+      retraces: "更改此项会重新追踪光路",
+      reset: "重置",
+      copied: "已复制 ✓",
+      shareLink: "分享链接",
+      retraceNote: "会重新追踪光路：先显示即时预览，再呈现完整分辨率。",
+      groups: {
+        "Black hole": "黑洞",
+        Camera: "相机",
+        Disc: "吸积盘",
+        Gas: "气体",
+        Sky: "天空",
+        Quality: "画质",
+        Fall: "坠落",
+        Light: "光线",
+        Wormhole: "虫洞",
+        Skies: "星空",
+        Ship: "飞船",
+        Relativity: "相对论",
+        Stars: "恒星",
+        Output: "输出",
+      },
+    },
+    simulation: {
+      play: "播放（空格键）",
+      pause: "暂停（空格键）",
+      fullscreen: "全屏（F）",
+      snapshot: "以渲染分辨率保存 PNG 截图（P）",
+      learn: "讲解",
+      controls: "控制",
+      fps: (fps) => `${fps} fps`,
+      starting: "启动中…",
+      paused: "已暂停",
+      noWebGl: "此模拟需要支持浮点渲染目标的 WebGL 2",
+      noWebGlHint: "请尝试使用较新版本的 Chrome、Edge、Firefox 或 Safari，并开启硬件加速。",
+      lost: "3D 视图已停止",
+      lostMessage: "浏览器停止了 3D 视图，很可能是因为显存不足。",
+      lostHint: "请刷新页面重试。在“输出”中降低渲染分辨率或星图精细度也会有帮助。",
+      skyLoading: (size) => `正在加载 ${size}² 星图…`,
+      skyProgress: (size, percent) => `正在加载 ${size}² 星图… ${percent}%`,
+      skyFailed: (size) => `星图加载失败（${size}）`,
+    },
+    readouts: {
+      blackhole: {
+        horizon: "事件视界 r₊",
+        isco: (prograde) => `ISCO（${prograde ? "顺行" : "逆行"}）`,
+        photonOrbit: "光子轨道",
+        horizonSpin: "视界角速度 Ω_H",
+        cameraClock: "相机时钟速率",
+        cameraClockValue: (rate) => `${rate} × 远处时钟`,
+        tracing: (percent) => `正在追踪测地线 ${percent}%`,
+        traced: "光线映射图已完成",
+      },
+      infall: {
+        radius: "半径",
+        radiusValue: (m, horizons) => `${m} M · ${horizons} × 视界`,
+        where: "位置",
+        outside: "视界之外",
+        inside: "视界之内",
+        thrust: "悬停所需火箭推力",
+        clock: "你的时钟速率",
+        clockValue: (rate) => `${rate} × 远处`,
+        timeLeft: "你到达奇点的剩余时间",
+        tidal: "你身体承受的潮汐拉伸",
+        days: (n) => `${n} 天`,
+        integrating: (percent) => `正在积分光路 ${percent}%`,
+        ready: "光路已就绪",
+      },
+      wormhole: {
+        cameraL: "相机 l",
+        radius: "周长半径 r(l)",
+        universe: "宇宙",
+        insideThroat: "喉部之内",
+        home: "家园（银河系一侧）",
+        farSide: "另一侧",
+        lensingWidth: "透镜宽度 W",
+        throatLength: "喉部长度 2a",
+        integrating: (percent) => `正在积分测地线表 ${percent}%`,
+        ready: "测地线表已就绪",
+      },
+      lightspeed: {
+        speed: "速度",
+        doppler: "多普勒因子（前方 / 后方）",
+        shipTime: "飞船（固有）时间",
+        earthTime: "银河系（地球）时间",
+        years: (n) => `${n} 年`,
+        distance: "已飞行距离",
+        lightYears: (n) => `${n} 光年`,
+        toCentre: "距银河系中心",
+        passed: "已越过！",
+      },
+    },
+    diagrams: {
+      ray: {
+        aria: "光线在黑洞周围弯曲的示意图",
+        camera: "相机",
+        escapes: "逃向星空",
+        arches: "从上方绕过",
+        hitsDisc: "落在吸积盘上",
+        captured: "被捕获：形成阴影",
+        photonSphere: "光子球",
+      },
+      curvedSpace: {
+        aria: "被质量压出凹陷的网格，一颗卫星在凹陷中绕行",
+        caption: "质量使网格弯曲 · 卫星沿弯曲运动",
+      },
+      squeeze: {
+        aria: (body) => `${body}与其史瓦西半径的对比`,
+        realSize: (body) => `${body}的实际大小`,
+        squeezed: "半径，按对数刻度压缩",
+        toScale: "事件视界，按实际比例",
+        length: (km, format) => {
+          if (km >= 1e8) return `${format(km / 1e8, 1)} 亿公里`;
+          if (km >= 1e5) return `${format(km / 1e4, 0)} 万公里`;
+          if (km >= 100) return `${format(km, 0)} 公里`;
+          if (km >= 1) return `${format(km, 2)} 公里`;
+          if (km >= 1e-3) return `${format(km * 1e3, 1)} 米`;
+          return `${format(km * 1e6, 1)} 毫米`;
+        },
+        bodies: {
+          earth: {
+            name: "地球",
+            mass: "1个地球质量",
+            verdict: "把整个地球压缩到一颗弹珠大小。",
+          },
+          sun: {
+            name: "太阳",
+            mass: "1个太阳质量",
+            verdict: "把太阳压缩成一个直径6公里的球，大约一座小镇那么大。",
+          },
+          sgr: {
+            name: "人马座 A*",
+            mass: "430万个太阳质量",
+            compareLabel: "水星轨道",
+            verdict: "银河系中心的黑洞可以轻松装进水星轨道之内。",
+          },
+          m87: {
+            name: "M87*",
+            mass: "65亿个太阳质量",
+            compareLabel: "冥王星轨道",
+            verdict: "人类拍摄到的第一个黑洞：它的视界宽度是冥王星轨道的三倍。",
+          },
+        },
+      },
+      collapse: {
+        aria: "一颗大质量恒星坍缩，爆发为超新星，并留下一个黑洞",
+        stages: [
+          "大质量恒星",
+          "核心坍缩",
+          "超新星",
+          "黑洞",
+        ],
+      },
+      river: {
+        aria: "空间像河流一样流入黑洞，光朝外发射",
+        photons: [
+          "缓慢逃离",
+          "停滞不前",
+          "被卷向内部",
+        ],
+        horizon: "事件视界",
+        flow: "← 空间向内流动，越来越快",
+        centre: "中心",
+        farAway: "远处 →",
+      },
+      photonSphere: {
+        aria: "光线在黑洞周围弯曲；有的被捕获，有一条绕黑洞环行",
+        critical: "临界距离 · 2.6",
+        fromFar: "来自远处的光 →",
+        sphere: "光子球 · 1.5",
+        horizon: "视界",
+        rays: "光线：",
+        escape: "逃逸",
+        loop: "环绕",
+        captured: "被捕获",
+      },
+      accretion: {
+        aria: "吸积盘：内圈比外圈转得更快；ISCO 以内的气体会落入黑洞",
+        isco: "ISCO · 内边缘，3",
+        outer: "外侧气体 · 慢，较冷",
+        inner: "内侧气体 · 快，数百万度",
+      },
+      lensing: {
+        aria: "黑洞周围的吸积盘，分别为没有和有引力透镜时的样子",
+        withGravity: "有引力",
+        withoutGravity: "无引力",
+        farSide1: "吸积盘的背面，",
+        farSide2: "被弯折到上方",
+        below: "背面，从下方可见",
+      },
+      spin: {
+        aria: "旋转黑洞的剖面图，显示视界、能层和吸积盘的内边缘",
+        spin: "自旋 a/M",
+        spinAria: "黑洞自旋",
+        withSpin: "吸积盘顺自旋绕行",
+        againstSpin: "吸积盘逆自旋绕行",
+        isco: "ISCO",
+        legend: "能层（虚线）· 视界（黑色）",
+        axis: "自旋轴",
+        horizon: "视界 r₊",
+        iscoWith: "ISCO，顺自旋",
+        iscoAgainst: "ISCO，逆自旋",
+        efficiency: "质量转化为光的比例",
+        open: (spin) => `以自旋 ${spin} 打开模拟 →`,
+      },
+      tides: {
+        aria: "宇航员坠入小黑洞时被拉长，坠入超大质量黑洞时则不会",
+        small: "10个太阳质量",
+        smallHorizon: "视界 30 公里",
+        large: "人马座 A*",
+        largeHorizon: "视界 1300 万公里",
+      },
+      hawking: {
+        aria: "黑洞视界附近的粒子对；每对中的一个以霍金辐射的形式逃逸",
+        escapes: "逃逸 · 霍金辐射",
+        fallsIn: "落入 · 黑洞损失质量",
+      },
+    },
+  },
+};

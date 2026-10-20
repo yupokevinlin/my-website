@@ -2,6 +2,7 @@ import React from "react";
 import { MotionValue, motion, useTransform } from "framer-motion";
 import { useDiagramClock } from "../motion";
 import { C, LABEL, seeded } from "./shared";
+import { useGuideText } from "../useGuide";
 
 // Lesson 11: the popular picture of Hawking radiation. Pairs of particles
 // appear just outside the horizon; one falls in, the other escapes.
@@ -35,9 +36,10 @@ const Pair: React.FC<{ t: MotionValue<number>; angle: number; delay: number }> =
 };
 
 const HawkingDiagram: React.FC = () => {
+  const text = useGuideText().diagrams.hawking;
   const { ref, t } = useDiagramClock();
   return (
-    <svg ref={ref} viewBox="0 0 600 300" className="w-full h-auto" role="img" aria-label="Particle pairs near a black hole's horizon; one of each pair escapes as Hawking radiation">
+    <svg ref={ref} viewBox="0 0 600 300" className="w-full h-auto" role="img" aria-label={text.aria}>
       <defs>
         <radialGradient id="hw-glow" cx={CX} cy={CY} r="140" gradientUnits="userSpaceOnUse">
           <stop offset="0.4" stopColor="#ffd9a0" stopOpacity="0.12"/>
@@ -49,8 +51,8 @@ const HawkingDiagram: React.FC = () => {
         <Pair key={p.angle} t={t} angle={p.angle} delay={p.delay}/>
       ))}
       <circle cx={CX} cy={CY} r={R} fill="#000" stroke={C.hot} strokeOpacity="0.35"/>
-      <text x="584" y="40" textAnchor="end" className={LABEL} fontSize="11" fill={C.hot}>escapes · Hawking radiation</text>
-      <text x="16" y="284" className={LABEL} fontSize="11" fill="#8f9bd6">falls in · the hole loses mass</text>
+      <text x="584" y="40" textAnchor="end" className={LABEL} fontSize="11" fill={C.hot}>{text.escapes}</text>
+      <text x="16" y="284" className={LABEL} fontSize="11" fill="#8f9bd6">{text.fallsIn}</text>
     </svg>
   );
 };

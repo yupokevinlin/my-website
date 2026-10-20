@@ -16,7 +16,7 @@
 import type { Engine } from "../gl/engine";
 import { FBO, Program, bindFBO, createFBO, deleteFBO } from "../gl/gl";
 import { SKY_GLSL } from "../gl/sky";
-import { DEG, HudItem, Params, Simulation, SimulationDescriptor, SimStatus, bool, num, str } from "./types";
+import { DEG, HudItem, Params, Readouts, Simulation, SimulationDescriptor, SimStatus, bool, num, str } from "./types";
 import { skyRotation, yawPitch } from "./skyrot";
 
 const LUT_W = 2048; // ray angle (non-uniform, dense near the throat)
@@ -142,7 +142,7 @@ class Wormhole implements Simulation {
   private camL = 10;
   private flyPhase = 0;
 
-  constructor(private engine: Engine) {
+  constructor(private engine: Engine, private text: Readouts["wormhole"]) {
     const ctx = engine.ctx;
     const gl = ctx.gl;
     this.bake = new Program(ctx, BAKE_FS);
@@ -270,17 +270,17 @@ class Wormhole implements Simulation {
     const x = Math.max(0, (2 * (Math.abs(l) - a)) / (Math.PI * M));
     const r = 1 + M * (x * Math.atan(x) - 0.5 * Math.log(1 + x * x));
     return [
-      { label: "Camera l", value: `${l.toFixed(2)} ρ` },
-      { label: "Circumferential radius r(l)", value: `${r.toFixed(3)} ρ` },
-      { label: "Universe", value: Math.abs(l) <= a ? "Inside the throat" : l > 0 ? "Home (Milky Way side)" : "Far side" },
-      { label: "Lensing width W", value: `${(1.42953 * M).toFixed(3)} ρ` },
-      { label: "Throat length 2a", value: `${(2 * a).toFixed(2)} ρ` },
+      { label: this.text.cameraL, value: `${l.toFixed(2)} ρ` },
+      { label: this.text.radius, value: `${r.toFixed(3)} ρ` },
+      { label: this.text.universe, value: Math.abs(l) <= a ? this.text.insideThroat : l > 0 ? this.text.home : this.text.farSide },
+      { label: this.text.lensingWidth, value: `${(1.42953 * M).toFixed(3)} ρ` },
+      { label: this.text.throatLength, value: `${(2 * a).toFixed(2)} ρ` },
     ];
   }
 
   status(): SimStatus | null {
     const progress = Math.min(1, this.row / LUT_H);
-    return { progress, label: progress < 1 ? `Integrating geodesic table ${(progress * 100).toFixed(0)}%` : "Geodesic table ready" };
+    return { progress, label: progress < 1 ? this.text.integrating((progress * 100).toFixed(0)) : this.text.ready };
   }
 
   dispose() {
@@ -324,5 +324,5 @@ export const wormholeSim: SimulationDescriptor = {
     { key: "skyYawA", label: "Home sky rotation", group: "Skies", kind: "range", default: 180, min: -180, max: 180, step: 0.5, unit: "°", digits: 1 },
     { key: "skyYawB", label: "Far sky rotation", group: "Skies", kind: "range", default: 0, min: -180, max: 180, step: 0.5, unit: "°", digits: 1 },
   ],
-  create: (engine) => new Wormhole(engine),
+  create: (engine, text) => new Wormhole(engine, text.wormhole),
 };

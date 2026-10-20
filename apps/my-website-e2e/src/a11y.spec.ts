@@ -43,3 +43,20 @@ test('the phone menu has no accessibility violations and closes with Escape', as
   await page.keyboard.press('Escape');
   await expect(menu).toHaveCount(0);
 });
+
+// Every language's home page and guide overview: translated labels, accessible
+// names and the language switcher
+for (const prefix of ['/fr', '/zh-cn', '/zh-tw', '/ja']) {
+  for (const path of ['', '/ray-tracing']) {
+    test(`no accessibility violations in ${prefix}${path || ' (home)'}`, async ({ page }) => {
+      await page.setViewportSize(VIEWPORTS.desktop);
+      await page.goto(`${prefix}${path}`);
+      if (!path) {
+        await transitionsDone(page);
+        await revealAll(page);
+        await transitionsDone(page);
+      }
+      expect(await axeViolations(page)).toEqual([]);
+    });
+  }
+}

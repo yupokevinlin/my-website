@@ -2,6 +2,7 @@ import React from "react";
 import { Variants, motion } from "framer-motion";
 import { EASE } from "../motion";
 import { MONO } from "../theme";
+import { useGuideText } from "../useGuide";
 
 // Line-art figure: rays leave the camera and are bent by the black hole.
 // Some escape to the stars, some arch over the top, one hits the disc,
@@ -27,6 +28,7 @@ const appear = (delay: number): Variants => ({
 });
 
 const RayDiagram: React.FC = () => {
+  const text = useGuideText().diagrams.ray;
   const label = `${MONO} text-[11px] tracking-[0.12em] uppercase`;
   return (
     <figure className="w-full">
@@ -34,7 +36,7 @@ const RayDiagram: React.FC = () => {
         viewBox="0 0 800 380"
         className="w-full h-auto"
         role="img"
-        aria-label="Diagram of light rays bending around a black hole"
+        aria-label={text.aria}
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.4 }}
@@ -82,12 +84,12 @@ const RayDiagram: React.FC = () => {
 
         {/* labels */}
         <motion.g fill="#9a98a3" variants={appear(1.4)}>
-          <text x="70" y="235" textAnchor="middle" className={label}>camera</text>
-          <text x="776" y="56" textAnchor="end" className={label}>escapes to the stars</text>
-          <text x="600" y="100" className={label}>arches over the top</text>
-          <text x="330" y="176" className={label}>hits the disc</text>
-          <text x="508" y="246" textAnchor="end" className={label}>captured: the shadow</text>
-          <text x="628" y="246" className={label}>photon sphere</text>
+          <text x="70" y="235" textAnchor="middle" className={label}>{text.camera}</text>
+          <text x="776" y="56" textAnchor="end" className={label}>{text.escapes}</text>
+          <text x="600" y="100" className={label}>{text.arches}</text>
+          <text x="330" y="176" className={label}>{text.hitsDisc}</text>
+          <text x="508" y="246" textAnchor="end" className={label}>{text.captured}</text>
+          <text x="628" y="246" className={label}>{text.photonSphere}</text>
         </motion.g>
       </motion.svg>
     </figure>

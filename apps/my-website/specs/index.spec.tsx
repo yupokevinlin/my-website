@@ -4,7 +4,8 @@ import Page from "../pages/index";
 import V1Page from "../pages/v1";
 import { homeJsonLd, homeSeo, profile } from "../src/data/profile";
 import { earlyExperience, experience } from "../src/data/experience";
-import { formatDuration, monthsBetween, parseMonth } from "../src/v2/time";
+import { monthsBetween, parseMonth } from "../src/v2/time";
+import { EN_MESSAGES } from "../src/i18n/messages/en";
 import { skillGroups } from "../src/data/skills";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
@@ -110,7 +111,8 @@ describe("Experience data", () => {
   });
 
   it("formats durations like LinkedIn", () => {
-    expect([1, 5, 12, 31, 62].map(formatDuration)).toEqual(["1 mo", "5 mos", "1 yr", "2 yrs 7 mos", "5 yrs 2 mos"]);
+    const { duration } = EN_MESSAGES.home.experience;
+    expect([1, 5, 12, 31, 62].map((months) => duration(Math.floor(months / 12), months % 12))).toEqual(["1 mo", "5 mos", "1 yr", "2 yrs 7 mos", "5 yrs 2 mos"]);
     expect(() => parseMonth("March 2024")).toThrow();
   });
 });

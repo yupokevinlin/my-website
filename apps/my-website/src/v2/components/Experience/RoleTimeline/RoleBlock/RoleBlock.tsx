@@ -1,6 +1,7 @@
 import { type ReactNode, useState } from "react";
 import clsx from "clsx";
 import type { Role } from "../../../../../data/experience";
+import { useLocale, useMessages } from "../../../../../i18n/LocaleContext";
 import { roleSpan } from "../../dates";
 import { Collapse } from "../../../Collapse/Collapse";
 import { ChevronDownIcon } from "../../../icons/ChevronDownIcon/ChevronDownIcon";
@@ -16,7 +17,9 @@ export interface RoleBlockProps {
 // A current role shows all of its results.
 export const RoleBlock = ({ role, id }: RoleBlockProps): ReactNode => {
   const [open, setOpen] = useState(false);
-  const { range, duration } = roleSpan(role);
+  const locale = useLocale();
+  const messages = useMessages();
+  const { range, duration } = roleSpan(role, locale, messages);
   const current = role.end === "Present";
   return (
     <div>
@@ -33,7 +36,7 @@ export const RoleBlock = ({ role, id }: RoleBlockProps): ReactNode => {
             onClick={() => setOpen((value) => !value)}
             className="mt-3 inline-flex cursor-pointer items-center gap-1 rounded-md text-[14px] font-semibold text-[var(--v2-accent)] hover:underline"
           >
-            {open ? "Show less" : `Show ${role.more.length} more`}
+            {open ? messages.home.experience.showLess : messages.home.experience.showMore(role.more.length)}
             <ChevronDownIcon width={16} height={16} className={clsx("transition-transform duration-300", open && "rotate-180")}/>
           </button>
         </>
