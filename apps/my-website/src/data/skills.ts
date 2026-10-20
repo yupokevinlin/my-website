@@ -97,7 +97,7 @@ export const skillGroups: SkillGroup[] = [
     rows: [{
       skills: [
         s("AWS", "aws.svg"), s("Azure", "azure.svg"), s("Google Cloud", "google-cloud.svg"), s("Firebase", "firebase.svg"),
-        s("Docker", "docker.svg"), s("Kubernetes", "kubernetes.svg"), s("OpenShift", "openshift.svg"), s("Terraform", "terraform.svg"),
+        s("Docker", "docker-mark.svg"), s("Kubernetes", "kubernetes.svg"), s("OpenShift", "openshift.svg"), s("Terraform", "terraform.svg"),
         s("GitHub Actions", "github-actions.svg"), s("Jenkins", "jenkins.svg"), s("Nginx", "nginx-mark.svg"),
       ],
     }],

@@ -72,7 +72,7 @@ export const TopBar = (): ReactNode => {
         "sticky top-0 z-40 border-b backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300",
         scrolled || menuOpen
           ? "border-[var(--v2-line)] bg-[color-mix(in_srgb,var(--v2-page)_92%,transparent)] shadow-[0_6px_24px_-18px_var(--v2-deep)]"
-          : "border-white/40 bg-[color-mix(in_srgb,var(--v2-page)_80%,transparent)]",
+          : "border-transparent bg-[color-mix(in_srgb,var(--v2-page)_80%,transparent)]",
       )}
     >
       <div className="mx-auto flex h-16 max-w-[1200px] items-center gap-3 px-4 sm:gap-5 md:px-8">
