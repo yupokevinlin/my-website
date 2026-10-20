@@ -17,7 +17,7 @@ import type { Engine } from "../gl/engine";
 import { FBO, Program, bindFBO, createFBO, deleteFBO } from "../gl/gl";
 import { SKY_GLSL } from "../gl/sky";
 import { SPECTRUM_GLSL } from "../gl/spectrum";
-import { DEG, HudItem, Params, Simulation, SimulationDescriptor, SimStatus, bool, num, str } from "./types";
+import { DEG, HudItem, Params, Readouts, Simulation, SimulationDescriptor, SimStatus, bool, num, str } from "./types";
 import { horizonOmega, horizonRadius, iscoRadius, kerrCamera, photonOrbitRadius } from "./kerr";
 import { skyRotation } from "./skyrot";
 
@@ -442,7 +442,7 @@ class BlackHole implements Simulation {
   private discTime = 0;
   private camLapse = 1;
 
-  constructor(private engine: Engine) {
+  constructor(private engine: Engine, private text: Readouts["blackhole"]) {
     const ctx = engine.ctx;
     const gl = ctx.gl;
     this.bake = new Program(ctx, BAKE_FS);
@@ -620,11 +620,11 @@ class BlackHole implements Simulation {
     const a = num(p, "spin");
     const s = str(p, "discDir") === "retro" ? -1 : 1;
     return [
-      { label: "Event horizon r₊", value: `${horizonRadius(a).toFixed(3)} M` },
-      { label: `ISCO (${s > 0 ? "prograde" : "retrograde"})`, value: `${iscoRadius(a, s as 1 | -1).toFixed(3)} M` },
-      { label: "Photon orbit", value: `${photonOrbitRadius(a, s as 1 | -1).toFixed(3)} M` },
-      { label: "Horizon spin Ω_H", value: `${horizonOmega(a).toFixed(4)} c³/GM` },
-      { label: "Camera clock rate", value: `${this.camLapse.toFixed(4)} × distant clock` },
+      { label: this.text.horizon, value: `${horizonRadius(a).toFixed(3)} M` },
+      { label: this.text.isco(s > 0), value: `${iscoRadius(a, s as 1 | -1).toFixed(3)} M` },
+      { label: this.text.photonOrbit, value: `${photonOrbitRadius(a, s as 1 | -1).toFixed(3)} M` },
+      { label: this.text.horizonSpin, value: `${horizonOmega(a).toFixed(4)} c³/GM` },
+      { label: this.text.cameraClock, value: this.text.cameraClockValue(this.camLapse.toFixed(4)) },
     ];
   }
 
@@ -632,7 +632,7 @@ class BlackHole implements Simulation {
     const n = this.tiles.length;
     if (!n) return null;
     const progress = this.tileIdx / n;
-    return { progress, label: progress < 1 ? `Tracing geodesics ${(progress * 100).toFixed(0)}%` : "Ray map complete" };
+    return { progress, label: progress < 1 ? this.text.tracing((progress * 100).toFixed(0)) : this.text.traced };
   }
 
   dispose() {
@@ -695,5 +695,5 @@ export const blackholeSim: SimulationDescriptor = {
     },
   ],
   globalDefaults: { bloom: 0.1 },
-  create: (engine) => new BlackHole(engine),
+  create: (engine, text) => new BlackHole(engine, text.blackhole),
 };

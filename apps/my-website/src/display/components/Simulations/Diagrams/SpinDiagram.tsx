@@ -3,6 +3,8 @@ import clsx from "clsx";
 import { MotionValue, motion, useSpring, useTransform } from "framer-motion";
 import { horizonRadius, iscoRadius } from "../../../../simulations/sims/kerr";
 import { presetHref } from "../content";
+import { useGuideText } from "../useGuide";
+import { useLocale } from "../../../../i18n/LocaleContext";
 import { MONO, SANS } from "../theme";
 import { useDiagramClock } from "../motion";
 import { C, LABEL, f1 } from "./shared";
@@ -31,6 +33,8 @@ const ergoPath = (a: number): string => {
 const efficiency = (r: number): number => 1 - Math.sqrt(1 - 2 / (3 * r));
 
 const SpinDiagram: React.FC = () => {
+  const text = useGuideText().diagrams.spin;
+  const locale = useLocale();
   const [spin, setSpin] = useState<number>(0.215);
   const { ref, t } = useDiagramClock();
   const a = useSpring(spin, { stiffness: 120, damping: 22 });
@@ -50,16 +54,16 @@ const SpinDiagram: React.FC = () => {
 
   const proIsco = iscoRadius(spin, 1);
   const stats: Array<[string, string]> = [
-    ["Horizon r₊", `${horizonRadius(spin).toFixed(3)} M`],
-    ["ISCO, with the spin", `${proIsco.toFixed(2)} M`],
-    ["ISCO, against it", `${iscoRadius(spin, -1).toFixed(2)} M`],
-    ["Mass turned into light", `${(efficiency(proIsco) * 100).toFixed(1)}%`],
+    [text.horizon, `${horizonRadius(spin).toFixed(3)} M`],
+    [text.iscoWith, `${proIsco.toFixed(2)} M`],
+    [text.iscoAgainst, `${iscoRadius(spin, -1).toFixed(2)} M`],
+    [text.efficiency, `${(efficiency(proIsco) * 100).toFixed(1)}%`],
   ];
 
   return (
     <div>
       <label className={clsx(SANS, "flex flex-wrap items-center gap-x-[14px] gap-y-[6px] text-[13px]")} style={{ color: C.muted }}>
-        <span>Spin a/M</span>
+        <span>{text.spin}</span>
         <input
           type="range"
           min={0}
@@ -69,11 +73,11 @@ const SpinDiagram: React.FC = () => {
           onChange={(e) => setSpin(Number(e.target.value))}
           className="flex-1 min-w-[160px] cursor-pointer"
           style={{ accentColor: C.accent }}
-          aria-label="Black hole spin"
+          aria-label={text.spinAria}
         />
         <span className={clsx(MONO, "w-[52px] text-right tabular-nums text-[15px]")} style={{ color: C.accent }}>{spin.toFixed(3)}</span>
       </label>
-      <svg ref={ref} viewBox="0 0 640 300" className="mt-[10px] w-full h-auto" role="img" aria-label="Slice through a spinning black hole showing the horizon, ergosphere and inner disc edges">
+      <svg ref={ref} viewBox="0 0 640 300" className="mt-[10px] w-full h-auto" role="img" aria-label={text.aria}>
         <defs>
           <linearGradient id="sp-pro" x1="0" x2="1">
             <stop offset="0" stopColor={C.hot}/>
@@ -96,12 +100,12 @@ const SpinDiagram: React.FC = () => {
           <DragDot key={phase} drag={drag} phase={phase}/>
         ))}
 
-        <text x="620" y={CY - 16} textAnchor="end" className={LABEL} fontSize="11" fill={C.text}>disc orbiting with the spin</text>
-        <text x="20" y={CY - 16} className={LABEL} fontSize="11" fill={C.text}>disc orbiting against it</text>
-        <motion.text x={proEdge} y={CY + 28} textAnchor="middle" className={LABEL} fontSize="10" fill={C.light}>ISCO</motion.text>
-        <motion.text x={retroEdge} y={CY + 28} textAnchor="middle" className={LABEL} fontSize="10" fill={C.light}>ISCO</motion.text>
-        <text x={CX} y="290" textAnchor="middle" className={LABEL} fontSize="11" fill={C.accent}>ergosphere (dashed) · horizon (black)</text>
-        <text x={CX} y="16" textAnchor="middle" className={LABEL} fontSize="10" fill={C.faint}>spin axis</text>
+        <text x="620" y={CY - 16} textAnchor="end" className={LABEL} fontSize="11" fill={C.text}>{text.withSpin}</text>
+        <text x="20" y={CY - 16} className={LABEL} fontSize="11" fill={C.text}>{text.againstSpin}</text>
+        <motion.text x={proEdge} y={CY + 28} textAnchor="middle" className={LABEL} fontSize="10" fill={C.light}>{text.isco}</motion.text>
+        <motion.text x={retroEdge} y={CY + 28} textAnchor="middle" className={LABEL} fontSize="10" fill={C.light}>{text.isco}</motion.text>
+        <text x={CX} y="290" textAnchor="middle" className={LABEL} fontSize="11" fill={C.accent}>{text.legend}</text>
+        <text x={CX} y="16" textAnchor="middle" className={LABEL} fontSize="10" fill={C.faint}>{text.axis}</text>
       </svg>
       <dl className="mt-[8px] grid grid-cols-2 gap-x-[18px] gap-y-[6px] sm:grid-cols-4">
         {stats.map(([k, v]) => (
@@ -112,11 +116,11 @@ const SpinDiagram: React.FC = () => {
         ))}
       </dl>
       <a
-        href={presetHref("blackhole", { spin: Number(spin.toFixed(3)) })}
+        href={presetHref("blackhole", { spin: Number(spin.toFixed(3)) }, locale)}
         className={clsx(SANS, "link-base mt-[12px] inline-block text-[13.5px] underline underline-offset-[3px]")}
         style={{ color: C.accent }}
       >
-        Open the simulation at spin {spin.toFixed(3)} →
+        {text.open(spin.toFixed(3))}
       </a>
     </div>
   );

@@ -305,3 +305,154 @@
   .content-font-body.font-weight-semibold { font-weight: 500 !important; }
   .content-font-link.font-weight-medium   { font-weight: 400 !important; }
 }
+
+/* ─── v2 home page ("/") ────────────────────────────────────────── */
+/* Registered so a season switch eases the colours instead of jumping */
+@property --v2-accent        { syntax: "<color>"; inherits: true; initial-value: #306596; }
+@property --v2-accent-strong { syntax: "<color>"; inherits: true; initial-value: #2c5e8b; }
+@property --v2-bright        { syntax: "<color>"; inherits: true; initial-value: #4a8bc4; }
+@property --v2-page          { syntax: "<color>"; inherits: true; initial-value: #e3edf7; }
+@property --v2-wash          { syntax: "<color>"; inherits: true; initial-value: #d3e2f1; }
+@property --v2-tint          { syntax: "<color>"; inherits: true; initial-value: #c6daee; }
+@property --v2-chip          { syntax: "<color>"; inherits: true; initial-value: #eef4fa; }
+@property --v2-line          { syntax: "<color>"; inherits: true; initial-value: #c2d4e6; }
+@property --v2-deep          { syntax: "<color>"; inherits: true; initial-value: #1d3b59; }
+@property --v2-icon-bg       { syntax: "<color>"; inherits: true; initial-value: #4e8ec7; }
+@property --v2-icon-fg       { syntax: "<color>"; inherits: true; initial-value: #ffffff; }
+
+@layer base {
+  /* The v2 home page scrolls the document itself; /v1 and the ray-tracing  */
+  /* pages keep their own scroll containers. html.v2-page (set by HomePage) */
+  /* covers browsers without :has().                                        */
+  html:has(.v2) #__next,
+  html.v2-page #__next {
+    width: auto; /* 100vw would add the scroll bar's width and scroll sideways */
+    height: auto;
+    max-height: none;
+    min-height: 100vh;
+    overflow: visible;
+  }
+  html:has(.v2),
+  html.v2-page {
+    scroll-behavior: smooth;
+    scroll-padding-top: 4rem; /* the top bar's height, so a section starts right below it */
+    /* The native scroll bar is hidden; PageScrollbar draws the site's own */
+    scrollbar-width: none;
+  }
+  html:has(.v2)::-webkit-scrollbar,
+  html.v2-page::-webkit-scrollbar { display: none; }
+
+  /* Season colours. html[data-season] is set before the first paint by the  */
+  /* script in _document.tsx; winter is the fallback. The page, wash, tint   */
+  /* and chip backgrounds carry the season; cards stay white. Accent text is */
+  /* at least 4.5:1 on all of them, and white is on accent-strong and deep.  */
+  /* Bright is for decoration only (dots, lines, borders), never text.       */
+  .v2 {
+    --v2-accent:        #306596;
+    --v2-accent-strong: #2c5e8b;
+    --v2-bright:        #4a8bc4;
+    --v2-page:          #e3edf7;
+    --v2-wash:          #d3e2f1;
+    --v2-tint:          #c6daee;
+    --v2-chip:          #eef4fa;
+    --v2-line:          #c2d4e6;
+    --v2-deep:          #1d3b59;
+    --v2-ink:           #161b22;
+    --v2-body:          #39424e;
+    --v2-muted:         #505a67;
+    /* The section icons, in the season icons' colours */
+    --v2-icon-bg:       #4e8ec7;
+    --v2-icon-fg:       #ffffff;
+    font-family: var(--font-v2-sans), var(--font-cjk), system-ui, sans-serif;
+    color: var(--v2-ink);
+    background-color: var(--v2-page);
+    transition-property: --v2-accent, --v2-accent-strong, --v2-bright, --v2-page, --v2-wash, --v2-tint, --v2-chip, --v2-line, --v2-deep, --v2-icon-bg, --v2-icon-fg;
+    transition-duration: 0.7s;
+    transition-timing-function: ease;
+  }
+  html[data-season="spring"] .v2 {
+    --v2-accent: #3f6f26; --v2-accent-strong: #3a6623; --v2-bright: #5a9a36;
+    --v2-page: #e8f2df; --v2-wash: #d6e9c6; --v2-tint: #c8e1b2; --v2-chip: #f1f7ea; --v2-line: #c4dbae; --v2-deep: #26491a;
+    --v2-icon-bg: #569935; --v2-icon-fg: #ffffff;
+  }
+  html[data-season="summer"] .v2 {
+    --v2-accent: #17325e; --v2-accent-strong: #17325e; --v2-bright: #4d6fae;
+    --v2-page: #e3e7f5; --v2-wash: #d3d9ef; --v2-tint: #c5cdea; --v2-chip: #eef0f9; --v2-line: #c3cbe6; --v2-deep: #111a30;
+    --v2-icon-bg: #17325e; --v2-icon-fg: #ffffff;
+  }
+  html[data-season="autumn"] .v2 {
+    --v2-accent: #984510; --v2-accent-strong: #8c3f0f; --v2-bright: #d8661a;
+    --v2-page: #f9e9d6; --v2-wash: #f2d9bb; --v2-tint: #ecc9a0; --v2-chip: #fcf3e8; --v2-line: #e3c49f; --v2-deep: #582609;
+    --v2-icon-bg: #e97325; --v2-icon-fg: #f9d44e;
+  }
+
+  /* Only the current season's scenes, labels and icons show; the scenes   */
+  /* crossfade. The other pictures wait for html.v2-scenes-ready (after the */
+  /* page has loaded).                                                      */
+  .v2-scene-layer  { opacity: 0; transition: opacity 0.8s ease; background-image: var(--v2-sky); }
+  html.v2-scenes-ready .v2-scene-layer { background-image: var(--v2-scene); }
+  /* Keyboard focus, as on the original site: a 2px dashed outline in the */
+  /* season's accent. An element over the scene can swap the colour.      */
+  .v2 :focus-visible { outline: 2px dashed var(--v2-accent); outline-offset: 2px; }
+
+  .v2-season-only  { display: none; }
+  html:not([data-season]) .v2-scene-layer[data-season="winter"],
+  html[data-season="winter"] .v2-scene-layer[data-season="winter"],
+  html[data-season="spring"] .v2-scene-layer[data-season="spring"],
+  html[data-season="summer"] .v2-scene-layer[data-season="summer"],
+  html[data-season="autumn"] .v2-scene-layer[data-season="autumn"] { opacity: 1; background-image: var(--v2-scene); }
+  html:not([data-season]) .v2-season-only[data-season="winter"],
+  html[data-season="winter"] .v2-season-only[data-season="winter"],
+  html[data-season="spring"] .v2-season-only[data-season="spring"],
+  html[data-season="summer"] .v2-season-only[data-season="summer"],
+  html[data-season="autumn"] .v2-season-only[data-season="autumn"] { display: inline-block; }
+
+  /* The season switch: one ring that slides to the current season. Each */
+  /* button is 2rem wide with a 0.25rem gap, in SEASONS order.           */
+  .v2-season-btn  { opacity: 0.55; }
+  .v2-season-ring { transform: translateX(6.75rem); transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+  html[data-season="spring"] .v2-season-ring { transform: translateX(0); }
+  html[data-season="summer"] .v2-season-ring { transform: translateX(2.25rem); }
+  html[data-season="autumn"] .v2-season-ring { transform: translateX(4.5rem); }
+  html:not([data-season]) .v2-season-btn[data-season="winter"],
+  html[data-season="winter"] .v2-season-btn[data-season="winter"],
+  html[data-season="spring"] .v2-season-btn[data-season="spring"],
+  html[data-season="summer"] .v2-season-btn[data-season="summer"],
+  html[data-season="autumn"] .v2-season-btn[data-season="autumn"] { opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html:has(.v2), html.v2-page { scroll-behavior: auto; }
+    .v2, .v2-scene-layer, .v2-season-ring { transition: none; }
+  }
+}
+
+/* ─── Chinese and Japanese ──────────────────────────────────────── */
+/* Inter, Roboto and the guide's serif and mono fonts have no CJK glyphs, so */
+/* each font list takes --font-cjk right after its Latin font: the system   */
+/* fonts for the page's language (html lang, set per page in _document).    */
+/* Elsewhere it names a font that doesn't exist, so the browser skips it    */
+/* and English pages render as before.                                     */
+:root {
+  --font-cjk: "no-cjk-font";
+}
+html:lang(zh-CN) {
+  --font-cjk: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC";
+}
+html:lang(zh-TW) {
+  --font-cjk: "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", "Noto Sans CJK TC", "Source Han Sans TC";
+}
+html:lang(ja) {
+  --font-cjk: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", "Meiryo", "Noto Sans JP", "Noto Sans CJK JP";
+}
+/* Not in a layer, so these win over Tailwind's utilities: the guide's body */
+/* text, wide tracking on small capitals (meant for Latin letters), and     */
+/* italics, which CJK fonts can only fake by slanting                       */
+html:is(:lang(zh-CN), :lang(zh-TW), :lang(ja)) body {
+  font-family: var(--font-roboto), var(--font-cjk), sans-serif;
+}
+html:is(:lang(zh-CN), :lang(zh-TW), :lang(ja)) .uppercase {
+  letter-spacing: 0.04em;
+}
+html:is(:lang(zh-CN), :lang(zh-TW), :lang(ja)) .italic {
+  font-style: normal;
+}

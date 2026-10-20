@@ -1,10 +1,307 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Every public page. Set <lastmod> to the date a page's content last changed. -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://kevinyupolin.dev/</loc><lastmod>2026-10-16</lastmod></url>
-  <url><loc>https://kevinyupolin.dev/ray-tracing</loc><lastmod>2026-10-15</lastmod></url>
-  <url><loc>https://kevinyupolin.dev/ray-tracing/blackhole</loc><lastmod>2026-10-15</lastmod></url>
-  <url><loc>https://kevinyupolin.dev/ray-tracing/infall</loc><lastmod>2026-10-15</lastmod></url>
-  <url><loc>https://kevinyupolin.dev/ray-tracing/wormhole</loc><lastmod>2026-10-15</lastmod></url>
-  <url><loc>https://kevinyupolin.dev/ray-tracing/lightspeed</loc><lastmod>2026-10-15</lastmod></url>
+<!-- Every public page, in every language (src/i18n/locales.ts). Each entry lists all its
+     languages as xhtml:link alternates, so search engines show each visitor their own.
+     Set <lastmod> to the date a page's content last changed, in every language;
+     specs/i18n.spec.ts checks every page and language is here. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://kevinyupolin.dev/</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/fr</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/zh-cn</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/zh-tw</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/ja</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/ray-tracing</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/fr/ray-tracing</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/zh-cn/ray-tracing</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/zh-tw/ray-tracing</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/ja/ray-tracing</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/ray-tracing/blackhole</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/blackhole"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/fr/ray-tracing/blackhole</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/blackhole"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/zh-cn/ray-tracing/blackhole</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/blackhole"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/zh-tw/ray-tracing/blackhole</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/blackhole"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/ja/ray-tracing/blackhole</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/blackhole"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/blackhole"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/ray-tracing/infall</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/infall"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/fr/ray-tracing/infall</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/infall"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/zh-cn/ray-tracing/infall</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/infall"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/zh-tw/ray-tracing/infall</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/infall"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/ja/ray-tracing/infall</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/infall"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/infall"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/ray-tracing/wormhole</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/wormhole"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/fr/ray-tracing/wormhole</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/wormhole"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/zh-cn/ray-tracing/wormhole</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/wormhole"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/zh-tw/ray-tracing/wormhole</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/wormhole"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/ja/ray-tracing/wormhole</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/wormhole"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/wormhole"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/ray-tracing/lightspeed</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/lightspeed"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/fr/ray-tracing/lightspeed</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/lightspeed"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/zh-cn/ray-tracing/lightspeed</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/lightspeed"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/zh-tw/ray-tracing/lightspeed</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/lightspeed"/>
+  </url>
+  <url>
+    <loc>https://kevinyupolin.dev/ja/ray-tracing/lightspeed</loc>
+    <lastmod>2026-10-19</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kevinyupolin.dev/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://kevinyupolin.dev/fr/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://kevinyupolin.dev/zh-cn/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="zh-TW" href="https://kevinyupolin.dev/zh-tw/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://kevinyupolin.dev/ja/ray-tracing/lightspeed"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kevinyupolin.dev/ray-tracing/lightspeed"/>
+  </url>
 </urlset>

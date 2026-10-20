@@ -22,7 +22,7 @@ import { Program, bindFBO } from "../gl/gl";
 import { SKY_GLSL } from "../gl/sky";
 import { SPECTRUM_GLSL, blackbodyRGB } from "../gl/spectrum";
 import { DOPPLER_GLSL, STARFIELD_GLSL } from "../gl/doppler";
-import { HudItem, Params, Simulation, SimulationDescriptor, bool, num, str } from "./types";
+import { HudItem, Params, Readouts, Simulation, SimulationDescriptor, bool, num, str } from "./types";
 import { skyRotation, yawPitch } from "./skyrot";
 
 const LY_PER_YEAR_PER_G = 1.0323; // 1 g in ly / yr^2 (c = 1)
@@ -95,7 +95,7 @@ class LightSpeed implements Simulation {
   private eta = 0;
   private drive = "";
 
-  constructor(private engine: Engine) {
+  constructor(private engine: Engine, private text: Readouts["lightspeed"]) {
     this.prog = new Program(engine.ctx, FS);
   }
 
@@ -167,14 +167,15 @@ class LightSpeed implements Simulation {
     const eta = this.eta;
     const fwd = Math.exp(eta), back = Math.exp(-eta);
     const remaining = GALACTIC_CENTRE_LY - this.dist;
-    const yr = (y: number) => (y < 1e4 ? `${y.toFixed(2)} yr` : `${y.toExponential(3)} yr`);
+    const t = this.text;
+    const yr = (y: number) => t.years(y < 1e4 ? y.toFixed(2) : y.toExponential(3));
     return [
-      { label: "Speed", value: formatSpeed(eta) },
-      { label: "Doppler ahead / behind", value: `${fwd < 1e3 ? fwd.toFixed(2) : fwd.toExponential(2)}× / ${back.toPrecision(3)}×` },
-      { label: "Ship (proper) time", value: yr(this.tau) },
-      { label: "Galaxy (Earth) time", value: yr(this.earth) },
-      { label: "Distance travelled", value: `${this.dist < 1e4 ? this.dist.toFixed(2) : this.dist.toExponential(3)} ly` },
-      { label: "To galactic centre", value: remaining > 0 ? `${remaining.toFixed(0)} ly` : "Passed!" },
+      { label: t.speed, value: formatSpeed(eta) },
+      { label: t.doppler, value: `${fwd < 1e3 ? fwd.toFixed(2) : fwd.toExponential(2)}× / ${back.toPrecision(3)}×` },
+      { label: t.shipTime, value: yr(this.tau) },
+      { label: t.earthTime, value: yr(this.earth) },
+      { label: t.distance, value: t.lightYears(this.dist < 1e4 ? this.dist.toFixed(2) : this.dist.toExponential(3)) },
+      { label: t.toCentre, value: remaining > 0 ? t.lightYears(remaining.toFixed(0)) : t.passed },
     ];
   }
 
@@ -217,5 +218,5 @@ export const lightspeedSim: SimulationDescriptor = {
     },
     { key: "skyGain", label: "Sky brightness", group: "Sky", kind: "range", default: 4, min: 0, max: 20, step: 0.05, digits: 2 },
   ],
-  create: (engine) => new LightSpeed(engine),
+  create: (engine, text) => new LightSpeed(engine, text.lightspeed),
 };

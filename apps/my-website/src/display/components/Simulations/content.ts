@@ -1,7 +1,9 @@
 import type { Params } from "../../../simulations/sims/types";
+import { localePath, type Locale } from "../../../i18n/locales";
 
 // Educational copy for the /ray-tracing pages, shared by the overview essay
-// and each simulation's Learn tab.
+// and each simulation's Learn tab. This is the English; translations are
+// overlays in src/i18n/content/rayTracing/, read through useGuide.ts.
 
 export type SimId = "blackhole" | "infall" | "wormhole" | "lightspeed";
 
@@ -25,7 +27,6 @@ export interface Equation {
 export interface Chapter {
   id: SimId;
   numeral: string;
-  kicker: string;
   field: string;
   title: string;
   subtitle: string;
@@ -41,7 +42,6 @@ export const CHAPTERS: Array<Chapter> = [
   {
     id: "blackhole",
     numeral: "I",
-    kicker: "Simulation I · General relativity",
     field: "General relativity",
     title: "The Black Hole",
     subtitle: "A star's worth of mass, folded so tightly that not even light escapes.",
@@ -74,7 +74,6 @@ export const CHAPTERS: Array<Chapter> = [
   {
     id: "infall",
     numeral: "II",
-    kicker: "Simulation II · General relativity",
     field: "General relativity",
     title: "Into the Black Hole",
     subtitle: "What you would really see on a one-way trip through the event horizon.",
@@ -108,7 +107,6 @@ export const CHAPTERS: Array<Chapter> = [
   {
     id: "wormhole",
     numeral: "III",
-    kicker: "Simulation III · General relativity",
     field: "General relativity",
     title: "The Wormhole",
     subtitle: "A tunnel through spacetime, seen as a crystal ball onto another galaxy.",
@@ -141,7 +139,6 @@ export const CHAPTERS: Array<Chapter> = [
   {
     id: "lightspeed",
     numeral: "IV",
-    kicker: "Simulation IV · Special relativity",
     field: "Special relativity",
     title: "Near Light Speed",
     subtitle: "Fly towards the centre of the Milky Way and watch the sky crowd in ahead of you.",
@@ -175,12 +172,12 @@ export const CHAPTERS: Array<Chapter> = [
 
 export const getChapter = (id: SimId): Chapter => CHAPTERS.find((c) => c.id === id) ?? CHAPTERS[0];
 
-/** URL of a simulation with a preset applied through its shareable hash. */
-export const presetHref = (id: SimId, params: Params): string => {
+/** URL of a simulation, in a language, with a preset applied through its shareable hash. */
+export const presetHref = (id: SimId, params: Params, locale: Locale): string => {
   const q = new URLSearchParams();
   Object.entries(params).forEach(([k, v]) => q.set(k, typeof v === "boolean" ? (v ? "1" : "0") : String(v)));
   const hash = q.toString();
-  return hash ? `/ray-tracing/${id}#${hash}` : `/ray-tracing/${id}`;
+  return localePath(locale, hash ? `/ray-tracing/${id}#${hash}` : `/ray-tracing/${id}`);
 };
 
 export const GLOSSARY: Array<Feature> = [

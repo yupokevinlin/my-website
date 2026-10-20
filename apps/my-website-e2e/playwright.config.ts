@@ -16,6 +16,9 @@ const baseURL = process.env['BASE_URL'] || 'http://localhost:3000';
  */
 export default defineConfig({
   ...nxE2EPreset(__filename, { testDir: './src' }),
+  // Each test scrolls the whole page against the dev server, which compiles
+  // on first request
+  timeout: 60_000,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL,

@@ -2,6 +2,7 @@ import React from "react";
 import { MotionValue, motion, useTransform } from "framer-motion";
 import { useDiagramClock } from "../motion";
 import { C, LABEL, seeded } from "./shared";
+import { useGuideText } from "../useGuide";
 
 // Lesson 6: an accretion disc seen from above at a slight tilt. Each ring
 // turns at its Keplerian rate (period ∝ r^1.5); inside the ISCO, gas spirals
@@ -55,9 +56,10 @@ const Plunge: React.FC<{ t: MotionValue<number>; delay: number }> = ({ t, delay 
 };
 
 const AccretionDiagram: React.FC = () => {
+  const text = useGuideText().diagrams.accretion;
   const { ref, t } = useDiagramClock();
   return (
-    <svg ref={ref} viewBox="0 0 640 330" className="w-full h-auto" role="img" aria-label="An accretion disc: inner rings orbit faster than outer rings; gas inside the ISCO falls in">
+    <svg ref={ref} viewBox="0 0 640 330" className="w-full h-auto" role="img" aria-label={text.aria}>
       <defs>
         <radialGradient id="ac-glow" cx={CX} cy={CY} r="200" gradientUnits="userSpaceOnUse">
           <stop offset="0" stopColor={C.accent} stopOpacity="0.28"/>
@@ -77,9 +79,9 @@ const AccretionDiagram: React.FC = () => {
       <circle cx={CX} cy={CY} r={RS} fill="#000" stroke={C.accent} strokeOpacity="0.4"/>
 
       <line x1={CX + ISCO * 0.55} y1={CY - ISCO * TILT * 0.84} x2={CX + 70} y2="62" stroke={C.light} strokeOpacity="0.6"/>
-      <text x={CX + 74} y="58" className={LABEL} fontSize="11" fill={C.light}>ISCO · inner edge, 3 <tspan style={{ textTransform: "none" }}>rₛ</tspan></text>
-      <text x="22" y="40" className={LABEL} fontSize="11" fill={C.muted}>outer gas · slow, cooler</text>
-      <text x="618" y="300" textAnchor="end" className={LABEL} fontSize="11" fill={C.hot}>inner gas · fast, millions of degrees</text>    </svg>
+      <text x={CX + 74} y="58" className={LABEL} fontSize="11" fill={C.light}>{text.isco} <tspan style={{ textTransform: "none" }}>rₛ</tspan></text>
+      <text x="22" y="40" className={LABEL} fontSize="11" fill={C.muted}>{text.outer}</text>
+      <text x="618" y="300" textAnchor="end" className={LABEL} fontSize="11" fill={C.hot}>{text.inner}</text>    </svg>
   );
 };
 

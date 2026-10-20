@@ -1,19 +1,7 @@
-import type { NextPage } from "next";
-import SimulationsHead from "../../src/display/components/Simulations/SimulationsHead/SimulationsHead";
-import SimulationPage from "../../src/display/pages/SimulationPage/SimulationPage";
+import GuideText from "../../src/i18n/packs/guide/en";
+import { withText } from "../../src/i18n/packs/withText";
+import { WormholePage } from "../../src/display/pages/rayTracingPages";
 
-const Wormhole: NextPage = () => {
-  return (
-    <div className={"root"}>
-      <SimulationsHead
-        title="Wormhole - Kevin Lin"
-        description="Fly through the Interstellar wormhole into another galaxy, with every light ray pre-integrated through the curved geometry."
-        path="/ray-tracing/wormhole"
-        image="/ray-tracing/thumbs/wormhole.jpg"
-      />
-      <SimulationPage id="wormhole"/>
-    </div>
-  );
-};
-
-export default Wormhole;
+// The wormhole simulation in English; pages/[locale]/ray-tracing/wormhole.tsx is the same page in
+// the other languages
+export default withText(WormholePage, GuideText);

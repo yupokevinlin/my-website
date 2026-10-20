@@ -145,7 +145,7 @@ const MainPage: React.FC<MainPageProps> = (props) => {
     const shortcutIconElement = document.getElementById("shortcut-icon") as HTMLLinkElement;
     const iconMap: Record<ThemePictureSeason, string> = {
       [ThemePictureSeason.SPRING]: "./resources/icons/springIcon.svg",
-      [ThemePictureSeason.SUMMER]: "./resources/icons/summerIcon.svg",
+      [ThemePictureSeason.SUMMER]: "./resources/icons/summerIcon-v1.svg",
       [ThemePictureSeason.AUTUMN]: "./resources/icons/autumnIcon.svg",
       [ThemePictureSeason.WINTER]: "./resources/icons/winterIcon.svg",
     };

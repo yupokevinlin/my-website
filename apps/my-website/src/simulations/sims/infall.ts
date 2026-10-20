@@ -23,7 +23,7 @@ import { FBO, Program, bindFBO, createFBO, deleteFBO } from "../gl/gl";
 import { SKY_GLSL } from "../gl/sky";
 import { SPECTRUM_GLSL, blackbodyRGB } from "../gl/spectrum";
 import { DOPPLER_GLSL } from "../gl/doppler";
-import { DEG, HudItem, Params, Simulation, SimulationDescriptor, SimStatus, bool, num, str } from "./types";
+import { DEG, HudItem, Params, Readouts, Simulation, SimulationDescriptor, SimStatus, bool, num, str } from "./types";
 import { skyRotation } from "./skyrot";
 
 const LUT_W = 4096; // ray angle from straight up, uniform in [0, pi]
@@ -185,13 +185,15 @@ const SUN_SECONDS = 4.925491e-6; // GM_sun / c^3
 const SUN_METRES = 1476.625; // GM_sun / c^2
 const C2 = 8.98755179e16;
 
-function formatDuration(s: number): string {
+// Seconds to the most readable unit; µs, ms, s, min and h are international,
+// days are in the page's language
+function formatDuration(s: number, days: (n: string) => string): string {
   if (s < 1e-3) return `${(s * 1e6).toPrecision(3)} µs`;
   if (s < 1) return `${(s * 1e3).toPrecision(3)} ms`;
   if (s < 120) return `${s.toPrecision(3)} s`;
   if (s < 7200) return `${(s / 60).toPrecision(3)} min`;
   if (s < 172800) return `${(s / 3600).toPrecision(3)} h`;
-  return `${(s / 86400).toPrecision(3)} days`;
+  return days((s / 86400).toPrecision(3));
 }
 
 function formatG(a: number): string {
@@ -217,7 +219,7 @@ class Infall implements Simulation {
   private fallStart = -1;
   private hold = 0;
 
-  constructor(private engine: Engine) {
+  constructor(private engine: Engine, private text: Readouts["infall"]) {
     const ctx = engine.ctx;
     const gl = ctx.gl;
     this.bake = new Program(ctx, BAKE_FS);
@@ -358,29 +360,30 @@ class Infall implements Simulation {
     const mass = MASSES[str(p, "mass")] ?? MASSES.sgra;
     const rg = mass.suns * SUN_METRES; // GM / c^2 in metres
     const tidal = (2 * C2 * 2) / (r * r * r * rg * rg); // across a 2 m body
+    const t = this.text;
     const items: HudItem[] = [
-      { label: "Radius", value: `${r.toFixed(r < 1 ? 3 : 2)} M · ${(r / 2).toFixed(2)} × horizon` },
-      { label: "Where", value: r > 2 ? "Outside the horizon" : "Inside the horizon" },
+      { label: t.radius, value: t.radiusValue(r.toFixed(r < 1 ? 3 : 2), (r / 2).toFixed(2)) },
+      { label: t.where, value: r > 2 ? t.outside : t.inside },
     ];
     if (str(p, "observer") === "hover") {
       const f = 1 - 2 / r;
       items.push(
-        { label: "Rocket thrust to hover", value: formatG(C2 / rg / (r * r * Math.sqrt(f))) },
-        { label: "Your clock rate", value: `${Math.sqrt(f).toFixed(4)} × far away` },
+        { label: t.thrust, value: formatG(C2 / rg / (r * r * Math.sqrt(f))) },
+        { label: t.clock, value: t.clockValue(Math.sqrt(f).toFixed(4)) },
       );
     } else {
       const tau = (Math.SQRT2 / 3) * Math.pow(r, 1.5);
       items.push(
-        { label: "Your time to the singularity", value: formatDuration(tau * mass.suns * SUN_SECONDS) },
+        { label: t.timeLeft, value: formatDuration(tau * mass.suns * SUN_SECONDS, t.days) },
       );
     }
-    items.push({ label: "Tidal stretch on your body", value: formatG(tidal) });
+    items.push({ label: t.tidal, value: formatG(tidal) });
     return items;
   }
 
   status(): SimStatus | null {
     const progress = this.stripIdx / this.strips.length;
-    return { progress, label: progress < 1 ? `Integrating light paths ${(progress * 100).toFixed(0)}%` : "Light paths ready" };
+    return { progress, label: progress < 1 ? this.text.integrating((progress * 100).toFixed(0)) : this.text.ready };
   }
 
   dispose() {
@@ -447,5 +450,5 @@ export const infallSim: SimulationDescriptor = {
     { key: "skyYaw", label: "Sky rotation", group: "Sky", kind: "range", default: 40, min: -180, max: 180, step: 0.5, unit: "°", digits: 1 },
     { key: "skyTilt", label: "Sky tilt", group: "Sky", kind: "range", default: 60, min: -90, max: 90, step: 0.5, unit: "°", digits: 1 },
   ],
-  create: (engine) => new Infall(engine),
+  create: (engine, text) => new Infall(engine, text.infall),
 };

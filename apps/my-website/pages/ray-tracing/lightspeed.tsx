@@ -1,19 +1,7 @@
-import type { NextPage } from "next";
-import SimulationsHead from "../../src/display/components/Simulations/SimulationsHead/SimulationsHead";
-import SimulationPage from "../../src/display/pages/SimulationPage/SimulationPage";
+import GuideText from "../../src/i18n/packs/guide/en";
+import { withText } from "../../src/i18n/packs/withText";
+import { LightspeedPage } from "../../src/display/pages/rayTracingPages";
 
-const LightSpeed: NextPage = () => {
-  return (
-    <div className={"root"}>
-      <SimulationsHead
-        title="Near Light Speed - Kevin Lin"
-        description="Travel towards the galactic centre near the speed of light: relativistic aberration, Doppler colour shift and beaming."
-        path="/ray-tracing/lightspeed"
-        image="/ray-tracing/thumbs/lightspeed.jpg"
-      />
-      <SimulationPage id="lightspeed"/>
-    </div>
-  );
-};
-
-export default LightSpeed;
+// The near-light-speed simulation in English; pages/[locale]/ray-tracing/lightspeed.tsx is the same page in
+// the other languages
+export default withText(LightspeedPage, GuideText);

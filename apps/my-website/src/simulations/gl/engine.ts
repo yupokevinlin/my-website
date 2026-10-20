@@ -51,12 +51,20 @@ export const GLOBAL_PARAMS: ParamDef[] = [
 /** Output defaults for phones and tablets (see device.ts): render at the screen's size, with the High star map. */
 export const CONSTRAINED_DEFAULTS: Params = { resolution: "window", skyTier: "2048" };
 
+export interface SkyLoading {
+  size: number;
+  percent?: number;
+  failed?: boolean;
+}
+
 export interface EngineStats {
   fps: number;
   width: number;
   height: number;
   status: SimStatus | null;
-  skyLoading: string | null;
+  // The star map being loaded: its size, how much has arrived (when known), or
+  // that it failed. The page words it in its language.
+  skyLoading: SkyLoading | null;
   renderer: string;
 }
 
@@ -69,7 +77,7 @@ export class Engine {
   skyTex: WebGLTexture | null = null;
   private skyTexTier = 0;
   private skyRequested = 0;
-  private skyLoading: string | null = null;
+  private skyLoading: SkyLoading | null = null;
 
   width = 0;
   height = 0;
@@ -143,15 +151,15 @@ export class Engine {
     (async () => {
       for (const t of chain) {
         if (t <= this.skyTexTier && this.skyTexTier <= tier) continue;
-        this.skyLoading = `Loading ${t}² star map…`;
+        this.skyLoading = { size: t };
         try {
-          const tex = await this.sky.milkyWay(t, (f) => (this.skyLoading = `Loading ${t}² star map… ${Math.round(f * 100)}%`));
+          const tex = await this.sky.milkyWay(t, (f) => (this.skyLoading = { size: t, percent: Math.round(f * 100) }));
           if (this.skyRequested !== tier) return; // superseded
           this.skyTex = tex;
           this.skyTexTier = t;
         } catch (err) {
           console.error(err);
-          this.skyLoading = `Star map failed to load (${t})`;
+          this.skyLoading = { size: t, failed: true };
           return;
         }
       }

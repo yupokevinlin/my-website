@@ -3,6 +3,7 @@ import clsx from "clsx";
 import { MotionValue, motion, useInView, useSpring, useTransform } from "framer-motion";
 import { SANS } from "../theme";
 import { C, LABEL, f1 } from "./shared";
+import { useGuideText } from "../useGuide";
 
 // Lesson 7: a thin disc around a black hole seen almost edge-on, without and
 // with the bending of light. With gravity, the image of the far half of the
@@ -60,6 +61,7 @@ const NearLane: React.FC<{ lane: Lane }> = ({ lane }) => (
 );
 
 const LensingDiagram: React.FC = () => {
+  const text = useGuideText().diagrams.lensing;
   const [gravity, setGravity] = useState<boolean>(false);
   const ref = useRef<SVGSVGElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.6 });
@@ -98,7 +100,7 @@ const LensingDiagram: React.FC = () => {
       }}
       onClick={() => setGravity(on)}
     >
-      {on ? "With gravity" : "Without gravity"}
+      {on ? text.withGravity : text.withoutGravity}
     </button>
   );
 
@@ -108,7 +110,7 @@ const LensingDiagram: React.FC = () => {
         {toggle(false)}
         {toggle(true)}
       </div>
-      <svg ref={ref} viewBox="0 0 600 270" className="w-full h-auto" role="img" aria-label="A disc around a black hole, without and with gravitational lensing">
+      <svg ref={ref} viewBox="0 0 600 270" className="w-full h-auto" role="img" aria-label={text.aria}>
         <defs>
           <radialGradient id="ln-glow" cx={CX} cy={CY} r="220" gradientUnits="userSpaceOnUse">
             <stop offset="0" stopColor={C.accent} stopOpacity="0.22"/>
@@ -126,9 +128,9 @@ const LensingDiagram: React.FC = () => {
           <NearLane key={lane.rx} lane={lane}/>
         ))}
         <motion.g style={{ opacity: extra }}>
-          <text x="592" y="24" textAnchor="end" className={LABEL} fontSize="11" fill={C.muted}>far side of the disc,</text>
-          <text x="592" y="39" textAnchor="end" className={LABEL} fontSize="11" fill={C.muted}>bent over the top</text>
-          <text x={CX + 80} y={CY + 100} className={LABEL} fontSize="11" fill={C.muted}>far side, seen from below</text>
+          <text x="592" y="24" textAnchor="end" className={LABEL} fontSize="11" fill={C.muted}>{text.farSide1}</text>
+          <text x="592" y="39" textAnchor="end" className={LABEL} fontSize="11" fill={C.muted}>{text.farSide2}</text>
+          <text x={CX + 80} y={CY + 100} className={LABEL} fontSize="11" fill={C.muted}>{text.below}</text>
           <line x1={CX + 76} y1={CY + 95} x2={CX + 40} y2={CY + 66} stroke={C.muted} strokeOpacity="0.5"/>
         </motion.g>
       </svg>

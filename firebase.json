@@ -9,6 +9,11 @@
         "regex": "^/resources/resume/Kevin(%20| )Lin('|%27)s(%20| )Resume\\.pdf$",
         "destination": "/resources/resume/kevin-lin-resume.pdf",
         "type": 301
+      },
+      {
+        "source": "/v2",
+        "destination": "/",
+        "type": 301
       }
     ],
     "headers": [
