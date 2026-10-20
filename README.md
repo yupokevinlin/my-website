@@ -1,103 +1,95 @@
 # Kevin Lin — Personal Website
 
-A personal portfolio website built with **Next.js 16**, **React 19**, and **Tailwind CSS v4**, managed in an [Nx](https://nx.dev) monorepo.
+The source of [kevinyupolin.dev](https://kevinyupolin.dev): Kevin Lin's portfolio and a real-time relativistic ray tracing guide. Built with **Next.js 16**, **React 19** and **Tailwind CSS v4** in an [Nx](https://nx.dev) monorepo, exported as a static site and hosted on Firebase Hosting.
 
 ## Features
 
-- Seasonal theme switcher (Winter, Spring, Summer, Autumn) with dynamic CSS custom properties and matching favicon
-- Animated hero section with season-specific SVG bird animations
-- Smooth-scroll single-page navigation with a collapsible drawer menu
-- Sections: About, Experience, Projects, Skills, Languages, Education, Contact
-- Resume download
-- Loading screen with progress indicator
+- **Seasonal home page.** A full-screen illustration of the season in Vancouver, chosen from the date before the first paint, with a switch to try the others. Colours, favicon and the scene behind Contact follow the season, with snow in winter, fireflies in summer and birds in spring and autumn.
+- **Portfolio.** About, Experience, Projects, Skills and Contact, with the resume as a PDF.
+- **Five languages.** English, French, Simplified Chinese, Traditional Chinese and Japanese, at `/`, `/fr`, `/zh-cn`, `/zh-tw` and `/ja`. The switcher remembers the visitor's choice; each page has hreflang links and a canonical URL in its language.
+- **Relativistic ray tracing guide** at `/ray-tracing`: eleven illustrated lessons and four WebGL 2 simulations (a black hole, falling in, a wormhole, near light speed) that trace light through curved spacetime in real time.
+- **Accessible and search-friendly.** Automated WCAG 2.2 AA checks in every season and language, one `h1` per page, real links, structured data and a sitemap.
+- **Fast.** Static pages; each page loads only its own language's text; analytics waits until the visitor interacts or the page has been idle.
+- **The previous design** stays online, unchanged, at `/v1`.
 
-## Project Structure
+## Getting started
 
-```
-apps/
-  my-website/        # Next.js application (main portfolio)
-  my-website-e2e/    # Playwright end-to-end tests
-```
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- npm 9+
-
-### Install dependencies
+Requires Node.js 20.9 or later and npm.
 
 ```sh
 npm install
-```
-
-### Start the development server
-
-```sh
 npm run start:my-website
-# or
-npx nx run my-website:dev -- --port 4200
 ```
 
-Open [http://localhost:4200](http://localhost:4200) in your browser.
+Then open [http://localhost:3000](http://localhost:3000).
 
-## Available Scripts
+## Scripts
 
-| Command | Description |
+| Command | What it does |
 |---|---|
-| `npm run start:my-website` | Start dev server on port 4200 |
-| `npm run build:my-website` | Production build |
-| `npm run test:my-website` | Run unit tests |
+| `npm run start:my-website` | Development server on port 3000 |
+| `npm run build:my-website` | Static export to `dist/apps/my-website` |
+| `npm run test:my-website` | Unit tests |
+| `npm run deploy:my-website` | Build and deploy to Firebase Hosting (updates the live site) |
 
-Or use Nx directly:
+Or with Nx directly:
 
 ```sh
 npx nx run my-website:dev
 npx nx run my-website:build
 npx nx run my-website:test
-npx nx run my-website-e2e:e2e
+npx nx run @org/my-website-e2e:e2e
 ```
+
+The production build and the development server share `dist/apps/my-website`, so stop the development server before building.
 
 ## Testing
 
-Unit tests use **Jest** + **React Testing Library**:
+Unit tests use **Jest** and **React Testing Library**. Among other things, they check the SEO rules (headings, links, structured data), that every language is complete, and that the birds cross the screen at the same pace on every width.
 
 ```sh
 npx nx run my-website:test
 ```
 
-End-to-end tests use **Playwright**:
+Browser tests use **Playwright** against the development server (they start one if none is running). They run axe in every season and language, check the layout at phone, tablet and desktop sizes, and check each language's pages and links. Install the browsers once first:
 
 ```sh
-npx nx run my-website-e2e:e2e
+npx playwright install
+npx nx run @org/my-website-e2e:e2e -- --project=chromium
 ```
 
-## Tech Stack
+## Tech stack
 
-| Category | Technology |
+| Area | Technology |
 |---|---|
-| Framework | Next.js 16 |
-| UI Library | React 19 |
+| Framework | Next.js 16 (pages router, static export) |
+| UI | React 19, framer-motion |
 | Styling | Tailwind CSS v4 |
+| Graphics | WebGL 2 (the ray tracers) |
 | Language | TypeScript 5.9 |
 | Monorepo | Nx 22 |
-| Testing | Jest 30, Playwright |
+| Testing | Jest 30, React Testing Library, Playwright, axe |
 | Linting | ESLint 9, Prettier |
+| Hosting | Firebase Hosting, Google Analytics |
 
-## Key Source Directories
+## Where things are
 
 ```
-apps/my-website/
-  pages/             # Next.js pages (entry point)
-  src/
-    app/             # Root App component
-    display/
-      components/    # Reusable UI components (ThemePicture, ScrollNavigation, Content sections…)
-      pages/         # Page-level components (MainPage)
-    helpers/         # Utility functions
-    hooks/           # Custom React hooks
-  components/        # Shared base components (Button, Typography, Dialog…)
-  public/            # Static assets (SVGs, images, resume PDF)
-  styles/            # Global CSS
+apps/
+  my-website/
+    pages/            Routes: / (home), /ray-tracing/..., /v1, and [locale]/ for the other languages
+    src/
+      v2/             The home page: its sections, season scene, birds and hooks
+      data/           Kevin's profile, experience, projects and skills (the English source of truth)
+      i18n/           Languages: paths, interface text (messages/), translated content (content/), text packs
+      display/        The ray-tracing guide's pages and components, and the /v1 design
+      simulations/    The WebGL 2 ray tracers and their settings
+    components/       Base components for the guide and /v1
+    public/           Pictures, scenes, bird sprites, the resume, sitemap and robots.txt
+    styles/           Global CSS, with the season colours
+    specs/            Unit tests
+    scripts/          The share image renderer and a WebP converter
+  my-website-e2e/     Playwright tests: accessibility, layout and languages
 ```
+
+[AGENTS.md](AGENTS.md) is the detailed guide for anyone (or any AI tool) changing the site: where each piece of content lives, what to update when Kevin's experience changes, and the SEO and accessibility rules.
