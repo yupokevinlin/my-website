@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { VIEWPORTS, revealAll } from './helpers';
+import { VIEWPORTS, openLanguages, revealAll } from './helpers';
 
 // The home page and the ray-tracing guide in every language: each page says
 // its language, links to the others, keeps its links in its language, and
@@ -51,7 +51,7 @@ for (const { prefix, lang, label } of LANGUAGES) {
       await page.setViewportSize(VIEWPORTS.desktop);
       await page.goto(prefix || '/');
       // The switcher is named after the page's language
-      await page.getByRole('button', { name: new RegExp(`^${label} –`) }).click();
+      await openLanguages(page, label);
       const links = await page.locator('#v2-languages a').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
       expect(links.sort()).toEqual(['/', '/fr', '/ja', '/zh-cn', '/zh-tw']);
     });
@@ -60,13 +60,13 @@ for (const { prefix, lang, label } of LANGUAGES) {
 
 test('picking a language is remembered on the next visit', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: /English/ }).click();
+  await openLanguages(page, 'English');
   await page.locator('#v2-languages a[hreflang="ja"]').click();
   await expect(page).toHaveURL(/\/ja$/);
   await page.goto('/');
   await expect(page).toHaveURL(/\/ja$/);
   // Back to English, which is remembered too
-  await page.getByRole('button', { name: /日本語/ }).click();
+  await openLanguages(page, '日本語');
   await page.locator('#v2-languages a[hreflang="en"]').click();
   await page.goto('/');
   await expect(page).toHaveURL(/\/$/);

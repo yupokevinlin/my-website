@@ -1,9 +1,9 @@
 import type { Engine } from "../gl/engine";
-import type { Messages } from "../../i18n/messages";
+import type { GuideText } from "../../i18n/messages/guide/en";
 
 // Every simulation's readout and progress text, in the page's language; each
 // simulation reads its own part
-export type Readouts = Messages["rayTracing"]["readouts"];
+export type Readouts = GuideText["readouts"];
 
 export type ParamValue = number | boolean | string;
 export type Params = Record<string, ParamValue>;

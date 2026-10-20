@@ -21,7 +21,7 @@ export const EarlierCard = ({ project }: EarlierCardProps): ReactNode => {
       {...(external ? { target: "_blank", rel: "noopener" } : {})}
       className="group flex h-full items-start gap-4 rounded-2xl border border-[var(--v2-line)] bg-white p-5 transition-[translate,border-color,box-shadow] duration-300 hover:-translate-y-0.5 hover:border-[var(--v2-bright)] hover:shadow-[0_18px_40px_-28px_var(--v2-deep)]"
     >
-      <img src={project.icon} alt="" aria-hidden="true" loading="lazy" className="h-11 w-11 shrink-0 object-contain"/>
+      <img src={project.icon} alt="" aria-hidden="true" loading="lazy" width={44} height={44} className="h-11 w-11 shrink-0 object-contain"/>
       <div className="min-w-0 flex-1">
         <h3 className="text-[16.5px] font-semibold text-[var(--v2-ink)]">{project.name}</h3>
         <p className="mt-1 text-[14.5px] leading-snug text-[var(--v2-body)]">{project.description}</p>

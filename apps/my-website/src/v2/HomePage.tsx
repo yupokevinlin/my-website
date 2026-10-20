@@ -12,9 +12,11 @@ import { Skills } from "./components/Skills/Skills";
 import { Contact } from "./components/Contact/Contact";
 import { Footer } from "./components/Footer/Footer";
 import { PageScrollbar } from "./components/PageScrollbar/PageScrollbar";
+import { HomeHead } from "./components/HomeHead/HomeHead";
 import { useMessages } from "../i18n/LocaleContext";
 
-// The home page at "/". The previous design lives on at /v1 (src/root/App).
+// The home page at "/" (and /fr, /ja...), with its head. The previous design
+// lives on at /v1 (src/root/App).
 // Animations use framer-motion's small `m` components; visitors who ask for
 // reduced motion get none of the movement.
 export const HomePage = (): ReactNode => {
@@ -26,25 +28,28 @@ export const HomePage = (): ReactNode => {
   }, []);
 
   return (
-    <SeasonProvider>
-      <LazyMotion features={domAnimation} strict>
-        <MotionConfig reducedMotion="user">
-          <div className={clsx("v2 min-h-screen", sans.variable)}>
-            <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:shadow">{messages.common.skipToContent}</a>
-            <TopBar/>
-            <main id="main">
-              <Hero/>
-              <About/>
-              <Experience/>
-              <Projects/>
-              <Skills/>
-              <Contact/>
-            </main>
-            <Footer/>
-            <PageScrollbar/>
-          </div>
-        </MotionConfig>
-      </LazyMotion>
-    </SeasonProvider>
+    <>
+      <HomeHead/>
+      <SeasonProvider>
+        <LazyMotion features={domAnimation} strict>
+          <MotionConfig reducedMotion="user">
+            <div className={clsx("v2 min-h-screen", sans.variable)}>
+              <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-3 focus:z-50 focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:shadow">{messages.common.skipToContent}</a>
+              <TopBar/>
+              <main id="main">
+                <Hero/>
+                <About/>
+                <Experience/>
+                <Projects/>
+                <Skills/>
+                <Contact/>
+              </main>
+              <Footer/>
+              <PageScrollbar/>
+            </div>
+          </MotionConfig>
+        </LazyMotion>
+      </SeasonProvider>
+    </>
   );
 };

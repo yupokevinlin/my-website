@@ -1,7 +1,7 @@
 import { GLOBAL_PARAMS } from "../../../simulations/gl/engine";
 import { getSimulation } from "../../../simulations/sims/registry";
 import type { ParamDef } from "../../../simulations/sims/types";
-import type { Translation } from "../../translation";
+import { type Translation, localize } from "../../translation";
 
 // The text of the four simulations' settings in English, from their
 // definitions in src/simulations: each setting's label, tooltip, unit and
@@ -43,3 +43,20 @@ export type SimulationsTranslation = Translation<SimulationsText>;
 
 // Nothing in it is skipped: it holds only text
 export const SIMULATIONS_SKIP: readonly string[] = [];
+
+// The settings' text in another language: its text laid over the English
+export const localizeSimulations = (overlay: SimulationsTranslation): SimulationsText => localize(EN_SIMULATIONS, overlay);
+
+// Settings with their label, tooltip, unit and choices in the page's language
+export const localizeParams = (defs: Array<ParamDef>, text: Record<string, ParamText>): Array<ParamDef> =>
+  defs.map((def) => {
+    const t = text[def.key];
+    if (!t) return def;
+    return {
+      ...def,
+      label: t.label,
+      hint: t.hint ?? def.hint,
+      unit: t.unit ?? def.unit,
+      options: def.options?.map((o) => ({ ...o, label: t.options?.[o.value] ?? o.label })),
+    };
+  });

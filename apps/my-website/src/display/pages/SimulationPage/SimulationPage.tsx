@@ -9,9 +9,8 @@ import ControlPanel from "../../components/Simulations/ControlPanel/ControlPanel
 import LearnPanel from "../../components/Simulations/LearnPanel/LearnPanel";
 import DarkScrollbars from "../../components/Simulations/DarkScrollbars/DarkScrollbars";
 import { Preset, SimId } from "../../components/Simulations/content";
-import { useChapter, useGuideText } from "../../components/Simulations/useGuide";
-import { getSimulationsText, localizeParams } from "../../../i18n/content/simulations";
-import { useLocale } from "../../../i18n/LocaleContext";
+import { useChapter, useGuideText, useSimulationsText } from "../../components/Simulations/useGuide";
+import { localizeParams } from "../../../i18n/content/simulations/en";
 import { MONO, SANS, SERIF } from "../../components/Simulations/theme";
 import { CameraIcon, FullscreenIcon, InfoIcon, PauseIcon, PlayIcon, TuneIcon } from "../../components/Simulations/SimulationIcons/SimulationIcons";
 
@@ -82,9 +81,8 @@ const SimulationPage: React.FC<SimulationPageProps> = (props) => {
   const desc = getSimulation(id);
   // The chapter, settings and readouts in the page's language
   const chapter = useChapter(id);
-  const locale = useLocale();
   const text = useGuideText();
-  const simText = getSimulationsText(locale);
+  const simText = useSimulationsText();
   const readouts = text.readouts;
   const ui = text.simulation;
   // Phones and tablets default to rendering at the screen's size with the High

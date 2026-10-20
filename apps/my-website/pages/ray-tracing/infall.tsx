@@ -1,14 +1,7 @@
-import type { NextPage } from "next";
-import SimulationsHead from "../../src/display/components/Simulations/SimulationsHead/SimulationsHead";
-import SimulationPage from "../../src/display/pages/SimulationPage/SimulationPage";
+import GuideText from "../../src/i18n/packs/guide/en";
+import { withText } from "../../src/i18n/packs/withText";
+import { InfallPage } from "../../src/display/pages/rayTracingPages";
 
-// In English; pages/[locale]/ray-tracing/infall.tsx is the same page in the
-// other languages
-const Infall: NextPage = () => (
-  <div className={"root"}>
-    <SimulationsHead page="infall" path="/ray-tracing/infall" image="/ray-tracing/thumbs/infall.jpg"/>
-    <SimulationPage id="infall"/>
-  </div>
-);
-
-export default Infall;
+// The infall simulation in English; pages/[locale]/ray-tracing/infall.tsx is the same page in
+// the other languages
+export default withText(InfallPage, GuideText);

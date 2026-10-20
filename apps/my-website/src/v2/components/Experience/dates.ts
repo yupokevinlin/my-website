@@ -1,6 +1,6 @@
 import { monthsBetween, parseMonth } from "../../time";
 import { LOCALE_TAGS, type Locale } from "../../../i18n/locales";
-import type { Messages } from "../../../i18n/messages";
+import type { Messages } from "../../../i18n/messages/en";
 import type { Company, Role } from "../../../data/experience";
 
 export const DASH = " – ";

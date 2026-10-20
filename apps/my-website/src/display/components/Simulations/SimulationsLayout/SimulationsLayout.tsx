@@ -4,10 +4,11 @@ import clsx from "clsx";
 import { ACCENTS, MONO, SANS, SERIF, SimAccentId, fontVars, themeVars } from "../theme";
 import { HomeIcon, MenuBookIcon, MenuIcon } from "../SimulationIcons/SimulationIcons";
 import LanguageMenu from "../LanguageMenu/LanguageMenu";
-import { useLocale, useMessages } from "../../../../i18n/LocaleContext";
+import { useLocale } from "../../../../i18n/LocaleContext";
+import { useGuideText } from "../useGuide";
 import { localePath } from "../../../../i18n/locales";
 
-// The links in the bar; their names are in the dictionary (rayTracing.layout.nav)
+// The links in the bar; their names are in the dictionary (messages/guide, layout.nav)
 const NAV: Array<{ id: SimAccentId | "home"; numeral: string; href: string; Icon?: typeof HomeIcon }> = [
   { id: "home", numeral: "", href: "/", Icon: HomeIcon },
   { id: "overview", numeral: "", href: "/ray-tracing", Icon: MenuBookIcon },
@@ -33,14 +34,17 @@ const SimulationsLayout: React.FC<SimulationsLayoutProps> = (props) => {
   const { active, overlayNav, hideChrome, children } = props;
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const locale = useLocale();
-  const text = useMessages().rayTracing.layout;
+  const text = useGuideText().layout;
   const path = active === "overview" ? "/ray-tracing" : `/ray-tracing/${active}`;
 
   const link = (item: (typeof NAV)[number], mobile: boolean) => {
     const isActive = item.id === active;
     const accent = item.id === "home" ? "var(--sim-text)" : ACCENTS[item.id];
+    // The home page is a different kind of page, with its own text (see
+    // TEXT_PACKS in pages/_app.tsx): a plain link loads it as a new page
+    const Anchor: React.ElementType = item.id === "home" ? "a" : NextLink;
     return (
-      <NextLink
+      <Anchor
         key={item.id}
         href={localePath(locale, item.href)}
         onClick={() => setMenuOpen(false)}
@@ -62,7 +66,7 @@ const SimulationsLayout: React.FC<SimulationsLayoutProps> = (props) => {
             style={{ backgroundColor: accent, opacity: isActive ? 1 : 0 }}
           />
         )}
-      </NextLink>
+      </Anchor>
     );
   };
 

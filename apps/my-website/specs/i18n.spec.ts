@@ -4,7 +4,8 @@ import { EN_HOME, HOME_SKIP, HOME_TRANSLATIONS } from "../src/i18n/content/home"
 import { EN_RAY_TRACING, RAY_TRACING_SKIP, RAY_TRACING_TRANSLATIONS } from "../src/i18n/content/rayTracing";
 import { EN_SIMULATIONS, SIMULATIONS_TRANSLATIONS } from "../src/i18n/content/simulations";
 import { EN_MESSAGES } from "../src/i18n/messages/en";
-import { MESSAGES } from "../src/i18n/messages";
+import { EN_GUIDE_TEXT } from "../src/i18n/messages/guide/en";
+import { GUIDE_TEXTS, MESSAGES } from "../src/i18n/messages";
 import { LOCALE_SCRIPT } from "../src/i18n/localeScript";
 import { LOCALES, PREFIXED_LOCALES, localeHref, localePath, stripLocale } from "../src/i18n/locales";
 import { localize, missingTranslations } from "../src/i18n/translation";
@@ -54,11 +55,16 @@ describe("Translations", () => {
         // Functions still take the same arguments and return text
         expect(MESSAGES[locale].home.experience.duration(2, 7)).toMatch(/2/);
         expect(MESSAGES[locale].home.experience.showMore(3)).toMatch(/3/);
-        expect(MESSAGES[locale].rayTracing.readouts.blackhole.tracing("42")).toMatch(/42/);
+      });
+
+      it("translate the guide's interface, with the same placeholders", () => {
+        expect(missingTranslations(EN_GUIDE_TEXT, GUIDE_TEXTS[locale])).toEqual([]);
+        expect(untranslated(EN_GUIDE_TEXT, GUIDE_TEXTS[locale])).toEqual([]);
+        expect(GUIDE_TEXTS[locale].readouts.blackhole.tracing("42")).toMatch(/42/);
       });
 
       it("keep the settings' groups keyed by their English id", () => {
-        expect(Object.keys(MESSAGES[locale].rayTracing.controls.groups).sort()).toEqual(Object.keys(EN_MESSAGES.rayTracing.controls.groups).sort());
+        expect(Object.keys(GUIDE_TEXTS[locale].controls.groups).sort()).toEqual(Object.keys(EN_GUIDE_TEXT.controls.groups).sort());
       });
     });
   }

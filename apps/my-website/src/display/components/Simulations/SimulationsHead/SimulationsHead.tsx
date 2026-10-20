@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import Head from "next/head";
 import { PERSON_ID, SITE_URL as SITE, profile } from "../../../../data/profile";
-import { useLocale, useMessages } from "../../../../i18n/LocaleContext";
+import { useLocale } from "../../../../i18n/LocaleContext";
+import { useGuideText } from "../useGuide";
 import { LOCALE_TAGS, OG_LOCALES } from "../../../../i18n/locales";
 import { alternateLinks, localeUrl } from "../../../../i18n/seo";
 
@@ -57,7 +58,7 @@ const SITE_ICON_IDS = ["main-icon", "shortcut-icon"];
 
 const SimulationsHead: React.FC<SimulationsHeadProps> = ({ page, path, image }) => {
   const locale = useLocale();
-  const { heads } = useMessages().rayTracing;
+  const { heads } = useGuideText();
   const { name, description } = heads[page];
   const title = `${name} - ${profile.name}`;
   const url = localeUrl(locale, path);

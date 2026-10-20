@@ -1,14 +1,7 @@
-import type { NextPage } from "next";
-import SimulationsHead from "../../src/display/components/Simulations/SimulationsHead/SimulationsHead";
-import SimulationPage from "../../src/display/pages/SimulationPage/SimulationPage";
+import GuideText from "../../src/i18n/packs/guide/en";
+import { withText } from "../../src/i18n/packs/withText";
+import { BlackHolePage } from "../../src/display/pages/rayTracingPages";
 
-// In English; pages/[locale]/ray-tracing/blackhole.tsx is the same page in the
-// other languages
-const BlackHole: NextPage = () => (
-  <div className={"root"}>
-    <SimulationsHead page="blackhole" path="/ray-tracing/blackhole" image="/ray-tracing/thumbs/blackhole.jpg"/>
-    <SimulationPage id="blackhole"/>
-  </div>
-);
-
-export default BlackHole;
+// The black hole simulation in English; pages/[locale]/ray-tracing/blackhole.tsx is the same page in
+// the other languages
+export default withText(BlackHolePage, GuideText);

@@ -1,14 +1,7 @@
-import type { NextPage } from "next";
-import SimulationsHead from "../../src/display/components/Simulations/SimulationsHead/SimulationsHead";
-import SimulationPage from "../../src/display/pages/SimulationPage/SimulationPage";
+import GuideText from "../../src/i18n/packs/guide/en";
+import { withText } from "../../src/i18n/packs/withText";
+import { WormholePage } from "../../src/display/pages/rayTracingPages";
 
-// In English; pages/[locale]/ray-tracing/wormhole.tsx is the same page in the
-// other languages
-const Wormhole: NextPage = () => (
-  <div className={"root"}>
-    <SimulationsHead page="wormhole" path="/ray-tracing/wormhole" image="/ray-tracing/thumbs/wormhole.jpg"/>
-    <SimulationPage id="wormhole"/>
-  </div>
-);
-
-export default Wormhole;
+// The wormhole simulation in English; pages/[locale]/ray-tracing/wormhole.tsx is the same page in
+// the other languages
+export default withText(WormholePage, GuideText);

@@ -17,16 +17,40 @@ const roboto = Roboto({
 });
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  // Analytics loads after the page has, so it never competes with it
+  // Analytics (Google's gtag.js, the heaviest script on the page) starts once
+  // the page has loaded and the visitor has scrolled, tapped or typed, or
+  // after 5 seconds, and then only when the browser is idle, so it never
+  // competes with the page starting up. A visit that ends sooner, without
+  // any of those, isn't counted.
   useEffect(() => {
-    const start = () => void import("../src/firebase/firebase").then(({ initAnalytics }) => initAnalytics());
-    if (document.readyState === "complete") start();
-    else window.addEventListener("load", start, { once: true });
-    return () => window.removeEventListener("load", start);
+    const EVENTS = ["pointerdown", "keydown", "scroll", "wheel", "touchstart"] as const;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    let started = false;
+    const start = () => {
+      if (started) return;
+      started = true;
+      clearTimeout(timer);
+      for (const name of EVENTS) window.removeEventListener(name, start);
+      const run = () => void import("../src/firebase/firebase").then(({ initAnalytics }) => initAnalytics());
+      if ("requestIdleCallback" in window) window.requestIdleCallback(run, { timeout: 3000 });
+      else setTimeout(run, 0);
+    };
+    const wait = () => {
+      timer = setTimeout(start, 5000);
+      for (const name of EVENTS) window.addEventListener(name, start, { once: true, passive: true });
+    };
+    if (document.readyState === "complete") wait();
+    else window.addEventListener("load", wait, { once: true });
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("load", wait);
+      for (const name of EVENTS) window.removeEventListener(name, start);
+    };
   }, []);
 
   return (
-    // Pages under pages/[locale]/ pass their language as a prop; the rest are English
+    // Pages under pages/[locale]/ pass their language as a prop; the rest are
+    // English. Each page brings its own text (src/i18n/packs/withText.tsx).
     <LocaleProvider locale={toLocale(pageProps.locale)}>
       <div className={roboto.variable} style={{ display: "contents" }}>
         <Component {...pageProps} />

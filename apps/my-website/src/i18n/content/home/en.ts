@@ -3,7 +3,7 @@ import { earlyExperience, experience } from "../../../data/experience";
 import { homeSeo, profile } from "../../../data/profile";
 import { earlierProjects, featuredProjects } from "../../../data/projects";
 import { skillGroups } from "../../../data/skills";
-import type { Translation } from "../../translation";
+import { type Translation, localize } from "../../translation";
 
 // The home page's content in every language. English comes from src/data, the
 // source of truth for everything (dates, links, logos, the order of things);
@@ -53,4 +53,10 @@ type Skip<K extends keyof HomeContent> = (typeof HOME_SKIP)[K][number];
 export type HomeTranslation = {
   [K in keyof HomeContent]: Translation<HomeContent[K], Skip<K>>;
 };
+
+// The home page's content in another language: its text laid over the English
+export const localizeHome = (overlay: HomeTranslation): HomeContent =>
+  Object.fromEntries(
+    (Object.keys(EN_HOME) as Array<keyof HomeContent>).map((key) => [key, localize(EN_HOME[key], overlay[key], HOME_SKIP[key])]),
+  ) as HomeContent;
 

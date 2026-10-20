@@ -6,7 +6,7 @@ import { C, LABEL } from "./shared";
 import { useGuideText } from "../useGuide";
 import { useLocale } from "../../../../i18n/LocaleContext";
 import { LOCALE_TAGS } from "../../../../i18n/locales";
-import type { Messages } from "../../../../i18n/messages";
+import type { GuideText } from "../../../../i18n/messages/guide/en";
 
 // Lesson 2: the Schwarzschild radius of familiar objects. Ordinary bodies are
 // squeezed (on a log scale) down to their Schwarzschild radius; the real
@@ -35,7 +35,7 @@ const R_MAX = 120;
 const CX = 300;
 const CY = 140;
 
-type SqueezeText = Messages["rayTracing"]["diagrams"]["squeeze"];
+type SqueezeText = GuideText["diagrams"]["squeeze"];
 
 /** Human-readable length from km, in the page's language: the dictionary
  * picks the units, and numbers are written the way the language writes them

@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { test, expect, Page } from '@playwright/test';
-import { SEASONS, VIEWPORTS, revealAll, transitionsDone } from './helpers';
+import { SEASONS, VIEWPORTS, animationsDone, heroShown, revealAll, transitionsDone } from './helpers';
 
 // Runs axe (WCAG 2.2 A and AA) on the home page in every season, at phone,
 // tablet and desktop sizes. The season colours change the contrast of every
@@ -56,6 +56,8 @@ for (const prefix of ['/fr', '/zh-cn', '/zh-tw', '/ja']) {
         await revealAll(page);
         await transitionsDone(page);
       }
+      await heroShown(page);
+      await animationsDone(page);
       expect(await axeViolations(page)).toEqual([]);
     });
   }

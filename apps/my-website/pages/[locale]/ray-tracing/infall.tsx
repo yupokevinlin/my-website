@@ -1,9 +1,11 @@
 import type { GetStaticPaths, GetStaticProps } from "next";
-import Page from "../../ray-tracing/infall";
+import GuideText from "../../../src/i18n/packs/guide/others";
+import { withText } from "../../../src/i18n/packs/withText";
 import { localeStaticPaths, localeStaticProps } from "../../../src/i18n/locales";
+import { InfallPage } from "../../../src/display/pages/rayTracingPages";
 
-// The same page in each language other than English (/fr/ray-tracing...)
+// The infall simulation in each language other than English (/fr/ray-tracing...)
 export const getStaticPaths: GetStaticPaths = () => localeStaticPaths();
 export const getStaticProps: GetStaticProps = (context) => localeStaticProps(context);
 
-export default Page;
+export default withText(InfallPage, GuideText);
