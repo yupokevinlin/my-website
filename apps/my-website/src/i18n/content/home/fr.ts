@@ -184,7 +184,7 @@ export const HOME_FR: HomeTranslation = {
   ],
   earlierProjects: [
     {
-      name: "Mon site web, version 1",
+      name: "Mon site web (version 1)",
       description: "La première version du site : une scène saisonnière plein écran, avec neige, oiseaux et lucioles, dont est issue la version actuelle.",
     },
     {

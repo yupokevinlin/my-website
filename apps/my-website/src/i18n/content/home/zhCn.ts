@@ -184,7 +184,7 @@ export const HOME_ZH_CN: HomeTranslation = {
   ],
   earlierProjects: [
     {
-      name: "个人网站第一版",
+      name: "个人网站（第一版）",
       description: "本站的初版设计：全屏四季场景，有飘雪、飞鸟和萤火虫，现在的设计正是由此发展而来。",
     },
     {

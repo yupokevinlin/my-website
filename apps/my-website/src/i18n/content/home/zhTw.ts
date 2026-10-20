@@ -184,7 +184,7 @@ export const HOME_ZH_TW: HomeTranslation = {
   ],
   earlierProjects: [
     {
-      name: "個人網站第一版",
+      name: "個人網站（第一版）",
       description: "本站的第一版設計：全螢幕的四季場景，有飄雪、飛鳥與螢火蟲，也是現在這個版本的起點。",
     },
     {
