@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode, useRef } from "react";
 import { m } from "framer-motion";
 import { EASE } from "../../motion";
 import { yearsSince } from "../../time";
@@ -29,12 +29,14 @@ export const Hero = (): ReactNode => {
   const content = useHomeContent();
   const messages = useMessages();
   const text = messages.home.hero;
+  const card = useRef<HTMLDivElement>(null);
   return (
     <section id="top" aria-labelledby="v2-name" className="relative isolate -mt-16 flex min-h-[max(100svh,46rem)] flex-col overflow-hidden">
-      <SeasonScene className="absolute inset-0 -z-10"/>
+      <SeasonScene className="absolute inset-0 -z-10" card={card}/>
 
       <div className="mx-auto flex w-full max-w-[1200px] flex-1 items-start px-4 pb-28 pt-20 sm:items-center sm:pt-24 md:px-8 md:pt-28">
         <m.div
+          ref={card}
           variants={{ hidden: {}, show: { transition: { staggerChildren: 0.07 } } }}
           initial="hidden"
           animate="show"

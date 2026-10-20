@@ -27,6 +27,7 @@ All paths below are under `apps/my-website/`.
 | Skills and their logos | `src/data/skills.ts`; logos in `public/resources/images/skills/` |
 | Contact links | `src/v2/components/Contact/Contact.tsx`, which reads `profile` |
 | Season colours, scenes and the head script | `styles/globals.css` ("v2 home page"), `src/v2/season.ts` |
+| Birds over the hero (species, each season's flights, how they fly) | `src/v2/components/Hero/SeasonScene/SeasonLife/Birds/` (`flocks.ts`, `flight.ts`), moved by `src/v2/hooks/useFlight.ts`. A crossing takes the same time on every screen width, and phones fly fewer, smaller birds below the hero card; `specs/birds.spec.ts` checks this. `/v1` keeps its own birds in `src/display/components/AnimatedImages/`. |
 | Share image (1200 × 630) | `public/resources/og-image.png`, rendered from `scripts/og-image/og-image.html` by `node apps/my-website/scripts/og-image/render.mjs` |
 | Resume | `public/resources/resume/kevin-lin-resume.pdf`. Kevin exports it from `resume-source/Kevin Lin's Resume.pub`, which sits next to the QR code image it uses. Keep source files out of `public/`, because everything in it is published. `firebase.json` redirects the old "Kevin Lin's Resume.pdf" URL here. |
 | Ray-tracing page titles and descriptions | `rayTracing.heads` in `src/i18n/messages/en.ts` (and each language's file) |
