@@ -1,19 +1,17 @@
 import { type RefObject, useEffect } from "react";
-import { type FlightPlan, type Sky, birdScale, createFlight, flightPoses, stepFlight } from "../components/Hero/SeasonScene/SeasonLife/Birds/flight";
+import { type FlightPlan, NARROW, type Sky, birdScale, createFlight, flightPoses, stepFlight } from "../components/Hero/SeasonScene/SeasonLife/Birds/flight";
 
 // The top bar covers the top of the hero's scene
 const TOP_BAR = 64;
 
 // The band the birds fly in, inside the scene: below the top bar and above
-// the hills. Where the hero card spans the screen (phones), they fly below it,
-// where the picture shows.
+// the hills. Narrower than Tailwind's sm breakpoint, the hero card moves to
+// the top and spans the screen (Hero.tsx), so they fly below it, where the
+// picture shows.
 const measureSky = (scene: HTMLElement, card: HTMLElement | null): Sky => {
   const box = scene.getBoundingClientRect();
   let top = TOP_BAR + 16;
-  if (card) {
-    const rect = card.getBoundingClientRect();
-    if (rect.width > box.width * 0.8) top = Math.max(top, rect.bottom - box.top + 14);
-  }
+  if (card && box.width < NARROW) top = Math.max(top, card.getBoundingClientRect().bottom - box.top + 14);
   return { width: box.width, top, bottom: Math.max(top + 120, box.height * 0.42), scale: birdScale(box.width) };
 };
 

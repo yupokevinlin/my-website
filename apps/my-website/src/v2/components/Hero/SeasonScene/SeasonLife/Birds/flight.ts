@@ -93,7 +93,8 @@ export interface FlightState {
 
 export type Random = () => number;
 
-// Narrower screens than this fly only the plans marked `phones`
+// Tailwind's sm breakpoint. Narrower screens fly only the plans marked
+// `phones`, below the hero card, which moves to the top there.
 export const NARROW = 640;
 
 const MAX_TILT = 12; // degrees
