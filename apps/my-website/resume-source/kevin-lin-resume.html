@@ -128,11 +128,12 @@
   .list li::after { content: "·"; margin: 0 4pt; color: var(--faint); }
   .list li:last-child::after { content: none; margin: 0; }
 
-  /* Education and languages, side by side */
-  .two { display: grid; grid-template-columns: 1fr 1fr; column-gap: 26pt; }
+  /* Education and languages, side by side: Education two thirds of the width, Languages one */
+  .two { display: grid; grid-template-columns: 2fr 1fr; column-gap: 26pt; }
   .edu-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10pt; }
   .edu-head h3 { font-size: 10pt; }
   .edu p { margin: 1pt 0 0; }
+  .edu .degree { font-weight: 600; color: var(--accent-strong); }  /* like a role title */
   .muted { color: var(--muted); }
   /* Names in one column, badges in another, so every badge is the width of the widest one */
   .langs { display: grid; grid-template-columns: max-content max-content; column-gap: 8pt; row-gap: 3pt; align-items: center; margin: 2pt 0 0; padding: 0; list-style: none; }
@@ -324,7 +325,7 @@
     <section class="edu">
       <h2>Education</h2>
       <div class="edu-head"><h3>The University of British Columbia</h3><span class="meta">Vancouver, BC</span></div>
-      <p>Bachelor of Science in Chemistry</p>
+      <p class="degree">Bachelor of Science in Chemistry</p>
       <p class="muted">President’s Entrance Scholarship</p>
     </section>
     <section>
