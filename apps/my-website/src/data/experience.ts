@@ -76,7 +76,7 @@ export const experience: Company[] = [
         end: "Present",
         location: "Los Angeles (remote)",
         highlights: [
-          "Reduced de-identification cost by 100x and processing time by 10x, while raising accuracy from 97.3% to 99.5%.",
+          "Made de-identifying patient records 100x cheaper and 10x faster, while raising accuracy from 97.3% to 99.5%.",
           "Led AI integration across the platform and developed medical MCP servers and skills for LLMs.",
           "Architected the platform: Next.js apps and 15 NestJS microservices on Azure Container Apps in an Nx monorepo, integrating with Epic and Cerner EHRs over FHIR and HL7.",
         ],

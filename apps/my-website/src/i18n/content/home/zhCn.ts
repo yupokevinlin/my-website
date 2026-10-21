@@ -78,7 +78,7 @@ export const HOME_ZH_CN: HomeTranslation = {
           title: "首席技术官兼联合创始人",
           location: "洛杉矶（远程）",
           highlights: [
-            "将数据去标识化成本降低100倍、处理时间缩短10倍，同时将准确率从97.3%提升至99.5%。",
+            "将病历去标识化的成本降低100倍、速度提升10倍，同时将准确率从97.3%提升至99.5%。",
             "主导整个平台的 AI 集成，并为大模型开发医疗领域的 MCP 服务器和技能。",
             "设计平台整体架构：在 Nx monorepo 中构建 Next.js 应用和15个 NestJS 微服务，部署于 Azure Container Apps，并通过 FHIR 和 HL7 与 Epic、Cerner 电子病历系统（EHR）对接。",
           ],

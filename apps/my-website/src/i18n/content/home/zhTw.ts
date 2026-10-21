@@ -78,7 +78,7 @@ export const HOME_ZH_TW: HomeTranslation = {
           title: "技術長暨共同創辦人",
           location: "洛杉磯（遠端）",
           highlights: [
-            "將去識別化成本降低 100 倍、處理速度提升 10 倍，同時將準確率從 97.3% 提高到 99.5%。",
+            "將病歷去識別化的成本降低 100 倍、速度提升 10 倍，同時將準確率從 97.3% 提高到 99.5%。",
             "主導全平台的 AI 整合，並為 LLM 開發醫療領域的 MCP 伺服器與技能（Skills）。",
             "設計平台架構：在 Nx monorepo 中建置 Next.js 應用程式與 15 個 NestJS 微服務，部署於 Azure Container Apps，並透過 FHIR 與 HL7 串接 Epic 與 Cerner 電子病歷系統（EHR）。",
           ],
