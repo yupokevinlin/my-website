@@ -78,7 +78,7 @@ export const HOME_FR: HomeTranslation = {
           title: "Directeur technique (CTO) et cofondateur",
           location: "Los Angeles (à distance)",
           highlights: [
-            "Coût de dépersonnalisation divisé par 100 et temps de traitement divisé par 10, tout en faisant passer la précision de 97,3 % à 99,5 %.",
+            "Dépersonnalisation des dossiers patients rendue 100 fois moins coûteuse et 10 fois plus rapide, tout en faisant passer la précision de 97,3 % à 99,5 %.",
             "Direction de l'intégration de l'IA dans toute la plateforme et développement de serveurs MCP et de compétences (skills) pour LLM, dédiés au domaine médical.",
             "Conception de l'architecture de la plateforme : applications Next.js et 15 microservices NestJS sur Azure Container Apps dans un monorepo Nx, intégrés aux dossiers médicaux électroniques Epic et Cerner via FHIR et HL7.",
           ],
