@@ -26,6 +26,12 @@ await page.emulateMedia({ media: "print" });
 await page.pdf({ path: pdfPath, format: "Letter", printBackground: true, preferCSSPageSize: true, margin: { top: 0, right: 0, bottom: 0, left: 0 } });
 console.log("wrote " + pdfPath);
 
+// Chromium writes a variable font into a PDF as Type 3 fonts: glyphs drawn as shapes, which PDF
+// readers can't select or highlight properly. The HTML embeds static weights for that reason;
+// this catches a variable font creeping back in.
+const type3 = (fs.readFileSync(pdfPath, "latin1").match(/\/Subtype\s*\/Type3\b/g) || []).length;
+console.log(type3 ? "WARNING: " + type3 + " Type 3 fonts in the PDF, so its text won't select properly. Embed static fonts, not a variable font." : "fonts: embedded as real fonts, no Type 3");
+
 // Room left on each page: from the lowest piece of content (the footer doesn't count) to the
 // bottom of the text area. Chromium hides anything past the page's edge, so watch for OVERFLOWS.
 const metrics = await page.evaluate(() =>

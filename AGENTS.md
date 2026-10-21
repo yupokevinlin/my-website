@@ -29,7 +29,7 @@ All paths below are under `apps/my-website/`.
 | Season colours, scenes and the head script | `styles/globals.css` ("v2 home page"), `src/v2/season.ts` |
 | Birds over the hero (species, each season's flights, how they fly) | `src/v2/components/Hero/SeasonScene/SeasonLife/Birds/` (`flocks.ts`, `flight.ts`), moved by `src/v2/hooks/useFlight.ts`. A crossing takes the same time on every screen width, and phones fly fewer, smaller birds below the hero card; `specs/birds.spec.ts` checks this. `/v1` keeps its own birds in `src/display/components/AnimatedImages/`. |
 | Share image (1200 × 630) | `public/resources/og-image.png`, rendered from `scripts/og-image/og-image.html` by `node apps/my-website/scripts/og-image/render.mjs` |
-| Resume | `public/resources/resume/kevin-lin-resume.pdf`, rendered from `resume-source/kevin-lin-resume.html` (two fixed Letter pages, with Inter and the QR code embedded) by `node apps/my-website/resume-source/render-pdf.mjs`, which prints the room left on each page. `resume-source/README.md` describes the design, the QR code and what the content mirrors. Keep source files out of `public/`, because everything in it is published. `firebase.json` redirects the old "Kevin Lin's Resume.pdf" URL here. The Publisher file `resume-source/Kevin Lin's Resume.pub` is the former source, kept for reference. |
+| Resume | `public/resources/resume/kevin-lin-resume.pdf`, rendered from `resume-source/kevin-lin-resume.html` (two fixed Letter pages, with Inter and the QR code embedded) by `node apps/my-website/resume-source/render-pdf.mjs`, which prints the room left on each page. Inter is embedded as static weights, never the variable font: Chromium turns a variable font into Type 3 text in the PDF, which readers can't select properly, and the script warns if that happens. `resume-source/README.md` describes the design, the font, the QR code and what the content mirrors. Keep source files out of `public/`, because everything in it is published. `firebase.json` redirects the old "Kevin Lin's Resume.pdf" URL here. The Publisher file `resume-source/Kevin Lin's Resume.pub` is the former source, kept for reference. |
 | Ray-tracing page titles and descriptions | `heads` in `src/i18n/messages/guide/en.ts` (and each language's file beside it) |
 | Ray-tracing JSON-LD and the guide's dates | `src/display/components/Simulations/SimulationsHead/SimulationsHead.tsx` |
 | Sitemap, robots | `public/sitemap.xml` (every page in every language, with hreflang alternates), `public/robots.txt` |
@@ -59,7 +59,7 @@ Decisions Kevin has made. Ask him before changing any of these:
 - `/v1` is a frozen snapshot of the previous design. Experience updates only touch the new home page.
 - COVID-19 Tracker and Write My MP are archived: their live sites are offline, so they link to the GitHub repos.
 - His phone number isn't on the site. It is on the resume.
-- The resume (`resume-source/kevin-lin-resume.html`) shortens ServiceLink and Protrade on purpose, mirrors the site's Projects section, and gives the ray-tracing project no links.
+- The resume (`resume-source/kevin-lin-resume.html`) shortens ServiceLink and Protrade on purpose, mirrors the site's Projects section except ForteCare (it is under Experience only), and gives the ray-tracing project no links.
 - `alternateNames` in `profile.ts` ("Kevin Yupo Lin", "Yupo Lin") are other names people may search for.
 
 ## SEO rules
