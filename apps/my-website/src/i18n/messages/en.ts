@@ -88,7 +88,7 @@ export const EN_MESSAGES = {
     },
     footer: {
       previousVersion: "Previous version",
-      seasonsNote: "The illustration of Vancouver's seasons.",
+      seasonsNote: "An illustration of Vancouver's seasons.",
     },
   },
   // The ray-tracing guide: its pages' titles, the overview's prose, labels,
