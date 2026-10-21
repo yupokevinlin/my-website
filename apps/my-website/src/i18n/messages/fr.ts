@@ -81,7 +81,7 @@ export const MESSAGES_FR: Messages = {
     },
     footer: {
       previousVersion: "Version précédente",
-      seasonsNote: "L'illustration suit les saisons de Vancouver.",
+      seasonsNote: "L'illustration des saisons de Vancouver.",
     },
   },
 };

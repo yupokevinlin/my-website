@@ -83,7 +83,7 @@ export const MESSAGES_ZH_CN: Messages = {
     },
     footer: {
       previousVersion: "旧版网站",
-      seasonsNote: "插画会随温哥华的四季变换。",
+      seasonsNote: "温哥华四季的插画。",
     },
   },
 };

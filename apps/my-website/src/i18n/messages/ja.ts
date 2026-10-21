@@ -81,7 +81,7 @@ export const MESSAGES_JA: Messages = {
     },
     footer: {
       previousVersion: "以前のバージョン",
-      seasonsNote: "イラストはバンクーバーの季節に合わせて変わります。",
+      seasonsNote: "バンクーバーの四季のイラスト。",
     },
   },
 };
