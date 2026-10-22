@@ -132,3 +132,17 @@ test('the phone menu opens, links to each section and closes', async ({ page }) 
   await expect(menu).toHaveCount(0);
   await expect(page.locator('#skills h2')).toBeInViewport();
 });
+
+// When a phone turns upright, Safari keeps anything sized from the sideways
+// layout that doesn't shrink back, and zooms the whole page out to fit it (the
+// project cards once kept their sideways width through their 16:9 screenshots)
+test('turning a phone upright leaves nothing past the side', async ({ page }) => {
+  await page.setViewportSize({ width: VIEWPORTS.phone.height, height: VIEWPORTS.phone.width });
+  await page.goto('/');
+  await page.waitForLoadState('load');
+  // Two frames, so the page has been drawn sideways, as on a phone before it turns
+  await page.evaluate(() => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+  await page.setViewportSize(VIEWPORTS.phone);
+  await expect.poll(() => page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth)).toBeLessThanOrEqual(0);
+  expect(await overflowing(page)).toEqual([]);
+});

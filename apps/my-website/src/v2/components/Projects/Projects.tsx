@@ -12,7 +12,11 @@ export const Projects = (): ReactNode => {
   const text = useMessages().home.projects;
   return (
     <Section id="projects" label={text.label} icon={CodeIcon} title={text.title} lead={text.lead}>
-      <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
+      {/* One column below lg, as wide as the page (grid-cols-1 is
+          minmax(0, 1fr)). An automatic column takes its width from the
+          cards, and Safari kept the 16:9 screenshots at the width they had
+          sideways after a phone turned upright, so it zoomed the page out. */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
         {featuredProjects.map((project, i) => (
           <Reveal key={i} delay={i * 0.08}><FeaturedCard project={project}/></Reveal>
         ))}
