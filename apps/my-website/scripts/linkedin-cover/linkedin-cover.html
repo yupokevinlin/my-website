@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<!-- The LinkedIn cover (background photo, 1584 x 396): a season's picture from the home page, without
+     text, cut to LinkedIn's 4:1 banner. render.mjs draws it once per season, setting the picture and
+     its sky from season.ts. LinkedIn puts the profile photo over the bottom-left corner and phones
+     trim about 190 px off each side; the house, the picture's focal point, sits right of centre,
+     clear of both. -->
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1584px; height: 396px; overflow: hidden; }
+  body { position: relative; }
+  /* The picture (1750 x 937) as wide as the banner, showing the band from the mountain tops to the
+     ground just under the house */
+  .scene { position: absolute; left: 0; top: -226px; width: 1584px; }
+  /* The picture's sky is see-through: this is the sky behind it, fitted to the banner, or with
+     .whole spread over the whole picture, as on the home page */
+  .sky { position: absolute; inset: 0; }
+  .sky.whole { inset: auto; left: 0; top: -226px; width: 1584px; aspect-ratio: 1750 / 937; }
+</style>
+</head>
+<body>
+  <div class="sky"></div>
+  <img class="scene" src="../../public/resources/seasons/winter.svg" alt="">
+</body>
+</html>

@@ -88,7 +88,7 @@ apps/
     public/           Pictures, scenes, bird sprites, the resume, sitemap and robots.txt
     styles/           Global CSS, with the season colours
     specs/            Unit tests
-    scripts/          The share image renderer and a WebP converter
+    scripts/          The share image and LinkedIn cover renderers, and a WebP converter
   my-website-e2e/     Playwright tests: accessibility, layout and languages
 ```
 
