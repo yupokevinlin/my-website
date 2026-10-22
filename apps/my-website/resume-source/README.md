@@ -6,7 +6,8 @@ The resume the site serves, `public/resources/resume/kevin-lin-resume.pdf`, is r
 |---|---|
 | `kevin-lin-resume.html` | The resume: two fixed US Letter pages. The text and the CSS at the top are the parts to edit. The generated `<style>` at the very end of the file (the embedded font) and the inline QR code `<svg>` in the header are not meant to be edited. |
 | `render-pdf.mjs` | Renders the PDF: `node apps/my-website/resume-source/render-pdf.mjs` from the repo root (`--png <dir>` also saves a PNG of each page). It prints how much room is left on each page and says OVERFLOWS when text would be cut off, since Chromium hides anything past a page's edge. It also warns if the PDF contains Type 3 fonts (see "The font"). No internet needed. |
-| `Kevin Lin's Resume.pub`, `QRCode.svg` | The former Microsoft Publisher source and its QR code, kept for reference. Publisher was retired from Microsoft 365 in October 2026, and this file no longer feeds the PDF. |
+
+The former source, a Microsoft Publisher file (`Kevin Lin's Resume.pub`) with its `QRCode.svg`, was removed on 2026-10-22. Publisher was retired from Microsoft 365 in October 2026; git still has both files (commit `4633916`).
 
 The same pages come out of Chrome or Edge: open the HTML, print to Save as PDF, paper size Letter, margins None, scale 100 %, headers and footers off. Background colours print on their own (`print-color-adjust: exact`). On screen, the browser shows the two pages as sheets on a grey background; that styling is screen-only.
 

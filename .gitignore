@@ -50,6 +50,9 @@ out
 # local env files
 .env*.local
 
+# Claude Code's settings for this machine
+.claude/settings.local.json
+
 # Playwright MCP artifacts
 .playwright-mcp
 
