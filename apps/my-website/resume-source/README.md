@@ -16,8 +16,18 @@ The same pages come out of Chrome or Edge: open the HTML, print to Save as PDF, 
 - Type: Inter, the website's font, in four static weights embedded in the file (see "The font"), so the layout is identical on any machine, online or offline. Body 9.5 pt on 12.9 pt; name 27 pt. The name and company names are Bold (700), role titles SemiBold (600).
 - Colours from the site's default (winter) palette: accent `#306596` for section labels, role titles, bullets and icons; links `#2c5e8b`; ink `#161b22`; body `#333c47`; secondary `#5b6673`; rules `#d9e1ea`; tag backgrounds `#eef4fa`.
 - Header: name, title line, the site's pitch as a two-line summary, and the QR code with its caption; then a three-column contact grid with line icons. Links show readable short forms but point at the full URLs.
-- Sections: uppercase letter-spaced labels with a rule. Companies are bold with their one-line description beside them. A company's roles sit on a timeline, as on the website: a ring for each role (filled for a current one, in the site's `--v2-bright`, `#4a8bc4`) and a line joining the rings (`#c2d4e6`, the site's `--v2-line`). Each role has its dates and location on the right and round accent bullets. Projects carry their stack as tags. Skills are a label column and dot-separated lists. Education and Languages share the bottom row, Education two thirds of it and Languages one third, with the degree in the role titles' blue SemiBold and the language badges all the width of the widest one.
+- Sections: uppercase letter-spaced labels with a rule. Companies are bold with their one-line description beside them. A company's roles sit on a timeline, as on the website: a ring for each role (filled for a current one, in the site's `--v2-bright`, `#4a8bc4`) and a line joining the rings (`#c2d4e6`, the site's `--v2-line`). Each role has its dates and location on the right and round accent bullets. Every project's stack is a muted, dot-separated line, as in "Earlier projects". Skills are a label column and dot-separated lists. Education and Languages share the bottom row, Education two thirds of it and Languages one third, with the degree in the role titles' blue SemiBold and the language badges all the width of the widest one.
 - The `<title>`, "Kevin Lin – Resume", becomes the PDF's document title, which Google shows in search results. Keep it.
+
+## Text order
+
+Applicant tracking systems and copy-paste read a PDF's text in the order it is stored, not as it looks on the page. Chromium stores the text of positioned boxes (`position: relative` or `absolute`) after the rest of the page, because it paints them in a later layer. The bullets used to be positioned to place their dots, so every bullet came after all the role titles, and page 2's Protrade bullets came after Languages. Draw decorations without positioning (the bullet dot is an inline box pulled into the indent); only the page and its footer are positioned. To check the order, read the PDF as stored:
+
+```
+pdftotext -enc UTF-8 -raw apps/my-website/public/resources/resume/kevin-lin-resume.pdf -
+```
+
+Each role's bullets should follow its title, and each section should follow the one above it.
 
 ## The font
 
@@ -45,4 +55,4 @@ The content mirrors the site's data (`src/data/*.ts`), so a change there belongs
 - Skills: the site's groups, every item, in the site's order, with the sub-rows merged into their group.
 - Education and languages: `src/data/about.ts`.
 
-Page 1 has about 2 pt to spare, so a new line there means removing one, or shaving `line-height` (12.9 pt) or the bullet gap (2.4 pt). Page 2 has about 74 pt, roughly five lines.
+Page 1 has about 2 pt to spare, so a new line there means removing one, or shaving `line-height` (12.9 pt) or the bullet gap (2.4 pt). Page 2 has about 78 pt, roughly six lines.

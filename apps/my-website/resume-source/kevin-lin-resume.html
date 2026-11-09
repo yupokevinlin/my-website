@@ -100,8 +100,12 @@
   h4 { margin: 0; font-size: 9.75pt; line-height: 12.9pt; font-weight: 600; color: var(--accent-strong); }
   .meta { font-size: 8.5pt; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
   .bullets { margin: 2pt 0 0; padding: 0 0 0 10pt; list-style: none; }
-  .bullets li { position: relative; margin-top: 2.4pt; }
-  .bullets li::before { content: ""; position: absolute; left: -9pt; top: 5pt; width: 3pt; height: 3pt; border-radius: 50%; background: var(--accent); }
+  /* The dot is an inline box pulled into the indent (-9pt + 3pt + 6pt = 0, so the text starts where it
+     would without it). Not position: relative/absolute: Chromium paints positioned boxes in a later
+     layer and writes their text into the PDF after the rest of the page, which separated every
+     bullet from its role for parsers that read the PDF in order. */
+  .bullets li { margin-top: 2.4pt; }
+  .bullets li::before { content: ""; display: inline-block; width: 3pt; height: 3pt; margin: 0 6pt 0 -9pt; vertical-align: 1.75pt; border-radius: 50%; background: var(--accent); }
 
   /* Projects */
   .proj + .proj { margin-top: 9pt; }
@@ -109,11 +113,8 @@
   .proj-head h3 { font-size: 10pt; }
   .links { font-size: 8.5pt; color: var(--faint); white-space: nowrap; }
   .proj p { margin: 1pt 0 0; }
-  .chips { display: flex; flex-wrap: wrap; gap: 3pt; margin: 3.5pt 0 0; padding: 0; list-style: none; }
-  .chips li {
-    font-size: 7.5pt; line-height: 9.5pt; font-weight: 500; color: var(--accent-strong);
-    background: var(--chip); border: 0.5pt solid var(--chip-line); border-radius: 3pt; padding: 1pt 4.5pt;
-  }
+  /* A project's stack: the same muted, dot-separated line as the earlier projects' */
+  .proj .stack { font-size: 8.75pt; line-height: 12pt; color: var(--muted); }
   .earlier { margin: 10pt 0 0; font-size: 8.75pt; line-height: 12pt; color: var(--muted); }
   .elabel { font-weight: 600; color: var(--ink); }
   .egrid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 20pt; row-gap: 4pt; margin: 3pt 0 0; padding: 0; list-style: none; }
@@ -284,7 +285,7 @@
     <article class="proj">
       <div class="proj-head"><div class="co-head"><h3>Relativistic Ray Tracing</h3><span class="about">WebGL 2 · Physics</span></div></div>
       <p>Real-time 4K simulations of a black hole, a fall through its event horizon, a wormhole and near-light-speed travel, with an illustrated guide to the physics behind each one.</p>
-      <ul class="chips"><li>React</li><li>TypeScript</li><li>WebGL 2</li><li>GLSL</li></ul>
+      <p class="stack">React · TypeScript · WebGL 2 · GLSL</p>
     </article>
     <div class="earlier">
       <div class="elabel">Earlier projects</div>
