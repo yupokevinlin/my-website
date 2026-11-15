@@ -24,7 +24,6 @@ export default defineConfig({
   globalSetup: './src/global-setup.ts',
   expect: {
     // visual.spec.ts: allow for anti-aliasing noise, not for a changed colour,
-    // picture or line of text
     // picture or line of text. A full-page shot of the phone sizes is over
     // 12,000 px tall, which takes a while when the machine is busy.
     toHaveScreenshot: { maxDiffPixelRatio: 0.001, timeout: 30_000 },
