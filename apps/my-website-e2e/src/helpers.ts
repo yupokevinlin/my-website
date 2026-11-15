@@ -2,6 +2,11 @@ import { Page, expect } from '@playwright/test';
 
 export const SEASONS = ['Spring', 'Summer', 'Autumn', 'Winter'];
 
+// The dev server the tests start counts the Experience durations and "years
+// building software" up to this date instead of today (playwright.config.ts),
+// so the screenshots in visual.spec.ts stay the same from month to month
+export const PINNED_BUILD_DATE = '2026-11-15T12:00:00.000Z';
+
 // The sizes the home page is checked at: a small and a common phone, a tablet
 // held upright, and a laptop
 export const VIEWPORTS = {
@@ -12,16 +17,20 @@ export const VIEWPORTS = {
 };
 
 // Scrolls to the bottom and back so every scroll-in animation has finished
+// Scrolls through again if a pass ran before React hydrated (the first
+// request to a cold dev server is slow), when nothing was watching the scroll.
 export const revealAll = async (page: Page) => {
-  // The page grows as pictures load, so the height is read again each step
-  for (let y = 0; y < (await page.evaluate(() => document.documentElement.scrollHeight)); y += 500) {
-    // Two frames, so the scroll-in observer sees each position
-    await page.evaluate((top) => {
-      window.scrollTo({ top, behavior: 'instant' });
-      return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-    }, y);
-  }
-  await page.waitForFunction(() => [...document.querySelectorAll('.v2-reveal')].every((el) => getComputedStyle(el).opacity === '1'));
+  await expect(async () => {
+    // The page grows as pictures load, so the height is read again each step
+    for (let y = 0; y < (await page.evaluate(() => document.documentElement.scrollHeight)); y += 500) {
+      // Two frames, so the scroll-in observer sees each position
+      await page.evaluate((top) => {
+        window.scrollTo({ top, behavior: 'instant' });
+        return new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+      }, y);
+    }
+    await page.waitForFunction(() => [...document.querySelectorAll('.v2-reveal')].every((el) => getComputedStyle(el).opacity === '1'), undefined, { timeout: 5_000 });
+  }).toPass({ timeout: 45_000 });
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
 };
 

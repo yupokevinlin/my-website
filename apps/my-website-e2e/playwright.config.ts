@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 import { nxE2EPreset } from '@nx/playwright/preset';
 import { workspaceRoot } from '@nx/devkit';
+import { PINNED_BUILD_DATE } from './src/helpers';
 
 // For CI, you may want to set BASE_URL to the deployed application.
 const baseURL = process.env['BASE_URL'] || 'http://localhost:3000';
@@ -19,6 +20,13 @@ export default defineConfig({
   // Each test scrolls the whole page against the dev server, which compiles
   // on first request
   timeout: 60_000,
+  expect: {
+    // visual.spec.ts: allow for anti-aliasing noise, not for a changed colour,
+    // picture or line of text
+    // picture or line of text. A full-page shot of the phone sizes is over
+    // 12,000 px tall, which takes a while when the machine is busy.
+    toHaveScreenshot: { maxDiffPixelRatio: 0.001, timeout: 30_000 },
+  },
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL,
@@ -31,6 +39,9 @@ export default defineConfig({
     url: 'http://localhost:3000',
     reuseExistingServer: true,
     cwd: workspaceRoot,
+    // A dev server started some other way counts to today instead, and
+    // visual.spec.ts fails, saying so
+    env: { BUILD_DATE: PINNED_BUILD_DATE },
   },
   projects: [
     {

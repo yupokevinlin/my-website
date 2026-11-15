@@ -12,8 +12,10 @@ const nextConfig = {
   distDir: "../../dist/apps/my-website",
   output: "export",
   images: { unoptimized: true },
-  // Experience durations count up to the month the site was built
-  env: { BUILD_DATE: new Date().toISOString() },
+  // Experience durations count up to the month the site was built. The
+  // browser tests pin it (BUILD_DATE in the environment), so their
+  // screenshots don't change from month to month.
+  env: { BUILD_DATE: process.env.BUILD_DATE ?? new Date().toISOString() },
 };
 
 const plugins = [
