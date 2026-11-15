@@ -69,6 +69,8 @@ for (const [name, viewport] of Object.entries(VIEWPORTS)) {
 
     test('the top bar fits on one line', async ({ page }) => {
       const bar = page.locator('header').first();
+      // boundingBox() doesn't wait: it gives null for a bar not drawn yet
+      await expect(bar).toBeVisible();
       const box = await bar.boundingBox();
       expect(box?.height).toBeLessThanOrEqual(72);
       const items = await bar.locator('a:visible, button:visible').evaluateAll((els) =>

@@ -20,6 +20,8 @@ export default defineConfig({
   // Each test scrolls the whole page against the dev server, which compiles
   // on first request
   timeout: 60_000,
+  // Compiles every page before the tests start (see the file)
+  globalSetup: './src/global-setup.ts',
   expect: {
     // visual.spec.ts: allow for anti-aliasing noise, not for a changed colour,
     // picture or line of text
