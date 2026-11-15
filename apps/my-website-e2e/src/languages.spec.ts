@@ -29,6 +29,7 @@ for (const { prefix, lang, label } of LANGUAGES) {
         await revealAll(page);
         const width = await page.evaluate(() => ({ page: document.documentElement.scrollWidth, view: document.documentElement.clientWidth }));
         expect(width.page).toBeLessThanOrEqual(width.view);
+        await expect(page.locator('header').first()).toBeVisible();
         const bar = await page.locator('header').first().boundingBox();
         expect(bar?.height).toBeLessThanOrEqual(72);
       }
