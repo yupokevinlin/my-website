@@ -32,7 +32,7 @@ export const featuredProjects: FeaturedProject[] = [
     name: "ForteCare",
     kicker: "Co-founder & CTO",
     description: "Automates the specialist referral journey, from intake to a finished visit note, with AI triage and summaries built on de-identified records, so patients reach the right specialist faster and physicians walk in prepared.",
-    image: { src: "/resources/images/projects/fortecare.webp", alt: "ForteCare: the right specialist, at the right time", width: 1200, height: 630 },
+    image: { src: "/resources/images/projects/fortecare.webp", alt: "ForteCare: the right specialist, at the right time, beside the eight referral steps it automates, from intake to a signed note", width: 1200, height: 630 },
     tags: ["Next.js", "NestJS", "Azure", "OpenAI API", "FHIR"],
     links: [{ label: "Visit fortecare.ai", href: "https://fortecare.ai/" }],
   },
