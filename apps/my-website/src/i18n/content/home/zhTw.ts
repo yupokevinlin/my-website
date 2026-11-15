@@ -154,7 +154,7 @@ export const HOME_ZH_TW: HomeTranslation = {
       kicker: "共同創辦人暨技術長",
       description: "以去識別化病歷為基礎，透過 AI 分流與摘要，將專科轉診從收案到完成看診紀錄的整個流程自動化，讓病患更快找到合適的專科醫師，醫師看診前也能做好充分準備。",
       image: {
-        alt: "ForteCare：在對的時間，找到對的專科醫師",
+        alt: "ForteCare：在對的時間，找到對的專科醫師；旁邊列出它自動化的八個轉診步驟，從收案到簽署看診紀錄",
       },
       links: [
         {

@@ -154,7 +154,7 @@ export const HOME_ZH_CN: HomeTranslation = {
       kicker: "联合创始人兼首席技术官",
       description: "基于去标识化病历，通过 AI 分诊与摘要，实现从受理转诊到完成就诊记录的专科转诊全流程自动化，让患者更快找到合适的专科医生，让医生在接诊前做好充分准备。",
       image: {
-        alt: "ForteCare：在合适的时间，找到合适的专科医生",
+        alt: "ForteCare：在合适的时间，找到合适的专科医生；旁边列出它自动化的八个转诊步骤，从受理转诊到签署就诊记录",
       },
       links: [
         {

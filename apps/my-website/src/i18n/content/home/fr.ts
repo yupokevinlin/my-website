@@ -154,7 +154,7 @@ export const HOME_FR: HomeTranslation = {
       kicker: "Cofondateur et directeur technique (CTO)",
       description: "Automatise le parcours d'orientation vers les spécialistes, de l'admission à la note de consultation finalisée, grâce au triage et aux résumés par IA fondés sur des dossiers dépersonnalisés : les patients voient plus vite le bon spécialiste, et les médecins arrivent préparés.",
       image: {
-        alt: "ForteCare : le bon spécialiste, au bon moment",
+        alt: "ForteCare : le bon spécialiste, au bon moment, à côté des huit étapes de l'orientation qu'il automatise, de l'admission à la note signée",
       },
       links: [
         {
