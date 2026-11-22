@@ -34,7 +34,7 @@ export const NotFoundPage = (): ReactNode => {
             <Eyebrow onScene large className="justify-center">Error 404</Eyebrow>
             <h1 className="mt-3 text-[36px] font-bold leading-tight tracking-[-0.025em] text-[var(--v2-ink)] md:text-[52px]">Page not found</h1>
             <p className="mx-auto mt-4 max-w-[30rem] text-[17px] leading-relaxed text-[var(--v2-body)]">
-              There&rsquo;s nothing at this address. It may have moved, or the link may have a typo.
+              The page you&rsquo;re looking for doesn&rsquo;t exist or has moved.
             </p>
             <div className="mt-8 flex justify-center">
               <ButtonLink href="/" className="px-6 py-3.5 text-[16px]">Go back home</ButtonLink>
