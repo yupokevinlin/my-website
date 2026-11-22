@@ -91,6 +91,9 @@ export interface Plan {
 // A carrier's financing on a term, with the plan it requires
 export interface CarrierOffer extends OfferBase {
   kind: "carrier";
+  // The store selling the carrier's deal ("Best Buy"), when it isn't the
+  // carrier itself; such deals are a group of their own under the carrier
+  via?: string;
   fullPrice: number;
   termMonths: number;
   // Paid for the phone on day one, before tax

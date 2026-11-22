@@ -94,6 +94,7 @@ export const offerProblems = (offer, deviceIds) => {
     need(plan && positive(plan.monthly), "plan.monthly");
     need(plan && (plan.gb === "unlimited" || positive(plan.gb)), "plan.gb: a number or \"unlimited\"");
     need(plan && Array.isArray(plan.features) && plan.features.every((feature) => typeof feature === "string"), "plan.features: strings");
+    if (offer.via !== undefined) need(typeof offer.via === "string" && offer.via, "via: the store that sells the carrier's deal");
     if (offer.credit) need(positive(offer.credit.amount) && offer.credit.label, "credit: amount and label");
   } else {
     problems.push(`kind: outright, subscription or carrier (${offer.kind})`);

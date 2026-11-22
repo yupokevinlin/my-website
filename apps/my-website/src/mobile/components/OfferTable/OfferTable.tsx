@@ -72,7 +72,7 @@ export const OfferTable = ({ caption, groups, rankBy }: OfferTableProps): ReactN
           </tr>
         </thead>
         {groups.map((group) => (
-          <tbody key={group.seller} className="border-t-2 border-blue-200 first-of-type:border-t-0">
+          <tbody key={group.key}className="border-t-2 border-blue-200 first-of-type:border-t-0">
             {group.rows.map((row, index) => (
               <OfferRow key={row.offer.id} row={row} groupSize={index === 0 ? group.rows.length : undefined} maxGb={maxGb} bestKeep={row.keep[rankBy] === bestKeep} bestReturn={row.returned?.[rankBy] === bestReturn} badge={badge}/>
             ))}

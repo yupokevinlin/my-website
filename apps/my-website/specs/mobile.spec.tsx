@@ -2,7 +2,7 @@ import React from "react";
 import { fireEvent, render, within } from "@testing-library/react";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import MobilePage from "../pages/mobile";
+import MobilePage from "../pages/mobile-price-checker";
 import catalog from "../src/mobile/data/devices.json";
 import { regions } from "../src/mobile/regions";
 import { searchPhones } from "../src/mobile/search";
@@ -182,7 +182,7 @@ describe("Phone price data", () => {
   });
 });
 
-describe("/mobile page", () => {
+describe("/mobile-price-checker page", () => {
   const data = regions.bc;
   const tables = (container: HTMLElement) => {
     const [unlocked, monthly] = Array.from(container.querySelectorAll<HTMLElement>("table"));

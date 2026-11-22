@@ -136,16 +136,29 @@ export const money = (amount: number, digits = 2): string =>
   `${amount < 0 ? "−" : ""}$${Math.abs(amount).toLocaleString("en-CA", { minimumFractionDigits: digits, maximumFractionDigits: digits })}`;
 
 export interface SellerGroup {
+  // Unique in the table: the seller, and the store it's bought through
+  key: string;
   seller: string;
+  // The store selling the carrier's deal, as "from Best Buy"
+  via?: string;
   rows: CostRow[];
 }
 
+const viaOf = (offer: Offer): string | undefined => (offer.kind === "carrier" ? offer.via : undefined);
+
 // Rows that are already sorted, gathered by seller: a seller's plan tiers stay
-// in their order, and the sellers come in the order of their cheapest tier.
+// in their order, and the sellers come in the order of their cheapest tier. A
+// carrier's deals through a store (Best Buy) are a group of their own.
 export const groupBySeller = (rows: CostRow[]): SellerGroup[] => {
-  const groups = new Map<string, CostRow[]>();
-  for (const row of rows) groups.set(row.offer.seller, [...(groups.get(row.offer.seller) ?? []), row]);
-  return Array.from(groups, ([seller, grouped]) => ({ seller, rows: grouped }));
+  const groups = new Map<string, SellerGroup>();
+  for (const row of rows) {
+    const via = viaOf(row.offer);
+    const key = via ? `${row.offer.seller} from ${via}` : row.offer.seller;
+    const group = groups.get(key) ?? { key, seller: row.offer.seller, via, rows: [] };
+    group.rows.push(row);
+    groups.set(key, group);
+  }
+  return [...groups.values()];
 };
 
 export const dataLabel = (gb: PlanData): string => (gb === "unlimited" ? "Unlimited" : `${gb} GB`);

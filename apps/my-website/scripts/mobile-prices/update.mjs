@@ -58,6 +58,10 @@ for (const name of moduleFiles) {
 const browser = await chromium.launch({ channel: "chrome", headless: flag("headless") });
 const context = await browser.newContext({ locale: "en-CA", timezoneId: "America/Vancouver", viewport: { width: 1280, height: 900 } });
 
+// The module an offer comes from: its seller's, or for a carrier's deal sold
+// through a store (via), that store's carriers module ("Best Buy (carriers)")
+const owner = (offer) => (offer.via ? `${offer.via} (carriers)` : offer.seller);
+
 const pages = new Map();
 // A page on the seller's site, opened once and kept so several requests can
 // share it. Cookies (the province, for one) are set on the site first.
@@ -122,6 +126,9 @@ const runSeller = async (module) => {
     match: (name) => matchDevice(devices, name),
     source: (label, url, verified = "primary") => ({ label, url, verified, checked: today }),
     // One storage and colour of a phone, with its picture (Best Buy's module records them)
+    // The offers a seller's module just read, or its saved ones when it failed
+    // or didn't run: for a module that runs after the others (after: true)
+    offersOf: (seller) => results.find((result) => result.ok && result.module.seller === seller)?.offers ?? (data.offers ?? []).filter((offer) => owner(offer) === seller),
     variant: (deviceId, { storage, colour, image }) => {
       if (!deviceIds.has(deviceId) || !/^\d+(GB|TB)$/.test(storage ?? "") || !colour || !/^https:\/\//.test(image ?? "")) return;
       (variants[deviceId] ??= []).push({ storage, colour, image });
@@ -147,14 +154,17 @@ const runSeller = async (module) => {
   }
 };
 
-// A few sellers at a time: each is a different site
+// A few sellers at a time: each is a different site. Modules marked after:
+// true build on the others' offers (offersOf), so they run once those are done.
 const results = [];
-const queue = [...modules];
-await Promise.all(
-  Array.from({ length: Math.min(3, queue.length) }, async () => {
-    while (queue.length) results.push(await runSeller(queue.shift()));
-  }),
-);
+for (const pass of [modules.filter((module) => !module.after), modules.filter((module) => module.after)]) {
+  const queue = [...pass];
+  await Promise.all(
+    Array.from({ length: Math.min(3, queue.length) }, async () => {
+      while (queue.length) results.push(await runSeller(queue.shift()));
+    }),
+  );
+}
 await browser.close();
 
 // The new offer list: what each seller's module found, and the previous
@@ -165,7 +175,7 @@ const ran = new Map(results.filter((result) => result.ok).map((result) => [resul
 const unsized = (data.offers ?? []).filter((offer) => !offer.storage);
 if (unsized.length) console.log(`\nDropped ${unsized.length} saved offers with no storage size (read before storage sizes were kept): ${[...new Set(unsized.map((offer) => offer.seller))].join(", ")}`);
 const previous = (data.offers ?? []).filter((offer) => offer.storage);
-const offers = [...previous.filter((offer) => !ran.has(offer.seller)), ...[...ran.values()].flat()];
+const offers = [...previous.filter((offer) => !ran.has(owner(offer))), ...[...ran.values()].flat()];
 
 // What changed
 const flat = (value, prefix = "") =>

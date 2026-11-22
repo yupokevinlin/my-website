@@ -48,10 +48,12 @@ export const OfferRow = ({ row, groupSize, maxGb, bestKeep, bestReturn, badge }:
       <tr>
         {groupSize ? (
           // Spans every tier of the seller: each tier is two rows, itself and its details
-          <SellerCell seller={offer.seller} title={offer.title} rowSpan={groupSize * 2}/>
+          <SellerCell seller={offer.seller} title={offer.title} rowSpan={groupSize * 2} via={offer.kind === "carrier" ? offer.via : undefined}/>
         ) : null}
         <th scope="row" className={clsx("border-blue-100 px-2 py-3 text-left align-top text-[13.5px] font-medium text-slate-900", !groupSize && "border-t")}>
           {plan ? plan.name : "Your own plan"}
+          {/* A gift card or bill credit, already taken off the totals */}
+          {offer.kind === "carrier" && offer.credit ? <span className="mt-1.5 block w-fit rounded-md bg-emerald-50 px-1.5 py-0.5 text-[12px] font-semibold leading-snug text-emerald-900">{offer.credit.label}</span> : null}
           {plan ? (
             plan.features.length ? (
               <ul className="mt-1.5 flex flex-wrap gap-1 font-normal">
