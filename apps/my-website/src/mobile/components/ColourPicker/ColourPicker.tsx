@@ -22,12 +22,13 @@ export const ColourPicker = ({ colours, value, onChange }: ColourPickerProps): R
           aria-pressed={chosen}
           onClick={() => onChange(colour.name)}
           className={clsx(
-            "flex min-h-11 items-center gap-2 rounded-full border-2 bg-white py-1 pl-1 pr-3 text-[14px] font-medium text-slate-800",
+            "flex items-center gap-2.5 rounded-2xl border-2 bg-white py-1.5 pl-1.5 pr-4 text-[15px] font-medium text-slate-800",
             chosen ? "border-transparent [background:linear-gradient(#fff,#fff)_padding-box,linear-gradient(135deg,#2563eb,#7c3aed)_border-box]" : "border-blue-100 hover:border-violet-300",
           )}
         >
-          {/* Decorative: the name beside it says which colour */}
-          <img src={colour.image} alt="" aria-hidden="true" width={32} height={32} loading="lazy" decoding="async" referrerPolicy="no-referrer" className="h-8 w-8 rounded-full bg-white object-contain"/>
+          {/* Decorative: the name beside it says which colour. The whole
+              picture shows (contain, no round crop), since it's a phone, not a dot */}
+          <img src={colour.image} alt="" aria-hidden="true" width={56} height={56} loading="lazy" decoding="async" referrerPolicy="no-referrer" className="h-14 w-14 rounded-lg bg-white object-contain"/>
           {colour.name}
         </button>
       );

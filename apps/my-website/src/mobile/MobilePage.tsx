@@ -113,7 +113,7 @@ export const MobilePage = (): ReactNode => {
               ) : null}
             </div>
             <div className="w-full max-w-[19rem]">
-              <NumberField label="Bring your own device plans" hint={`Per month, before tax. Starts at ${data.byodPlan.name}.`} value={byodMonthly} onChange={setByodMonthly}/>
+              <NumberField label="Bring your own device plan" hint={`Per month, before tax. Starts at ${data.byodPlan.name}.`} value={byodMonthly} onChange={setByodMonthly}/>
             </div>
           </div>
 
