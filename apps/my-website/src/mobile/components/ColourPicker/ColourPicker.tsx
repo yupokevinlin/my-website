@@ -12,7 +12,8 @@ export interface ColourPickerProps {
 // as Best Buy's own pages do. Choosing one shows that colour in the card; the
 // prices are the same for every colour.
 export const ColourPicker = ({ colours, value, onChange }: ColourPickerProps): ReactNode => (
-  <div role="group" aria-label="Colour" className="flex flex-wrap gap-2">
+  // Equal columns, so every colour's button is the same size whatever its name
+  <div role="group" aria-label="Colour" className="grid grid-cols-[repeat(auto-fill,minmax(11.5rem,1fr))] gap-2">
     {colours.map((colour) => {
       const chosen = colour.name === value;
       return (
@@ -22,7 +23,7 @@ export const ColourPicker = ({ colours, value, onChange }: ColourPickerProps): R
           aria-pressed={chosen}
           onClick={() => onChange(colour.name)}
           className={clsx(
-            "flex items-center gap-2.5 rounded-2xl border-2 bg-white py-1.5 pl-1.5 pr-4 text-[15px] font-medium text-slate-800",
+            "flex h-full items-center gap-2.5 rounded-2xl text-left border-2 bg-white py-1.5 pl-1.5 pr-4 text-[15px] font-medium text-slate-800",
             chosen ? "border-transparent [background:linear-gradient(#fff,#fff)_padding-box,linear-gradient(135deg,#2563eb,#7c3aed)_border-box]" : "border-blue-100 hover:border-violet-300",
           )}
         >

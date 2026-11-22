@@ -31,7 +31,8 @@ export const MobilePage = (): ReactNode => {
   // The storage and colour chosen for the phone; unset, its defaults below
   const [chosen, setChosen] = useState<{ storage?: string; colour?: string }>({});
   const [sortBy, setSortBy] = useState<SortBy>("keep");
-  const [byodMonthly, setByodMonthly] = useState(data.byodPlan.monthly);
+  // Kevin's choice of starting amount; the visitor can change it
+  const [byodMonthly, setByodMonthly] = useState(60);
 
   const phone = data.phones.find((candidate) => candidate.id === phoneId) ?? data.phones[0];
   // A new phone starts at its smallest storage that someone sells, in its first colour
@@ -113,7 +114,7 @@ export const MobilePage = (): ReactNode => {
               ) : null}
             </div>
             <div className="w-full max-w-[19rem]">
-              <NumberField label="Bring your own device plan" hint={`Per month, before tax. Starts at ${data.byodPlan.name}.`} value={byodMonthly} onChange={setByodMonthly}/>
+              <NumberField label="Bring your own device plan" hint="Per month, before tax." value={byodMonthly} onChange={setByodMonthly}/>
             </div>
           </div>
 
