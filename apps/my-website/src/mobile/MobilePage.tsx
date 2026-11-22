@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { sans } from "../v2/fonts";
 import { DEFAULT_REGION, regions } from "./regions";
 import { OUTRIGHT_MONTHS, costRows, groupBySeller } from "./tco";
-import type { SortBy } from "./types";
+import type { RankBy, SortBy } from "./types";
 import { Choice } from "./components/Choice/Choice";
 import { ColourPicker } from "./components/ColourPicker/ColourPicker";
 import { DevicePicker } from "./components/DevicePicker/DevicePicker";
@@ -16,6 +16,14 @@ import { OutrightTable } from "./components/OutrightTable/OutrightTable";
 const SORTS: { value: SortBy; label: string }[] = [
   { value: "keep", label: "Keep it" },
   { value: "returned", label: "Return it" },
+];
+
+// Totals cover different terms (Best Buy's subscription is 36 months, carriers
+// 24), so the cheapest total and the cheapest month can differ: Kevin chose
+// total as the default, with per month one click away
+const RANKS: { value: RankBy; label: string }[] = [
+  { value: "total", label: "Total" },
+  { value: "perMonth", label: "Per month" },
 ];
 
 // /mobile: what a phone really costs in one province, from every place that
@@ -31,6 +39,7 @@ export const MobilePage = (): ReactNode => {
   // The storage and colour chosen for the phone; unset, its defaults below
   const [chosen, setChosen] = useState<{ storage?: string; colour?: string }>({});
   const [sortBy, setSortBy] = useState<SortBy>("keep");
+  const [rankBy, setRankBy] = useState<RankBy>("total");
   // Kevin's choice of starting amount; the visitor can change it
   const [byodMonthly, setByodMonthly] = useState(60);
 
@@ -57,10 +66,11 @@ export const MobilePage = (): ReactNode => {
           region,
           settings,
           sortBy,
+          rankBy,
         ),
       ),
     };
-  }, [data.offers, phone.id, storage, region, byodMonthly, sortBy]);
+  }, [data.offers, phone.id, storage, region, byodMonthly, sortBy, rankBy]);
   const name = `${phone.name} ${storage}`;
 
   return (
@@ -142,10 +152,12 @@ export const MobilePage = (): ReactNode => {
                 Cheapest first for
               </p>
               <Choice label="Cheapest first for" options={SORTS} value={sortBy} onChange={setSortBy}/>
+              <p className="ml-2 text-[14px] font-medium">by</p>
+              <Choice label="Cheapest by" options={RANKS} value={rankBy} onChange={setRankBy}/>
             </div>
             <p className="mt-3 text-[14px] text-slate-700 md:hidden">The table is wider than this screen: scroll it sideways.</p>
             <div className="mt-4">
-              {monthly.length ? <OfferTable caption={`${name} in ${region.name}, paid by the month: each plan returned and kept`} groups={monthly}/> : <p className="rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 p-4 text-[15px] text-slate-700">No carrier or store in the list sells the {name} by the month.</p>}
+              {monthly.length ? <OfferTable caption={`${name} in ${region.name}, paid by the month: each plan returned and kept`} groups={monthly} rankBy={rankBy}/> : <p className="rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 p-4 text-[15px] text-slate-700">No carrier or store in the list sells the {name} by the month.</p>}
             </div>
           </section>
         </main>

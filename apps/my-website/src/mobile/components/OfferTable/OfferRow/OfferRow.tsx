@@ -18,23 +18,25 @@ export interface OfferRowProps {
   // This row has the lowest monthly cost of the table for that outcome
   bestKeep: boolean;
   bestReturn: boolean;
+  // The badge's words: "Lowest", or "Lowest per month"
+  badge: string;
 }
 
 const CELL = "border-blue-100 px-2 py-3 text-right align-top text-[14px] text-slate-900";
 const SMALL = "mt-0.5 block text-[12px] font-normal text-slate-600";
 
 // The term has its own column, so the average month is shown without it
-const total = (scenario: Scenario, best: boolean, className: string): ReactNode => (
+const total = (scenario: Scenario, best: boolean, badge: string, className: string): ReactNode => (
   <td className={clsx(className, "font-semibold")}>
     {money(scenario.total)}
     <span className={clsx(SMALL, "whitespace-nowrap")}>{money(scenario.perMonth)}/mo</span>
-    {best ? <LowestBadge/> : null}
+    {best ? <LowestBadge label={badge}/> : null}
   </td>
 );
 
 // One plan tier of a seller's monthly deal: what it costs returned and kept.
 // "Details" opens the arithmetic, the fine print and the source.
-export const OfferRow = ({ row, groupSize, maxGb, bestKeep, bestReturn }: OfferRowProps): ReactNode => {
+export const OfferRow = ({ row, groupSize, maxGb, bestKeep, bestReturn, badge }: OfferRowProps): ReactNode => {
   const { offer, months, keep, returned } = row;
   const details = useDetails();
   // A line between a seller's tiers; the line between sellers is the tbody's
@@ -74,7 +76,7 @@ export const OfferRow = ({ row, groupSize, maxGb, bestKeep, bestReturn }: OfferR
               <span className={SMALL}>{returned.how}</span>
             </td>
             <td className={cell}>{money(returned.planMonthly)}</td>
-            {total(returned, bestReturn, cell)}
+            {total(returned, bestReturn, badge, cell)}
           </>
         ) : (
           <td colSpan={3} className={clsx("border-blue-100 px-2 py-3 text-center align-top text-[13.5px] text-slate-600", !groupSize && "border-t")}>
@@ -87,7 +89,7 @@ export const OfferRow = ({ row, groupSize, maxGb, bestKeep, bestReturn }: OfferR
         </td>
         <td className={cell}>{money(keep.planMonthly)}</td>
         <td className={cell}>{money(keep.dueAtEnd)}</td>
-        {total(keep, bestKeep, cell)}
+        {total(keep, bestKeep, badge, cell)}
         <td className={clsx("border-blue-100 px-1 py-2 text-right align-top", !groupSize && "border-t")}>{details.button(subject)}</td>
       </tr>
       <DetailsRow id={details.id} open={details.open} colSpan={12} row={row}/>

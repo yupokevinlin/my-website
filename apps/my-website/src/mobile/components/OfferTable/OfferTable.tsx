@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { SellerGroup } from "../../tco";
-import type { CostRow } from "../../types";
+import type { CostRow, RankBy } from "../../types";
 import { ColumnHead } from "../ColumnHead/ColumnHead";
 import { OfferRow } from "./OfferRow/OfferRow";
 
@@ -9,6 +9,8 @@ export interface OfferTableProps {
   caption: string;
   // Each seller with its plan tiers, cheapest first
   groups: SellerGroup[];
+  // What "cheapest" goes by, for the Lowest badges
+  rankBy: RankBy;
 }
 
 const lowest = (rows: CostRow[], pick: (row: CostRow) => number | undefined): number => Math.min(...rows.map((row) => pick(row) ?? Infinity));
@@ -20,10 +22,11 @@ const lowest = (rows: CostRow[], pick: (row: CostRow) => number | undefined): nu
 // so it scrolls sideways there with the seller column held in place.
 // The box is relative so hidden screen-reader text in the table is placed
 // against it, not the page: otherwise the page itself scrolled sideways.
-export const OfferTable = ({ caption, groups }: OfferTableProps): ReactNode => {
+export const OfferTable = ({ caption, groups, rankBy }: OfferTableProps): ReactNode => {
   const rows = groups.flatMap((group) => group.rows);
-  const bestKeep = lowest(rows, (row) => row.keep.perMonth);
-  const bestReturn = lowest(rows, (row) => row.returned?.perMonth);
+  const bestKeep = lowest(rows, (row) => row.keep[rankBy]);
+  const bestReturn = lowest(rows, (row) => row.returned?.[rankBy]);
+  const badge = rankBy === "total" ? "Lowest" : "Lowest per month";
   const maxGb = Math.max(1, ...rows.map(({ offer }) => (offer.kind === "carrier" && offer.plan.gb !== "unlimited" ? offer.plan.gb : 0)));
   return (
     <div className="relative overflow-x-auto rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 [scrollbar-width:thin]" tabIndex={0} role="region" aria-label={caption}>
@@ -71,7 +74,7 @@ export const OfferTable = ({ caption, groups }: OfferTableProps): ReactNode => {
         {groups.map((group) => (
           <tbody key={group.seller} className="border-t-2 border-blue-200 first-of-type:border-t-0">
             {group.rows.map((row, index) => (
-              <OfferRow key={row.offer.id} row={row} groupSize={index === 0 ? group.rows.length : undefined} maxGb={maxGb} bestKeep={row.keep.perMonth === bestKeep} bestReturn={row.returned?.perMonth === bestReturn}/>
+              <OfferRow key={row.offer.id} row={row} groupSize={index === 0 ? group.rows.length : undefined} maxGb={maxGb} bestKeep={row.keep[rankBy] === bestKeep} bestReturn={row.returned?.[rankBy] === bestReturn} badge={badge}/>
             ))}
           </tbody>
         ))}

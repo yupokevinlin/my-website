@@ -156,3 +156,7 @@ export interface CostRow {
 }
 
 export type SortBy = "keep" | "returned";
+
+// What "cheapest" means: the whole term's total, or the average month (fairer
+// between terms of different lengths: a 36-month deal costs more in total)
+export type RankBy = "total" | "perMonth";

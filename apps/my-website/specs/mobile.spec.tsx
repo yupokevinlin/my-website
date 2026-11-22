@@ -268,6 +268,23 @@ describe("/mobile page", () => {
     expect(container.querySelectorAll("tbody tr[hidden]").length).toBe(before - 1);
   });
 
+  it("ranks by the total by default, or by the average month", () => {
+    const { container, getByRole } = renderIphone18Pro();
+    // The keep-it total: the cell before Details (a missing return program spans three columns)
+    const keepTotal = (row: Element) => {
+      const cells = row.querySelectorAll(":scope > td");
+      return Number(cells[cells.length - 2]?.textContent?.match(/^\$([\d,.]+)/)?.[1].replace(/,/g, ""));
+    };
+    // The sellers come in order of their cheapest tier's total
+    const firsts = Array.from(tables(container).monthly.querySelectorAll("tbody"), (group) => keepTotal(group.querySelector("tr") as Element));
+    expect(firsts.length).toBeGreaterThan(1);
+    for (const total of firsts) expect(total).toBeGreaterThan(0);
+    expect(firsts).toEqual([...firsts].sort((x, y) => x - y));
+    expect(tables(container).monthly.textContent).not.toContain("Lowest per month");
+    fireEvent.click(within(getByRole("group", { name: "Cheapest by" })).getByRole("button", { name: "Per month" }));
+    expect(tables(container).monthly.textContent).toContain("Lowest per month");
+  });
+
   it("prices the storage picked, and shows the colour picked", () => {
     const { container, getByRole } = renderIphone18Pro();
     const phone = data.phones.find((candidate) => candidate.id === "iphone-18-pro");

@@ -1,4 +1,4 @@
-import type { CarrierOffer, CostLine, CostRow, Offer, OutrightOffer, PlanData, Region, Scenario, Settings, SortBy, SubscriptionOffer } from "./types";
+import type { CarrierOffer, CostLine, CostRow, Offer, OutrightOffer, PlanData, Region, RankBy, Scenario, Settings, SortBy, SubscriptionOffer } from "./types";
 
 // Total cost of ownership: everything paid for a phone and its plan over the
 // term, tax included. Each offer is worked out two ways, side by side:
@@ -121,16 +121,16 @@ const carrier = (offer: CarrierOffer, region: Region): CostRow => {
   };
 };
 
-// Cheapest per month first for the chosen outcome; sellers that don't offer
-// it (no return program) go last, in keep-it order.
-export const costRows = (offers: Offer[], region: Region, settings: Settings, sortBy: SortBy = "keep"): CostRow[] =>
+// Cheapest first for the chosen outcome, by its total or its average month;
+// sellers that don't offer it (no return program) go last, in keep-it order.
+export const costRows = (offers: Offer[], region: Region, settings: Settings, sortBy: SortBy = "keep", rankBy: RankBy = "total"): CostRow[] =>
   offers
     .map((offer) => {
       if (offer.kind === "outright") return outright(offer, region, settings);
       if (offer.kind === "subscription") return subscription(offer, region, settings);
       return carrier(offer, region);
     })
-    .sort((a, b) => (a[sortBy]?.perMonth ?? Infinity) - (b[sortBy]?.perMonth ?? Infinity) || a.keep.perMonth - b.keep.perMonth);
+    .sort((a, b) => (a[sortBy]?.[rankBy] ?? Infinity) - (b[sortBy]?.[rankBy] ?? Infinity) || a.keep[rankBy] - b.keep[rankBy]);
 
 export const money = (amount: number, digits = 2): string =>
   `${amount < 0 ? "−" : ""}$${Math.abs(amount).toLocaleString("en-CA", { minimumFractionDigits: digits, maximumFractionDigits: digits })}`;
