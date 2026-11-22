@@ -36,9 +36,8 @@ export const NotFoundPage = (): ReactNode => {
             <p className="mx-auto mt-4 max-w-[30rem] text-[17px] leading-relaxed text-[var(--v2-body)]">
               There&rsquo;s nothing at this address. It may have moved, or the link may have a typo.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <ButtonLink href="/" className="px-6 py-3.5 text-[16px]">Go to the home page</ButtonLink>
-              <ButtonLink href="/ray-tracing" variant="secondary" className="px-6 py-3.5 text-[16px]">Ray-tracing guide</ButtonLink>
+            <div className="mt-8 flex justify-center">
+              <ButtonLink href="/" className="px-6 py-3.5 text-[16px]">Go back home</ButtonLink>
             </div>
           </div>
         </main>
