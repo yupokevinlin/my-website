@@ -21,22 +21,12 @@
     {
       "id": "iphone-18-pro-256",
       "name": "iPhone 18 Pro",
-      "storage": "256GB",
-      "resale": {
-        "months24": 750,
-        "months36": 500,
-        "basis": "Carriers defer $620 to $993 of this phone for 24 months; Best Buy sets $500 for 36."
-      }
+      "storage": "256GB"
     },
     {
       "id": "iphone-17-pro-256",
       "name": "iPhone 17 Pro",
-      "storage": "256GB",
-      "resale": {
-        "months24": 600,
-        "months36": 400,
-        "basis": "Carriers defer $519 to $997 of this phone for 24 months; Best Buy sets $400 for 36."
-      }
+      "storage": "256GB"
     }
   ],
   "offers": [
@@ -98,29 +88,6 @@
       "note": "Best Buy Financing (no payments for 12 months) adds a $69.99 admin fee.",
       "check": {
         "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/20063676/quote",
-        "fields": {
-          "price": "Web Code:\\s*\\d+\\s*\\$([\\d,.]+)"
-        }
-      }
-    },
-    {
-      "id": "18p-bestbuy-openbox",
-      "phone": "iphone-18-pro-256",
-      "kind": "outright",
-      "seller": "Best Buy",
-      "title": "Geek Squad Certified open box, unlocked",
-      "condition": "open-box",
-      "price": 1609.99,
-      "ehf": 0.2,
-      "source": {
-        "label": "Best Buy, open box iPhone 18 Pro 256GB",
-        "url": "https://www.bestbuy.ca/en-ca/product/open-box-apple-iphone-18-pro-256gb-black-unlocked/20200973",
-        "verified": "primary",
-        "checked": "2026-11-21"
-      },
-      "note": "A returned phone checked by Geek Squad. Stock comes and goes.",
-      "check": {
-        "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/20200973/quote",
         "fields": {
           "price": "Web Code:\\s*\\d+\\s*\\$([\\d,.]+)"
         }

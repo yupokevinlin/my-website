@@ -15,9 +15,6 @@ export interface Phone {
   id: string;
   name: string;
   storage: string;
-  // What the phone is likely worth used, for the "keep it" options. The
-  // defaults come from what the sellers themselves say it will be worth.
-  resale: { months24: number; months36: number; basis: string };
 }
 
 export interface Source {
@@ -99,39 +96,35 @@ export interface RegionData {
 export interface Settings {
   // The visitor's own plan, before tax, for phones bought unlocked
   byodMonthly: number;
-  // Count the plan in the totals. Off compares the phones alone.
-  includePlan: boolean;
-  // How long an unlocked phone is kept before it is sold or replaced
-  horizonMonths: 24 | 36;
-  resale24: number;
-  resale36: number;
 }
-
-export type EndState = "own" | "keep" | "return";
 
 export interface CostLine {
   label: string;
   amount: number;
 }
 
-export interface CostRow {
-  id: string;
-  offer: Offer;
-  end: EndState;
-  // What the row is called beside the seller ("Return it", "Keep it"...)
-  option: string;
-  months: number;
+// One way an offer can end, with the plan counted and tax in every amount
+export interface Scenario {
+  // How it gets there: "Financing", "Bring-It-Back", "Pay in full"...
+  how: string;
   dueToday: number;
-  monthly: number;
-  // Paid when the term ends (the keep amount), tax included
+  deviceMonthly: number;
+  planMonthly: number;
+  // Paid when the term ends to keep the phone; 0 when it goes back
   dueAtEnd: number;
-  devicePaid: number;
-  planPaid: number;
-  totalPaid: number;
-  // What the phone is worth at the end, or 0 if it went back
-  resale: number;
-  // totalPaid less resale: what the months of use really cost
-  netCost: number;
-  netPerMonth: number;
+  total: number;
+  // total over the months: the number offers of different lengths compare on
+  perMonth: number;
   lines: CostLine[];
 }
+
+export interface CostRow {
+  offer: Offer;
+  months: number;
+  // The phone is still yours after the term, however it was paid for
+  keep: Scenario;
+  // The phone goes back under the seller's own return program, if it has one
+  returned?: Scenario;
+}
+
+export type SortBy = "keep" | "returned";
