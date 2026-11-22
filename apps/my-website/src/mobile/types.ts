@@ -26,11 +26,17 @@ export interface Source {
   checked: string;
 }
 
-// How scripts/mobile-prices/update.mjs re-reads an offer's numbers: it opens
-// `url` and reads each field with its pattern (the first capture group).
+// How scripts/mobile-prices/update.mjs re-reads an offer's numbers (the script
+// describes both ways). It opens `url`, a page on the seller's site. With
+// `api`, it requests that endpoint from inside the page and reads each field
+// with a path into the JSON; without, each field is a pattern matched against
+// the page's text (the first capture group).
 export interface PriceCheck {
   url: string;
-  fields: Record<string, string>;
+  api?: { url: string; method?: string; headers?: Record<string, string>; body?: unknown; cookies?: Record<string, string> };
+  // A path can come with arithmetic, for a response that isn't what the data
+  // stores: a plan less its autopay discount, an amount with its tax
+  fields: Record<string, string | { path: string; add?: number; times?: number }>;
 }
 
 interface OfferBase {
@@ -41,7 +47,8 @@ interface OfferBase {
   condition: "new" | "open-box" | "refurbished";
   note?: string;
   source: Source;
-  check?: PriceCheck;
+  // One check, or several when an offer's numbers come from different places
+  check?: PriceCheck | PriceCheck[];
 }
 
 // Pay the whole price today and bring the phone to any plan

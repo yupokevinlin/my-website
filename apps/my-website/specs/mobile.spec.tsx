@@ -111,8 +111,13 @@ describe("Phone price data", () => {
       expect(data.phones.some((phone) => phone.id === offer.phone)).toBe(true);
       expect(offer.source.url).toMatch(/^https:\/\//);
       expect(offer.source.checked).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-      // A pattern the update script can't compile would stop the whole run
-      for (const pattern of Object.values(offer.check?.fields ?? {})) expect(() => new RegExp(pattern)).not.toThrow();
+      for (const check of [offer.check ?? []].flat()) {
+        expect(check.url).toMatch(/^https:/);
+        // Every field the update script reads is one the offer has
+        for (const field of Object.keys(check.fields)) expect(`${offer.id} ${field}: ${typeof field.split(".").reduce<unknown>((value, key) => (value as Record<string, unknown> | undefined)?.[key], offer)}`).toBe(`${offer.id} ${field}: number`);
+        // A pattern the script can't compile would stop the whole run
+        if (!check.api) for (const pattern of Object.values(check.fields)) expect(() => new RegExp(pattern as string)).not.toThrow();
+      }
     }
   });
 

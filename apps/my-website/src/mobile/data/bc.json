@@ -48,8 +48,11 @@
       "note": "Apple also offers 0% financing over 24 months ($72.87 a month), which costs the same in total.",
       "check": {
         "url": "https://www.apple.com/ca/shop/buy-iphone/iphone-18-pro",
+        "api": {
+          "url": "https://www.apple.com/ca/shop/updateSummary?node=home/shop_iphone/family/iphone_18_pro&step=select&product=MJR64VC/A"
+        },
         "fields": {
-          "price": "256GB[\\s\\S]{0,80}?From \\$([\\d,]+)"
+          "price": "body.response.summarySection.summary.seoPrice"
         }
       }
     },
@@ -149,7 +152,23 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $10 pre-authorized payment discount. Bring-It-Back carries its own discount, so paying it off at the end still costs less than plain financing. $25 shipping on online orders is not counted."
+      "note": "Plan price is with the $10 pre-authorized payment discount. Bring-It-Back carries its own discount, so paying it off at the end still costs less than plain financing. $25 shipping on online orders is not counted.",
+      "check": {
+        "url": "https://www.telus.com/en/mobility/phones/iphone-18-pro",
+        "api": {
+          "url": "https://www.telus.com/mobility/configure/backend/offering-bundles?sku=NAIP18P256BE&prov=BC&accountType=I&accountSubType=R&orderType=ACTIVATION&portIn=false&deviceType=PHONE&productType=phones&lang=en"
+        },
+        "fields": {
+          "fullPrice": "offerings[id^=PMSN60G95].items[category=mobility-offer].prices[type=BASE_PRICE].amount",
+          "monthlyKeep": "offerings[id^=PMSN60G95].items[category=mobility-offer].prices[type=MONTHLY_INSTALLMENT].amount",
+          "returnOption.monthly": "offerings[id^=PMSN60G95].items[category=mobility-offer].prices[type=BIB_MONTHLY_INSTALLMENT].amount",
+          "returnOption.deferred": "offerings[id^=PMSN60G95].items[category=mobility-offer].prices[type=BIB_AMOUNT].amount",
+          "plan.monthly": {
+            "path": "offerings[id^=PMSN60G95].items[category=mobility-plan].prices[type=BASE_PRICE].amount",
+            "add": -10
+          }
+        }
+      }
     },
     {
       "id": "18p-telus-unlimited",
@@ -179,7 +198,23 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $10 pre-authorized payment discount. Bring-It-Back carries its own discount, so paying it off at the end still costs less than plain financing. $25 shipping on online orders is not counted."
+      "note": "Plan price is with the $10 pre-authorized payment discount. Bring-It-Back carries its own discount, so paying it off at the end still costs less than plain financing. $25 shipping on online orders is not counted.",
+      "check": {
+        "url": "https://www.telus.com/en/mobility/phones/iphone-18-pro",
+        "api": {
+          "url": "https://www.telus.com/mobility/configure/backend/offering-bundles?sku=NAIP18P256BE&prov=BC&accountType=I&accountSubType=R&orderType=ACTIVATION&portIn=false&deviceType=PHONE&productType=phones&lang=en"
+        },
+        "fields": {
+          "fullPrice": "offerings[id^=PMCRFX115].items[category=mobility-offer].prices[type=BASE_PRICE].amount",
+          "monthlyKeep": "offerings[id^=PMCRFX115].items[category=mobility-offer].prices[type=MONTHLY_INSTALLMENT].amount",
+          "returnOption.monthly": "offerings[id^=PMCRFX115].items[category=mobility-offer].prices[type=BIB_MONTHLY_INSTALLMENT].amount",
+          "returnOption.deferred": "offerings[id^=PMCRFX115].items[category=mobility-offer].prices[type=BIB_AMOUNT].amount",
+          "plan.monthly": {
+            "path": "offerings[id^=PMCRFX115].items[category=mobility-plan].prices[type=BASE_PRICE].amount",
+            "add": -10
+          }
+        }
+      }
     },
     {
       "id": "18p-rogers-60",
@@ -209,7 +244,45 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $5 autopay credit and a limited-time discount. No setup charge when bought online; $40 may apply in store. The $750 Save & Return amount on this plan is worked out from the payments; Rogers doesn't show it."
+      "note": "Plan price is with the $5 autopay credit and a limited-time discount. No setup charge when bought online; $40 may apply in store. The $750 Save & Return amount on this plan is worked out from the payments; Rogers doesn't show it.",
+      "check": {
+        "url": "https://www.rogers.com/phones/",
+        "api": {
+          "url": "https://www.rogers.com/api/catalogds/v1/local/device/productPricing/prodIP18P",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "lang": "en",
+            "province": "BC",
+            "applicationId": "Rogers.com",
+            "accountType": "Consumer",
+            "accountSubType": "Regular",
+            "activityType": "NAC",
+            "deviceTradeIn": "true",
+            "devicePriceTier": "true",
+            "applyTradeIn": "false"
+          },
+          "body": {
+            "srReturn": false,
+            "activityType": "NAC",
+            "skuDetails": [
+              {
+                "variantExternalId": "IP18P256BUR",
+                "atgProductId": "prodIP18P"
+              }
+            ],
+            "getEligiblePromo": true,
+            "accountType": "Consumer",
+            "accountSubType": "Regular",
+            "applicationId": "Rogers.com"
+          }
+        },
+        "fields": {
+          "fullPrice": "0.prices[name^=NOTERM].regularAmount",
+          "monthlyKeep": "0.prices[name^=RFIN3LOW.RF3LOW_NAC.FINANCING].monthlyInstallmentAmount",
+          "returnOption.monthly": "0.prices[name^=RFIN3LOW.RF3LOW_NAC.UPFRONTEDGE].monthlyInstallmentAmount",
+          "returnOption.deferred": "0.prices[name^=RFIN3LOW.RF3LOW_NAC.UPFRONTEDGE].rvAmount"
+        }
+      }
     },
     {
       "id": "18p-rogers-unlimited",
@@ -239,7 +312,45 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $5 autopay credit and a limited-time discount. No setup charge when bought online; $40 may apply in store."
+      "note": "Plan price is with the $5 autopay credit and a limited-time discount. No setup charge when bought online; $40 may apply in store.",
+      "check": {
+        "url": "https://www.rogers.com/phones/",
+        "api": {
+          "url": "https://www.rogers.com/api/catalogds/v1/local/device/productPricing/prodIP18P",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "lang": "en",
+            "province": "BC",
+            "applicationId": "Rogers.com",
+            "accountType": "Consumer",
+            "accountSubType": "Regular",
+            "activityType": "NAC",
+            "deviceTradeIn": "true",
+            "devicePriceTier": "true",
+            "applyTradeIn": "false"
+          },
+          "body": {
+            "srReturn": false,
+            "activityType": "NAC",
+            "skuDetails": [
+              {
+                "variantExternalId": "IP18P256BUR",
+                "atgProductId": "prodIP18P"
+              }
+            ],
+            "getEligiblePromo": true,
+            "accountType": "Consumer",
+            "accountSubType": "Regular",
+            "applicationId": "Rogers.com"
+          }
+        },
+        "fields": {
+          "fullPrice": "0.prices[name^=NOTERM].regularAmount",
+          "monthlyKeep": "0.prices[name^=RFIN3HIGH.RF3HGH_NAC.FINANCING].monthlyInstallmentAmount",
+          "returnOption.monthly": "0.prices[name^=RFIN3HIGH.RF3HGH_NAC.UPFRONTEDGE].monthlyInstallmentAmount",
+          "returnOption.deferred": "0.prices[name^=RFIN3HIGH.RF3HGH_NAC.UPFRONTEDGE].rvAmount"
+        }
+      }
     },
     {
       "id": "18p-bell-60",
@@ -269,7 +380,21 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $10 autopay credit. The $40 device handling charge is counted as the one-time fee. If the phone is kept, Bell spreads the deferred amount over the following months."
+      "note": "Plan price is with the $10 autopay credit. The $40 device handling charge is counted as the one-time fee. If the phone is kept, Bell spreads the deferred amount over the following months.",
+      "check": {
+        "url": "https://www.bell.ca/Mobility/Products/iPhone-18-Pro",
+        "api": {
+          "url": "https://apigate.bell.ca/uxpcommon/UXP.Services/Common/PDM/3fbaa521-0d38-4a90-99f4-ee4d330a04b8/ProductVariants",
+          "headers": {
+            "brand": "B",
+            "Province": "BC",
+            "accept-language": "en"
+          }
+        },
+        "fields": {
+          "fullPrice": "products[memory=256 GB].price"
+        }
+      }
     },
     {
       "id": "18p-bell-unlimited",
@@ -299,7 +424,21 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $10 autopay credit. The $40 device handling charge is counted as the one-time fee. If the phone is kept, Bell spreads the deferred amount over the following months."
+      "note": "Plan price is with the $10 autopay credit. The $40 device handling charge is counted as the one-time fee. If the phone is kept, Bell spreads the deferred amount over the following months.",
+      "check": {
+        "url": "https://www.bell.ca/Mobility/Products/iPhone-18-Pro",
+        "api": {
+          "url": "https://apigate.bell.ca/uxpcommon/UXP.Services/Common/PDM/3fbaa521-0d38-4a90-99f4-ee4d330a04b8/ProductVariants",
+          "headers": {
+            "brand": "B",
+            "Province": "BC",
+            "accept-language": "en"
+          }
+        },
+        "fields": {
+          "fullPrice": "products[memory=256 GB].price"
+        }
+      }
     },
     {
       "id": "18p-freedom-250",
@@ -329,7 +468,44 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $5 digital discount (autopay). The device price depends on the plan. Keeping a TradeUp phone costs the $693 TradeUp amount plus tax, shown here with the tax. Freedom's own network covers less of BC than the big three's."
+      "note": "Plan price is with the $5 digital discount (autopay). The device price depends on the plan. Keeping a TradeUp phone costs the $693 TradeUp amount plus tax, shown here with the tax. Freedom's own network covers less of BC than the big three's.",
+      "check": [
+        {
+          "url": "https://shop.freedommobile.ca/en-CA/devices/Apple/iPhone-18-Pro",
+          "api": {
+            "url": "https://api.freedommobile.ca/api/v1/shop/devices/model",
+            "body": {
+              "planSku": "Total Freedom 250GB + Roam Beyond 10GB Select",
+              "serviceType": "",
+              "deviceSku": "195951415369"
+            }
+          },
+          "fields": {
+            "fullPrice": "device.variants[sku=195951415369].devicePrice",
+            "monthlyKeep": "device.variants[sku=195951415369].smartTab.monthlyTabCharge",
+            "plan.monthly": {
+              "path": "planPrice",
+              "add": -5
+            }
+          }
+        },
+        {
+          "url": "https://shop.freedommobile.ca/en-CA/devices/Apple/iPhone-18-Pro",
+          "api": {
+            "url": "https://api.freedommobile.ca/api/v1/devices/tradeupdetails",
+            "body": {
+              "deviceSku": "195951415369"
+            }
+          },
+          "fields": {
+            "returnOption.monthly": "195951415369[ratePlanName=Total Freedom 250GB + Roam Beyond 10GB Select].smartTab.monthlyPayment",
+            "returnOption.deferred": {
+              "path": "195951415369[ratePlanName=Total Freedom 250GB + Roam Beyond 10GB Select].rvAmount",
+              "times": 1.12
+            }
+          }
+        }
+      ]
     },
     {
       "id": "18p-freedom-175",
@@ -359,7 +535,44 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $5 digital discount (autopay). The device price depends on the plan. Keeping a TradeUp phone costs the $693 TradeUp amount plus tax, shown here with the tax. Freedom's own network covers less of BC than the big three's."
+      "note": "Plan price is with the $5 digital discount (autopay). The device price depends on the plan. Keeping a TradeUp phone costs the $693 TradeUp amount plus tax, shown here with the tax. Freedom's own network covers less of BC than the big three's.",
+      "check": [
+        {
+          "url": "https://shop.freedommobile.ca/en-CA/devices/Apple/iPhone-18-Pro",
+          "api": {
+            "url": "https://api.freedommobile.ca/api/v1/shop/devices/model",
+            "body": {
+              "planSku": "Total Freedom 175GB + Roam Beyond 10GB Select",
+              "serviceType": "",
+              "deviceSku": "195951415369"
+            }
+          },
+          "fields": {
+            "fullPrice": "device.variants[sku=195951415369].devicePrice",
+            "monthlyKeep": "device.variants[sku=195951415369].smartTab.monthlyTabCharge",
+            "plan.monthly": {
+              "path": "planPrice",
+              "add": -5
+            }
+          }
+        },
+        {
+          "url": "https://shop.freedommobile.ca/en-CA/devices/Apple/iPhone-18-Pro",
+          "api": {
+            "url": "https://api.freedommobile.ca/api/v1/devices/tradeupdetails",
+            "body": {
+              "deviceSku": "195951415369"
+            }
+          },
+          "fields": {
+            "returnOption.monthly": "195951415369[ratePlanName=Total Freedom 175GB + Roam Beyond 10GB Select].smartTab.monthlyPayment",
+            "returnOption.deferred": {
+              "path": "195951415369[ratePlanName=Total Freedom 175GB + Roam Beyond 10GB Select].rvAmount",
+              "times": 1.12
+            }
+          }
+        }
+      ]
     },
     {
       "id": "18p-fido",
@@ -384,7 +597,43 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $5 autopay credit. Fido has no return option for this phone. No setup charge when bought online."
+      "note": "Plan price is with the $5 autopay credit. Fido has no return option for this phone. No setup charge when bought online.",
+      "check": {
+        "url": "https://www.fido.ca/phones/",
+        "api": {
+          "url": "https://www.fido.ca/api/catalogds/v1/local/device/productPricing/prodIP18P",
+          "headers": {
+            "Accept": "application/json, text/plain, */*",
+            "lang": "en",
+            "province": "BC",
+            "applicationId": "Fido.ca",
+            "accountType": "Consumer",
+            "accountSubType": "Regular",
+            "activityType": "NAC",
+            "deviceTradeIn": "false",
+            "devicePriceTier": "false",
+            "applyTradeIn": "false"
+          },
+          "body": {
+            "srReturn": false,
+            "activityType": "NAC",
+            "skuDetails": [
+              {
+                "variantExternalId": "IP18P256BUR",
+                "atgProductId": "prodIP18P"
+              }
+            ],
+            "getEligiblePromo": true,
+            "accountType": "Consumer",
+            "accountSubType": "Regular",
+            "applicationId": "Fido.ca"
+          }
+        },
+        "fields": {
+          "fullPrice": "0.prices[name^=NOTERM].regularAmount",
+          "monthlyKeep": "0.prices[name^=FID_FIN2.FFIN2_NAC.FINANCING].monthlyInstallmentAmount"
+        }
+      }
     },
     {
       "id": "18p-koodo",
@@ -409,7 +658,26 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $10 auto-pay discount. Koodo has no return option. $25 shipping on online orders is not counted."
+      "note": "Plan price is with the $10 auto-pay discount. Koodo has no return option. $25 shipping on online orders is not counted.",
+      "check": {
+        "url": "https://www.koodomobile.com/en/phones/iphone-18-pro",
+        "api": {
+          "url": "https://www.koodomobile.com/api/commerce-postpaid/postpaid-details",
+          "body": {
+            "lang": "en",
+            "prov": "bc",
+            "orderType": "ACTIVATION",
+            "credit": "B",
+            "sku": "AIP18P256BE",
+            "deviceType": "PHONE",
+            "noCache": false
+          }
+        },
+        "fields": {
+          "fullPrice": "offerings[0].prices[type=BASE_PRICE].amount",
+          "monthlyKeep": "offerings[0].prices[type=MONTHLY_INSTALLMENT].amount"
+        }
+      }
     },
     {
       "id": "18p-virgin",
@@ -434,7 +702,20 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $10 autopay credit. Virgin Plus has no return option. The $40 device handling charge is counted as the one-time fee."
+      "note": "Plan price is with the $10 autopay credit. Virgin Plus has no return option. The $40 device handling charge is counted as the one-time fee.",
+      "check": {
+        "url": "https://www.virginplus.ca/en/phones/phone-details.html",
+        "api": {
+          "url": "https://www.virginplus.ca/en/catalogue/phones-installments.json",
+          "cookies": {
+            "province": "BC"
+          }
+        },
+        "fields": {
+          "fullPrice": "response.products[product_id=10-20D83].installmentsummary[fid=FO9].retailprice",
+          "monthlyKeep": "response.products[product_id=10-20D83].installmentsummary[fid=FO9].installmentbeforetax"
+        }
+      }
     },
     {
       "id": "17p-bestbuy",
@@ -532,7 +813,23 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $10 pre-authorized payment discount. Bring-It-Back carries its own discount, so paying it off at the end still costs less than plain financing. $25 shipping on online orders is not counted."
+      "note": "Plan price is with the $10 pre-authorized payment discount. Bring-It-Back carries its own discount, so paying it off at the end still costs less than plain financing. $25 shipping on online orders is not counted.",
+      "check": {
+        "url": "https://www.telus.com/en/mobility/phones/iphone-17-pro",
+        "api": {
+          "url": "https://www.telus.com/mobility/configure/backend/offering-bundles?sku=NAIP17P256BL&prov=BC&accountType=I&accountSubType=R&orderType=ACTIVATION&portIn=false&deviceType=PHONE&productType=phones&lang=en"
+        },
+        "fields": {
+          "fullPrice": "offerings[id^=PMSN60G95].items[category=mobility-offer].prices[type=BASE_PRICE].amount",
+          "monthlyKeep": "offerings[id^=PMSN60G95].items[category=mobility-offer].prices[type=MONTHLY_INSTALLMENT].amount",
+          "returnOption.monthly": "offerings[id^=PMSN60G95].items[category=mobility-offer].prices[type=BIB_MONTHLY_INSTALLMENT].amount",
+          "returnOption.deferred": "offerings[id^=PMSN60G95].items[category=mobility-offer].prices[type=BIB_AMOUNT].amount",
+          "plan.monthly": {
+            "path": "offerings[id^=PMSN60G95].items[category=mobility-plan].prices[type=BASE_PRICE].amount",
+            "add": -10
+          }
+        }
+      }
     },
     {
       "id": "17p-telus-unlimited",
@@ -562,7 +859,23 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $10 pre-authorized payment discount. Bring-It-Back carries its own discount, so paying it off at the end still costs less than plain financing. $25 shipping on online orders is not counted."
+      "note": "Plan price is with the $10 pre-authorized payment discount. Bring-It-Back carries its own discount, so paying it off at the end still costs less than plain financing. $25 shipping on online orders is not counted.",
+      "check": {
+        "url": "https://www.telus.com/en/mobility/phones/iphone-17-pro",
+        "api": {
+          "url": "https://www.telus.com/mobility/configure/backend/offering-bundles?sku=NAIP17P256BL&prov=BC&accountType=I&accountSubType=R&orderType=ACTIVATION&portIn=false&deviceType=PHONE&productType=phones&lang=en"
+        },
+        "fields": {
+          "fullPrice": "offerings[id^=PMCRFX115].items[category=mobility-offer].prices[type=BASE_PRICE].amount",
+          "monthlyKeep": "offerings[id^=PMCRFX115].items[category=mobility-offer].prices[type=MONTHLY_INSTALLMENT].amount",
+          "returnOption.monthly": "offerings[id^=PMCRFX115].items[category=mobility-offer].prices[type=BIB_MONTHLY_INSTALLMENT].amount",
+          "returnOption.deferred": "offerings[id^=PMCRFX115].items[category=mobility-offer].prices[type=BIB_AMOUNT].amount",
+          "plan.monthly": {
+            "path": "offerings[id^=PMCRFX115].items[category=mobility-plan].prices[type=BASE_PRICE].amount",
+            "add": -10
+          }
+        }
+      }
     },
     {
       "id": "17p-bell-60",
@@ -592,7 +905,21 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $10 autopay credit. The $40 device handling charge is counted as the one-time fee. If the phone is kept, Bell spreads the deferred amount over the following months."
+      "note": "Plan price is with the $10 autopay credit. The $40 device handling charge is counted as the one-time fee. If the phone is kept, Bell spreads the deferred amount over the following months.",
+      "check": {
+        "url": "https://www.bell.ca/Mobility/Products/iPhone-17-Pro",
+        "api": {
+          "url": "https://apigate.bell.ca/uxpcommon/UXP.Services/Common/PDM/3ad295a2-796e-4d99-8450-628d8618f696/ProductVariants",
+          "headers": {
+            "brand": "B",
+            "Province": "BC",
+            "accept-language": "en"
+          }
+        },
+        "fields": {
+          "fullPrice": "products[memory=256 GB].price"
+        }
+      }
     },
     {
       "id": "17p-bell-unlimited",
@@ -622,7 +949,21 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $10 autopay credit. The $40 device handling charge is counted as the one-time fee. If the phone is kept, Bell spreads the deferred amount over the following months."
+      "note": "Plan price is with the $10 autopay credit. The $40 device handling charge is counted as the one-time fee. If the phone is kept, Bell spreads the deferred amount over the following months.",
+      "check": {
+        "url": "https://www.bell.ca/Mobility/Products/iPhone-17-Pro",
+        "api": {
+          "url": "https://apigate.bell.ca/uxpcommon/UXP.Services/Common/PDM/3ad295a2-796e-4d99-8450-628d8618f696/ProductVariants",
+          "headers": {
+            "brand": "B",
+            "Province": "BC",
+            "accept-language": "en"
+          }
+        },
+        "fields": {
+          "fullPrice": "products[memory=256 GB].price"
+        }
+      }
     },
     {
       "id": "17p-freedom-250",
@@ -652,7 +993,44 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $5 digital discount (autopay). The device price depends on the plan. Keeping a TradeUp phone costs the $519 TradeUp amount plus tax, shown here with the tax. Freedom's own network covers less of BC than the big three's."
+      "note": "Plan price is with the $5 digital discount (autopay). The device price depends on the plan. Keeping a TradeUp phone costs the $519 TradeUp amount plus tax, shown here with the tax. Freedom's own network covers less of BC than the big three's.",
+      "check": [
+        {
+          "url": "https://shop.freedommobile.ca/en-CA/devices/Apple/iPhone-17-Pro",
+          "api": {
+            "url": "https://api.freedommobile.ca/api/v1/shop/devices/model",
+            "body": {
+              "planSku": "Total Freedom 250GB + Roam Beyond 10GB Select",
+              "serviceType": "",
+              "deviceSku": "195950626490"
+            }
+          },
+          "fields": {
+            "fullPrice": "device.variants[sku=195950626490].devicePrice",
+            "monthlyKeep": "device.variants[sku=195950626490].smartTab.monthlyTabCharge",
+            "plan.monthly": {
+              "path": "planPrice",
+              "add": -5
+            }
+          }
+        },
+        {
+          "url": "https://shop.freedommobile.ca/en-CA/devices/Apple/iPhone-17-Pro",
+          "api": {
+            "url": "https://api.freedommobile.ca/api/v1/devices/tradeupdetails",
+            "body": {
+              "deviceSku": "195950626490"
+            }
+          },
+          "fields": {
+            "returnOption.monthly": "195950626490[ratePlanName=Total Freedom 250GB + Roam Beyond 10GB Select].smartTab.monthlyPayment",
+            "returnOption.deferred": {
+              "path": "195950626490[ratePlanName=Total Freedom 250GB + Roam Beyond 10GB Select].rvAmount",
+              "times": 1.12
+            }
+          }
+        }
+      ]
     },
     {
       "id": "17p-freedom-175",
@@ -682,7 +1060,44 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $5 digital discount (autopay). The device price depends on the plan. Keeping a TradeUp phone costs the $519 TradeUp amount plus tax, shown here with the tax. Freedom's own network covers less of BC than the big three's."
+      "note": "Plan price is with the $5 digital discount (autopay). The device price depends on the plan. Keeping a TradeUp phone costs the $519 TradeUp amount plus tax, shown here with the tax. Freedom's own network covers less of BC than the big three's.",
+      "check": [
+        {
+          "url": "https://shop.freedommobile.ca/en-CA/devices/Apple/iPhone-17-Pro",
+          "api": {
+            "url": "https://api.freedommobile.ca/api/v1/shop/devices/model",
+            "body": {
+              "planSku": "Total Freedom 175GB + Roam Beyond 10GB Select",
+              "serviceType": "",
+              "deviceSku": "195950626490"
+            }
+          },
+          "fields": {
+            "fullPrice": "device.variants[sku=195950626490].devicePrice",
+            "monthlyKeep": "device.variants[sku=195950626490].smartTab.monthlyTabCharge",
+            "plan.monthly": {
+              "path": "planPrice",
+              "add": -5
+            }
+          }
+        },
+        {
+          "url": "https://shop.freedommobile.ca/en-CA/devices/Apple/iPhone-17-Pro",
+          "api": {
+            "url": "https://api.freedommobile.ca/api/v1/devices/tradeupdetails",
+            "body": {
+              "deviceSku": "195950626490"
+            }
+          },
+          "fields": {
+            "returnOption.monthly": "195950626490[ratePlanName=Total Freedom 175GB + Roam Beyond 10GB Select].smartTab.monthlyPayment",
+            "returnOption.deferred": {
+              "path": "195950626490[ratePlanName=Total Freedom 175GB + Roam Beyond 10GB Select].rvAmount",
+              "times": 1.12
+            }
+          }
+        }
+      ]
     },
     {
       "id": "17p-koodo",
@@ -707,7 +1122,26 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $10 auto-pay discount. Includes Koodo's $120 Tab Bonus. Koodo has no return option. $25 shipping on online orders is not counted."
+      "note": "Plan price is with the $10 auto-pay discount. Includes Koodo's $120 Tab Bonus. Koodo has no return option. $25 shipping on online orders is not counted.",
+      "check": {
+        "url": "https://www.koodomobile.com/en/phones/iphone-17-pro",
+        "api": {
+          "url": "https://www.koodomobile.com/api/commerce-postpaid/postpaid-details",
+          "body": {
+            "lang": "en",
+            "prov": "bc",
+            "orderType": "ACTIVATION",
+            "credit": "B",
+            "sku": "AIP17P256BL",
+            "deviceType": "PHONE",
+            "noCache": false
+          }
+        },
+        "fields": {
+          "fullPrice": "offerings[0].prices[type=BASE_PRICE].amount",
+          "monthlyKeep": "offerings[0].prices[type=MONTHLY_INSTALLMENT].amount"
+        }
+      }
     },
     {
       "id": "17p-virgin",
@@ -732,7 +1166,20 @@
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "note": "Plan price is with the $10 autopay credit. Sweet Pay (not Lite) takes $120 off the phone but needs a plan $10 a month dearer. Virgin Plus has no return option. The $40 device handling charge is counted as the one-time fee."
+      "note": "Plan price is with the $10 autopay credit. Sweet Pay (not Lite) takes $120 off the phone but needs a plan $10 a month dearer. Virgin Plus has no return option. The $40 device handling charge is counted as the one-time fee.",
+      "check": {
+        "url": "https://www.virginplus.ca/en/phones/phone-details.html",
+        "api": {
+          "url": "https://www.virginplus.ca/en/catalogue/phones-installments.json",
+          "cookies": {
+            "province": "BC"
+          }
+        },
+        "fields": {
+          "fullPrice": "response.products[product_id=10-20D39].installmentsummary[fid=FO9].retailprice",
+          "monthlyKeep": "response.products[product_id=10-20D39].installmentsummary[fid=FO9].installmentbeforetax"
+        }
+      }
     }
   ]
 }
