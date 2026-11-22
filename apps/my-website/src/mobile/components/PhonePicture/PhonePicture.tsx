@@ -16,7 +16,7 @@ export const PhonePicture = ({ src, size, className }: PhonePictureProps): React
     {src ? (
       <img src={src} alt="" width={size} height={size} loading="lazy" decoding="async" referrerPolicy="no-referrer" className="h-full w-full object-contain"/>
     ) : (
-      <span className="block rounded-[22%] border-2 border-slate-300" style={{ width: size * 0.4, height: size * 0.75 }}/>
+      <span className="block rounded-[22%] border-2 border-blue-200" style={{ width: size * 0.4, height: size * 0.75 }}/>
     )}
   </span>
 );

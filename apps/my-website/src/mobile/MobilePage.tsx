@@ -63,13 +63,13 @@ export const MobilePage = (): ReactNode => {
       {/* #__next doesn't scroll (globals.css), so the page scrolls in here.
           relative: screen-reader-only text is positioned against this box;
           without it, it stretched the document far below the page */}
-      <div className={clsx(sans.variable, "relative h-full overflow-y-auto [scrollbar-gutter:stable] bg-slate-50 font-[family-name:var(--font-v2-sans),system-ui,sans-serif] text-slate-900")}>
+      <div className={clsx(sans.variable, "relative h-full overflow-y-auto [scrollbar-gutter:stable] bg-linear-to-br from-sky-50 via-blue-50 to-violet-100 [background-attachment:local] font-[family-name:var(--font-v2-sans),system-ui,sans-serif] text-slate-900")}>
         <main className="mx-auto w-full max-w-[84rem] px-4 pb-16 pt-8 sm:px-6 sm:pt-12">
           {/* Kevin asked for no visible header; the title stays for screen readers */}
           <h1 className="sr-only">Phone prices in {region.name}</h1>
 
           <section aria-labelledby="mobile-phone">
-            <h2 id="mobile-phone" className="text-[20px] font-semibold">
+            <h2 id="mobile-phone" className="w-fit bg-linear-to-r from-blue-700 to-violet-700 bg-clip-text text-transparent text-[22px] font-semibold">
               Phone
             </h2>
             <div className="mt-3">
@@ -77,7 +77,7 @@ export const MobilePage = (): ReactNode => {
             </div>
           </section>
 
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-x-10 gap-y-6 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-x-10 gap-y-6 rounded-2xl border border-blue-100 bg-linear-to-r from-white via-blue-50 to-violet-100 p-4 shadow-sm shadow-blue-100 sm:p-5">
             <div className="flex items-center gap-4">
               <PhonePicture src={phone.image} size={112}/>
               <div>
@@ -92,19 +92,19 @@ export const MobilePage = (): ReactNode => {
           </div>
 
           <section aria-labelledby="mobile-unlocked" className="mt-10">
-            <h2 id="mobile-unlocked" className="text-[22px] font-semibold">
+            <h2 id="mobile-unlocked" className="w-fit bg-linear-to-r from-blue-700 to-violet-700 bg-clip-text text-transparent text-[22px] font-semibold">
               Unlocked, paid in full
             </h2>
             <p className="mt-1 max-w-[46rem] text-[15px] text-slate-700">
               Buy the {name} outright and bring it to any plan. Costed over {OUTRIGHT_MONTHS} months on your own plan, cheapest first.
             </p>
             <div className="mt-4">
-              {unlocked.length ? <OutrightTable caption={`${name} unlocked in ${region.name}, paid in full`} rows={unlocked}/> : <p className="rounded-2xl border border-slate-200 bg-white p-4 text-[15px] text-slate-700">No store in the list sells the {name} unlocked and new.</p>}
+              {unlocked.length ? <OutrightTable caption={`${name} unlocked in ${region.name}, paid in full`} rows={unlocked}/> : <p className="rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 p-4 text-[15px] text-slate-700">No store in the list sells the {name} unlocked and new.</p>}
             </div>
           </section>
 
           <section aria-labelledby="mobile-monthly" className="mt-12">
-            <h2 id="mobile-monthly" className="text-[22px] font-semibold">
+            <h2 id="mobile-monthly" className="w-fit bg-linear-to-r from-blue-700 to-violet-700 bg-clip-text text-transparent text-[22px] font-semibold">
               Pay per month
             </h2>
             <p className="mt-1 max-w-[46rem] text-[15px] text-slate-700">
@@ -118,7 +118,7 @@ export const MobilePage = (): ReactNode => {
             </div>
             <p className="mt-3 text-[14px] text-slate-700 md:hidden">The table is wider than this screen: scroll it sideways.</p>
             <div className="mt-4">
-              {monthly.length ? <OfferTable caption={`${name} in ${region.name}, paid by the month: each plan returned and kept`} groups={monthly}/> : <p className="rounded-2xl border border-slate-200 bg-white p-4 text-[15px] text-slate-700">No carrier or store in the list sells the {name} by the month.</p>}
+              {monthly.length ? <OfferTable caption={`${name} in ${region.name}, paid by the month: each plan returned and kept`} groups={monthly}/> : <p className="rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 p-4 text-[15px] text-slate-700">No carrier or store in the list sells the {name} by the month.</p>}
             </div>
           </section>
         </main>

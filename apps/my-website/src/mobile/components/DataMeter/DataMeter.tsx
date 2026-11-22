@@ -17,8 +17,8 @@ export const DataMeter = ({ gb, maxGb }: DataMeterProps): ReactNode => {
     <>
       <span className="block text-[16px] font-semibold text-slate-900">{dataLabel(gb)}</span>
       {/* Decoration: the figure above says the same thing */}
-      <span aria-hidden="true" className="mt-1.5 block h-2 w-full overflow-hidden rounded-full bg-slate-200">
-        <span className={unlimited ? "block h-full bg-violet-600" : "block h-full bg-sky-600"} style={{ width: `${Math.max(4, share * 100)}%` }}/>
+      <span aria-hidden="true" className="mt-1.5 block h-2 w-full overflow-hidden rounded-full bg-blue-100">
+        <span className={unlimited ? "block h-full bg-linear-to-r from-violet-500 to-fuchsia-500" : "block h-full bg-linear-to-r from-blue-500 to-violet-500"} style={{ width: `${Math.max(4, share * 100)}%` }}/>
       </span>
     </>
   );

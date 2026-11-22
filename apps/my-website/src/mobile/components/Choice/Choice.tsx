@@ -20,7 +20,7 @@ export const Choice = <T extends string | number>({ label, options, value, onCha
         onClick={() => onChange(option.value)}
         className={clsx(
           "min-h-11 rounded-full border px-4 text-[15px] font-medium",
-          option.value === value ? "border-slate-900 bg-slate-900 text-white" : "border-slate-400 bg-white text-slate-800 hover:border-slate-900",
+          option.value === value ? "border-transparent bg-linear-to-r from-blue-600 to-violet-600 text-white shadow-sm shadow-violet-200" : "border-blue-200 bg-white text-slate-800 hover:border-violet-400",
         )}
       >
         {option.label}

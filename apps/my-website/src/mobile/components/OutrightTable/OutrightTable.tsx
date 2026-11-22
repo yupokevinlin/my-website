@@ -16,11 +16,11 @@ const NUMBER_HEAD = `${HEAD} text-right`;
 // The box is relative so hidden screen-reader text in the table is placed
 // against it, not the page: otherwise the page itself scrolled sideways.
 export const OutrightTable = ({ caption, rows }: OutrightTableProps): ReactNode => (
-  <div className="relative overflow-x-auto rounded-2xl border border-slate-200 bg-white [scrollbar-width:thin]" tabIndex={0} role="region" aria-label={caption}>
+  <div className="relative overflow-x-auto rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 [scrollbar-width:thin]" tabIndex={0} role="region" aria-label={caption}>
     <table className="w-full min-w-[40rem] border-collapse tabular-nums">
       <caption className="sr-only">{caption}</caption>
       <thead>
-        <tr className="border-b border-slate-300">
+        <tr className="border-b border-blue-200">
           <th scope="col" className={`${HEAD} sticky left-0 z-10 w-[15rem] bg-white`}>
             Seller
           </th>

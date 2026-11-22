@@ -28,7 +28,7 @@ export const OfferTable = ({ caption, groups }: OfferTableProps): ReactNode => {
   const bestReturn = lowest(rows, (row) => row.returned?.perMonth);
   const maxGb = Math.max(1, ...rows.map(({ offer }) => (offer.kind === "carrier" && offer.plan.gb !== "unlimited" ? offer.plan.gb : 0)));
   return (
-    <div className="relative overflow-x-auto rounded-2xl border border-slate-200 bg-white [scrollbar-width:thin]" tabIndex={0} role="region" aria-label={caption}>
+    <div className="relative overflow-x-auto rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 [scrollbar-width:thin]" tabIndex={0} role="region" aria-label={caption}>
       <table className="w-full min-w-[60rem] border-collapse tabular-nums">
         <caption className="sr-only">{caption}</caption>
         <colgroup>
@@ -36,13 +36,13 @@ export const OfferTable = ({ caption, groups }: OfferTableProps): ReactNode => {
           <col className="w-[10.5rem]"/>
           <col className="w-[6rem]"/>
           <col/>
-          <col span={3} className="bg-amber-50/60"/>
-          <col span={4} className="bg-sky-50/60"/>
+          <col span={3} className="bg-violet-50/70"/>
+          <col span={4} className="bg-blue-50/70"/>
           <col/>
         </colgroup>
         <thead>
-          <tr className="border-b border-slate-200">
-            <th scope="col" rowSpan={2} className={`${HEAD} sticky left-0 z-10 border-r border-slate-200 bg-white text-center`}>
+          <tr className="border-b border-blue-100">
+            <th scope="col" rowSpan={2} className={`${HEAD} sticky left-0 z-10 border-r border-blue-100 bg-white text-center`}>
               Seller
             </th>
             <th scope="col" rowSpan={2} className={HEAD}>
@@ -54,17 +54,17 @@ export const OfferTable = ({ caption, groups }: OfferTableProps): ReactNode => {
             <th scope="col" rowSpan={2} className={NUMBER_HEAD}>
               Due today
             </th>
-            <th scope="colgroup" colSpan={3} className="px-2 pt-3 text-left text-[14px] font-semibold text-amber-950">
+            <th scope="colgroup" colSpan={3} className="px-2 pt-3 text-left text-[14px] font-semibold text-violet-900">
               Return it <span className="font-normal text-slate-700">· the seller's own return program</span>
             </th>
-            <th scope="colgroup" colSpan={4} className="px-2 pt-3 text-left text-[14px] font-semibold text-sky-950">
+            <th scope="colgroup" colSpan={4} className="px-2 pt-3 text-left text-[14px] font-semibold text-blue-900">
               Keep it <span className="font-normal text-slate-700">· the phone is yours after the term</span>
             </th>
             <th scope="col" rowSpan={2} className={HEAD}>
               <span className="sr-only">Details</span>
             </th>
           </tr>
-          <tr className="border-b border-slate-300">
+          <tr className="border-b border-blue-200">
             <th scope="col" className={NUMBER_HEAD}>
               Device / month
             </th>
@@ -89,7 +89,7 @@ export const OfferTable = ({ caption, groups }: OfferTableProps): ReactNode => {
           </tr>
         </thead>
         {groups.map((group) => (
-          <tbody key={group.seller} className="border-t-2 border-slate-300 first-of-type:border-t-0">
+          <tbody key={group.seller} className="border-t-2 border-blue-200 first-of-type:border-t-0">
             {group.rows.map((row, index) => (
               <OfferRow key={row.offer.id} row={row} groupSize={index === 0 ? group.rows.length : undefined} maxGb={maxGb} bestKeep={row.keep.perMonth === bestKeep} bestReturn={row.returned?.perMonth === bestReturn}/>
             ))}

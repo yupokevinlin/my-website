@@ -15,7 +15,7 @@ export const useDetails = (): Details => {
     id,
     open,
     button: (subject) => (
-      <button type="button" aria-expanded={open} aria-controls={id} onClick={() => setOpen((value) => !value)} className="min-h-11 rounded-lg px-2 text-[14px] font-medium text-sky-800 underline">
+      <button type="button" aria-expanded={open} aria-controls={id} onClick={() => setOpen((value) => !value)} className="min-h-11 rounded-lg px-2 text-[14px] font-medium text-violet-800 underline">
         {open ? "Hide" : "Details"}
         <span className="sr-only"> for {subject}</span>
       </button>

@@ -16,7 +16,7 @@ export const NumberField = ({ label, hint, value, onChange, step = 1 }: NumberFi
       <label htmlFor={id} className="block text-[14px] font-medium text-slate-900">
         {label}
       </label>
-      <div className="mt-1 flex items-center rounded-lg border border-slate-400 bg-white focus-within:border-sky-700 focus-within:shadow-[0_0_0_1px_#0369a1]">
+      <div className="mt-1 flex items-center rounded-lg border border-blue-200 bg-white focus-within:border-violet-600 focus-within:shadow-[0_0_0_1px_#7c3aed]">
         <span aria-hidden="true" className="pl-3 text-slate-600">
           $
         </span>

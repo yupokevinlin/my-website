@@ -5,6 +5,7 @@ import { dataLabel, money } from "../../../tco";
 import type { CostRow, Scenario } from "../../../types";
 import { DataMeter } from "../../DataMeter/DataMeter";
 import { DetailsRow } from "../../DetailsRow/DetailsRow";
+import { LowestBadge } from "../../LowestBadge/LowestBadge";
 import { SellerLogo } from "../../SellerLogo/SellerLogo";
 
 export interface OfferRowProps {
@@ -19,7 +20,7 @@ export interface OfferRowProps {
   bestReturn: boolean;
 }
 
-const CELL = "border-slate-200 px-2 py-3 text-right align-top text-[14px] text-slate-900";
+const CELL = "border-blue-100 px-2 py-3 text-right align-top text-[14px] text-slate-900";
 const SMALL = "mt-0.5 block text-[12px] font-normal text-slate-600";
 
 const total = (scenario: Scenario, months: number, best: boolean, className: string): ReactNode => (
@@ -28,7 +29,7 @@ const total = (scenario: Scenario, months: number, best: boolean, className: str
     <span className={clsx(SMALL, "whitespace-nowrap")}>
       {money(scenario.perMonth)}/mo × {months}
     </span>
-    {best ? <span className="mt-1 inline-block rounded-full bg-emerald-700 px-2 py-0.5 text-[12px] font-semibold text-white">Lowest</span> : null}
+    {best ? <LowestBadge/> : null}
   </td>
 );
 
@@ -46,20 +47,20 @@ export const OfferRow = ({ row, groupSize, maxGb, bestKeep, bestReturn }: OfferR
       <tr>
         {groupSize ? (
           // Spans every tier of the seller: each tier is two rows, itself and its details
-          <th scope="rowgroup" rowSpan={groupSize * 2} className="sticky left-0 z-10 border-r border-slate-200 bg-white px-2 py-3 text-center align-top font-normal">
+          <th scope="rowgroup" rowSpan={groupSize * 2} className="sticky left-0 z-10 border-r border-blue-100 bg-white px-2 py-3 text-center align-top font-normal">
             <span className="flex justify-center">
               <SellerLogo seller={offer.seller} centred/>
             </span>
             <span className="mt-1.5 block text-[13px] text-slate-600">{offer.title}</span>
           </th>
         ) : null}
-        <th scope="row" className={clsx("border-slate-200 px-2 py-3 text-left align-top text-[13.5px] font-medium text-slate-900", !groupSize && "border-t")}>
+        <th scope="row" className={clsx("border-blue-100 px-2 py-3 text-left align-top text-[13.5px] font-medium text-slate-900", !groupSize && "border-t")}>
           {plan ? plan.name : "Your own plan"}
           {plan ? (
             plan.features.length ? (
               <ul className="mt-1.5 flex flex-wrap gap-1 font-normal">
                 {plan.features.map((feature) => (
-                  <li key={feature} className="rounded-md bg-slate-100 px-1.5 py-0.5 text-[12px] leading-snug text-slate-800">
+                  <li key={feature} className="rounded-md bg-blue-50 text-blue-950 px-1.5 py-0.5 text-[12px] leading-snug text-slate-800">
                     {feature}
                   </li>
                 ))}
@@ -69,7 +70,7 @@ export const OfferRow = ({ row, groupSize, maxGb, bestKeep, bestReturn }: OfferR
             <span className={SMALL}>The phone is unlocked</span>
           )}
         </th>
-        <td className={clsx("border-slate-200 px-2 py-3 text-left align-top", !groupSize && "border-t")}>{plan ? <DataMeter gb={plan.gb} maxGb={maxGb}/> : <span className="text-[14px] text-slate-600">As your plan</span>}</td>
+        <td className={clsx("border-blue-100 px-2 py-3 text-left align-top", !groupSize && "border-t")}>{plan ? <DataMeter gb={plan.gb} maxGb={maxGb}/> : <span className="text-[14px] text-slate-600">As your plan</span>}</td>
         <td className={cell}>{money(keep.dueToday)}</td>
         {returned ? (
           <>
@@ -81,7 +82,7 @@ export const OfferRow = ({ row, groupSize, maxGb, bestKeep, bestReturn }: OfferR
             {total(returned, months, bestReturn, cell)}
           </>
         ) : (
-          <td colSpan={3} className={clsx("border-slate-200 px-2 py-3 text-center align-top text-[13.5px] text-slate-600", !groupSize && "border-t")}>
+          <td colSpan={3} className={clsx("border-blue-100 px-2 py-3 text-center align-top text-[13.5px] text-slate-600", !groupSize && "border-t")}>
             No return program
           </td>
         )}
@@ -92,7 +93,7 @@ export const OfferRow = ({ row, groupSize, maxGb, bestKeep, bestReturn }: OfferR
         <td className={cell}>{money(keep.planMonthly)}</td>
         <td className={cell}>{money(keep.dueAtEnd)}</td>
         {total(keep, months, bestKeep, cell)}
-        <td className={clsx("border-slate-200 px-1 py-2 text-right align-top", !groupSize && "border-t")}>{details.button(subject)}</td>
+        <td className={clsx("border-blue-100 px-1 py-2 text-right align-top", !groupSize && "border-t")}>{details.button(subject)}</td>
       </tr>
       <DetailsRow id={details.id} open={details.open} colSpan={11} row={row}/>
     </>

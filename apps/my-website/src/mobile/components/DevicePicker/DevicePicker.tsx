@@ -35,7 +35,7 @@ export const DevicePicker = ({ phones, selected, onSelect }: DevicePickerProps):
             placeholder="iPhone 18 Pro, s26 ultra, pixel 10…"
             autoComplete="off"
             aria-controls={`${id}-results`}
-            className="mt-1 h-11 w-full rounded-lg border border-slate-400 bg-white px-3 text-[16px] text-slate-900 outline-none placeholder:text-slate-500 focus:border-sky-700 focus:shadow-[0_0_0_1px_#0369a1]"
+            className="mt-1 h-11 w-full rounded-lg border border-blue-200 bg-white px-3 text-[16px] text-slate-900 outline-none placeholder:text-slate-500 focus:border-violet-600 focus:shadow-[0_0_0_1px_#7c3aed]"
           />
         </div>
         <Choice label="Brand" options={brands.map((name) => ({ value: name, label: name }))} value={brand} onChange={setBrand}/>
