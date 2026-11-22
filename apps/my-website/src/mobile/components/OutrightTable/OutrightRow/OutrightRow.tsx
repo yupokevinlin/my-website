@@ -12,7 +12,7 @@ export interface OutrightRowProps {
 }
 
 const CONDITION_LABEL = { new: null, "open-box": "Open box", refurbished: "Refurbished" } as const;
-const CELL = "px-3 py-3 text-right align-top text-[15px] text-slate-900";
+const CELL = "px-2 py-3 text-right align-top text-[15px] text-slate-900";
 
 // One seller's price for the unlocked phone
 export const OutrightRow = ({ row, best }: OutrightRowProps): ReactNode => {
@@ -22,7 +22,7 @@ export const OutrightRow = ({ row, best }: OutrightRowProps): ReactNode => {
   return (
     <>
       <tr className="border-t border-blue-100">
-        <th scope="row" className="sticky left-0 z-10 bg-white px-3 py-3 text-left align-top font-normal">
+        <th scope="row" className="sticky left-0 z-10 bg-white px-2 py-3 text-left align-top font-normal">
           <SellerLogo seller={offer.seller}/>
           <span className="mt-1.5 block text-[14px] text-slate-900">{offer.title}</span>
           {condition ? <span className="mt-0.5 block text-[12.5px] text-slate-600">{condition}</span> : null}
@@ -36,7 +36,7 @@ export const OutrightRow = ({ row, best }: OutrightRowProps): ReactNode => {
           </span>
           {best ? <LowestBadge/> : null}
         </td>
-        <td className="px-3 py-2 text-right align-top">{details.button(`${offer.seller}, ${offer.title}`)}</td>
+        <td className="px-2 py-2 text-right align-top">{details.button(`${offer.seller}, ${offer.title}`)}</td>
       </tr>
       <DetailsRow id={details.id} open={details.open} colSpan={5} row={row}/>
     </>

@@ -23,12 +23,11 @@ export interface OfferRowProps {
 const CELL = "border-blue-100 px-2 py-3 text-right align-top text-[14px] text-slate-900";
 const SMALL = "mt-0.5 block text-[12px] font-normal text-slate-600";
 
-const total = (scenario: Scenario, months: number, best: boolean, className: string): ReactNode => (
+// The term has its own column, so the average month is shown without it
+const total = (scenario: Scenario, best: boolean, className: string): ReactNode => (
   <td className={clsx(className, "font-semibold")}>
     {money(scenario.total)}
-    <span className={clsx(SMALL, "whitespace-nowrap")}>
-      {money(scenario.perMonth)}/mo × {months}
-    </span>
+    <span className={clsx(SMALL, "whitespace-nowrap")}>{money(scenario.perMonth)}/mo</span>
     {best ? <LowestBadge/> : null}
   </td>
 );
@@ -72,6 +71,7 @@ export const OfferRow = ({ row, groupSize, maxGb, bestKeep, bestReturn }: OfferR
         </th>
         <td className={clsx("border-blue-100 px-2 py-3 text-left align-top", !groupSize && "border-t")}>{plan ? <DataMeter gb={plan.gb} maxGb={maxGb}/> : <span className="text-[14px] text-slate-600">As your plan</span>}</td>
         <td className={cell}>{money(keep.dueToday)}</td>
+        <td className={cell}>{months}</td>
         {returned ? (
           <>
             <td className={cell}>
@@ -79,7 +79,7 @@ export const OfferRow = ({ row, groupSize, maxGb, bestKeep, bestReturn }: OfferR
               <span className={SMALL}>{returned.how}</span>
             </td>
             <td className={cell}>{money(returned.planMonthly)}</td>
-            {total(returned, months, bestReturn, cell)}
+            {total(returned, bestReturn, cell)}
           </>
         ) : (
           <td colSpan={3} className={clsx("border-blue-100 px-2 py-3 text-center align-top text-[13.5px] text-slate-600", !groupSize && "border-t")}>
@@ -92,10 +92,10 @@ export const OfferRow = ({ row, groupSize, maxGb, bestKeep, bestReturn }: OfferR
         </td>
         <td className={cell}>{money(keep.planMonthly)}</td>
         <td className={cell}>{money(keep.dueAtEnd)}</td>
-        {total(keep, months, bestKeep, cell)}
+        {total(keep, bestKeep, cell)}
         <td className={clsx("border-blue-100 px-1 py-2 text-right align-top", !groupSize && "border-t")}>{details.button(subject)}</td>
       </tr>
-      <DetailsRow id={details.id} open={details.open} colSpan={11} row={row}/>
+      <DetailsRow id={details.id} open={details.open} colSpan={12} row={row}/>
     </>
   );
 };

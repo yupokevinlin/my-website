@@ -87,7 +87,7 @@ export const MobilePage = (): ReactNode => {
               </div>
             </div>
             <div className="w-full max-w-[19rem]">
-              <NumberField label="Your own plan, per month before tax" hint={`For phones bought unlocked. Starts at ${data.byodPlan.name}.`} value={byodMonthly} onChange={setByodMonthly}/>
+              <NumberField label="Bring your own device plans" hint={`Per month, before tax. Starts at ${data.byodPlan.name}.`} value={byodMonthly} onChange={setByodMonthly}/>
             </div>
           </div>
 
@@ -96,7 +96,7 @@ export const MobilePage = (): ReactNode => {
               Unlocked, paid in full
             </h2>
             <p className="mt-1 max-w-[46rem] text-[15px] text-slate-700">
-              Buy the {name} outright and bring it to any plan. Costed over {OUTRIGHT_MONTHS} months on your own plan, cheapest first.
+              Pay for the phone up front and use your own plan. Totals cover {OUTRIGHT_MONTHS} months.
             </p>
             <div className="mt-4">
               {unlocked.length ? <OutrightTable caption={`${name} unlocked in ${region.name}, paid in full`} rows={unlocked}/> : <p className="rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 p-4 text-[15px] text-slate-700">No store in the list sells the {name} unlocked and new.</p>}
@@ -108,7 +108,7 @@ export const MobilePage = (): ReactNode => {
               Pay per month
             </h2>
             <p className="mt-1 max-w-[46rem] text-[15px] text-slate-700">
-              Carrier financing with the plan it requires, and Best Buy's monthly program on your own plan. Each seller is listed once with its plan tiers beneath, cheapest first.
+              Pay for the phone over the term, plan included. Cheapest first.
             </p>
             <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
               <p id="mobile-sort" className="text-[14px] font-medium">

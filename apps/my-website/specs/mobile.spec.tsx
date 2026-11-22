@@ -228,8 +228,10 @@ describe("/mobile page", () => {
   it("shows each carrier plan's data per month and the device before the plan in both outcomes", () => {
     const { container } = renderIphone18Pro();
     const { monthly } = tables(container);
-    expect(Array.from(monthly.querySelectorAll("thead tr:first-child th"), (th) => th.textContent).slice(0, 3)).toEqual(["Seller", "Plan", "Data / month"]);
-    expect(Array.from(monthly.querySelectorAll("thead tr:last-child th"), (th) => th.textContent)).toEqual(["Device / month", "Plan / month", "Total, plan included", "Device / month", "Plan / month", "Due at the end", "Total, plan included"]);
+    // Each heading is its title, then its unit on a second line
+    const heading = (th: Element): string => Array.from(th.childNodes, (node) => node.textContent?.trim()).filter(Boolean).join(" / ");
+    expect(Array.from(monthly.querySelectorAll("thead tr:first-child th"), heading).slice(0, 5)).toEqual(["Seller", "Plan", "Data / per month", "Due / today", "Term / months"]);
+    expect(Array.from(monthly.querySelectorAll("thead tr:last-child th"), heading)).toEqual(["Device / per month", "Plan / per month", "Total / plan included", "Device / per month", "Plan / per month", "Due / at the end", "Total / plan included"]);
     for (const row of offerRows(monthly)) expect(row.querySelector("td")?.textContent).toMatch(/^(\d+ GB|Unlimited|As your plan)$/);
     const telus = Array.from(monthly.querySelectorAll("tbody")).find((group) => group.querySelector('img[alt="Telus"]'));
     expect(telus?.querySelectorAll("img")).toHaveLength(1);

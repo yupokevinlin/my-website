@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { SellerGroup } from "../../tco";
 import type { CostRow } from "../../types";
+import { ColumnHead } from "../ColumnHead/ColumnHead";
 import { OfferRow } from "./OfferRow/OfferRow";
 
 export interface OfferTableProps {
@@ -9,9 +10,6 @@ export interface OfferTableProps {
   // Each seller with its plan tiers, cheapest first
   groups: SellerGroup[];
 }
-
-const HEAD = "px-2 py-2 text-left align-bottom text-[12px] font-semibold text-slate-700";
-const NUMBER_HEAD = `${HEAD} text-right`;
 
 const lowest = (rows: CostRow[], pick: (row: CostRow) => number | undefined): number => Math.min(...rows.map((row) => pick(row) ?? Infinity));
 
@@ -29,63 +27,45 @@ export const OfferTable = ({ caption, groups }: OfferTableProps): ReactNode => {
   const maxGb = Math.max(1, ...rows.map(({ offer }) => (offer.kind === "carrier" && offer.plan.gb !== "unlimited" ? offer.plan.gb : 0)));
   return (
     <div className="relative overflow-x-auto rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 [scrollbar-width:thin]" tabIndex={0} role="region" aria-label={caption}>
-      <table className="w-full min-w-[60rem] border-collapse tabular-nums">
+      <table className="w-full min-w-[64rem] border-collapse tabular-nums">
         <caption className="sr-only">{caption}</caption>
         <colgroup>
           <col className="w-[8rem]"/>
           <col className="w-[10.5rem]"/>
           <col className="w-[6rem]"/>
           <col/>
-          <col span={3} className="bg-violet-50/70"/>
-          <col span={4} className="bg-blue-50/70"/>
+          <col/>
+          <col span={3} className="bg-violet-100"/>
+          <col span={4} className="bg-sky-100"/>
           <col/>
         </colgroup>
         <thead>
-          <tr className="border-b border-blue-100">
-            <th scope="col" rowSpan={2} className={`${HEAD} sticky left-0 z-10 border-r border-blue-100 bg-white text-center`}>
-              Seller
+          <tr>
+            <ColumnHead title="Seller" align="center" rowSpan={2} className="sticky left-0 z-10 border-r border-blue-100 bg-white"/>
+            <ColumnHead title="Plan" align="left" rowSpan={2}/>
+            <ColumnHead title="Data" unit="per month" align="left" rowSpan={2}/>
+            <ColumnHead title="Due" unit="today" rowSpan={2}/>
+            <ColumnHead title="Term" unit="months" rowSpan={2}/>
+            <th scope="colgroup" colSpan={3} className="px-2 pt-3 text-left text-[15px] font-semibold text-violet-900">
+              Return it
+              <span className="mt-0.5 block text-[12.5px] font-normal text-slate-700">Return the phone after the term</span>
             </th>
-            <th scope="col" rowSpan={2} className={HEAD}>
-              Plan
+            <th scope="colgroup" colSpan={4} className="px-2 pt-3 text-left text-[15px] font-semibold text-sky-900">
+              Keep it
+              <span className="mt-0.5 block text-[12.5px] font-normal text-slate-700">The phone is yours after the term</span>
             </th>
-            <th scope="col" rowSpan={2} className={HEAD}>
-              Data / month
-            </th>
-            <th scope="col" rowSpan={2} className={NUMBER_HEAD}>
-              Due today
-            </th>
-            <th scope="colgroup" colSpan={3} className="px-2 pt-3 text-left text-[14px] font-semibold text-violet-900">
-              Return it <span className="font-normal text-slate-700">· the seller's own return program</span>
-            </th>
-            <th scope="colgroup" colSpan={4} className="px-2 pt-3 text-left text-[14px] font-semibold text-blue-900">
-              Keep it <span className="font-normal text-slate-700">· the phone is yours after the term</span>
-            </th>
-            <th scope="col" rowSpan={2} className={HEAD}>
+            <th scope="col" rowSpan={2} className="px-2 py-2">
               <span className="sr-only">Details</span>
             </th>
           </tr>
           <tr className="border-b border-blue-200">
-            <th scope="col" className={NUMBER_HEAD}>
-              Device / month
-            </th>
-            <th scope="col" className={NUMBER_HEAD}>
-              Plan / month
-            </th>
-            <th scope="col" className={NUMBER_HEAD}>
-              Total, plan included
-            </th>
-            <th scope="col" className={NUMBER_HEAD}>
-              Device / month
-            </th>
-            <th scope="col" className={NUMBER_HEAD}>
-              Plan / month
-            </th>
-            <th scope="col" className={NUMBER_HEAD}>
-              Due at the end
-            </th>
-            <th scope="col" className={NUMBER_HEAD}>
-              Total, plan included
-            </th>
+            <ColumnHead title="Device" unit="per month"/>
+            <ColumnHead title="Plan" unit="per month"/>
+            <ColumnHead title="Total" unit="plan included"/>
+            <ColumnHead title="Device" unit="per month"/>
+            <ColumnHead title="Plan" unit="per month"/>
+            <ColumnHead title="Due" unit="at the end"/>
+            <ColumnHead title="Total" unit="plan included"/>
           </tr>
         </thead>
         {groups.map((group) => (
