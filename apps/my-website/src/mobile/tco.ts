@@ -135,6 +135,13 @@ export const costRows = (offers: Offer[], region: Region, settings: Settings, so
 export const money = (amount: number, digits = 2): string =>
   `${amount < 0 ? "−" : ""}$${Math.abs(amount).toLocaleString("en-CA", { minimumFractionDigits: digits, maximumFractionDigits: digits })}`;
 
+// The lowest total (or month) for each outcome among the rows, for the Lowest
+// badges; a row is the best when its own figure equals it
+export const lowestOf = (rows: CostRow[], rankBy: RankBy): { keep: number; returned: number } => ({
+  keep: Math.min(...rows.map((row) => row.keep[rankBy])),
+  returned: Math.min(...rows.map((row) => row.returned?.[rankBy] ?? Infinity)),
+});
+
 export interface SellerGroup {
   // Unique in the table: the seller, and the store it's bought through
   key: string;

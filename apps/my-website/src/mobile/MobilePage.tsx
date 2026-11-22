@@ -10,7 +10,9 @@ import { ColourPicker } from "./components/ColourPicker/ColourPicker";
 import { DevicePicker } from "./components/DevicePicker/DevicePicker";
 import { PhonePicture } from "./components/PhonePicture/PhonePicture";
 import { NumberField } from "./components/NumberField/NumberField";
+import { OfferCards } from "./components/OfferCards/OfferCards";
 import { OfferTable } from "./components/OfferTable/OfferTable";
+import { OutrightCards } from "./components/OutrightCards/OutrightCards";
 import { OutrightTable } from "./components/OutrightTable/OutrightTable";
 
 const SORTS: { value: SortBy; label: string }[] = [
@@ -94,13 +96,14 @@ export const MobilePage = (): ReactNode => {
               Phone
             </h2>
             <div className="mt-3">
-              <DevicePicker phones={data.phones} selected={phone.id} onSelect={pickPhone}/>
+              <DevicePicker phones={data.phones} selected={phone.id} onSelect={pickPhone} picture={colour?.image ?? phone.image} detail={`${storage}${colour ? ` · ${colour.name}` : ""}`}/>
             </div>
           </section>
 
           {/* The chosen phone: its storage, which the prices are for, and its colour */}
-          <div className="mt-8 grid items-start gap-x-10 gap-y-6 rounded-2xl border border-blue-100 bg-linear-to-r from-white via-blue-50 to-violet-100 p-4 shadow-sm shadow-blue-100 sm:p-5 lg:grid-cols-[auto_minmax(0,1fr)_19rem]">
-            <div className="flex items-center gap-4">
+          <div className="mt-4 grid items-start gap-x-10 gap-y-6 rounded-2xl border border-blue-100 bg-linear-to-r from-white via-blue-50 to-violet-100 p-4 shadow-sm shadow-blue-100 sm:mt-8 sm:p-5 lg:grid-cols-[auto_minmax(0,1fr)_19rem]">
+            {/* On phones the menu's button above shows all this */}
+            <div className="hidden items-center gap-4 sm:flex">
               <PhonePicture src={colour?.image ?? phone.image} size={112}/>
               <div>
                 <p className="text-[14px] text-slate-600">{phone.brand}</p>
@@ -136,7 +139,17 @@ export const MobilePage = (): ReactNode => {
               Pay for the phone up front and use your own plan. Totals cover {OUTRIGHT_MONTHS} months.
             </p>
             <div className="mt-4">
-              {unlocked.length ? <OutrightTable caption={`${name} unlocked in ${region.name}, paid in full`} rows={unlocked}/> : <p className="rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 p-4 text-[15px] text-slate-700">No store in the list sells the {name} unlocked and new.</p>}
+              {unlocked.length ? (
+                <>
+                  {/* A table from tablets up; cards on phones */}
+                  <div className="hidden md:block">
+                    <OutrightTable caption={`${name} unlocked in ${region.name}, paid in full`} rows={unlocked}/>
+                  </div>
+                  <div className="md:hidden">
+                    <OutrightCards caption={`${name} unlocked in ${region.name}, paid in full`} rows={unlocked}/>
+                  </div>
+                </>
+              ) :<p className="rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 p-4 text-[15px] text-slate-700">No store in the list sells the {name} unlocked and new.</p>}
             </div>
           </section>
 
@@ -155,9 +168,18 @@ export const MobilePage = (): ReactNode => {
               <p className="ml-2 text-[14px] font-medium">by</p>
               <Choice label="Cheapest by" options={RANKS} value={rankBy} onChange={setRankBy}/>
             </div>
-            <p className="mt-3 text-[14px] text-slate-700 md:hidden">The table is wider than this screen: scroll it sideways.</p>
             <div className="mt-4">
-              {monthly.length ? <OfferTable caption={`${name} in ${region.name}, paid by the month: each plan returned and kept`} groups={monthly} rankBy={rankBy}/> : <p className="rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 p-4 text-[15px] text-slate-700">No carrier or store in the list sells the {name} by the month.</p>}
+              {monthly.length ? (
+                <>
+                  {/* A table from tablets up (it scrolls sideways below a laptop's width); cards on phones */}
+                  <div className="hidden md:block">
+                    <OfferTable caption={`${name} in ${region.name}, paid by the month: each plan returned and kept`} groups={monthly} rankBy={rankBy}/>
+                  </div>
+                  <div className="md:hidden">
+                    <OfferCards caption={`${name} in ${region.name}, paid by the month`} groups={monthly} rankBy={rankBy}/>
+                  </div>
+                </>
+              ) :<p className="rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 p-4 text-[15px] text-slate-700">No carrier or store in the list sells the {name} by the month.</p>}
             </div>
           </section>
         </main>

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
-import type { SellerGroup } from "../../tco";
-import type { CostRow, RankBy } from "../../types";
+import { type SellerGroup, lowestOf } from "../../tco";
+import type { RankBy } from "../../types";
 import { ColumnHead } from "../ColumnHead/ColumnHead";
 import { OfferRow } from "./OfferRow/OfferRow";
 
@@ -13,8 +13,6 @@ export interface OfferTableProps {
   rankBy: RankBy;
 }
 
-const lowest = (rows: CostRow[], pick: (row: CostRow) => number | undefined): number => Math.min(...rows.map((row) => pick(row) ?? Infinity));
-
 // Phones paid for by the month. Each seller appears once, its logo at the top
 // beside all of its plan tiers. Every tier has its two outcomes side by side:
 // returned under the seller's program, or kept. Each outcome shows the device
@@ -24,8 +22,7 @@ const lowest = (rows: CostRow[], pick: (row: CostRow) => number | undefined): nu
 // against it, not the page: otherwise the page itself scrolled sideways.
 export const OfferTable = ({ caption, groups, rankBy }: OfferTableProps): ReactNode => {
   const rows = groups.flatMap((group) => group.rows);
-  const bestKeep = lowest(rows, (row) => row.keep[rankBy]);
-  const bestReturn = lowest(rows, (row) => row.returned?.[rankBy]);
+  const { keep: bestKeep, returned: bestReturn } = lowestOf(rows, rankBy);
   const badge = rankBy === "total" ? "Lowest" : "Lowest per month";
   const maxGb = Math.max(1, ...rows.map(({ offer }) => (offer.kind === "carrier" && offer.plan.gb !== "unlimited" ? offer.plan.gb : 0)));
   return (

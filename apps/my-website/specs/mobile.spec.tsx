@@ -224,6 +224,21 @@ describe("/mobile-price-checker page", () => {
     expect(queryAllByRole("button", { name: /^Samsung Galaxy/ }).length).toBeGreaterThan(1);
   });
 
+  it("gives phones a menu for the phone, brand marks, and cards in place of the tables", () => {
+    const { container, getByRole } = renderIphone18Pro();
+    expect(getByRole("button", { name: /^Change phone, now Apple iPhone 18 Pro$/ })).toBeTruthy();
+    // The brand buttons show marks, and keep the names for screen readers
+    const samsung = getByRole("button", { name: "Samsung" });
+    expect(samsung.querySelector("span[aria-hidden]")?.getAttribute("style")).toContain("brand-samsung.svg");
+    // A card per seller and storage tier, the same sellers as the tables
+    const cards = (label: RegExp): Element => [...container.querySelectorAll("ul[aria-label]")].find((list) => label.test(list.getAttribute("aria-label") ?? "")) as Element;
+    const monthlyCards = cards(/paid by the month$/);
+    const monthlyRows = [...container.querySelectorAll("table")][1].querySelectorAll("tbody tr:not([id])");
+    expect(monthlyCards.querySelectorAll(":scope > li")).toHaveLength(container.querySelectorAll("table")[1].querySelectorAll("tbody").length);
+    expect(monthlyCards.querySelectorAll(":scope > li > ul > li")).toHaveLength(monthlyRows.length);
+    expect(cards(/paid in full$/).querySelectorAll(":scope > li")).toHaveLength(container.querySelectorAll("table")[0].querySelectorAll("tbody tr:not([id])").length);
+  });
+
   it("shows the picked phone's sellers: unlocked, then by the month, each once", () => {
     const { container } = renderIphone18Pro();
     expect(container.querySelector("main")?.textContent).toContain("iPhone 18 Pro");
