@@ -6,7 +6,7 @@ import type { CostRow, Scenario } from "../../../types";
 import { DataMeter } from "../../DataMeter/DataMeter";
 import { DetailsRow } from "../../DetailsRow/DetailsRow";
 import { LowestBadge } from "../../LowestBadge/LowestBadge";
-import { SellerLogo } from "../../SellerLogo/SellerLogo";
+import { SellerCell } from "../../SellerCell/SellerCell";
 
 export interface OfferRowProps {
   row: CostRow;
@@ -46,12 +46,7 @@ export const OfferRow = ({ row, groupSize, maxGb, bestKeep, bestReturn }: OfferR
       <tr>
         {groupSize ? (
           // Spans every tier of the seller: each tier is two rows, itself and its details
-          <th scope="rowgroup" rowSpan={groupSize * 2} className="sticky left-0 z-10 border-r border-blue-100 bg-white px-2 py-3 text-center align-top font-normal">
-            <span className="flex justify-center">
-              <SellerLogo seller={offer.seller} centred/>
-            </span>
-            <span className="mt-1.5 block text-[13px] text-slate-600">{offer.title}</span>
-          </th>
+          <SellerCell seller={offer.seller} title={offer.title} rowSpan={groupSize * 2}/>
         ) : null}
         <th scope="row" className={clsx("border-blue-100 px-2 py-3 text-left align-top text-[13.5px] font-medium text-slate-900", !groupSize && "border-t")}>
           {plan ? plan.name : "Your own plan"}

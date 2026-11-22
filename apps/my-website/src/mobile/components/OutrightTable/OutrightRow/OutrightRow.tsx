@@ -4,7 +4,7 @@ import type { CostRow } from "../../../types";
 import { DetailsRow } from "../../DetailsRow/DetailsRow";
 import { useDetails } from "../../../hooks/useDetails";
 import { LowestBadge } from "../../LowestBadge/LowestBadge";
-import { SellerLogo } from "../../SellerLogo/SellerLogo";
+import { SellerCell } from "../../SellerCell/SellerCell";
 
 export interface OutrightRowProps {
   row: CostRow;
@@ -22,11 +22,7 @@ export const OutrightRow = ({ row, best }: OutrightRowProps): ReactNode => {
   return (
     <>
       <tr className="border-t border-blue-100">
-        <th scope="row" className="sticky left-0 z-10 bg-white px-2 py-3 text-left align-top font-normal">
-          <SellerLogo seller={offer.seller}/>
-          <span className="mt-1.5 block text-[14px] text-slate-900">{offer.title}</span>
-          {condition ? <span className="mt-0.5 block text-[12.5px] text-slate-600">{condition}</span> : null}
-        </th>
+        <SellerCell seller={offer.seller} title={offer.title} detail={condition ?? undefined}/>
         <td className={CELL}>{money(keep.dueToday)}</td>
         <td className={CELL}>{money(keep.planMonthly)}</td>
         <td className={`${CELL} font-semibold`}>

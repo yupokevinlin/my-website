@@ -30,7 +30,7 @@ export const OfferTable = ({ caption, groups }: OfferTableProps): ReactNode => {
       <table className="w-full min-w-[64rem] border-collapse tabular-nums">
         <caption className="sr-only">{caption}</caption>
         <colgroup>
-          <col className="w-[8rem]"/>
+          <col className="w-[9rem]"/>
           <col className="w-[10.5rem]"/>
           <col className="w-[6rem]"/>
           <col/>

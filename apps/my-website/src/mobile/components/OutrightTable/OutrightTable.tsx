@@ -19,7 +19,7 @@ export const OutrightTable = ({ caption, rows }: OutrightTableProps): ReactNode 
       <caption className="sr-only">{caption}</caption>
       <thead>
         <tr className="border-b border-blue-200">
-          <ColumnHead title="Seller" align="left" className="sticky left-0 z-10 w-[15rem] bg-white"/>
+          <ColumnHead title="Seller" align="center" className="sticky left-0 z-10 w-[9rem] border-r border-blue-100 bg-white"/>
           <ColumnHead title="Phone" unit="due today"/>
           <ColumnHead title="Plan" unit="per month"/>
           <ColumnHead title="Total" unit="plan included"/>

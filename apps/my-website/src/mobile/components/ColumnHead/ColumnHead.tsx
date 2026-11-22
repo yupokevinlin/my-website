@@ -17,7 +17,7 @@ export const ColumnHead = ({ title, unit, align = "right", rowSpan, className }:
     scope="col"
     rowSpan={rowSpan}
     className={clsx(
-      "whitespace-nowrap px-2 py-2 align-bottom text-[13px] font-semibold text-slate-900",
+      "whitespace-nowrap px-2 pb-3 pt-4 align-bottom text-[13px] font-semibold text-slate-900",
       align === "left" && "text-left",
       align === "right" && "text-right",
       align === "center" && "text-center",
