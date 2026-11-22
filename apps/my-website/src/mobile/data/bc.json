@@ -91,8 +91,12 @@
       "note": "Best Buy Financing (no payments for 12 months) adds a $69.99 admin fee.",
       "check": {
         "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/20063676/quote",
+        "api": {
+          "url": "https://www.bestbuy.ca/api/offers/v1/products/20063676/offers"
+        },
         "fields": {
-          "price": "Web Code:\\s*\\d+\\s*\\$([\\d,.]+)"
+          "price": "0.salePrice",
+          "ehf": "0.ehf[province=BC].amount"
         }
       }
     },
@@ -106,23 +110,45 @@
       "price": 1749.99,
       "ehf": 0.2,
       "adminFee": 129.99,
-      "keepAmount": 500,
+      "keepAmount": 400,
       "termMonths": 36,
-      "note": "Financed through Fairstone, subject to credit approval. Best Buy quotes $42.94 a month: $1,545.80 if returned, $2,105.80 if kept. The phone must meet the trade-in conditions to be returned.",
+      "note": "Financed through Fairstone, subject to credit approval. The price is from Best Buy's offers API; the Keep-the-Tech amount and admin fee are from the plans API behind its quote tool. The phone must meet the trade-in conditions to be returned.",
       "source": {
         "label": "Best Buy's quote tool (Sidekick)",
         "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/20063676/quote",
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "check": {
-        "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/20063676/quote",
-        "fields": {
-          "price": "Web Code:\\s*\\d+\\s*\\$([\\d,.]+)",
-          "keepAmount": "Keep-the-Tech Amount\\s*[−-]\\s*\\$([\\d,.]+)",
-          "adminFee": "Admin fee\\s*\\$([\\d,.]+)"
+      "check": [
+        {
+          "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/20063676/quote",
+          "api": {
+            "url": "https://www.bestbuy.ca/api/offers/v1/products/20063676/offers"
+          },
+          "fields": {
+            "price": "0.salePrice",
+            "ehf": "0.ehf[province=BC].amount"
+          }
+        },
+        {
+          "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/20063676/quote",
+          "api": {
+            "url": "https://www.bestbuy.ca/sidekick/api/plans",
+            "body": {
+              "sku": "20063676",
+              "province": "BC",
+              "locale": "en",
+              "accessories": [],
+              "includeTax": false,
+              "isMember": false
+            }
+          },
+          "fields": {
+            "keepAmount": "plans[financeOptionType=MSUB].kttValue",
+            "adminFee": "plans[financeOptionType=MSUB].adminFeeAmount"
+          }
         }
-      }
+      ]
     },
     {
       "id": "18p-telus-60",
@@ -735,8 +761,12 @@
       "note": "Apple and Costco no longer sell the iPhone 17 Pro.",
       "check": {
         "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/19417084/quote",
+        "api": {
+          "url": "https://www.bestbuy.ca/api/offers/v1/products/19417084/offers"
+        },
         "fields": {
-          "price": "Web Code:\\s*\\d+\\s*\\$([\\d,.]+)"
+          "price": "0.salePrice",
+          "ehf": "0.ehf[province=BC].amount"
         }
       }
     },
@@ -769,21 +799,43 @@
       "adminFee": 129.99,
       "keepAmount": 400,
       "termMonths": 36,
-      "note": "Financed through Fairstone, subject to credit approval. Best Buy's quote tool gave the price, the $400 keep amount and the fee; the tax is worked out here, as its tax lookup failed for this phone when checked.",
+      "note": "Financed through Fairstone, subject to credit approval. The price is from Best Buy's offers API; the Keep-the-Tech amount and admin fee are from the plans API behind its quote tool. The phone must meet the trade-in conditions to be returned.",
       "source": {
         "label": "Best Buy's quote tool (Sidekick)",
         "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/19417084/quote",
         "verified": "primary",
         "checked": "2026-11-21"
       },
-      "check": {
-        "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/19417084/quote",
-        "fields": {
-          "price": "Web Code:\\s*\\d+\\s*\\$([\\d,.]+)",
-          "keepAmount": "Keep-the-Tech Amount\\s*[−-]\\s*\\$([\\d,.]+)",
-          "adminFee": "Admin fee\\s*\\$([\\d,.]+)"
+      "check": [
+        {
+          "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/19417084/quote",
+          "api": {
+            "url": "https://www.bestbuy.ca/api/offers/v1/products/19417084/offers"
+          },
+          "fields": {
+            "price": "0.salePrice",
+            "ehf": "0.ehf[province=BC].amount"
+          }
+        },
+        {
+          "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/19417084/quote",
+          "api": {
+            "url": "https://www.bestbuy.ca/sidekick/api/plans",
+            "body": {
+              "sku": "19417084",
+              "province": "BC",
+              "locale": "en",
+              "accessories": [],
+              "includeTax": false,
+              "isMember": false
+            }
+          },
+          "fields": {
+            "keepAmount": "plans[financeOptionType=MSUB].kttValue",
+            "adminFee": "plans[financeOptionType=MSUB].adminFeeAmount"
+          }
         }
-      }
+      ]
     },
     {
       "id": "17p-telus-60",
