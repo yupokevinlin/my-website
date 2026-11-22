@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import clsx from "clsx";
-import { money } from "../../../../tco";
-import type { CostLine } from "../../../../types";
+import { money } from "../../../tco";
+import type { CostLine } from "../../../types";
 
 export interface BreakdownProps {
   title: string;

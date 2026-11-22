@@ -3,11 +3,12 @@ import Head from "next/head";
 import clsx from "clsx";
 import { sans } from "../v2/fonts";
 import { DEFAULT_REGION, regions } from "./regions";
-import { OUTRIGHT_MONTHS, costRows } from "./tco";
+import { OUTRIGHT_MONTHS, costRows, groupBySeller } from "./tco";
 import type { SortBy } from "./types";
 import { Choice } from "./components/Choice/Choice";
 import { NumberField } from "./components/NumberField/NumberField";
 import { OfferTable } from "./components/OfferTable/OfferTable";
+import { OutrightTable } from "./components/OutrightTable/OutrightTable";
 
 const SORTS: { value: SortBy; label: string }[] = [
   { value: "keep", label: "Keep it" },
@@ -15,8 +16,9 @@ const SORTS: { value: SortBy; label: string }[] = [
 ];
 
 // /mobile: what a phone really costs in one province, from every place that
-// sells it, in one table: returned under the seller's program beside kept,
-// with the plan counted in both. A private tool: not in the sitemap, not
+// sells it, in two sections: unlocked phones paid in full, and phones paid by
+// the month, where each seller's plan tiers show returned under the seller's
+// program beside kept. The plan is counted everywhere. A private tool: not in the sitemap, not
 // linked, noindex. The prices are a snapshot (data/*.json), re-read by
 // scripts/mobile-prices/update.mjs.
 export const MobilePage = (): ReactNode => {
@@ -27,16 +29,26 @@ export const MobilePage = (): ReactNode => {
   const [byodMonthly, setByodMonthly] = useState(data.byodPlan.monthly);
 
   const phone = data.phones.find((candidate) => candidate.id === phoneId) ?? data.phones[0];
-  const rows = useMemo(
-    () =>
-      costRows(
-        data.offers.filter((offer) => offer.phone === phone.id),
+  const { unlocked, monthly } = useMemo(() => {
+    const offers = data.offers.filter((offer) => offer.phone === phone.id);
+    const settings = { byodMonthly };
+    return {
+      unlocked: costRows(
+        offers.filter((offer) => offer.kind === "outright"),
         region,
-        { byodMonthly },
-        sortBy,
+        settings,
       ),
-    [data.offers, phone.id, region, byodMonthly, sortBy],
-  );
+      monthly: groupBySeller(
+        costRows(
+          offers.filter((offer) => offer.kind !== "outright"),
+          region,
+          settings,
+          sortBy,
+        ),
+      ),
+    };
+  }, [data.offers, phone.id, region, byodMonthly, sortBy]);
+  const name = `${phone.name} ${phone.storage}`;
 
   return (
     <>
@@ -54,8 +66,7 @@ export const MobilePage = (): ReactNode => {
           </p>
           <h1 className="mt-2 text-[30px] font-semibold leading-tight sm:text-[38px]">What a phone really costs</h1>
           <p className="mt-3 max-w-[46rem] text-[16px] leading-relaxed text-slate-700">
-            Every way to get the phone in {region.name}, by total cost of ownership: the device and the plan, with tax, over the whole term. Each seller is shown two ways, side by side: returning the phone under the seller's own return
-            program, and keeping it.
+            Every way to get the phone in {region.name}, by total cost of ownership: the device and the plan, with tax, over the whole term. Unlocked phones paid in full come first, then phones paid by the month, where each plan is shown two ways side by side: returning the phone under the seller's own return program, and keeping it.
           </p>
 
           <div className="mt-8 flex flex-wrap items-end gap-x-10 gap-y-6">
@@ -65,24 +76,39 @@ export const MobilePage = (): ReactNode => {
               </h2>
               <Choice label="Phone" options={data.phones.map((item) => ({ value: item.id, label: `${item.name} ${item.storage}` }))} value={phone.id} onChange={setPhoneId}/>
             </section>
-            <section aria-labelledby="mobile-sort">
-              <h2 id="mobile-sort" className="mb-2 text-[14px] font-medium">
-                Cheapest first for
-              </h2>
-              <Choice label="Cheapest first for" options={SORTS} value={sortBy} onChange={setSortBy}/>
-            </section>
             <div className="w-full max-w-[19rem]">
               <NumberField label="Your own plan, per month before tax" hint={`For phones bought unlocked. Starts at ${data.byodPlan.name}.`} value={byodMonthly} onChange={setByodMonthly}/>
             </div>
           </div>
 
-          <section aria-labelledby="mobile-options" className="mt-8">
-            <h2 id="mobile-options" className="text-[20px] font-semibold">
-              {phone.name} {phone.storage}: {rows.length} offers
+          <section aria-labelledby="mobile-unlocked" className="mt-10">
+            <h2 id="mobile-unlocked" className="text-[22px] font-semibold">
+              Unlocked, paid in full
             </h2>
-            <p className="mt-1 text-[14px] text-slate-700 md:hidden">The table is wider than this screen: scroll it sideways.</p>
+            <p className="mt-1 max-w-[46rem] text-[15px] text-slate-700">
+              Buy the {name} outright and bring it to any plan. Costed over {OUTRIGHT_MONTHS} months on your own plan, cheapest first.
+            </p>
             <div className="mt-4">
-              <OfferTable caption={`${phone.name} ${phone.storage} in ${region.name}: each offer returned and kept`} rows={rows}/>
+              <OutrightTable caption={`${name} unlocked in ${region.name}, paid in full`} rows={unlocked}/>
+            </div>
+          </section>
+
+          <section aria-labelledby="mobile-monthly" className="mt-12">
+            <h2 id="mobile-monthly" className="text-[22px] font-semibold">
+              Pay per month
+            </h2>
+            <p className="mt-1 max-w-[46rem] text-[15px] text-slate-700">
+              Carrier financing with the plan it requires, and Best Buy's monthly program on your own plan. Each seller is listed once with its plan tiers beneath, cheapest first.
+            </p>
+            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+              <p id="mobile-sort" className="text-[14px] font-medium">
+                Cheapest first for
+              </p>
+              <Choice label="Cheapest first for" options={SORTS} value={sortBy} onChange={setSortBy}/>
+            </div>
+            <p className="mt-3 text-[14px] text-slate-700 md:hidden">The table is wider than this screen: scroll it sideways.</p>
+            <div className="mt-4">
+              <OfferTable caption={`${name} in ${region.name}, paid by the month: each plan returned and kept`} groups={monthly}/>
             </div>
           </section>
 

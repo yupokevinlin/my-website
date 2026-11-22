@@ -127,41 +127,54 @@ describe("Phone price data", () => {
 });
 
 describe("/mobile page", () => {
-  const dataRows = (container: HTMLElement) => Array.from(container.querySelectorAll<HTMLElement>("tbody tr:not([hidden])"));
+  const tables = (container: HTMLElement) => {
+    const [unlocked, monthly] = Array.from(container.querySelectorAll<HTMLElement>("table"));
+    return { unlocked, monthly };
+  };
+  const offerRows = (table: HTMLElement) => Array.from(table.querySelectorAll<HTMLElement>("tbody tr:not([hidden])"));
+  const sellers = (table: HTMLElement) => Array.from(table.querySelectorAll("tbody th img"), (logo) => logo.getAttribute("alt"));
 
-  it("has one h1 and one table, with each seller shown by its logo", () => {
+  it("has one h1 and two tables: unlocked phones, then phones paid by the month", () => {
     const { container } = render(<MobilePage/>);
     expect(container.querySelectorAll("h1")).toHaveLength(1);
-    expect(container.querySelectorAll("table")).toHaveLength(1);
-    const rows = dataRows(container);
-    expect(rows.length).toBeGreaterThan(5);
-    for (const row of rows) {
-      const logo = row.querySelector("th img");
-      expect(logo?.getAttribute("alt")).toBeTruthy();
-      expect(logo?.getAttribute("src")).toMatch(/^\/resources\/images\/mobile\//);
-    }
+    expect(container.querySelectorAll("table")).toHaveLength(2);
+    const { unlocked, monthly } = tables(container);
+    expect(sellers(unlocked)).toEqual(expect.arrayContaining(["Apple", "Best Buy", "Costco"]));
+    expect(sellers(monthly)).toEqual(expect.arrayContaining(["Telus", "Rogers", "Bell", "Freedom Mobile", "Best Buy"]));
+    // Unlocked: cheapest first
+    const totals = offerRows(unlocked).map((row) => Number(row.children[3].textContent?.match(/\$([\d,.]+)/)?.[1].replace(/,/g, "")));
+    expect(totals).toEqual([...totals].sort((x, y) => x - y));
+    for (const logo of container.querySelectorAll("tbody th img")) expect(logo.getAttribute("src")).toMatch(/^\/resources\/images\/mobile\//);
     for (const link of container.querySelectorAll("a")) {
       expect(link.getAttribute("href")).toMatch(/^https:\/\//);
       expect(link.getAttribute("target")).toBe("_blank");
     }
   });
 
-  it("shows the device before the plan in both outcomes, and no return figure without a program", () => {
+  it("lists each seller once in the monthly table, with its plan tiers beneath", () => {
     const { container } = render(<MobilePage/>);
-    const headings = Array.from(container.querySelectorAll("thead tr:last-child th"), (th) => th.textContent);
-    expect(headings).toEqual(["Device / month", "Plan / month", "Total, plan included", "Device / month", "Plan / month", "Due at the end", "Total, plan included"]);
-    const rows = dataRows(container);
-    const apple = rows.find((row) => row.querySelector('img[alt="Apple"]'));
-    expect(apple?.textContent).toContain("No return program");
-    const telus = rows.find((row) => row.querySelector('img[alt="Telus"]'));
+    const { monthly } = tables(container);
+    const listed = sellers(monthly);
+    expect(new Set(listed).size).toBe(listed.length);
+    expect(monthly.querySelectorAll("tbody")).toHaveLength(listed.length);
+    const telus = Array.from(monthly.querySelectorAll("tbody")).find((group) => group.querySelector('img[alt="Telus"]'));
+    expect(telus?.querySelectorAll("tr:not([hidden])")).toHaveLength(2);
+    expect(telus?.querySelectorAll("img")).toHaveLength(1);
     expect(telus?.textContent).toContain("Bring-It-Back");
-    expect(telus?.textContent).not.toContain("No return program");
+    const fido = Array.from(monthly.querySelectorAll("tbody")).find((group) => group.querySelector('img[alt="Fido"]'));
+    expect(fido?.textContent).toContain("No return program");
+  });
+
+  it("shows the device before the plan in both outcomes", () => {
+    const { container } = render(<MobilePage/>);
+    const headings = Array.from(tables(container).monthly.querySelectorAll("thead tr:last-child th"), (th) => th.textContent);
+    expect(headings).toEqual(["Device / month", "Plan / month", "Total, plan included", "Device / month", "Plan / month", "Due at the end", "Total, plan included"]);
   });
 
   it("puts the return programs first when sorted by Return it, and opens an offer's details", () => {
     const { container, getByRole } = render(<MobilePage/>);
     fireEvent.click(getByRole("button", { name: "Return it" }));
-    const rows = dataRows(container);
+    const rows = offerRows(tables(container).monthly);
     expect(rows[0].textContent).not.toContain("No return program");
     expect(rows[rows.length - 1].textContent).toContain("No return program");
     const before = container.querySelectorAll("tbody tr[hidden]").length;

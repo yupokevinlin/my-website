@@ -134,3 +134,16 @@ export const costRows = (offers: Offer[], region: Region, settings: Settings, so
 
 export const money = (amount: number, digits = 2): string =>
   `${amount < 0 ? "−" : ""}$${Math.abs(amount).toLocaleString("en-CA", { minimumFractionDigits: digits, maximumFractionDigits: digits })}`;
+
+export interface SellerGroup {
+  seller: string;
+  rows: CostRow[];
+}
+
+// Rows that are already sorted, gathered by seller: a seller's plan tiers stay
+// in their order, and the sellers come in the order of their cheapest tier.
+export const groupBySeller = (rows: CostRow[]): SellerGroup[] => {
+  const groups = new Map<string, CostRow[]>();
+  for (const row of rows) groups.set(row.offer.seller, [...(groups.get(row.offer.seller) ?? []), row]);
+  return Array.from(groups, ([seller, grouped]) => ({ seller, rows: grouped }));
+};
