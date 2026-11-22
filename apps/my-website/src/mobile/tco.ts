@@ -1,4 +1,4 @@
-import type { CarrierOffer, CostLine, CostRow, Offer, OutrightOffer, Region, Scenario, Settings, SortBy, SubscriptionOffer } from "./types";
+import type { CarrierOffer, CostLine, CostRow, Offer, OutrightOffer, PlanData, Region, Scenario, Settings, SortBy, SubscriptionOffer } from "./types";
 
 // Total cost of ownership: everything paid for a phone and its plan over the
 // term, tax included. Each offer is worked out two ways, side by side:
@@ -147,3 +147,5 @@ export const groupBySeller = (rows: CostRow[]): SellerGroup[] => {
   for (const row of rows) groups.set(row.offer.seller, [...(groups.get(row.offer.seller) ?? []), row]);
   return Array.from(groups, ([seller, grouped]) => ({ seller, rows: grouped }));
 };
+
+export const dataLabel = (gb: PlanData): string => (gb === "unlimited" ? "Unlimited" : `${gb} GB`);

@@ -21,7 +21,7 @@ const carrierOffer: CarrierOffer = {
   upfront: 0,
   monthlyKeep: 75,
   returnOption: { name: "Return plan", monthly: 37.5, deferred: 900 },
-  plan: { name: "Plan", monthly: 50, data: "100 GB" },
+  plan: { name: "Plan", monthly: 50, gb: 100, features: [] },
   connectionFee: 80,
   credit: { amount: 100, label: "Bill credit" },
 };
@@ -168,6 +168,18 @@ describe("/mobile page", () => {
     expect(telus?.textContent).toContain("Bring-It-Back");
     const fido = Array.from(monthly.querySelectorAll("tbody")).find((group) => group.querySelector('img[alt="Fido"]'));
     expect(fido?.textContent).toContain("No return program");
+  });
+
+  it("shows each carrier plan's data per month and its features", () => {
+    const { container } = render(<MobilePage/>);
+    const { monthly } = tables(container);
+    expect(Array.from(monthly.querySelectorAll("thead tr:first-child th"), (th) => th.textContent).slice(0, 3)).toEqual(["Seller", "Plan", "Data / month"]);
+    const group = (seller: string) => Array.from(monthly.querySelectorAll("tbody")).find((body) => body.querySelector(`img[alt="${seller}"]`));
+    const data = (seller: string) => Array.from(group(seller)?.querySelectorAll("tr:not([hidden])") ?? [], (row) => row.querySelector("td")?.textContent);
+    expect(data("Freedom Mobile").sort()).toEqual(["175 GB", "250 GB"]);
+    expect(data("Telus").sort()).toEqual(["60 GB", "Unlimited"]);
+    expect(data("Best Buy")).toEqual(["As your plan"]);
+    expect(group("Bell")?.textContent).toContain("50 GB hotspot");
   });
 
   it("shows the device before the plan in both outcomes", () => {

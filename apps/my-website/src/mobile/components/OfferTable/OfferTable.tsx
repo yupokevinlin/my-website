@@ -24,13 +24,15 @@ export const OfferTable = ({ caption, groups }: OfferTableProps): ReactNode => {
   const rows = groups.flatMap((group) => group.rows);
   const bestKeep = lowest(rows, (row) => row.keep.perMonth);
   const bestReturn = lowest(rows, (row) => row.returned?.perMonth);
+  const maxGb = Math.max(1, ...rows.map(({ offer }) => (offer.kind === "carrier" && offer.plan.gb !== "unlimited" ? offer.plan.gb : 0)));
   return (
     <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white" tabIndex={0} role="region" aria-label={caption}>
-      <table className="w-full min-w-[72rem] border-collapse tabular-nums">
+      <table className="w-full min-w-[78rem] border-collapse tabular-nums">
         <caption className="sr-only">{caption}</caption>
         <colgroup>
           <col className="w-[10rem]"/>
-          <col className="w-[11rem]"/>
+          <col className="w-[12rem]"/>
+          <col className="w-[7.5rem]"/>
           <col/>
           <col span={3} className="bg-amber-50/60"/>
           <col span={4} className="bg-sky-50/60"/>
@@ -43,6 +45,9 @@ export const OfferTable = ({ caption, groups }: OfferTableProps): ReactNode => {
             </th>
             <th scope="col" rowSpan={2} className={HEAD}>
               Plan
+            </th>
+            <th scope="col" rowSpan={2} className={HEAD}>
+              Data / month
             </th>
             <th scope="col" rowSpan={2} className={NUMBER_HEAD}>
               Due today
@@ -84,7 +89,7 @@ export const OfferTable = ({ caption, groups }: OfferTableProps): ReactNode => {
         {groups.map((group) => (
           <tbody key={group.seller} className="border-t-2 border-slate-300 first-of-type:border-t-0">
             {group.rows.map((row, index) => (
-              <OfferRow key={row.offer.id} row={row} groupSize={index === 0 ? group.rows.length : undefined} bestKeep={row.keep.perMonth === bestKeep} bestReturn={row.returned?.perMonth === bestReturn}/>
+              <OfferRow key={row.offer.id} row={row} groupSize={index === 0 ? group.rows.length : undefined} maxGb={maxGb} bestKeep={row.keep.perMonth === bestKeep} bestReturn={row.returned?.perMonth === bestReturn}/>
             ))}
           </tbody>
         ))}

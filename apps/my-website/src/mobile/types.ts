@@ -70,6 +70,20 @@ export interface SubscriptionOffer extends OfferBase {
   termMonths: number;
 }
 
+// Data each month, in GB, or "unlimited" as the carrier calls it (carriers slow
+// an unlimited plan down past some amount)
+export type PlanData = number | "unlimited";
+
+export interface Plan {
+  name: string;
+  // Each month before tax, with the carrier's autopay discount
+  monthly: number;
+  gb: PlanData;
+  // What else the carrier lists for the plan: network, roaming, extras. Only
+  // what was read on its page, so an empty list means nothing was noted.
+  features: string[];
+}
+
 // A carrier's financing on a term, with the plan it requires
 export interface CarrierOffer extends OfferBase {
   kind: "carrier";
@@ -83,7 +97,7 @@ export interface CarrierOffer extends OfferBase {
   // The carrier's return program: lower payments, and at the end the phone
   // goes back or the deferred amount is paid
   returnOption?: { name: string; monthly: number; deferred: number };
-  plan: { name: string; monthly: number; data: string };
+  plan: Plan;
   connectionFee: number;
   // One-time extras worth cash (a gift card, a bill credit), taken off the total
   credit?: { amount: number; label: string };
@@ -95,7 +109,7 @@ export interface RegionData {
   region: Region;
   // The cheapest bring-your-own-phone plan found, used for unlocked phones
   // until the visitor types their own
-  byodPlan: { name: string; monthly: number; data: string; source: Source };
+  byodPlan: { name: string; monthly: number; gb: PlanData; source: Source };
   phones: Phone[];
   offers: Offer[];
 }

@@ -9,13 +9,13 @@
   "byodPlan": {
     "name": "Koodo's 60 GB bring-your-own plan",
     "monthly": 45,
-    "data": "60 GB",
     "source": {
       "label": "Koodo, bring-your-own-phone plans",
       "url": "https://www.koodomobile.com/en/shop/mobility/plans/bring-your-own-phone",
       "verified": "primary",
       "checked": "2026-11-21"
-    }
+    },
+    "gb": 60
   },
   "phones": [
     {
@@ -169,7 +169,11 @@
       "plan": {
         "name": "Nationwide 5G+",
         "monthly": 85,
-        "data": "60 GB"
+        "gb": 60,
+        "features": [
+          "5G+",
+          "Canada-wide"
+        ]
       },
       "connectionFee": 0,
       "source": {
@@ -215,7 +219,11 @@
       "plan": {
         "name": "US-Mexico Roaming 5G+",
         "monthly": 105,
-        "data": "unlimited"
+        "gb": "unlimited",
+        "features": [
+          "5G+",
+          "Canada, US and Mexico roaming"
+        ]
       },
       "connectionFee": 0,
       "source": {
@@ -261,7 +269,10 @@
       "plan": {
         "name": "5G+ Lite",
         "monthly": 85,
-        "data": "60 GB"
+        "gb": 60,
+        "features": [
+          "5G+"
+        ]
       },
       "connectionFee": 0,
       "source": {
@@ -329,7 +340,10 @@
       "plan": {
         "name": "5G+ Popular",
         "monthly": 105,
-        "data": "unlimited"
+        "gb": "unlimited",
+        "features": [
+          "5G+"
+        ]
       },
       "connectionFee": 0,
       "source": {
@@ -397,7 +411,8 @@
       "plan": {
         "name": "Select",
         "monthly": 85,
-        "data": "60 GB"
+        "gb": 60,
+        "features": []
       },
       "connectionFee": 40,
       "source": {
@@ -441,7 +456,12 @@
       "plan": {
         "name": "Ultra Unlimited US/Mexico",
         "monthly": 105,
-        "data": "unlimited"
+        "gb": "unlimited",
+        "features": [
+          "US and Mexico roaming",
+          "50 GB hotspot",
+          "Crave with ads"
+        ]
       },
       "connectionFee": 40,
       "source": {
@@ -485,7 +505,11 @@
       "plan": {
         "name": "$60 plan",
         "monthly": 60,
-        "data": "250 GB"
+        "gb": 250,
+        "features": [
+          "Canada, US and Mexico data",
+          "Roam Beyond 10 GB"
+        ]
       },
       "connectionFee": 0,
       "source": {
@@ -552,7 +576,11 @@
       "plan": {
         "name": "$50 plan",
         "monthly": 50,
-        "data": "175 GB"
+        "gb": 175,
+        "features": [
+          "Canada, US and Mexico data",
+          "Roam Beyond 10 GB"
+        ]
       },
       "connectionFee": 0,
       "source": {
@@ -614,7 +642,10 @@
       "plan": {
         "name": "60GB Talk & Text",
         "monthly": 50,
-        "data": "60 GB"
+        "gb": 60,
+        "features": [
+          "5G"
+        ]
       },
       "connectionFee": 0,
       "source": {
@@ -675,7 +706,10 @@
       "plan": {
         "name": "60GB 5G",
         "monthly": 60,
-        "data": "60 GB"
+        "gb": 60,
+        "features": [
+          "5G"
+        ]
       },
       "connectionFee": 0,
       "source": {
@@ -719,7 +753,8 @@
       "plan": {
         "name": "60GB",
         "monthly": 50,
-        "data": "60 GB"
+        "gb": 60,
+        "features": []
       },
       "connectionFee": 40,
       "source": {
@@ -856,7 +891,11 @@
       "plan": {
         "name": "Nationwide 5G+",
         "monthly": 85,
-        "data": "60 GB"
+        "gb": 60,
+        "features": [
+          "5G+",
+          "Canada-wide"
+        ]
       },
       "connectionFee": 0,
       "source": {
@@ -902,7 +941,11 @@
       "plan": {
         "name": "US-Mexico Roaming 5G+",
         "monthly": 105,
-        "data": "unlimited"
+        "gb": "unlimited",
+        "features": [
+          "5G+",
+          "Canada, US and Mexico roaming"
+        ]
       },
       "connectionFee": 0,
       "source": {
@@ -948,7 +991,8 @@
       "plan": {
         "name": "Select",
         "monthly": 85,
-        "data": "60 GB"
+        "gb": 60,
+        "features": []
       },
       "connectionFee": 40,
       "source": {
@@ -992,7 +1036,12 @@
       "plan": {
         "name": "Ultra Unlimited US/Mexico",
         "monthly": 105,
-        "data": "unlimited"
+        "gb": "unlimited",
+        "features": [
+          "US and Mexico roaming",
+          "50 GB hotspot",
+          "Crave with ads"
+        ]
       },
       "connectionFee": 40,
       "source": {
@@ -1036,7 +1085,11 @@
       "plan": {
         "name": "$60 plan",
         "monthly": 60,
-        "data": "250 GB"
+        "gb": 250,
+        "features": [
+          "Canada, US and Mexico data",
+          "Roam Beyond 10 GB"
+        ]
       },
       "connectionFee": 0,
       "source": {
@@ -1103,7 +1156,11 @@
       "plan": {
         "name": "$50 plan",
         "monthly": 50,
-        "data": "175 GB"
+        "gb": 175,
+        "features": [
+          "Canada, US and Mexico data",
+          "Roam Beyond 10 GB"
+        ]
       },
       "connectionFee": 0,
       "source": {
@@ -1165,7 +1222,10 @@
       "plan": {
         "name": "60GB 5G",
         "monthly": 60,
-        "data": "60 GB"
+        "gb": 60,
+        "features": [
+          "5G"
+        ]
       },
       "connectionFee": 0,
       "source": {
@@ -1209,7 +1269,8 @@
       "plan": {
         "name": "60GB",
         "monthly": 50,
-        "data": "60 GB"
+        "gb": 60,
+        "features": []
       },
       "connectionFee": 40,
       "source": {
