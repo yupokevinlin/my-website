@@ -60,18 +60,15 @@ export const MobilePage = (): ReactNode => {
         <title>{`Phone prices in ${region.name}`}</title>
         <meta name="robots" content="noindex, nofollow"/>
       </Head>
-      {/* #__next doesn't scroll (globals.css), so the page scrolls in here */}
-      <div className={clsx(sans.variable, "h-full overflow-y-auto bg-slate-50 font-[family-name:var(--font-v2-sans),system-ui,sans-serif] text-slate-900")}>
+      {/* #__next doesn't scroll (globals.css), so the page scrolls in here.
+          relative: screen-reader-only text is positioned against this box;
+          without it, it stretched the document far below the page */}
+      <div className={clsx(sans.variable, "relative h-full overflow-y-auto [scrollbar-gutter:stable] bg-slate-50 font-[family-name:var(--font-v2-sans),system-ui,sans-serif] text-slate-900")}>
         <main className="mx-auto w-full max-w-[84rem] px-4 pb-16 pt-8 sm:px-6 sm:pt-12">
-          <p className="text-[14px] font-medium text-slate-700">
-            {region.name} · {region.taxLabel} · prices checked {region.checked}
-          </p>
-          <h1 className="mt-2 text-[30px] font-semibold leading-tight sm:text-[38px]">What a phone really costs</h1>
-          <p className="mt-3 max-w-[46rem] text-[16px] leading-relaxed text-slate-700">
-            Every way to get the phone in {region.name}, by total cost of ownership: the device and the plan, with tax, over the whole term. Unlocked phones paid in full come first, then phones paid by the month, where each plan is shown two ways side by side: returning the phone under the seller's own return program, and keeping it.
-          </p>
+          {/* Kevin asked for no visible header; the title stays for screen readers */}
+          <h1 className="sr-only">Phone prices in {region.name}</h1>
 
-          <section aria-labelledby="mobile-phone" className="mt-8">
+          <section aria-labelledby="mobile-phone">
             <h2 id="mobile-phone" className="text-[20px] font-semibold">
               Phone
             </h2>
@@ -123,30 +120,6 @@ export const MobilePage = (): ReactNode => {
             <div className="mt-4">
               {monthly.length ? <OfferTable caption={`${name} in ${region.name}, paid by the month: each plan returned and kept`} groups={monthly}/> : <p className="rounded-2xl border border-slate-200 bg-white p-4 text-[15px] text-slate-700">No carrier or store in the list sells the {name} by the month.</p>}
             </div>
-          </section>
-
-          <section aria-labelledby="mobile-method" className="mt-12 max-w-[46rem] text-[15px] leading-relaxed text-slate-700">
-            <h2 id="mobile-method" className="text-[20px] font-semibold text-slate-900">
-              How this is worked out
-            </h2>
-            <ul className="mt-3 list-disc space-y-2 pl-5">
-              <li>
-                <strong>Total, plan included</strong> is everything paid over the term with {region.taxLabel}: what is due today, the device payments, the plan, and anything due at the end. Below it is the same amount per month, which is
-                what offers of different lengths compare on.
-              </li>
-              <li>
-                <strong>Return it</strong> is only filled in when the seller has its own return program: Bell's Device Return Option, Rogers' Save &amp; Return, Telus's Bring-It-Back, Freedom's TradeUp and Best Buy's Monthly Subscription.
-                The phone goes back in good working order when the term ends. No resale value is assumed anywhere.
-              </li>
-              <li>
-                <strong>Keep it</strong> is any way the phone is still yours after the term: paid in full, financed, or a return program paid off at the end. Where a carrier has two ways, the cheaper one is shown and named.
-              </li>
-              <li>
-                A carrier deal comes with the plan it requires. A phone bought unlocked uses your own plan, above, over {OUTRIGHT_MONTHS} months. Device payments are as billed; plan prices are shown with tax.
-              </li>
-              <li>Carriers charge the tax on the phone's full price on day one. Best Buy's monthly program charges it on each payment.</li>
-              <li>Trade-ins, student and employee discounts and in-store-only offers are not counted. Prices are a snapshot from the date above: open the source before buying.</li>
-            </ul>
           </section>
         </main>
       </div>

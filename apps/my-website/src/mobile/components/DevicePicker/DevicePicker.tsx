@@ -43,7 +43,7 @@ export const DevicePicker = ({ phones, selected, onSelect }: DevicePickerProps):
       <p id={`${id}-count`} className="mt-3 text-[13px] text-slate-600" aria-live="polite">
         {shown.length ? `${shown.length} ${shown.length === 1 ? "phone" : "phones"}` : `No phone matches “${query}”`}
       </p>
-      <ul id={`${id}-results`} aria-describedby={`${id}-count`} className="mt-2 grid max-h-[26rem] grid-cols-2 gap-2 overflow-y-auto pr-1 sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
+      <ul id={`${id}-results`} aria-describedby={`${id}-count`} className="mt-2 grid max-h-[26rem] grid-cols-2 gap-2 overflow-y-auto pr-1 [scrollbar-gutter:stable] [scrollbar-width:thin] sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8">
         {shown.map((phone) => (
           <PhoneCard key={phone.id} phone={phone} selected={phone.id === selected} onSelect={() => onSelect(phone.id)}/>
         ))}

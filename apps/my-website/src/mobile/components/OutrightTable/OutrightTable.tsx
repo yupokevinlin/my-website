@@ -13,8 +13,10 @@ const NUMBER_HEAD = `${HEAD} text-right`;
 
 // Unlocked phones bought outright: the price is paid today, the phone is
 // yours, and the plan is whichever one you bring
+// The box is relative so hidden screen-reader text in the table is placed
+// against it, not the page: otherwise the page itself scrolled sideways.
 export const OutrightTable = ({ caption, rows }: OutrightTableProps): ReactNode => (
-  <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white" tabIndex={0} role="region" aria-label={caption}>
+  <div className="relative overflow-x-auto rounded-2xl border border-slate-200 bg-white [scrollbar-width:thin]" tabIndex={0} role="region" aria-label={caption}>
     <table className="w-full min-w-[40rem] border-collapse tabular-nums">
       <caption className="sr-only">{caption}</caption>
       <thead>

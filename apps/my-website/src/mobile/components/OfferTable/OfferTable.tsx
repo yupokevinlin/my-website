@@ -10,7 +10,7 @@ export interface OfferTableProps {
   groups: SellerGroup[];
 }
 
-const HEAD = "px-3 py-2 text-left align-bottom text-[12.5px] font-semibold text-slate-700";
+const HEAD = "px-2 py-2 text-left align-bottom text-[12px] font-semibold text-slate-700";
 const NUMBER_HEAD = `${HEAD} text-right`;
 
 const lowest = (rows: CostRow[], pick: (row: CostRow) => number | undefined): number => Math.min(...rows.map((row) => pick(row) ?? Infinity));
@@ -20,19 +20,21 @@ const lowest = (rows: CostRow[], pick: (row: CostRow) => number | undefined): nu
 // returned under the seller's program, or kept. Each outcome shows the device
 // payment first, then the plan, then the total. Wider than a phone's screen,
 // so it scrolls sideways there with the seller column held in place.
+// The box is relative so hidden screen-reader text in the table is placed
+// against it, not the page: otherwise the page itself scrolled sideways.
 export const OfferTable = ({ caption, groups }: OfferTableProps): ReactNode => {
   const rows = groups.flatMap((group) => group.rows);
   const bestKeep = lowest(rows, (row) => row.keep.perMonth);
   const bestReturn = lowest(rows, (row) => row.returned?.perMonth);
   const maxGb = Math.max(1, ...rows.map(({ offer }) => (offer.kind === "carrier" && offer.plan.gb !== "unlimited" ? offer.plan.gb : 0)));
   return (
-    <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white" tabIndex={0} role="region" aria-label={caption}>
-      <table className="w-full min-w-[78rem] border-collapse tabular-nums">
+    <div className="relative overflow-x-auto rounded-2xl border border-slate-200 bg-white [scrollbar-width:thin]" tabIndex={0} role="region" aria-label={caption}>
+      <table className="w-full min-w-[60rem] border-collapse tabular-nums">
         <caption className="sr-only">{caption}</caption>
         <colgroup>
-          <col className="w-[10rem]"/>
-          <col className="w-[12rem]"/>
-          <col className="w-[7.5rem]"/>
+          <col className="w-[8rem]"/>
+          <col className="w-[10.5rem]"/>
+          <col className="w-[6rem]"/>
           <col/>
           <col span={3} className="bg-amber-50/60"/>
           <col span={4} className="bg-sky-50/60"/>
@@ -52,10 +54,10 @@ export const OfferTable = ({ caption, groups }: OfferTableProps): ReactNode => {
             <th scope="col" rowSpan={2} className={NUMBER_HEAD}>
               Due today
             </th>
-            <th scope="colgroup" colSpan={3} className="px-3 pt-3 text-left text-[15px] font-semibold text-amber-950">
+            <th scope="colgroup" colSpan={3} className="px-2 pt-3 text-left text-[14px] font-semibold text-amber-950">
               Return it <span className="font-normal text-slate-700">· the seller's own return program</span>
             </th>
-            <th scope="colgroup" colSpan={4} className="px-3 pt-3 text-left text-[15px] font-semibold text-sky-950">
+            <th scope="colgroup" colSpan={4} className="px-2 pt-3 text-left text-[14px] font-semibold text-sky-950">
               Keep it <span className="font-normal text-slate-700">· the phone is yours after the term</span>
             </th>
             <th scope="col" rowSpan={2} className={HEAD}>
