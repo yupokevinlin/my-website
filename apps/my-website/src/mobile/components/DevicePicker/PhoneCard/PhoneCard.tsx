@@ -37,7 +37,8 @@ export const PhoneCard = ({ phone, selected, onSelect }: PhoneCardProps): ReactN
         <span className="sr-only">{phone.brand} </span>
         {phone.name}
       </span>
-      <span className="text-[12px] text-slate-600">{phone.storage}</span>
+      {/* Its storage sizes, smallest to largest */}
+      <span className="text-[12px] text-slate-600">{phone.storages.length > 1 ? `${phone.storages[0]} – ${phone.storages[phone.storages.length - 1]}` : phone.storages[0]}</span>
     </button>
   </li>
 );

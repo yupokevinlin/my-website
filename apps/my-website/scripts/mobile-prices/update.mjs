@@ -24,7 +24,7 @@ import { readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { chromium } from "@playwright/test";
-import { matchDevice, offerProblems } from "./lib.mjs";
+import { matchDevice, offerProblems, storageGb } from "./lib.mjs";
 
 const args = process.argv.slice(2);
 const flag = (name) => args.includes(`--${name}`);
@@ -106,7 +106,9 @@ const json = async (page, { url, method, headers = {}, body, cookies } = {}) => 
 // only in textContent
 const text = async (url, options) => (await open(url, options)).evaluate(() => `${document.body.innerText}\n${document.body.textContent}`);
 
-const images = {};
+// Each phone's storage sizes and colours, with a picture of each colour, as
+// Best Buy lists them: { deviceId: [{ storage, colour, image }] }
+const variants = {};
 const runSeller = async (module) => {
   const log = (...parts) => console.log(`  [${module.seller}]`, ...parts);
   const helpers = {
@@ -119,9 +121,10 @@ const runSeller = async (module) => {
     log,
     match: (name) => matchDevice(devices, name),
     source: (label, url, verified = "primary") => ({ label, url, verified, checked: today }),
-    // A picture of the phone for the page (Best Buy's module records them)
-    image: (deviceId, url) => {
-      if (deviceIds.has(deviceId) && /^https:\/\//.test(url) && !images[deviceId]) images[deviceId] = url;
+    // One storage and colour of a phone, with its picture (Best Buy's module records them)
+    variant: (deviceId, { storage, colour, image }) => {
+      if (!deviceIds.has(deviceId) || !/^\d+(GB|TB)$/.test(storage ?? "") || !colour || !/^https:\/\//.test(image ?? "")) return;
+      (variants[deviceId] ??= []).push({ storage, colour, image });
     },
   };
   const started = Date.now();
@@ -158,7 +161,10 @@ await browser.close();
 // offers of every other seller (a module that failed or didn't run, and the
 // manual ones). A seller's module replaces all its offers, manual ones too.
 const ran = new Map(results.filter((result) => result.ok).map((result) => [result.module.seller, result.offers]));
-const previous = data.offers ?? [];
+// Offers saved before every offer had a storage size can't be shown: dropped
+const unsized = (data.offers ?? []).filter((offer) => !offer.storage);
+if (unsized.length) console.log(`\nDropped ${unsized.length} saved offers with no storage size (read before storage sizes were kept): ${[...new Set(unsized.map((offer) => offer.seller))].join(", ")}`);
+const previous = (data.offers ?? []).filter((offer) => offer.storage);
 const offers = [...previous.filter((offer) => !ran.has(offer.seller)), ...[...ran.values()].flat()];
 
 // What changed
@@ -191,12 +197,22 @@ for (const id of before.keys()) {
   }
 }
 
-// The phones the page lists: those with at least one offer, newest first
+// The phones the page lists: those with at least one offer, newest first.
+// Storage sizes: every one Best Buy lists or any seller prices, smallest
+// first. Colours: Best Buy's, each with its picture, the first colour's
+// picture showing the phone. A phone Best Buy wasn't read for this time
+// keeps its colours from before.
 const previousPhones = new Map((data.phones ?? []).map((phone) => [phone.id, phone]));
 const offered = new Set(offers.map((offer) => offer.phone));
 const phones = devices
   .filter((device) => offered.has(device.id))
-  .map((device) => ({ ...device, image: images[device.id] ?? previousPhones.get(device.id)?.image }))
+  .map((device) => {
+    const listed = variants[device.id] ?? [];
+    const before = previousPhones.get(device.id);
+    const storages = [...new Set([...listed.map((variant) => variant.storage), ...offers.filter((offer) => offer.phone === device.id).map((offer) => offer.storage)])].sort((a, b) => storageGb(a) - storageGb(b));
+    const colours = listed.length ? [...new Map(listed.map((variant) => [variant.colour, { name: variant.colour, image: variant.image }])).values()] : (before?.colours ?? []);
+    return { ...device, storages, colours, image: colours[0]?.image ?? before?.image };
+  })
   .sort((a, b) => b.released.localeCompare(a.released));
 const unsold = devices.filter((device) => !offered.has(device.id)).map((device) => device.name);
 

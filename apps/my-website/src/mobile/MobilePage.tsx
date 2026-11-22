@@ -6,6 +6,7 @@ import { DEFAULT_REGION, regions } from "./regions";
 import { OUTRIGHT_MONTHS, costRows, groupBySeller } from "./tco";
 import type { SortBy } from "./types";
 import { Choice } from "./components/Choice/Choice";
+import { ColourPicker } from "./components/ColourPicker/ColourPicker";
 import { DevicePicker } from "./components/DevicePicker/DevicePicker";
 import { PhonePicture } from "./components/PhonePicture/PhonePicture";
 import { NumberField } from "./components/NumberField/NumberField";
@@ -27,12 +28,21 @@ export const MobilePage = (): ReactNode => {
   const data = regions[DEFAULT_REGION];
   const { region } = data;
   const [phoneId, setPhoneId] = useState(data.phones[0].id);
+  // The storage and colour chosen for the phone; unset, its defaults below
+  const [chosen, setChosen] = useState<{ storage?: string; colour?: string }>({});
   const [sortBy, setSortBy] = useState<SortBy>("keep");
   const [byodMonthly, setByodMonthly] = useState(data.byodPlan.monthly);
 
   const phone = data.phones.find((candidate) => candidate.id === phoneId) ?? data.phones[0];
+  // A new phone starts at its smallest storage that someone sells, in its first colour
+  const pickPhone = (id: string): void => {
+    setPhoneId(id);
+    setChosen({});
+  };
+  const storage = chosen.storage ?? phone.storages.find((size) => data.offers.some((offer) => offer.phone === phone.id && offer.storage === size)) ?? phone.storages[0];
+  const colour = phone.colours.find((candidate) => candidate.name === chosen.colour) ?? phone.colours[0];
   const { unlocked, monthly } = useMemo(() => {
-    const offers = data.offers.filter((offer) => offer.phone === phone.id);
+    const offers = data.offers.filter((offer) => offer.phone === phone.id && offer.storage === storage);
     const settings = { byodMonthly };
     return {
       unlocked: costRows(
@@ -49,8 +59,8 @@ export const MobilePage = (): ReactNode => {
         ),
       ),
     };
-  }, [data.offers, phone.id, region, byodMonthly, sortBy]);
-  const name = `${phone.name} ${phone.storage}`;
+  }, [data.offers, phone.id, storage, region, byodMonthly, sortBy]);
+  const name = `${phone.name} ${storage}`;
 
   return (
     <>
@@ -73,18 +83,34 @@ export const MobilePage = (): ReactNode => {
               Phone
             </h2>
             <div className="mt-3">
-              <DevicePicker phones={data.phones} selected={phone.id} onSelect={setPhoneId}/>
+              <DevicePicker phones={data.phones} selected={phone.id} onSelect={pickPhone}/>
             </div>
           </section>
 
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-x-10 gap-y-6 rounded-2xl border border-blue-100 bg-linear-to-r from-white via-blue-50 to-violet-100 p-4 shadow-sm shadow-blue-100 sm:p-5">
+          {/* The chosen phone: its storage, which the prices are for, and its colour */}
+          <div className="mt-8 grid items-start gap-x-10 gap-y-6 rounded-2xl border border-blue-100 bg-linear-to-r from-white via-blue-50 to-violet-100 p-4 shadow-sm shadow-blue-100 sm:p-5 lg:grid-cols-[auto_minmax(0,1fr)_19rem]">
             <div className="flex items-center gap-4">
-              <PhonePicture src={phone.image} size={112}/>
+              <PhonePicture src={colour?.image ?? phone.image} size={112}/>
               <div>
                 <p className="text-[14px] text-slate-600">{phone.brand}</p>
                 <p className="text-[26px] font-semibold leading-tight">{phone.name}</p>
-                <p className="text-[15px] text-slate-700">{phone.storage}</p>
+                <p className="text-[15px] text-slate-700">
+                  {storage}
+                  {colour ? ` · ${colour.name}` : null}
+                </p>
               </div>
+            </div>
+            <div className="grid gap-4">
+              <div>
+                <p className="mb-1.5 text-[14px] font-medium text-slate-900">Storage</p>
+                <Choice label="Storage" options={phone.storages.map((size) => ({ value: size, label: size }))} value={storage} onChange={(size) => setChosen((current) => ({ ...current, storage: size }))}/>
+              </div>
+              {phone.colours.length ? (
+                <div>
+                  <p className="mb-1.5 text-[14px] font-medium text-slate-900">Colour</p>
+                  <ColourPicker colours={phone.colours} value={colour?.name ?? ""} onChange={(name) => setChosen((current) => ({ ...current, colour: name }))}/>
+                </div>
+              ) : null}
             </div>
             <div className="w-full max-w-[19rem]">
               <NumberField label="Bring your own device plans" hint={`Per month, before tax. Starts at ${data.byodPlan.name}.`} value={byodMonthly} onChange={setByodMonthly}/>

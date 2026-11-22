@@ -1,4 +1,4 @@
-// Bell: each phone it sells new in BC at its catalog storage, on Bell SmartPay
+// Bell: each phone at every storage it sells new in BC, on Bell SmartPay
 // over 24 months, with the Flex Option (return the phone or pay the deferred
 // amount) where the phone has it.
 //
@@ -22,11 +22,14 @@
 // deferred amount"); the module checks it against Bell's own figure for paying
 // it back after the term.
 //
-// One offer per distinct device price on the tier's cheapest plan. A tier whose
-// cheapest plan isn't in PLANS below (Bell's Basic talk plan on the LOW tier) is
-// left out, and so is the MID tier some colours list, since the builder doesn't
-// offer it for the phone it opens with.
-import { cents, matchDevice, parseStorage } from "../lib.mjs";
+// The builder's catalog lists every colour and storage of the phone with its
+// tier prices, so one click-through per phone prices all its storages.
+//
+// One offer per distinct device price on the tier's cheapest plan, for each
+// storage. A tier whose cheapest plan isn't in PLANS below (Bell's Basic talk
+// plan on the LOW tier) is left out, and so is the MID tier some colours list,
+// since the builder doesn't offer it for the phone it opens with.
+import { cents, matchDevice, offerId, parseStorage, storageGb } from "../lib.mjs";
 
 const SITE = "https://www.bell.ca";
 const LISTING = `${SITE}/Mobility/Smartphones_and_mobile_internet_devices`;
@@ -106,82 +109,95 @@ export default {
       }
       const { variants, offerings, tiers } = builder;
 
-      // The variant at the catalog storage: the one the builder opened with if
-      // it is, else one in stock online, else any
-      const atStorage = new Set(variants.filter((variant) => parseStorage(variant.memory) === device.storage).map((variant) => variant.bmc));
-      const candidates = offerings.filter((offering) => atStorage.has(offering.id) && offering.condition === "NEW");
-      const selected = (offering) => offering.pricingDetails.some((detail) => detail.isSelected);
-      const offering = candidates.find(selected) ?? candidates.find((item) => item.availability === "IN_STOCK") ?? candidates[0];
-      if (!offering) {
-        log(`${device.name}: no new ${device.storage} variant in the builder`);
+      // The builder's catalog carries every colour and storage of the phone, so
+      // one click-through prices them all. For each storage, the variant the
+      // builder opened with if it's that size, else the cheapest colour in stock
+      // online, else the cheapest
+      const storageOf = new Map(variants.map((variant) => [variant.bmc, parseStorage(variant.memory)]));
+      const fresh = offerings.filter((offering) => offering.condition === "NEW" && storageOf.get(offering.id));
+      const storages = [...new Set(fresh.map((offering) => storageOf.get(offering.id)))].sort((a, b) => storageGb(a) - storageGb(b));
+      if (!storages.length) {
+        log(`${device.name}: no new variant in the builder`);
         continue;
       }
-      const fullPrice = cents(offering.price.value);
-
-      const found = [];
-      for (const tier of tiers) {
-        const planPrice = tier.priceAlterations.find((item) => item.priceAlterationType === "RATE_PLAN_STARTING_PRICE")?.value;
-        const facts = PLANS[planPrice];
-        if (!facts) {
-          log(`${device.name}: ${tier.type} tier's cheapest plan ($${planPrice}) isn't in PLANS, left out`);
-          continue;
-        }
-        const fixedDetail = offering.pricingDetails.find((detail) => new RegExp(`^${offering.id}_${tier.type}_\\d+$`).test(detail.id));
-        if (!fixedDetail) continue;
-        const termMonths = Number(fixedDetail.id.match(/_(\d+)$/)[1]);
-        const fixed = alterations(fixedDetail);
-        const flex = alterations(offering.pricingDetails.find((detail) => detail.id === `${fixedDetail.id}_DRO`));
-        let returnOption;
-        if (flex.MONTHLY_INSTALLMENT > 0) {
-          const deferred = cents(flex.NET_PRICE - flex.MONTHLY_INSTALLMENT * termMonths);
-          // Bell spreads the deferred amount over 24 or 12 months after the term
-          const payback = flex.DEVICE_RETURN_MONTHLY_AMOUNT;
-          if (!(payback > 0) || ![24, 12].some((months) => Math.abs(payback * months - deferred) <= 1)) {
-            log(`${device.name}: ${tier.type} Flex deferred amount ${deferred} doesn't match Bell's $${payback}/mo. payback, left out`);
-            continue;
-          }
-          returnOption = { name: "Flex Option", monthly: cents(flex.MONTHLY_INSTALLMENT), deferred };
-        }
-        found.push({
-          tier: tier.type,
-          termMonths,
-          upfront: cents(fixed.DOWN_PAYMENT ?? 0),
-          monthlyKeep: cents(fixed.MONTHLY_INSTALLMENT),
-          credit: cents(fixed.AGREEMENT_CREDIT ?? 0),
-          returnOption,
-          plan: { name: facts.name, monthly: planPrice, gb: facts.gb, features: facts.features },
-        });
-      }
-
-      // One offer per distinct device price, on the cheapest plan that gets it
-      found.sort((a, b) => a.plan.monthly - b.plan.monthly);
-      const seen = new Set();
-      for (const tier of found) {
-        const key = JSON.stringify([tier.upfront, tier.monthlyKeep, tier.returnOption]);
-        if (seen.has(key)) continue;
-        seen.add(key);
-        const credit = tier.credit > 0 ? ` The monthly payment includes Bell's $${tier.credit} agreement credit.` : "";
-        const flexNote = tier.returnOption ? " If the phone is kept, Bell spreads the deferred amount over the following months." : " This phone has no Flex Option.";
-        offers.push({
-          id: `${device.id}-bell-${tier.plan.gb === "unlimited" ? "unlimited" : tier.plan.gb}`,
-          phone: device.id,
-          kind: "carrier",
-          seller: "Bell",
-          title: `SmartPay, ${tier.termMonths} months`,
-          condition: "new",
-          fullPrice,
-          termMonths: tier.termMonths,
-          upfront: tier.upfront,
-          monthlyKeep: tier.monthlyKeep,
-          ...(tier.returnOption ? { returnOption: tier.returnOption } : {}),
-          plan: tier.plan,
-          connectionFee: 40,
-          note: `Plan price is with the $10 autopay credit.${credit} The $40 device handling charge is counted as the one-time fee.${flexNote}`,
-          source: source(`Bell, ${device.name} (plans in “Pair it with a plan”)`, url),
-        });
+      const selected = (offering) => offering.pricingDetails.some((detail) => detail.isSelected);
+      for (const storage of storages) {
+        const candidates = fresh.filter((offering) => storageOf.get(offering.id) === storage).sort((a, b) => a.price.value - b.price.value);
+        const offering = candidates.find(selected) ?? candidates.find((item) => item.availability === "IN_STOCK") ?? candidates[0];
+        offers.push(...priceVariant({ device, url, storage, offering, tiers, source, log }));
       }
     }
     log(`priced ${new Set(offers.map((offer) => offer.phone)).size} of ${devices.length} phones`);
     return offers;
   },
+};
+
+// Bell's offers for one variant (a colour at one storage): one per distinct
+// device price, on the cheapest plan that gets it
+const priceVariant = ({ device, url, storage, offering, tiers, source, log }) => {
+  const fullPrice = cents(offering.price.value);
+  const found = [];
+  for (const tier of tiers) {
+    const planPrice = tier.priceAlterations.find((item) => item.priceAlterationType === "RATE_PLAN_STARTING_PRICE")?.value;
+    const facts = PLANS[planPrice];
+    if (!facts) {
+      log(`${device.name} ${storage}: ${tier.type} tier's cheapest plan ($${planPrice}) isn't in PLANS, left out`);
+      continue;
+    }
+    const fixedDetail = offering.pricingDetails.find((detail) => new RegExp(`^${offering.id}_${tier.type}_\\d+$`).test(detail.id));
+    if (!fixedDetail) continue;
+    const termMonths = Number(fixedDetail.id.match(/_(\d+)$/)[1]);
+    const fixed = alterations(fixedDetail);
+    const flex = alterations(offering.pricingDetails.find((detail) => detail.id === `${fixedDetail.id}_DRO`));
+    let returnOption;
+    if (flex.MONTHLY_INSTALLMENT > 0) {
+      const deferred = cents(flex.NET_PRICE - flex.MONTHLY_INSTALLMENT * termMonths);
+      // Bell spreads the deferred amount over 24 or 12 months after the term
+      const payback = flex.DEVICE_RETURN_MONTHLY_AMOUNT;
+      if (!(payback > 0) || ![24, 12].some((months) => Math.abs(payback * months - deferred) <= 1)) {
+        log(`${device.name} ${storage}: ${tier.type} Flex deferred amount ${deferred} doesn't match Bell's $${payback}/mo. payback, left out`);
+        continue;
+      }
+      returnOption = { name: "Flex Option", monthly: cents(flex.MONTHLY_INSTALLMENT), deferred };
+    }
+    found.push({
+      tier: tier.type,
+      termMonths,
+      upfront: cents(fixed.DOWN_PAYMENT ?? 0),
+      monthlyKeep: cents(fixed.MONTHLY_INSTALLMENT),
+      credit: cents(fixed.AGREEMENT_CREDIT ?? 0),
+      returnOption,
+      plan: { name: facts.name, monthly: planPrice, gb: facts.gb, features: facts.features },
+    });
+  }
+
+  found.sort((a, b) => a.plan.monthly - b.plan.monthly);
+  const seen = new Set();
+  const offers = [];
+  for (const tier of found) {
+    const key = JSON.stringify([tier.upfront, tier.monthlyKeep, tier.returnOption]);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const credit = tier.credit > 0 ? ` The monthly payment includes Bell's $${tier.credit} agreement credit.` : "";
+    const flexNote = tier.returnOption ? " If the phone is kept, Bell spreads the deferred amount over the following months." : " This phone has no Flex Option.";
+    offers.push({
+      id: offerId(device.id, storage, "bell", tier.plan.gb === "unlimited" ? "unlimited" : String(tier.plan.gb)),
+      phone: device.id,
+      storage,
+      kind: "carrier",
+      seller: "Bell",
+      title: `SmartPay, ${tier.termMonths} months`,
+      condition: "new",
+      fullPrice,
+      termMonths: tier.termMonths,
+      upfront: tier.upfront,
+      monthlyKeep: tier.monthlyKeep,
+      ...(tier.returnOption ? { returnOption: tier.returnOption } : {}),
+      plan: tier.plan,
+      connectionFee: 40,
+      note: `Plan price is with the $10 autopay credit.${credit} The $40 device handling charge is counted as the one-time fee.${flexNote}`,
+      source: source(`Bell, ${device.name} (plans in “Pair it with a plan”)`, url),
+    });
+  }
+  return offers;
 };

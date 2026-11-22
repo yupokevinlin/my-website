@@ -1,4 +1,4 @@
-// Fido: each phone it sells new at the catalog storage, on its 24-month
+// Fido: each phone at every storage it sells new, on its 24-month
 // Payment Program (no return option), once per device price tier with the
 // cheapest plan that gets it. Same platform as Rogers: the endpoints and how
 // plans meet price tiers are in _rogers-platform.mjs.

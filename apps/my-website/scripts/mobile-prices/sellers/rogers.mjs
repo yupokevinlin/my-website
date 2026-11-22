@@ -1,4 +1,4 @@
-// Rogers: each phone it sells new at the catalog storage, on 24-month
+// Rogers: each phone at every storage it sells new, on 24-month
 // financing, with Save & Return, once per device price tier with the cheapest
 // plan that gets it. The endpoints and how plans meet price tiers are in
 // _rogers-platform.mjs, which Fido shares.

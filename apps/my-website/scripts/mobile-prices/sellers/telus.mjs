@@ -1,6 +1,7 @@
-// Telus: each phone it sells new, at the catalog storage, on TELUS Easy
-// Payment (24 months), with Bring-It-Back as the return option. One offer per
-// device price tier: the cheapest plan that gets that tier's payments.
+// Telus: each phone it sells new, at every storage it sells (each on its first
+// colour not on pre-order), on TELUS Easy Payment (24 months), with
+// Bring-It-Back as the return option. One offer per storage and device price
+// tier: the cheapest plan that gets that tier's payments.
 //
 // Endpoints (no sign-in; requested from inside telus.com/en/mobility/phones):
 //   phones   the listing page's own data (window.__NEXT_DATA__, products.all):
@@ -16,7 +17,7 @@
 // Prices: BASE_PRICE is the phone's full price and DISCOUNTED_PRICE what is
 // paid upfront. OFFER_PRICE is not upfront: it repeats PROMOTIONAL_DISCOUNT,
 // the device sale already taken off the monthly payments.
-import { cents, matchDevice, slug } from "../lib.mjs";
+import { cents, matchDevice, offerId, parseStorage } from "../lib.mjs";
 
 const SITE = "https://www.telus.com";
 const PAGE = `${SITE}/en/mobility/phones`;
@@ -82,13 +83,19 @@ export default {
       if (page && device && !phones.has(device.id)) phones.set(device.id, { device, page: page[1] });
     }
 
-    const offers = [];
+    // Each storage a phone page offers ("256-GB"), on its first colour not on pre-order
+    const variants = [];
     for (const { device, page } of phones.values()) {
       const memory = await json(PAGE, { url: `${SITE}/site-builder-2/api/pep-memory-and-color?sku=${page}&locale=en&isBusiness=false` });
-      const size = Object.entries(memory.storageColours ?? {}).find(([key]) => key.replace("-", "") === device.storage)?.[1] ?? [];
-      const colour = size.find((entry) => !entry.isPreOrder) ?? size[0];
-      if (!colour) continue;
-      const sku = colour.productCode;
+      for (const [key, size] of Object.entries(memory.storageColours ?? {})) {
+        const storage = parseStorage(key.replace("-", ""));
+        const colour = size?.find((entry) => !entry.isPreOrder) ?? size?.[0];
+        if (storage && colour?.productCode) variants.push({ device, page, storage, sku: colour.productCode });
+      }
+    }
+
+    const offers = [];
+    for (const { device, page, storage, sku } of variants) {
 
       const bundles = await json(PAGE, {
         url: `${SITE}/mobility/configure/backend/offering-bundles?sku=${sku}&prov=BC&accountType=I&accountSubType=R&orderType=ACTIVATION&portIn=false&deviceType=PHONE&productType=phones&lang=en`,
@@ -146,8 +153,9 @@ export default {
           notes.push("Bring-It-Back carries its own discount, so paying it off at the end still costs less than plain financing.");
         if (choice.shipping) notes.push(`$${choice.shipping} shipping on online orders is not counted.`);
         offers.push({
-          id: `${device.id}-telus-${slug(name)}`,
+          id: offerId(device.id, storage, "telus", name),
           phone: device.id,
+          storage,
           kind: "carrier",
           seller: "Telus",
           title: `Easy Payment, ${choice.termMonths} months`,

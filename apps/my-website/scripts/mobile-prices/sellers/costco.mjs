@@ -1,4 +1,4 @@
-// Costco (costco.ca): each phone sold unlocked online, at its catalog storage,
+// Costco (costco.ca): each phone sold unlocked online, at every storage sold,
 // paid in full. Costco sells to members only.
 //
 // Pages and endpoints (no sign-in):
@@ -14,7 +14,7 @@
 // The page asks for the price at the delivery postal code it picks from the
 // visitor's location; only replies for BC are used. The JSON-LD on the page
 // gives one price for every variant, so it isn't read.
-import { cents, matchDevice, parseStorage } from "../lib.mjs";
+import { cents, matchDevice, offerId, parseStorage } from "../lib.mjs";
 
 const SITE = "https://www.costco.ca";
 const SEARCHES = ["unlocked phone", "unlocked iphone", "unlocked samsung galaxy", "google pixel unlocked"];
@@ -56,9 +56,6 @@ export default {
         if (!id || NOT_NEW.test(title) || title.length < 8) continue;
         const device = matchDevice(devices, modelName(title));
         if (!device) continue;
-        // A title with a storage in it is that storage only
-        const storage = parseStorage(title);
-        if (storage && storage !== device.storage) continue;
         if (!products.has(id)) products.set(id, { id, device, title, url: href.replace(/[?#].*$/, "") });
       }
     }
@@ -68,59 +65,63 @@ export default {
     const priced = new Set();
     for (const product of products.values()) {
       const { device } = product;
-      if (priced.has(device.id)) continue;
       const page = await open(product.url);
-      // The item at the catalog storage: its storage button, or the item shown
+      // The item at each storage: its storage buttons, or, on a page without
+      // them, the item shown at the storage its title names
       const buttons = await page.evaluate(() =>
         [...document.querySelectorAll('button[id*="-variant-"]')].map((button) => ({ item: button.id.match(/(\d+)$/)?.[1], label: button.getAttribute("aria-label") ?? "" })),
       );
-      const storageButtons = buttons.filter((button) => parseStorage(button.label));
-      let item = storageButtons.find((button) => parseStorage(button.label) === device.storage)?.item;
-      if (!item && !storageButtons.length && parseStorage(product.title) === device.storage) {
-        item = (await page.evaluate(() => document.body.innerText)).match(/\bItem\s+(\d+)/)?.[1];
+      const items = buttons.filter((button) => button.item && parseStorage(button.label)).map((button) => ({ item: button.item, storage: parseStorage(button.label) }));
+      if (!items.length && parseStorage(product.title)) {
+        const item = (await page.evaluate(() => document.body.innerText)).match(/\bItem\s+(\d+)/)?.[1];
+        if (item) items.push({ item, storage: parseStorage(product.title) });
       }
-      if (!item) {
-        log(`${product.title}: no ${device.storage} item`);
+      if (!items.length) {
+        log(`${product.title}: no item with a storage`);
         continue;
       }
-      const entry = await priceOf(page, item).catch((error) => {
-        log(`${product.title}: no BC price for item ${item} (${String(error.message).split("\n")[0]})`);
-        return undefined;
-      });
-      const shown = entry?.displayPrice?.[0];
-      if (!(shown?.onlinePrice > 0)) continue;
-      const discount = shown.aggregatedDiscountAmt > 0 ? shown.aggregatedDiscountAmt : 0;
-      const ehf = cents((entry.linkFees ?? []).reduce((sum, fee) => sum + (fee.unitAmount?.amount ?? 0), 0));
-      const name = (await page.evaluate(() => document.querySelector("h1")?.textContent?.trim())) || product.title;
-      // What the page says about the item picked: the sale's dates, members-only
-      // pricing, delivery
-      await page.waitForTimeout(1_500);
-      const shownText = await page.evaluate(() => document.body.innerText);
-      const saleDates = shownText.match(/Valid for orders placed ([\d/]+) to ([\d/]+)/);
-      const signIn = /Sign In for Price/i.test(shownText);
-      const noDelivery = /\nDelivery\s*\n\s*Unavailable/.test(shownText);
-      offers.push({
-        id: `${device.id}-costco`,
-        phone: device.id,
-        kind: "outright",
-        seller: "Costco",
-        title: "Unlocked, costco.ca (members)",
-        condition: "new",
-        price: cents(shown.onlinePrice - discount),
-        ehf,
-        note: [
-          discount > 0 ? `On sale, $${discount} off${saleDates ? ` until ${saleDates[2]}` : ""}.` : "",
-          signIn ? "Costco shows this price only to members who sign in." : "",
-          noDelivery ? "Delivery showed as unavailable in BC when checked; it may be in warehouses." : "",
-          "Costco's 2% Executive reward is not counted. The phone kiosks inside warehouses sell carrier deals that aren't listed online.",
-        ]
-          .filter(Boolean)
-          .join(" "),
-        source: source(`Costco, ${name}`, product.url),
-      });
-      priced.add(device.id);
+      for (const { item, storage } of items) {
+        if (priced.has(`${device.id} ${storage}`)) continue;
+        const entry = await priceOf(page, item).catch((error) => {
+          log(`${product.title}: no BC price for item ${item} (${String(error.message).split("\n")[0]})`);
+          return undefined;
+        });
+        const shown = entry?.displayPrice?.[0];
+        if (!(shown?.onlinePrice > 0)) continue;
+        const discount = shown.aggregatedDiscountAmt > 0 ? shown.aggregatedDiscountAmt : 0;
+        const ehf = cents((entry.linkFees ?? []).reduce((sum, fee) => sum + (fee.unitAmount?.amount ?? 0), 0));
+        const name = (await page.evaluate(() => document.querySelector("h1")?.textContent?.trim())) || product.title;
+        // What the page says about the item picked: the sale's dates, members-only
+        // pricing, delivery
+        await page.waitForTimeout(1_500);
+        const shownText = await page.evaluate(() => document.body.innerText);
+        const saleDates = shownText.match(/Valid for orders placed ([\d/]+) to ([\d/]+)/);
+        const signIn = /Sign In for Price/i.test(shownText);
+        const noDelivery = /\nDelivery\s*\n\s*Unavailable/.test(shownText);
+        offers.push({
+          id: offerId(device.id, storage, "costco"),
+          phone: device.id,
+          storage,
+          kind: "outright",
+          seller: "Costco",
+          title: "Unlocked, costco.ca (members)",
+          condition: "new",
+          price: cents(shown.onlinePrice - discount),
+          ehf,
+          note: [
+            discount > 0 ? `On sale, $${discount} off${saleDates ? ` until ${saleDates[2]}` : ""}.` : "",
+            signIn ? "Costco shows this price only to members who sign in." : "",
+            noDelivery ? "Delivery showed as unavailable in BC when checked; it may be in warehouses." : "",
+            "Costco's 2% Executive reward is not counted. The phone kiosks inside warehouses sell carrier deals that aren't listed online.",
+          ]
+            .filter(Boolean)
+            .join(" "),
+          source: source(`Costco, ${name}`, product.url),
+        });
+        priced.add(`${device.id} ${storage}`);
+      }
     }
-    log(`priced ${offers.length} of ${devices.length} phones from ${products.size} product pages found`);
+    log(`${offers.length} offers for ${new Set(offers.map((offer) => offer.phone)).size} of ${devices.length} phones from ${products.size} product pages found`);
     return offers;
   },
 };

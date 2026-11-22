@@ -31,6 +31,16 @@ export const parseStorage = (text) => {
   return match ? `${match[1]}${match[2].toUpperCase()}` : undefined;
 };
 
+// A storage size in gigabytes, for sorting: "1TB" after "512GB"
+export const storageGb = (storage) => {
+  const match = String(storage).match(/^(\d+)(GB|TB)$/);
+  return match ? Number(match[1]) * (match[2] === "TB" ? 1024 : 1) : Infinity;
+};
+
+// An offer's id: the phone, its storage, then what tells the seller's offers
+// apart ("iphone-18-pro", "256GB", "bell", "smartpay") -> "iphone-18-pro-256gb-bell-smartpay"
+export const offerId = (phone, storage, ...rest) => [phone, storage.toLowerCase(), ...rest].map((part) => slug(part)).filter(Boolean).join("-");
+
 // The catalog device a seller's product name is, or undefined. Pass the
 // model's name without colour or storage ("Apple iPhone 18 Pro Max"), or a
 // full listing title: the storage, colour and anything after " - " is cut off.
@@ -55,6 +65,8 @@ export const offerProblems = (offer, deviceIds) => {
   };
   need(typeof offer.id === "string" && /^[a-z0-9-]+$/.test(offer.id), "id: lowercase letters, digits and dashes");
   need(deviceIds.has(offer.phone), `phone: not in devices.json (${offer.phone})`);
+  need(typeof offer.storage === "string" && /^\d+(GB|TB)$/.test(offer.storage), `storage: like "256GB" or "1TB" (${offer.storage})`);
+  need(typeof offer.id === "string" && offer.id.startsWith(`${offer.phone}-${String(offer.storage).toLowerCase()}-`), "id: starts with the phone and storage (offerId)");
   need(typeof offer.seller === "string" && offer.seller, "seller");
   need(typeof offer.title === "string" && offer.title, "title");
   need(["new", "open-box", "refurbished"].includes(offer.condition), "condition");

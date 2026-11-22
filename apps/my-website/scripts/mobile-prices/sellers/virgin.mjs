@@ -1,4 +1,4 @@
-// Virgin Plus: each phone it sells new in BC at its catalog storage, on a
+// Virgin Plus: each phone it sells new in BC, at every storage it sells, on a
 // 24-month Sweet Pay plan. Virgin Plus has no return option.
 //
 // Endpoints (no sign-in; requested from inside a virginplus.ca page, with the
@@ -15,13 +15,16 @@
 // The financing options are separate price tiers, each with its own plans:
 // FO7 Sweet Pay, FO9 Sweet Pay Lite (cheaper plans, often a dearer phone), FO8
 // Sweet Pay Talk (a talk-and-text plan, not priced here since it has no data).
-// One offer per tier where the phone's monthly differs, on the tier's cheapest
-// data plan; a tier that costs more on both the phone and the plan is left out.
-import { cents, matchDevice, parseStorage, slug } from "../lib.mjs";
+// For each storage, one offer per tier where the phone's monthly differs, on
+// the tier's cheapest data plan; a tier that costs more on both the phone and
+// the plan is left out.
+import { cents, matchDevice, offerId, parseStorage, slug } from "../lib.mjs";
 
 const SITE = "https://www.virginplus.ca";
-// phone-details.html redirects here when opened without a phone
-const PAGE = `${SITE}/en/phones/phones-summary.html`;
+// phone-details.html redirects here when opened without a phone. The province
+// is in the URL too: when the site can't place the visitor, it redirects to
+// ?province=ON and overwrites the cookie (seen 2026-11-22).
+const PAGE = `${SITE}/en/phones/phones-summary.html?province=BC`;
 const COOKIES = { province: "BC" };
 // The financing options' names, as the phone pages show them (read 2026-11-22
 // on https://www.virginplus.ca/en/phones/phone-details.html)
@@ -62,23 +65,23 @@ export default {
     const catalog = await get("/en/catalogue/phones.json");
     const installments = new Map((await get("/en/catalogue/phones-installments.json")).response.products.filter((product) => product.region_id === "BC").map((product) => [product.product_id, product.installmentsummary]));
 
-    // New phones in the catalog at their storage; certified pre-owned models
-    // have codes starting "cpo"
+    // New phones in the catalog, by model and storage; certified pre-owned
+    // models have codes starting "cpo"
     const products = new Map();
     for (const item of catalog) {
       if (item.category !== "Smartphone" || /^cpo/i.test(item.HS_MODEL_CODE) || /pre-?owned/i.test(item.myTitle)) continue;
       const device = matchDevice(devices, decode(item.myTitle));
-      if (!device || parseStorage(item.HS_PHONE_MEMORY) !== device.storage) continue;
+      const storage = parseStorage(item.HS_PHONE_MEMORY);
+      if (!device || !storage) continue;
       const financing = installments.get(item.productCode)?.filter((option) => FINANCING[option.fid] && option.numberofmonths > 0);
       if (!financing?.length) continue;
-      if (!products.has(device.id)) products.set(device.id, []);
-      products.get(device.id).push({ item, financing });
+      const key = `${device.id} ${storage}`;
+      if (!products.has(key)) products.set(key, { device, storage, colours: [] });
+      products.get(key).colours.push({ item, financing });
     }
 
     const offers = [];
-    for (const device of devices) {
-      const colours = products.get(device.id);
-      if (!colours) continue;
+    for (const { device, storage, colours } of products.values()) {
       // Colours share their prices; take the cheapest in case one differs
       const { item, financing } = colours.sort((a, b) => Math.min(...a.financing.map((o) => o.installmentbeforetax)) - Math.min(...b.financing.map((o) => o.installmentbeforetax)))[0];
       const feed = await get(`/en/catalogue/planfeed.json?handset=${encodeURIComponent(item.productCode)}&termgroup=INSTALMENT&financing=Y`);
@@ -104,8 +107,9 @@ export default {
       for (const { option, plan, name } of kept) {
         const credit = option.creditamount > 0 ? ` ${name} takes $${cents(option.creditamount)} off the phone, already in the monthly payment.` : "";
         offers.push({
-          id: `${device.id}-virgin-${slug(name)}`,
+          id: offerId(device.id, storage, "virgin", slug(name)),
           phone: device.id,
+          storage,
           kind: "carrier",
           seller: "Virgin Plus",
           title: `${name}, ${option.numberofmonths} months`,
@@ -121,7 +125,7 @@ export default {
         });
       }
     }
-    log(`priced ${new Set(offers.map((offer) => offer.phone)).size} of ${devices.length} phones`);
+    log(`${offers.length} offers for ${new Set(offers.map((offer) => offer.phone)).size} of ${devices.length} phones`);
     return offers;
   },
 };

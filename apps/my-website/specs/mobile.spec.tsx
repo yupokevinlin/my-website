@@ -87,13 +87,12 @@ describe("Total cost of ownership", () => {
 });
 
 describe("Phone catalog", () => {
-  it("lists iPhones, Galaxies and Pixels from the last three years, each once at one storage", () => {
+  it("lists iPhones, Galaxies and Pixels from the last three years, each once", () => {
     const ids = catalog.devices.map((device) => device.id);
     expect(new Set(ids).size).toBe(ids.length);
     for (const device of catalog.devices) {
       expect(device.id).toMatch(/^[a-z0-9-]+$/);
       expect(["Apple", "Samsung", "Google"]).toContain(device.brand);
-      expect(device.storage).toMatch(/^\d+(GB|TB)$/);
       expect(device.released).toMatch(/^\d{4}-\d{2}$/);
       expect(device.released >= "2023-11").toBe(true);
     }
@@ -101,7 +100,8 @@ describe("Phone catalog", () => {
 });
 
 describe("Phone search", () => {
-  const phones = catalog.devices;
+  // Every catalog phone, whether or not anyone sells it now
+  const phones = catalog.devices.map((device) => ({ ...device, storages: [], colours: [] }));
   const first = (query: string) => searchPhones(phones, query)[0]?.name;
 
   it("finds a phone by its name, a part of it, a typo or a shorthand", () => {
@@ -114,6 +114,12 @@ describe("Phone search", () => {
     expect(first("pixle 10 pro")).toBe("Pixel 10 Pro");
     expect(first("fold7")).toBe("Galaxy Z Fold7");
     expect(first("17pro")).toBe("iPhone 17 Pro");
+  });
+
+  it("finds a phone by a storage size it's sold in, without ranking it lower for having more", () => {
+    const sold = regions.bc.phones;
+    expect(searchPhones(sold, "iphone 18 pro 1tb")[0]?.name).toBe("iPhone 18 Pro");
+    expect(searchPhones(sold, "iphone 18 pro")[0]?.name).toBe("iPhone 18 Pro");
   });
 
   it("puts the exact name before longer ones, and lists everything newest first when empty", () => {
@@ -139,6 +145,14 @@ describe("Phone price data", () => {
     for (const phone of data.phones) {
       expect(catalogIds.has(phone.id)).toBe(true);
       if (phone.image) expect(phone.image).toMatch(/^https:\/\/multimedia\.bbycastatic\.ca\//);
+      // Its storage sizes, smallest first, cover every size it has an offer at
+      const gb = (size: string) => Number(size.replace(/\D/g, "")) * (size.endsWith("TB") ? 1024 : 1);
+      expect(phone.storages.length).toBeGreaterThan(0);
+      expect(phone.storages.map(gb)).toEqual(phone.storages.map(gb).sort((a, b) => a - b));
+      for (const offer of data.offers.filter((candidate) => candidate.phone === phone.id)) expect(phone.storages).toContain(offer.storage);
+      // Its colours are Best Buy's, each named once with Best Buy's picture
+      expect(new Set(phone.colours.map((colour) => colour.name)).size).toBe(phone.colours.length);
+      for (const colour of phone.colours) expect(colour.image).toMatch(/^https:\/\/multimedia\.bbycastatic\.ca\//);
       for (const { keep, returned } of costRows(
         data.offers.filter((offer) => offer.phone === phone.id),
         data.region,
@@ -151,6 +165,8 @@ describe("Phone price data", () => {
       }
     }
     for (const offer of data.offers) {
+      expect(offer.storage).toMatch(/^\d+(GB|TB)$/);
+      expect(offer.id.startsWith(`${offer.phone}-${offer.storage.toLowerCase()}-`)).toBe(true);
       expect(offer.source.url).toMatch(/^https:\/\//);
       expect(offer.source.checked).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     }
@@ -174,11 +190,13 @@ describe("/mobile page", () => {
   };
   const offerRows = (table: HTMLElement) => Array.from(table.querySelectorAll<HTMLElement>("tbody tr:not([hidden])"));
   const sellers = (table: HTMLElement) => Array.from(table.querySelectorAll("tbody th img"), (logo) => logo.getAttribute("alt"));
-  const sellersOf = (phone: string, monthly: boolean) => new Set(data.offers.filter((offer) => offer.phone === phone && (offer.kind !== "outright") === monthly).map((offer) => offer.seller));
+  const sellersOf = (phone: string, storage: string, monthly: boolean) => new Set(data.offers.filter((offer) => offer.phone === phone && offer.storage === storage && (offer.kind !== "outright") === monthly).map((offer) => offer.seller));
+  // The iPhone 18 Pro's card: its name, then its storage sizes
+  const IPHONE_18_PRO = /^Apple iPhone 18 Pro \d+(GB|TB)/;
   // The page open on the iPhone 18 Pro, picked from the phone cards
   const renderIphone18Pro = () => {
     const page = render(<MobilePage/>);
-    fireEvent.click(page.getByRole("button", { name: /^Apple iPhone 18 Pro 256GB$/ }));
+    fireEvent.click(page.getByRole("button", { name: IPHONE_18_PRO }));
     return page;
   };
 
@@ -198,8 +216,8 @@ describe("/mobile page", () => {
     const { getByRole, queryByRole, queryAllByRole } = render(<MobilePage/>);
     const search = getByRole("searchbox", { name: "Find a phone" });
     fireEvent.change(search, { target: { value: "pixle 10 pro" } });
-    expect(getByRole("button", { name: /^Google Pixel 10 Pro 128GB$/ })).toBeTruthy();
-    expect(queryByRole("button", { name: /^Apple iPhone 18 Pro 256GB$/ })).toBeNull();
+    expect(getByRole("button", { name: /^Google Pixel 10 Pro \d/ })).toBeTruthy();
+    expect(queryByRole("button", { name: IPHONE_18_PRO })).toBeNull();
     fireEvent.change(search, { target: { value: "" } });
     fireEvent.click(getByRole("button", { name: "Samsung" }));
     expect(queryByRole("button", { name: /^Apple iPhone/ })).toBeNull();
@@ -210,9 +228,10 @@ describe("/mobile page", () => {
     const { container } = renderIphone18Pro();
     expect(container.querySelector("main")?.textContent).toContain("iPhone 18 Pro");
     const { unlocked, monthly } = tables(container);
-    expect(new Set(sellers(unlocked))).toEqual(sellersOf("iphone-18-pro", false));
+    // It opens at the smallest storage
+    expect(new Set(sellers(unlocked))).toEqual(sellersOf("iphone-18-pro", "256GB", false));
     const listed = sellers(monthly);
-    expect(new Set(listed)).toEqual(sellersOf("iphone-18-pro", true));
+    expect(new Set(listed)).toEqual(sellersOf("iphone-18-pro", "256GB", true));
     expect(new Set(listed).size).toBe(listed.length);
     expect(monthly.querySelectorAll("tbody")).toHaveLength(listed.length);
     // Unlocked: cheapest first
@@ -247,6 +266,24 @@ describe("/mobile page", () => {
     const before = container.querySelectorAll("tbody tr[hidden]").length;
     fireEvent.click(within(rows[0]).getByRole("button"));
     expect(container.querySelectorAll("tbody tr[hidden]").length).toBe(before - 1);
+  });
+
+  it("prices the storage picked, and shows the colour picked", () => {
+    const { container, getByRole } = renderIphone18Pro();
+    const phone = data.phones.find((candidate) => candidate.id === "iphone-18-pro");
+    const storages = within(getByRole("group", { name: "Storage" })).getAllByRole("button");
+    expect(storages.map((button) => button.textContent)).toEqual(phone?.storages);
+    fireEvent.click(within(getByRole("group", { name: "Storage" })).getByRole("button", { name: "1TB" }));
+    expect(getByRole("button", { name: "1TB" }).getAttribute("aria-pressed")).toBe("true");
+    const { unlocked } = tables(container);
+    expect(new Set(sellers(unlocked))).toEqual(sellersOf("iphone-18-pro", "1TB", false));
+    expect(unlocked.querySelector("caption")?.textContent).toContain("iPhone 18 Pro 1TB");
+    // Picking a colour shows its picture
+    const colours = within(getByRole("group", { name: "Colour" })).getAllByRole("button");
+    expect(colours.map((button) => button.textContent)).toEqual(phone?.colours.map((colour) => colour.name));
+    const last = phone?.colours[phone.colours.length - 1];
+    fireEvent.click(colours[colours.length - 1]);
+    expect(container.querySelector(`main img[src="${last?.image}"]`)).toBeTruthy();
   });
 
   it("is not in the sitemap or linked from robots.txt", () => {

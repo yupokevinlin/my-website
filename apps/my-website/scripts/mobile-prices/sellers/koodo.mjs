@@ -1,14 +1,14 @@
-// Koodo: each phone it sells new, at the catalog storage, on Happy Tab Plus
-// (nothing upfront, the rest over 24 months), with the cheapest plan that
-// qualifies. A phone without Tab Plus (some older or cheaper ones) gets the
-// Tab tier it has that costs least for the phone. Koodo has no return program.
+// Koodo: each phone it sells new, at every storage it sells (each on its first
+// active colour), on Happy Tab Plus (nothing upfront, the rest over 24 months),
+// with the cheapest plan that qualifies. A phone without Tab Plus (some older or
+// cheaper ones) gets the Tab tier it has that costs least for the phone. One
+// offer per storage. Koodo has no return program.
 //
 // Endpoints (no sign-in; requested from inside koodomobile.com/en/phones):
 //   phones   POST /api/commerce-postpaid/postpaid-devices   the phones page's list: one
 //            colour per model, with its page slug, storage and SKU
 //   storage  GET  /_next/data/commerce-postpaid/en/phones/<slug>.json?prov=bc&slug=<slug>
-//            a phone page's data, with every storage and colour (listVariations);
-//            only asked for when the listed storage isn't the catalog's
+//            a phone page's data, with every storage and colour (listVariations)
 //   offers   POST /api/commerce-postpaid/postpaid-details   the device's Tab offers: full
 //            price (BASE_PRICE), upfront (DISCOUNTED_PRICE), monthly, Tab Bonus
 //   plans    POST /api/commerce-postpaid/rate-plans         each Tab tier's plans: price,
@@ -17,7 +17,7 @@
 // Prices: OFFER_PRICE is not upfront: it repeats PROMOTIONAL_DISCOUNT, the Tab
 // Bonus already taken off the monthly payments. The $80 connection fee is
 // waived on online orders, the way the comparison counts them.
-import { cents, matchDevice, parseStorage, toNumber } from "../lib.mjs";
+import { cents, matchDevice, offerId, parseStorage, toNumber } from "../lib.mjs";
 
 const SITE = "https://www.koodomobile.com";
 const PAGE = `${SITE}/en/phones?prov=bc`;
@@ -64,27 +64,34 @@ export default {
       body: { lang: "en", prov: "BC", accountType: "I", accountSubtype: "R", deviceType: "PHONE", creditClass: "B", planType: "NONBYOD", orderType: "ACTIVATION" },
     });
 
-    // New phones matched to the catalog, with the SKU at the catalog storage
+    // New phones matched to the catalog, with a SKU at each storage the phone
+    // page offers (its first active colour)
     const phones = new Map();
+    const variants = [];
     for (const product of products) {
       const { content = {} } = product;
       if (product.type !== "new" || !content.url) continue;
       const device = matchDevice(devices, content.name ?? product.description);
       if (!device || phones.has(device.id)) continue;
-      let sku = parseStorage(content.storage ?? "") === device.storage ? product.sku : undefined;
-      if (!sku) {
-        const page = await json(PAGE, { url: `${SITE}/_next/data/commerce-postpaid/en/phones/${content.url}.json?prov=bc&slug=${content.url}` });
-        const variant = (page.pageProps?.listVariations ?? []).find(
-          (item) => item.type === "new" && `${item.storage?.size}${item.storage?.unit}`.toUpperCase() === device.storage && (item.koodoParameters?.status ?? "Active") === "Active",
-        );
+      const page = await json(PAGE, { url: `${SITE}/_next/data/commerce-postpaid/en/phones/${content.url}.json?prov=bc&slug=${content.url}` });
+      const skus = new Map();
+      for (const item of page.pageProps?.listVariations ?? []) {
+        if (item.type !== "new" || (item.koodoParameters?.status ?? "Active") !== "Active") continue;
+        const storage = parseStorage(`${item.storage?.size}${item.storage?.unit}`);
         // The offers endpoint takes the product code without its leading N
-        sku = variant?.productCode?.replace(/^N/, "");
+        const sku = item.productCode?.replace(/^N/, "");
+        if (storage && sku && !skus.has(storage)) skus.set(storage, sku);
       }
-      if (sku) phones.set(device.id, { device, slug: content.url, sku });
+      // The listed colour's storage, should the page's data leave it out
+      const listedStorage = parseStorage(content.storage ?? "");
+      if (listedStorage && product.sku && !skus.has(listedStorage)) skus.set(listedStorage, product.sku);
+      if (!skus.size) continue;
+      phones.set(device.id, device);
+      for (const [storage, sku] of skus) variants.push({ device, slug: content.url, storage, sku });
     }
 
     const offers = [];
-    for (const { device, slug, sku } of phones.values()) {
+    for (const { device, slug, storage, sku } of variants) {
       const details = await json(PAGE, { url: `${API}/postpaid-details`, body: { ...order, sku } });
       // The Tab tiers (Tab Plus, Tab, Tab Lite; "No Tab" has no monthly), the
       // one that costs least for the phone (to the dollar, since monthly
@@ -114,7 +121,7 @@ export default {
         .filter((choice) => choice.monthly > 0 && choice.gb !== undefined)
         .sort((a, b) => a.monthly - b.monthly);
       if (!plans.length) {
-        log(`no plan found for ${device.name} on ${tab.description}`);
+        log(`no plan found for ${device.name} ${storage} on ${tab.description}`);
         continue;
       }
       const { plan, discount, monthly, gb } = plans[0];
@@ -127,8 +134,9 @@ export default {
       notes.push("Koodo has no return option.");
       if (shipping) notes.push(`$${shipping} shipping on online orders is not counted.`);
       offers.push({
-        id: `${device.id}-koodo`,
+        id: offerId(device.id, storage, "koodo"),
         phone: device.id,
+        storage,
         kind: "carrier",
         seller: "Koodo",
         title: `${tab.description.replace(/^Smartphone\s*-\s*/i, "")}, ${termMonths} months`,
@@ -143,7 +151,7 @@ export default {
         source: source(`Koodo, ${device.name}`, `${SITE}/en/phones/${slug}`),
       });
     }
-    log(`priced ${offers.length} of ${devices.length} phones (${phones.size} listed new at the catalog storage)`);
+    log(`priced ${new Set(offers.map((offer) => offer.phone)).size} of ${devices.length} phones, ${offers.length} storages (${phones.size} listed new)`);
     return offers;
   },
 };

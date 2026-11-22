@@ -73,7 +73,10 @@ export const searchPhones = (phones: Phone[], query: string): Phone[] => {
   return newestFirst
     .map((phone) => {
       const label = phoneLabel(phone);
-      const phoneWords = [...words(label), ...words(phone.storage)];
+      // A storage size in the query ("1tb") matches a phone sold in it
+      const labelWords = words(label);
+      const storageWords = phone.storages.flatMap((size) => words(size));
+      const phoneWords = [...labelWords, ...storageWords];
       const squashed = squash(label);
       const scores = queryWords.map((word) => wordScore(word, phoneWords, squashed));
       if (scores.includes(0)) {
@@ -81,7 +84,8 @@ export const searchPhones = (phones: Phone[], query: string): Phone[] => {
         return { phone, score: whole.length >= 3 && inOrder(whole, squashed) ? 1 : 0 };
       }
       // Exact names first: "iPhone 17" before "iPhone 17 Pro"
-      const extra = phoneWords.length - queryWords.length;
+      // Name words the query left out; phones with more storage sizes aren't ranked lower
+      const extra = labelWords.length - queryWords.filter((word) => labelWords.includes(word) || !storageWords.includes(word)).length;
       return { phone, score: scores.reduce((sum, score) => sum + score, 0) * 10 - Math.max(0, extra) };
     })
     .filter((match) => match.score > 0)

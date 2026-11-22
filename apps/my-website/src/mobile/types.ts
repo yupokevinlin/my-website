@@ -11,15 +11,24 @@ export interface Region {
   checked: string;
 }
 
-// A phone from data/devices.json, at the one storage size it is compared at
+// One of a phone's colours, as Best Buy names it, with Best Buy's picture of it
+export interface Colour {
+  name: string;
+  image: string;
+}
+
+// A phone from data/devices.json, with what Best Buy and the sellers list
 export interface Phone {
   id: string;
   brand: string;
   name: string;
-  storage: string;
   // "YYYY-MM", approximate: puts the newest first
   released: string;
-  // A picture from Best Buy's image server, when Best Buy lists the model
+  // Every storage size Best Buy lists or a seller prices, smallest first: "256GB", "1TB"
+  storages: string[];
+  // Best Buy's colours; empty when Best Buy doesn't sell the phone
+  colours: Colour[];
+  // A picture from Best Buy's image server (the first colour's), when Best Buy lists the model
   image?: string;
 }
 
@@ -35,6 +44,8 @@ export interface Source {
 interface OfferBase {
   id: string;
   phone: string;
+  // The phone's storage size this price is for: "256GB", "1TB"
+  storage: string;
   seller: string;
   title: string;
   condition: "new" | "open-box" | "refurbished";

@@ -1,5 +1,5 @@
-// Apple (apple.com/ca): each iPhone Apple sells, unlocked at its catalog
-// storage, paid in full.
+// Apple (apple.com/ca): each iPhone Apple sells, unlocked at every storage
+// Apple sells it in, paid in full.
 //
 // Pages (no sign-in, no endpoint call needed):
 //   /ca/shop/buy-iphone                  links to each family's buy page
@@ -11,7 +11,7 @@
 // Max too), and a page with one capacity names it in the model's label
 // instead ("Comes with 128GB storage"). Apple's Canadian prices are before
 // tax and its pages show no environmental handling fee for BC, so ehf is 0.
-import { normalizeName, parseStorage, toNumber } from "../lib.mjs";
+import { normalizeName, offerId, parseStorage, toNumber } from "../lib.mjs";
 
 const SITE = "https://www.apple.com";
 const STORE = `${SITE}/ca/shop/buy-iphone`;
@@ -55,13 +55,14 @@ export default {
         if (!device) continue;
         const label = plain(data.displayValues.dimensionScreensize?.[product.dimensionScreensize]?.value);
         const storage = parseStorage(product.dimensionCapacity ?? "") ?? parseStorage(label);
-        if (storage !== device.storage) continue;
+        if (!storage) continue;
         const prices = data.displayValues.prices[product.fullPrice];
         const price = toNumber(prices?.amountBeforeTradeIn);
         if (!(price > 0)) continue;
-        if (!best.has(device.id) || price < best.get(device.id).price) best.set(device.id, { device, price, monthly: plain(prices["bfiPrice-short"] ?? prices.bfiPrice) });
+        const key = `${device.id} ${storage}`;
+        if (!best.has(key) || price < best.get(key).price) best.set(key, { device, storage, price, monthly: plain(prices["bfiPrice-short"] ?? prices.bfiPrice) });
       }
-      for (const { device, price, monthly } of best.values()) {
+      for (const { device, storage, price, monthly } of best.values()) {
         // "or $72.87 /mo. per month for 24 mo. months at 0.00% APR"
         const financing = monthly.match(/\$([\d,.]+)\s*\/mo.*?for (\d+)\s*mo.*?at ([\d.]+)% APR/);
         const note = !financing
@@ -70,8 +71,9 @@ export default {
             ? `Apple also offers 0% financing over ${financing[2]} months ($${financing[1]} a month), which costs the same in total.`
             : `Apple also offers financing at ${financing[3]}% APR over ${financing[2]} months ($${financing[1]} a month).`;
         offers.push({
-          id: `${device.id}-apple`,
+          id: offerId(device.id, storage, "apple"),
           phone: device.id,
+          storage,
           kind: "outright",
           seller: "Apple",
           title: "Unlocked, from apple.com or an Apple Store",
@@ -83,7 +85,7 @@ export default {
         });
       }
     }
-    log(`priced ${offers.length} of ${devices.length} phones from ${families.length} family pages`);
+    log(`${offers.length} offers for ${new Set(offers.map((offer) => offer.phone)).size} of ${devices.length} phones from ${families.length} family pages`);
     return offers;
   },
 };

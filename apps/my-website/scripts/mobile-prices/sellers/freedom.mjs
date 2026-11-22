@@ -1,7 +1,8 @@
 // Freedom Mobile: each phone on MyTab (24-month financing) with TradeUp, its
-// return option, in BC. The device payments depend on the plan, so a phone
-// gets one offer for each distinct set of payments (upfront, MyTab, TradeUp),
-// on the cheapest plan that gets it. The cheapest plans allow MyTab but not
+// return option, in BC, at every storage sold new (each on its cheapest
+// colour). The device payments depend on the plan, so each storage gets one
+// offer for each distinct set of payments (upfront, MyTab, TradeUp), on the
+// cheapest plan that gets it. The cheapest plans allow MyTab but not
 // TradeUp, so their offers have no return option.
 //
 // Pages and endpoints (no sign-in; requested from inside shop.freedommobile.ca
@@ -21,7 +22,7 @@
 //                                      TradeUp amount) and smartTab.monthlyPayment
 // Freedom charges tax on the TradeUp amount when it is paid to keep the phone,
 // so `deferred` includes BC's tax. Freedom has no connection fee.
-import { cents, matchDevice } from "../lib.mjs";
+import { cents, matchDevice, offerId, parseStorage } from "../lib.mjs";
 
 const SHOP = "https://shop.freedommobile.ca";
 const API = "https://api.freedommobile.ca/api/v1";
@@ -106,21 +107,31 @@ export default {
       if (device && !models.has(device.id)) models.set(device.id, { device, listedSku: link.searchParams.get("sku") });
     }
 
-    const offers = [];
+    // The listing's SKU is one colour and storage; the model endpoint lists
+    // them all, so the first request finds every storage sold new, each priced
+    // on its cheapest colour
+    const sizes = [];
     for (const { device, listedSku } of models.values()) {
-      // The listing's SKU is one colour and storage; the model endpoint lists
-      // them all, so the first request finds the one at the catalog storage
       const first = await json(DEVICES, { url: `${API}/shop/devices/model`, body: { planSku: plans[0].sku, serviceType: "", deviceSku: listedSku ?? "" }, cookies: COOKIES }).catch((error) => {
         log(`${device.name}: ${error.message}`);
         return undefined;
       });
-      const variants = (first?.device?.variants ?? []).filter((variant) => variant.memory === device.storage && variant.available && !variant.deviceCondition);
-      if (!variants.length) {
+      const cheapest = new Map();
+      for (const variant of first?.device?.variants ?? []) {
+        const storage = parseStorage(variant.memory ?? "");
+        if (!storage || !variant.available || variant.deviceCondition) continue;
+        if (!cheapest.has(storage) || variant.devicePrice < cheapest.get(storage).devicePrice) cheapest.set(storage, variant);
+      }
+      if (!cheapest.size) {
         const sold = [...new Set((first?.device?.variants ?? []).map((variant) => `${variant.memory}${variant.available ? "" : " (unavailable)"}`))];
-        log(`${device.name}: not sold new at ${device.storage} (${sold.join(", ") || "no variants"})`);
+        log(`${device.name}: not sold new (${sold.join(", ") || "no variants"})`);
         continue;
       }
-      const variantSku = variants.sort((a, b) => a.devicePrice - b.devicePrice)[0].sku;
+      for (const [storage, variant] of cheapest) sizes.push({ device, listedSku, first, storage, variantSku: variant.sku });
+    }
+
+    const offers = [];
+    for (const { device, listedSku, first, storage, variantSku } of sizes) {
       // Each plan's quote for that SKU
       const quotes = [];
       for (const plan of plans) {
@@ -148,8 +159,9 @@ export default {
           "Freedom's own network covers less of BC than the big three's.",
         ];
         offers.push({
-          id: `${device.id}-freedom-${plan.key}`,
+          id: offerId(device.id, storage, "freedom", plan.key),
           phone: device.id,
+          storage,
           kind: "carrier",
           seller: "Freedom Mobile",
           title: `MyTab, ${tab.payOffPeriod} months`,
