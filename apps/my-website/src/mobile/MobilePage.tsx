@@ -6,6 +6,8 @@ import { DEFAULT_REGION, regions } from "./regions";
 import { OUTRIGHT_MONTHS, costRows, groupBySeller } from "./tco";
 import type { SortBy } from "./types";
 import { Choice } from "./components/Choice/Choice";
+import { DevicePicker } from "./components/DevicePicker/DevicePicker";
+import { PhonePicture } from "./components/PhonePicture/PhonePicture";
 import { NumberField } from "./components/NumberField/NumberField";
 import { OfferTable } from "./components/OfferTable/OfferTable";
 import { OutrightTable } from "./components/OutrightTable/OutrightTable";
@@ -69,13 +71,24 @@ export const MobilePage = (): ReactNode => {
             Every way to get the phone in {region.name}, by total cost of ownership: the device and the plan, with tax, over the whole term. Unlocked phones paid in full come first, then phones paid by the month, where each plan is shown two ways side by side: returning the phone under the seller's own return program, and keeping it.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-end gap-x-10 gap-y-6">
-            <section aria-labelledby="mobile-phone">
-              <h2 id="mobile-phone" className="mb-2 text-[14px] font-medium">
-                Phone
-              </h2>
-              <Choice label="Phone" options={data.phones.map((item) => ({ value: item.id, label: `${item.name} ${item.storage}` }))} value={phone.id} onChange={setPhoneId}/>
-            </section>
+          <section aria-labelledby="mobile-phone" className="mt-8">
+            <h2 id="mobile-phone" className="text-[20px] font-semibold">
+              Phone
+            </h2>
+            <div className="mt-3">
+              <DevicePicker phones={data.phones} selected={phone.id} onSelect={setPhoneId}/>
+            </div>
+          </section>
+
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-x-10 gap-y-6 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
+            <div className="flex items-center gap-4">
+              <PhonePicture src={phone.image} size={112}/>
+              <div>
+                <p className="text-[14px] text-slate-600">{phone.brand}</p>
+                <p className="text-[26px] font-semibold leading-tight">{phone.name}</p>
+                <p className="text-[15px] text-slate-700">{phone.storage}</p>
+              </div>
+            </div>
             <div className="w-full max-w-[19rem]">
               <NumberField label="Your own plan, per month before tax" hint={`For phones bought unlocked. Starts at ${data.byodPlan.name}.`} value={byodMonthly} onChange={setByodMonthly}/>
             </div>
@@ -89,7 +102,7 @@ export const MobilePage = (): ReactNode => {
               Buy the {name} outright and bring it to any plan. Costed over {OUTRIGHT_MONTHS} months on your own plan, cheapest first.
             </p>
             <div className="mt-4">
-              <OutrightTable caption={`${name} unlocked in ${region.name}, paid in full`} rows={unlocked}/>
+              {unlocked.length ? <OutrightTable caption={`${name} unlocked in ${region.name}, paid in full`} rows={unlocked}/> : <p className="rounded-2xl border border-slate-200 bg-white p-4 text-[15px] text-slate-700">No store in the list sells the {name} unlocked and new.</p>}
             </div>
           </section>
 
@@ -108,7 +121,7 @@ export const MobilePage = (): ReactNode => {
             </div>
             <p className="mt-3 text-[14px] text-slate-700 md:hidden">The table is wider than this screen: scroll it sideways.</p>
             <div className="mt-4">
-              <OfferTable caption={`${name} in ${region.name}, paid by the month: each plan returned and kept`} groups={monthly}/>
+              {monthly.length ? <OfferTable caption={`${name} in ${region.name}, paid by the month: each plan returned and kept`} groups={monthly}/> : <p className="rounded-2xl border border-slate-200 bg-white p-4 text-[15px] text-slate-700">No carrier or store in the list sells the {name} by the month.</p>}
             </div>
           </section>
 

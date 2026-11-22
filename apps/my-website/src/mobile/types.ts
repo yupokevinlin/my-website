@@ -11,10 +11,16 @@ export interface Region {
   checked: string;
 }
 
+// A phone from data/devices.json, at the one storage size it is compared at
 export interface Phone {
   id: string;
+  brand: string;
   name: string;
   storage: string;
+  // "YYYY-MM", approximate: puts the newest first
+  released: string;
+  // A picture from Best Buy's image server, when Best Buy lists the model
+  image?: string;
 }
 
 export interface Source {
@@ -26,19 +32,6 @@ export interface Source {
   checked: string;
 }
 
-// How scripts/mobile-prices/update.mjs re-reads an offer's numbers (the script
-// describes both ways). It opens `url`, a page on the seller's site. With
-// `api`, it requests that endpoint from inside the page and reads each field
-// with a path into the JSON; without, each field is a pattern matched against
-// the page's text (the first capture group).
-export interface PriceCheck {
-  url: string;
-  api?: { url: string; method?: string; headers?: Record<string, string>; body?: unknown; cookies?: Record<string, string> };
-  // A path can come with arithmetic, for a response that isn't what the data
-  // stores: a plan less its autopay discount, an amount with its tax
-  fields: Record<string, string | { path: string; add?: number; times?: number }>;
-}
-
 interface OfferBase {
   id: string;
   phone: string;
@@ -47,8 +40,8 @@ interface OfferBase {
   condition: "new" | "open-box" | "refurbished";
   note?: string;
   source: Source;
-  // One check, or several when an offer's numbers come from different places
-  check?: PriceCheck | PriceCheck[];
+  // Entered by hand: no seller module reads it, so update.mjs keeps it as it is
+  manual?: boolean;
 }
 
 // Pay the whole price today and bring the phone to any plan
@@ -110,8 +103,11 @@ export interface RegionData {
   // The cheapest bring-your-own-phone plan found, used for unlocked phones
   // until the visitor types their own
   byodPlan: { name: string; monthly: number; gb: PlanData; source: Source };
+  // The phones with at least one offer, newest first
   phones: Phone[];
   offers: Offer[];
+  // When each seller's module last read its prices, and whether its last run worked
+  sellers?: Record<string, { checked: string | null; ok: boolean }>;
 }
 
 export interface Settings {

@@ -3,7 +3,9 @@ import { fireEvent, render, within } from "@testing-library/react";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import MobilePage from "../pages/mobile";
+import catalog from "../src/mobile/data/devices.json";
 import { regions } from "../src/mobile/regions";
+import { searchPhones } from "../src/mobile/search";
 import { sellerLogo } from "../src/mobile/sellers";
 import { costRows } from "../src/mobile/tco";
 import type { CarrierOffer, Offer, Region, Settings, SubscriptionOffer } from "../src/mobile/types";
@@ -84,23 +86,64 @@ describe("Total cost of ownership", () => {
   });
 });
 
+describe("Phone catalog", () => {
+  it("lists iPhones, Galaxies and Pixels from the last three years, each once at one storage", () => {
+    const ids = catalog.devices.map((device) => device.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    for (const device of catalog.devices) {
+      expect(device.id).toMatch(/^[a-z0-9-]+$/);
+      expect(["Apple", "Samsung", "Google"]).toContain(device.brand);
+      expect(device.storage).toMatch(/^\d+(GB|TB)$/);
+      expect(device.released).toMatch(/^\d{4}-\d{2}$/);
+      expect(device.released >= "2023-11").toBe(true);
+    }
+  });
+});
+
+describe("Phone search", () => {
+  const phones = catalog.devices;
+  const first = (query: string) => searchPhones(phones, query)[0]?.name;
+
+  it("finds a phone by its name, a part of it, a typo or a shorthand", () => {
+    expect(first("iphone 18 pro")).toBe("iPhone 18 Pro");
+    expect(first("18 pro max")).toBe("iPhone 18 Pro Max");
+    expect(first("iphone 18 pm")).toBe("iPhone 18 Pro Max");
+    expect(first("s26 ultra")).toBe("Galaxy S26 Ultra");
+    expect(first("s26u")).toBe("Galaxy S26 Ultra");
+    expect(first("galaxy s25+")).toBe("Galaxy S25+");
+    expect(first("pixle 10 pro")).toBe("Pixel 10 Pro");
+    expect(first("fold7")).toBe("Galaxy Z Fold7");
+    expect(first("17pro")).toBe("iPhone 17 Pro");
+  });
+
+  it("puts the exact name before longer ones, and lists everything newest first when empty", () => {
+    expect(searchPhones(phones, "iphone 17").slice(0, 1).map((phone) => phone.name)).toEqual(["iPhone 17"]);
+    expect(searchPhones(phones, "pixel").every((phone) => phone.brand === "Google")).toBe(true);
+    expect(searchPhones(phones, "zzzz")).toEqual([]);
+    const all = searchPhones(phones, "");
+    expect(all).toHaveLength(phones.length);
+    expect(all.map((phone) => phone.released)).toEqual(all.map((phone) => phone.released).sort().reverse());
+  });
+});
+
 describe("Phone price data", () => {
-  it.each(Object.entries(regions))("%s has complete, sourced offers for every phone", (_code, data) => {
+  it.each(Object.entries(regions))("%s has sourced offers for phones in the catalog", (_code, data) => {
     expect(data.region.taxRate).toBeGreaterThan(0);
     expect(data.region.checked).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    const catalogIds = new Set(catalog.devices.map((device) => device.id));
     const ids = data.offers.map((offer) => offer.id);
     expect(new Set(ids).size).toBe(ids.length);
+    // The page lists exactly the catalog phones that have offers, newest first
+    expect(data.phones.map((phone) => phone.id).sort()).toEqual([...new Set(data.offers.map((offer) => offer.phone))].sort());
+    expect(data.phones.map((phone) => phone.released)).toEqual(data.phones.map((phone) => phone.released).sort().reverse());
     for (const phone of data.phones) {
-      const rows = costRows(
+      expect(catalogIds.has(phone.id)).toBe(true);
+      if (phone.image) expect(phone.image).toMatch(/^https:\/\/multimedia\.bbycastatic\.ca\//);
+      for (const { keep, returned } of costRows(
         data.offers.filter((offer) => offer.phone === phone.id),
         data.region,
         { byodMonthly: data.byodPlan.monthly },
-      );
-      // Each phone can be bought in full, financed, and returned
-      expect(rows.some((row) => row.offer.kind === "outright")).toBe(true);
-      expect(rows.some((row) => row.offer.kind === "carrier")).toBe(true);
-      expect(rows.some((row) => row.returned)).toBe(true);
-      for (const { keep, returned } of rows) {
+      )) {
         expect(keep.total).toBeGreaterThan(0);
         expect(Number.isFinite(keep.perMonth)).toBe(true);
         // Giving the phone back never costs more than keeping it
@@ -108,16 +151,8 @@ describe("Phone price data", () => {
       }
     }
     for (const offer of data.offers) {
-      expect(data.phones.some((phone) => phone.id === offer.phone)).toBe(true);
       expect(offer.source.url).toMatch(/^https:\/\//);
       expect(offer.source.checked).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-      for (const check of [offer.check ?? []].flat()) {
-        expect(check.url).toMatch(/^https:/);
-        // Every field the update script reads is one the offer has
-        for (const field of Object.keys(check.fields)) expect(`${offer.id} ${field}: ${typeof field.split(".").reduce<unknown>((value, key) => (value as Record<string, unknown> | undefined)?.[key], offer)}`).toBe(`${offer.id} ${field}: number`);
-        // A pattern the script can't compile would stop the whole run
-        if (!check.api) for (const pattern of Object.values(check.fields)) expect(() => new RegExp(pattern as string)).not.toThrow();
-      }
     }
   });
 
@@ -132,20 +167,54 @@ describe("Phone price data", () => {
 });
 
 describe("/mobile page", () => {
+  const data = regions.bc;
   const tables = (container: HTMLElement) => {
     const [unlocked, monthly] = Array.from(container.querySelectorAll<HTMLElement>("table"));
     return { unlocked, monthly };
   };
   const offerRows = (table: HTMLElement) => Array.from(table.querySelectorAll<HTMLElement>("tbody tr:not([hidden])"));
   const sellers = (table: HTMLElement) => Array.from(table.querySelectorAll("tbody th img"), (logo) => logo.getAttribute("alt"));
+  const sellersOf = (phone: string, monthly: boolean) => new Set(data.offers.filter((offer) => offer.phone === phone && (offer.kind !== "outright") === monthly).map((offer) => offer.seller));
+  // The page open on the iPhone 18 Pro, picked from the phone cards
+  const renderIphone18Pro = () => {
+    const page = render(<MobilePage/>);
+    fireEvent.click(page.getByRole("button", { name: /^Apple iPhone 18 Pro 256GB$/ }));
+    return page;
+  };
 
-  it("has one h1 and two tables: unlocked phones, then phones paid by the month", () => {
-    const { container } = render(<MobilePage/>);
+  it("has one h1, a phone card with a picture for every phone, and opens on the newest", () => {
+    const { container, getAllByRole } = render(<MobilePage/>);
     expect(container.querySelectorAll("h1")).toHaveLength(1);
-    expect(container.querySelectorAll("table")).toHaveLength(2);
+    const cards = getAllByRole("button", { pressed: false }).concat(getAllByRole("button", { pressed: true })).filter((button) => button.closest("li") && button.querySelector("img, span[aria-hidden]"));
+    expect(cards.length).toBe(data.phones.length);
+    expect(getAllByRole("button", { pressed: true }).some((button) => button.textContent?.includes(data.phones[0].name))).toBe(true);
+    for (const picture of container.querySelectorAll('ul img[src^="https://multimedia.bbycastatic.ca/"]')) {
+      expect(picture.getAttribute("alt")).toBe("");
+      expect(picture.getAttribute("loading")).toBe("lazy");
+    }
+  });
+
+  it("narrows the phone cards with a forgiving search and the brand buttons", () => {
+    const { getByRole, queryByRole, queryAllByRole } = render(<MobilePage/>);
+    const search = getByRole("searchbox", { name: "Find a phone" });
+    fireEvent.change(search, { target: { value: "pixle 10 pro" } });
+    expect(getByRole("button", { name: /^Google Pixel 10 Pro 128GB$/ })).toBeTruthy();
+    expect(queryByRole("button", { name: /^Apple iPhone 18 Pro 256GB$/ })).toBeNull();
+    fireEvent.change(search, { target: { value: "" } });
+    fireEvent.click(getByRole("button", { name: "Samsung" }));
+    expect(queryByRole("button", { name: /^Apple iPhone/ })).toBeNull();
+    expect(queryAllByRole("button", { name: /^Samsung Galaxy/ }).length).toBeGreaterThan(1);
+  });
+
+  it("shows the picked phone's sellers: unlocked, then by the month, each once", () => {
+    const { container } = renderIphone18Pro();
+    expect(container.querySelector("main")?.textContent).toContain("iPhone 18 Pro");
     const { unlocked, monthly } = tables(container);
-    expect(sellers(unlocked)).toEqual(expect.arrayContaining(["Apple", "Best Buy", "Costco"]));
-    expect(sellers(monthly)).toEqual(expect.arrayContaining(["Telus", "Rogers", "Bell", "Freedom Mobile", "Best Buy"]));
+    expect(new Set(sellers(unlocked))).toEqual(sellersOf("iphone-18-pro", false));
+    const listed = sellers(monthly);
+    expect(new Set(listed)).toEqual(sellersOf("iphone-18-pro", true));
+    expect(new Set(listed).size).toBe(listed.length);
+    expect(monthly.querySelectorAll("tbody")).toHaveLength(listed.length);
     // Unlocked: cheapest first
     const totals = offerRows(unlocked).map((row) => Number(row.children[3].textContent?.match(/\$([\d,.]+)/)?.[1].replace(/,/g, "")));
     expect(totals).toEqual([...totals].sort((x, y) => x - y));
@@ -156,40 +225,19 @@ describe("/mobile page", () => {
     }
   });
 
-  it("lists each seller once in the monthly table, with its plan tiers beneath", () => {
-    const { container } = render(<MobilePage/>);
-    const { monthly } = tables(container);
-    const listed = sellers(monthly);
-    expect(new Set(listed).size).toBe(listed.length);
-    expect(monthly.querySelectorAll("tbody")).toHaveLength(listed.length);
-    const telus = Array.from(monthly.querySelectorAll("tbody")).find((group) => group.querySelector('img[alt="Telus"]'));
-    expect(telus?.querySelectorAll("tr:not([hidden])")).toHaveLength(2);
-    expect(telus?.querySelectorAll("img")).toHaveLength(1);
-    expect(telus?.textContent).toContain("Bring-It-Back");
-    const fido = Array.from(monthly.querySelectorAll("tbody")).find((group) => group.querySelector('img[alt="Fido"]'));
-    expect(fido?.textContent).toContain("No return program");
-  });
-
-  it("shows each carrier plan's data per month and its features", () => {
-    const { container } = render(<MobilePage/>);
+  it("shows each carrier plan's data per month and the device before the plan in both outcomes", () => {
+    const { container } = renderIphone18Pro();
     const { monthly } = tables(container);
     expect(Array.from(monthly.querySelectorAll("thead tr:first-child th"), (th) => th.textContent).slice(0, 3)).toEqual(["Seller", "Plan", "Data / month"]);
-    const group = (seller: string) => Array.from(monthly.querySelectorAll("tbody")).find((body) => body.querySelector(`img[alt="${seller}"]`));
-    const data = (seller: string) => Array.from(group(seller)?.querySelectorAll("tr:not([hidden])") ?? [], (row) => row.querySelector("td")?.textContent);
-    expect(data("Freedom Mobile").sort()).toEqual(["175 GB", "250 GB"]);
-    expect(data("Telus").sort()).toEqual(["60 GB", "Unlimited"]);
-    expect(data("Best Buy")).toEqual(["As your plan"]);
-    expect(group("Bell")?.textContent).toContain("50 GB hotspot");
-  });
-
-  it("shows the device before the plan in both outcomes", () => {
-    const { container } = render(<MobilePage/>);
-    const headings = Array.from(tables(container).monthly.querySelectorAll("thead tr:last-child th"), (th) => th.textContent);
-    expect(headings).toEqual(["Device / month", "Plan / month", "Total, plan included", "Device / month", "Plan / month", "Due at the end", "Total, plan included"]);
+    expect(Array.from(monthly.querySelectorAll("thead tr:last-child th"), (th) => th.textContent)).toEqual(["Device / month", "Plan / month", "Total, plan included", "Device / month", "Plan / month", "Due at the end", "Total, plan included"]);
+    for (const row of offerRows(monthly)) expect(row.querySelector("td")?.textContent).toMatch(/^(\d+ GB|Unlimited|As your plan)$/);
+    const telus = Array.from(monthly.querySelectorAll("tbody")).find((group) => group.querySelector('img[alt="Telus"]'));
+    expect(telus?.querySelectorAll("img")).toHaveLength(1);
+    expect(telus?.textContent).toContain("Bring-It-Back");
   });
 
   it("puts the return programs first when sorted by Return it, and opens an offer's details", () => {
-    const { container, getByRole } = render(<MobilePage/>);
+    const { container, getByRole } = renderIphone18Pro();
     fireEvent.click(getByRole("button", { name: "Return it" }));
     const rows = offerRows(tables(container).monthly);
     expect(rows[0].textContent).not.toContain("No return program");

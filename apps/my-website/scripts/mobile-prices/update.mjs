@@ -1,110 +1,79 @@
-// Re-reads the prices on /mobile from the sellers' sites. Run from the repo root:
+// Re-reads every phone's prices at every seller for /mobile. Run from the repo root:
 //   node apps/my-website/scripts/mobile-prices/update.mjs            compare only
-//   node apps/my-website/scripts/mobile-prices/update.mjs --write    save what changed
-// Options: --region bc (the data file), --only <text> (offers whose id contains
-// it), --headless (stores often block a hidden browser, so a window is the default).
+//   node apps/my-website/scripts/mobile-prices/update.mjs --write    save the result
+// Options: --only telus,koodo (seller modules by file name), --region bc (the
+// data file), --headless (some stores block a hidden browser, so a window is
+// the default).
 //
-// An offer in src/mobile/data/<region>.json is re-read when it has a `check`
-// (or a list of them). Each names the offer's fields to read, as paths into
-// the offer ("price", "returnOption.monthly"), and one of two ways to read them:
+// The phones come from src/mobile/data/devices.json. Each file in sellers/ is
+// one seller: it gets the phone list and a few helpers, finds which of those
+// phones it sells new in BC, and returns their offers (the shapes are in
+// src/mobile/types.ts). The script checks each offer, compares the result with
+// the data file and prints what changed. Nothing is saved without --write.
 //
-// 1. From the JSON the seller's own site loads (no seller publishes an
-//    official price API; these are the endpoints their pages call):
-//      "check": {
-//        "url": "https://www.telus.com/en/mobility/phones/iphone-18-pro",
-//        "api": { "url": "https://www.telus.com/mobility/configure/backend/offering-bundles?sku=..." },
-//        "fields": { "fullPrice": "offerings[id^=PMSN60G95].items[category=mobility-offer].prices[type=BASE_PRICE].amount" }
-//      }
-//    The script opens `url`, a page on the seller's site, and requests
-//    `api.url` from inside it, the way the page itself does (`method`,
-//    `headers` and `body` when the endpoint needs them; `cookies` to set on the
-//    site first, such as the province). A field is a path into the response:
-//    keys joined by dots, `[key=value]` for the item of a list whose key equals
-//    the value, `[key^=value]` for starts with, `&` for several conditions.
-//    When the response isn't what the data stores, a field can be
-//    { "path": "...", "add": -10, "times": 1.12 }: a plan less its autopay
-//    discount, an amount with its tax.
+// No seller publishes a price API. The modules read the JSON endpoints the
+// sellers' own sites call, requested from inside a page on that site in a real
+// Chrome window, the way the page itself does. When a seller changes its site
+// and its module fails, the script says so and keeps that seller's previous
+// offers, marked with the day they were last read, until the module is fixed.
 //
-// 2. From the page's text, where there is no endpoint:
-//      "check": { "url": "...", "fields": { "price": "Web Code:\\s*\\d+\\s*\\$([\\d,.]+)" } }
-//    Each field is a pattern; its first capture group is the number.
-//
-// Offers without a `check` are listed with their source link, to look at by
-// hand. Sellers change their sites: when a path or pattern stops matching, the
-// script says so and leaves the number alone. Open the page, fix it, run again.
-import { readFile, writeFile } from "node:fs/promises";
+// Offers marked "manual": true in the data file (sellers with no module, like
+// Amazon) are kept as they are and listed at the end, to check by hand. Once
+// a seller has a module, its run replaces them.
+import { readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { chromium } from "@playwright/test";
+import { matchDevice, offerProblems } from "./lib.mjs";
 
 const args = process.argv.slice(2);
 const flag = (name) => args.includes(`--${name}`);
 const option = (name, fallback) => (args.includes(`--${name}`) ? args[args.indexOf(`--${name}`) + 1] : fallback);
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const file = path.resolve(here, `../../src/mobile/data/${option("region", "bc")}.json`);
+const dataDir = path.resolve(here, "../../src/mobile/data");
+const file = path.join(dataDir, `${option("region", "bc")}.json`);
 const data = JSON.parse(await readFile(file, "utf8"));
-const only = option("only", "");
+const { devices } = JSON.parse(await readFile(path.join(dataDir, "devices.json"), "utf8"));
+const deviceIds = new Set(devices.map((device) => device.id));
 // The date in Vancouver, where the prices apply
 const today = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Vancouver" }).format(new Date());
 
-const get = (object, dotted) => dotted.split(".").reduce((value, key) => value?.[key], object);
-const set = (object, dotted, value) => {
-  const keys = dotted.split(".");
-  const last = keys.pop();
-  keys.reduce((target, key) => target[key], object)[last] = value;
-};
-const toNumber = (text) => Number(String(text).replace(/[^\d.]/g, ""));
-const cents = (amount) => Math.round(amount * 100) / 100;
-
-// "a.b[key=value].c": plain keys (and list positions) outside brackets,
-// conditions on a list's items inside them
-const walk = (json, jsonPath) => {
-  let value = json;
-  for (const [, key, conditions] of jsonPath.matchAll(/([^.[\]]+)|\[([^\]]+)\]/g)) {
-    if (value == null) return undefined;
-    if (key !== undefined) {
-      value = value[key];
-      continue;
-    }
-    if (!Array.isArray(value)) return undefined;
-    if (/^\d+$/.test(conditions)) {
-      value = value[Number(conditions)];
-      continue;
-    }
-    const tests = conditions.split("&").map((condition) => {
-      const [, name, starts, wanted] = condition.match(/^([^=^]+)(\^?)=(.*)$/) ?? [];
-      return (item) => name !== undefined && (starts ? String(item?.[name]).startsWith(wanted) : String(item?.[name]) === wanted);
-    });
-    value = value.find((item) => tests.every((test) => test(item)));
-  }
-  return value;
-};
-
-const offers = data.offers.filter((offer) => offer.id.includes(only));
-const checksOf = (offer) => [offer.check ?? []].flat();
-const checked = offers.filter((offer) => checksOf(offer).length);
-const byHand = offers.filter((offer) => !checksOf(offer).length);
+// A file starting with "_" holds code several sellers share, not a seller
+const moduleFiles = (await readdir(path.join(here, "sellers"))).filter((name) => name.endsWith(".mjs") && !name.startsWith("_")).sort();
+const only = option("only", "")
+  .split(",")
+  .map((name) => name.trim())
+  .filter(Boolean);
+const unknown = only.filter((name) => !moduleFiles.includes(`${name}.mjs`));
+if (unknown.length) throw new Error(`No seller module ${unknown.join(", ")}; there are ${moduleFiles.map((name) => name.replace(/\.mjs$/, "")).join(", ")}`);
+const modules = [];
+for (const name of moduleFiles) {
+  if (only.length && !only.includes(name.replace(/\.mjs$/, ""))) continue;
+  const { default: seller } = await import(pathToFileURL(path.join(here, "sellers", name)).href);
+  modules.push({ file: name, ...seller });
+}
 
 // Installed Chrome, since Playwright's own Chromium may not be downloaded
 const browser = await chromium.launch({ channel: "chrome", headless: flag("headless") });
 const context = await browser.newContext({ locale: "en-CA", timezoneId: "America/Vancouver", viewport: { width: 1280, height: 900 } });
 
-// Each page is opened once and kept, so several offers can read from it
 const pages = new Map();
-const open = (url, cookies = {}) => {
+// A page on the seller's site, opened once and kept so several requests can
+// share it. Cookies (the province, for one) are set on the site first.
+const open = (url, { cookies = {} } = {}) => {
   if (!pages.has(url)) {
     pages.set(
       url,
       (async () => {
         const { hostname } = new URL(url);
-        const domain = `.${hostname.replace(/^www\./, "")}`;
+        const domain = `.${hostname.split(".").slice(-2).join(".")}`;
         await context.addCookies(Object.entries(cookies).map(([name, value]) => ({ name, value, domain, path: "/" })));
         const page = await context.newPage();
-        await page.goto(url, { waitUntil: "domcontentloaded", timeout: 45_000 });
-        // Prices and session cookies are filled in by scripts after the page loads
+        await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60_000 });
+        // Sites set their session cookies with scripts after the page loads
         await page.waitForLoadState("networkidle", { timeout: 15_000 }).catch(() => undefined);
-        await page.waitForTimeout(2_000);
+        await page.waitForTimeout(1_500);
         return page;
       })(),
     );
@@ -112,94 +81,145 @@ const open = (url, cookies = {}) => {
   return pages.get(url);
 };
 
-const results = new Map();
-const once = (key, read) => {
-  if (!results.has(key)) results.set(key, read().catch((error) => new Error(String(error.message).split("\n")[0])));
-  return results.get(key);
+// JSON from an endpoint, requested from inside `page` (a URL on the seller's
+// site) the way that page's own scripts request it
+const json = async (page, { url, method, headers = {}, body, cookies } = {}) => {
+  const tab = await open(page, { cookies });
+  const reply = await tab.evaluate(
+    async ({ endpoint, method: verb, headers: extra, body: payload }) => {
+      const response = await fetch(endpoint, {
+        method: verb ?? (payload === undefined ? "GET" : "POST"),
+        headers: { ...(payload === undefined ? {} : { "Content-Type": "application/json" }), ...extra },
+        body: payload === undefined ? undefined : JSON.stringify(payload),
+        credentials: new URL(endpoint, location.href).origin === location.origin ? "include" : "omit",
+      });
+      return { status: response.status, text: await response.text() };
+    },
+    { endpoint: url, method, headers, body },
+  );
+  if (reply.status < 200 || reply.status > 299) throw new Error(`HTTP ${reply.status} from ${url}: ${reply.text.slice(0, 160)}`);
+  // Some replies start with stray whitespace before the JSON
+  return JSON.parse(reply.text.slice(reply.text.search(/[[{]/)));
 };
 
-// The visible text, then all of it: folded sections ("How It's Calculated")
-// are only in textContent, which runs labels and amounts together, so
-// patterns allow for no space between them
-const textOf = (url) => once(url, async () => (await open(url)).evaluate(() => `${document.body.innerText}\n${document.body.textContent}`));
+// A page's text: what is shown, then everything, since folded sections are
+// only in textContent
+const text = async (url, options) => (await open(url, options)).evaluate(() => `${document.body.innerText}\n${document.body.textContent}`);
 
-// Requested from inside the seller's page, so it carries the page's cookies
-// and passes the same checks the page's own requests do
-const jsonOf = ({ url, api }) =>
-  once(JSON.stringify(api), async () => {
-    const page = await open(url, api.cookies);
-    const reply = await page.evaluate(
-      async ({ url: endpoint, method, headers, body }) => {
-        const response = await fetch(endpoint, {
-          method: method ?? (body ? "POST" : "GET"),
-          headers: { ...(body ? { "Content-Type": "application/json" } : {}), ...headers },
-          body: body ? JSON.stringify(body) : undefined,
-          credentials: new URL(endpoint, location.href).origin === location.origin ? "include" : "omit",
-        });
-        return { status: response.status, text: await response.text() };
-      },
-      api,
-    );
-    if (reply.status !== 200) throw new Error(`HTTP ${reply.status} from ${api.url}`);
-    // Some replies start with stray whitespace before the JSON
-    return JSON.parse(reply.text.slice(reply.text.search(/[[{]/)));
-  });
-
-const read = (source, check, spec) => {
-  if (!check.api) {
-    const match = source.match(new RegExp(spec));
-    return match ? toNumber(match[1]) : undefined;
+const images = {};
+const runSeller = async (module) => {
+  const log = (...parts) => console.log(`  [${module.seller}]`, ...parts);
+  const helpers = {
+    devices,
+    region: data.region,
+    today,
+    open,
+    json,
+    text,
+    log,
+    match: (name) => matchDevice(devices, name),
+    source: (label, url, verified = "primary") => ({ label, url, verified, checked: today }),
+    // A picture of the phone for the page (Best Buy's module records them)
+    image: (deviceId, url) => {
+      if (deviceIds.has(deviceId) && /^https:\/\//.test(url) && !images[deviceId]) images[deviceId] = url;
+    },
+  };
+  const started = Date.now();
+  try {
+    const offers = await module.offers(helpers);
+    const accepted = [];
+    for (const offer of offers) {
+      const problems = offerProblems(offer, deviceIds);
+      if (problems.length) log(`DROPPED ${offer.id ?? "(no id)"}: ${problems.join("; ")}`);
+      else accepted.push(offer);
+    }
+    const ids = accepted.map((offer) => offer.id);
+    const repeated = ids.filter((id, index) => ids.indexOf(id) !== index);
+    if (repeated.length) throw new Error(`the same id twice: ${[...new Set(repeated)].join(", ")}`);
+    log(`${accepted.length} offers for ${new Set(accepted.map((offer) => offer.phone)).size} phones in ${Math.round((Date.now() - started) / 1000)} s`);
+    return { module, ok: true, offers: accepted };
+  } catch (error) {
+    log(`FAILED: ${String(error?.message ?? error).split("\n")[0]}`);
+    return { module, ok: false };
   }
-  const { path: jsonPath, add = 0, times = 1 } = typeof spec === "string" ? { path: spec } : spec;
-  const value = walk(source, jsonPath);
-  return value == null || value === "" || Number.isNaN(toNumber(value)) ? undefined : cents((toNumber(value) + add) * times);
 };
 
-let changed = 0;
-let failed = 0;
-for (const offer of checked) {
-  console.log(`\n${offer.id}`);
-  let allRead = true;
-  for (const check of checksOf(offer)) {
-    console.log(`  ${check.api ? `${check.api.url}${check.api.body ? ` ${JSON.stringify(check.api.body)}` : ""}` : check.url}`);
-    const source = await (check.api ? jsonOf(check) : textOf(check.url));
-    if (source instanceof Error) {
-      failed += 1;
-      allRead = false;
-      console.log(`  COULD NOT READ: ${source.message}`);
-      continue;
-    }
-    for (const [field, spec] of Object.entries(check.fields)) {
-      const before = get(offer, field);
-      const now = read(source, check, spec);
-      if (now === undefined) {
-        failed += 1;
-        allRead = false;
-        console.log(`    ${field}: NOT FOUND (still ${before}); the site may have changed`);
-      } else if (now === before) {
-        console.log(`    ${field}: ${before} (same)`);
-      } else {
-        changed += 1;
-        console.log(`    ${field}: ${before} -> ${now} CHANGED`);
-        set(offer, field, now);
-      }
-    }
-  }
-  if (allRead) offer.source.checked = today;
-}
+// A few sellers at a time: each is a different site
+const results = [];
+const queue = [...modules];
+await Promise.all(
+  Array.from({ length: Math.min(3, queue.length) }, async () => {
+    while (queue.length) results.push(await runSeller(queue.shift()));
+  }),
+);
 await browser.close();
 
-if (byHand.length) {
-  console.log("\nCheck these by hand (nothing to read them from):");
-  for (const offer of byHand) console.log(`  ${offer.id} (checked ${offer.source.checked})\n    ${offer.source.url}`);
+// The new offer list: what each seller's module found, and the previous
+// offers of every other seller (a module that failed or didn't run, and the
+// manual ones). A seller's module replaces all its offers, manual ones too.
+const ran = new Map(results.filter((result) => result.ok).map((result) => [result.module.seller, result.offers]));
+const previous = data.offers ?? [];
+const offers = [...previous.filter((offer) => !ran.has(offer.seller)), ...[...ran.values()].flat()];
+
+// What changed
+const flat = (value, prefix = "") =>
+  value && typeof value === "object" && !Array.isArray(value)
+    ? Object.entries(value).flatMap(([key, inner]) => (key === "source" ? [] : flat(inner, prefix ? `${prefix}.${key}` : key)))
+    : [[prefix, JSON.stringify(value)]];
+const before = new Map(previous.map((offer) => [offer.id, offer]));
+const after = new Map(offers.map((offer) => [offer.id, offer]));
+let changes = 0;
+console.log("");
+for (const [id, offer] of after) {
+  const old = before.get(id);
+  if (!old) {
+    changes += 1;
+    console.log(`NEW      ${id}`);
+    continue;
+  }
+  const oldFields = new Map(flat(old));
+  const diffs = flat(offer).filter(([key, value]) => oldFields.get(key) !== value);
+  if (diffs.length) {
+    changes += 1;
+    console.log(`CHANGED  ${id}: ${diffs.map(([key, value]) => `${key} ${oldFields.get(key) ?? "-"} -> ${value}`).join(", ")}`);
+  }
+}
+for (const id of before.keys()) {
+  if (!after.has(id)) {
+    changes += 1;
+    console.log(`GONE     ${id}`);
+  }
 }
 
-console.log(`\n${checked.length} offers read, ${changed} numbers changed, ${failed} not read, ${byHand.length} to check by hand.`);
+// The phones the page lists: those with at least one offer, newest first
+const previousPhones = new Map((data.phones ?? []).map((phone) => [phone.id, phone]));
+const offered = new Set(offers.map((offer) => offer.phone));
+const phones = devices
+  .filter((device) => offered.has(device.id))
+  .map((device) => ({ ...device, image: images[device.id] ?? previousPhones.get(device.id)?.image }))
+  .sort((a, b) => b.released.localeCompare(a.released));
+const unsold = devices.filter((device) => !offered.has(device.id)).map((device) => device.name);
+
+const failed = results.filter((result) => !result.ok).map((result) => result.module.seller);
+const sellers = { ...data.sellers };
+for (const result of results) sellers[result.module.seller] = { checked: result.ok ? today : (data.sellers?.[result.module.seller]?.checked ?? null), ok: result.ok };
+
+const manual = offers.filter((offer) => offer.manual);
+console.log("");
+if (unsold.length) console.log(`Nobody sells these new, so the page leaves them off: ${unsold.join(", ")}`);
+if (manual.length) {
+  console.log("Check these by hand (no module reads them):");
+  for (const offer of manual) console.log(`  ${offer.id} (checked ${offer.source.checked})\n    ${offer.source.url}`);
+}
+console.log(
+  `\n${results.length} sellers read (${failed.length ? `FAILED: ${failed.join(", ")}` : "none failed"}), ${offers.length} offers for ${phones.length} phones, ${changes} changes, ${phones.filter((phone) => !phone.image).length} phones without a picture.`,
+);
+
 if (flag("write")) {
-  // The page's "prices checked" date moves only when every offer was read
-  if (!failed && !byHand.length && !only) data.region.checked = today;
-  await writeFile(file, `${JSON.stringify(data, null, 2)}\n`);
-  console.log(`Wrote ${file}`);
-} else if (changed) {
+  const allRan = !only.length && !failed.length;
+  const out = { ...data, region: { ...data.region, checked: allRan ? today : data.region.checked }, sellers, phones, offers };
+  await writeFile(file, `${JSON.stringify(out, null, 2)}\n`);
+  console.log(`Wrote ${file}${allRan ? "" : " (the page's date stays, since not every seller was read)"}`);
+} else if (changes) {
   console.log("Run again with --write to save the changes.");
 }
