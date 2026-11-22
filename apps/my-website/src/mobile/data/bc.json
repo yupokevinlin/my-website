@@ -1,0 +1,771 @@
+{
+  "region": {
+    "code": "BC",
+    "name": "British Columbia",
+    "taxRate": 0.12,
+    "taxLabel": "12% tax (GST + PST)",
+    "checked": "2026-11-21"
+  },
+  "byodPlan": {
+    "name": "Koodo's 60 GB bring-your-own plan",
+    "monthly": 45,
+    "data": "60 GB",
+    "source": {
+      "label": "Koodo, bring-your-own-phone plans",
+      "url": "https://www.koodomobile.com/en/shop/mobility/plans/bring-your-own-phone",
+      "verified": "primary",
+      "checked": "2026-11-21"
+    }
+  },
+  "phones": [
+    {
+      "id": "iphone-18-pro-256",
+      "name": "iPhone 18 Pro",
+      "storage": "256GB",
+      "resale": {
+        "months24": 750,
+        "months36": 500,
+        "basis": "Carriers defer $620 to $993 of this phone for 24 months; Best Buy sets $500 for 36."
+      }
+    },
+    {
+      "id": "iphone-17-pro-256",
+      "name": "iPhone 17 Pro",
+      "storage": "256GB",
+      "resale": {
+        "months24": 600,
+        "months36": 400,
+        "basis": "Carriers defer $519 to $997 of this phone for 24 months; Best Buy sets $400 for 36."
+      }
+    }
+  ],
+  "offers": [
+    {
+      "id": "18p-apple",
+      "phone": "iphone-18-pro-256",
+      "kind": "outright",
+      "seller": "Apple",
+      "title": "Unlocked, from apple.com or an Apple Store",
+      "condition": "new",
+      "price": 1749,
+      "ehf": 0,
+      "source": {
+        "label": "Apple, buy iPhone 18 Pro",
+        "url": "https://www.apple.com/ca/shop/buy-iphone/iphone-18-pro",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Apple also offers 0% financing over 24 months ($72.87 a month), which costs the same in total.",
+      "check": {
+        "url": "https://www.apple.com/ca/shop/buy-iphone/iphone-18-pro",
+        "fields": {
+          "price": "256GB[\\s\\S]{0,80}?From \\$([\\d,]+)"
+        }
+      }
+    },
+    {
+      "id": "18p-costco",
+      "phone": "iphone-18-pro-256",
+      "kind": "outright",
+      "seller": "Costco",
+      "title": "Unlocked, costco.ca (members)",
+      "condition": "new",
+      "price": 1748.99,
+      "ehf": 0.2,
+      "source": {
+        "label": "Costco, Apple iPhone 18 Pro Unlocked",
+        "url": "https://www.costco.ca/p/-/apple-iphone-18-pro-unlocked/4201049775",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "The 256GB size showed as out of stock online when checked. Costco's 2% Executive reward is not counted. The phone kiosks inside warehouses sell carrier deals that aren't listed online."
+    },
+    {
+      "id": "18p-bestbuy",
+      "phone": "iphone-18-pro-256",
+      "kind": "outright",
+      "seller": "Best Buy",
+      "title": "Unlocked",
+      "condition": "new",
+      "price": 1749.99,
+      "ehf": 0.2,
+      "source": {
+        "label": "Best Buy, iPhone 18 Pro 256GB Unlocked",
+        "url": "https://www.bestbuy.ca/en-ca/product/apple-iphone-18-pro-256gb-silver-unlocked/20063676",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Best Buy Financing (no payments for 12 months) adds a $69.99 admin fee.",
+      "check": {
+        "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/20063676/quote",
+        "fields": {
+          "price": "Web Code:\\s*\\d+\\s*\\$([\\d,.]+)"
+        }
+      }
+    },
+    {
+      "id": "18p-bestbuy-openbox",
+      "phone": "iphone-18-pro-256",
+      "kind": "outright",
+      "seller": "Best Buy",
+      "title": "Geek Squad Certified open box, unlocked",
+      "condition": "open-box",
+      "price": 1609.99,
+      "ehf": 0.2,
+      "source": {
+        "label": "Best Buy, open box iPhone 18 Pro 256GB",
+        "url": "https://www.bestbuy.ca/en-ca/product/open-box-apple-iphone-18-pro-256gb-black-unlocked/20200973",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "A returned phone checked by Geek Squad. Stock comes and goes.",
+      "check": {
+        "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/20200973/quote",
+        "fields": {
+          "price": "Web Code:\\s*\\d+\\s*\\$([\\d,.]+)"
+        }
+      }
+    },
+    {
+      "id": "18p-bestbuy-subscription",
+      "phone": "iphone-18-pro-256",
+      "kind": "subscription",
+      "seller": "Best Buy",
+      "title": "Monthly Subscription, unlocked",
+      "condition": "new",
+      "price": 1749.99,
+      "ehf": 0.2,
+      "adminFee": 129.99,
+      "keepAmount": 500,
+      "termMonths": 36,
+      "note": "Financed through Fairstone, subject to credit approval. Best Buy quotes $42.94 a month: $1,545.80 if returned, $2,105.80 if kept. The phone must meet the trade-in conditions to be returned.",
+      "source": {
+        "label": "Best Buy's quote tool (Sidekick)",
+        "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/20063676/quote",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "check": {
+        "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/20063676/quote",
+        "fields": {
+          "price": "Web Code:\\s*\\d+\\s*\\$([\\d,.]+)",
+          "keepAmount": "Keep-the-Tech Amount\\s*[−-]\\s*\\$([\\d,.]+)",
+          "adminFee": "Admin fee\\s*\\$([\\d,.]+)"
+        }
+      }
+    },
+    {
+      "id": "18p-telus-60",
+      "phone": "iphone-18-pro-256",
+      "kind": "carrier",
+      "seller": "Telus",
+      "title": "Easy Payment, 24 months",
+      "condition": "new",
+      "fullPrice": 1799,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 74.96,
+      "returnOption": {
+        "name": "Bring-It-Back",
+        "monthly": 43.71,
+        "deferred": 620
+      },
+      "plan": {
+        "name": "Nationwide 5G+",
+        "monthly": 85,
+        "data": "60 GB"
+      },
+      "connectionFee": 0,
+      "source": {
+        "label": "Telus, customize your device and plan",
+        "url": "https://www.telus.com/mobility/configure?product=iphone-18-pro&sku=NAIP18P256BE",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $10 pre-authorized payment discount. Bring-It-Back carries its own discount, so paying it off at the end still costs less than plain financing. $25 shipping on online orders is not counted."
+    },
+    {
+      "id": "18p-telus-unlimited",
+      "phone": "iphone-18-pro-256",
+      "kind": "carrier",
+      "seller": "Telus",
+      "title": "Easy Payment, 24 months",
+      "condition": "new",
+      "fullPrice": 1799,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 74.96,
+      "returnOption": {
+        "name": "Bring-It-Back",
+        "monthly": 33.71,
+        "deferred": 620
+      },
+      "plan": {
+        "name": "US-Mexico Roaming 5G+",
+        "monthly": 105,
+        "data": "unlimited"
+      },
+      "connectionFee": 0,
+      "source": {
+        "label": "Telus, customize your device and plan",
+        "url": "https://www.telus.com/mobility/configure?product=iphone-18-pro&sku=NAIP18P256BE",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $10 pre-authorized payment discount. Bring-It-Back carries its own discount, so paying it off at the end still costs less than plain financing. $25 shipping on online orders is not counted."
+    },
+    {
+      "id": "18p-rogers-60",
+      "phone": "iphone-18-pro-256",
+      "kind": "carrier",
+      "seller": "Rogers",
+      "title": "Financing, 24 months",
+      "condition": "new",
+      "fullPrice": 1799.28,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 74.97,
+      "returnOption": {
+        "name": "Save & Return",
+        "monthly": 43.72,
+        "deferred": 750
+      },
+      "plan": {
+        "name": "5G+ Lite",
+        "monthly": 85,
+        "data": "60 GB"
+      },
+      "connectionFee": 0,
+      "source": {
+        "label": "Rogers, build your plan",
+        "url": "https://www.rogers.com/phones/apple-iphone-18-pro/build-plan?tierType=UPFRONTEDGE&upfrontEdge=true&sku=IP18P256BUR&step=2&tier=RFIN3_ULTI&flowType=nac",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $5 autopay credit and a limited-time discount. No setup charge when bought online; $40 may apply in store. The $750 Save & Return amount on this plan is worked out from the payments; Rogers doesn't show it."
+    },
+    {
+      "id": "18p-rogers-unlimited",
+      "phone": "iphone-18-pro-256",
+      "kind": "carrier",
+      "seller": "Rogers",
+      "title": "Financing, 24 months",
+      "condition": "new",
+      "fullPrice": 1799.28,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 74.97,
+      "returnOption": {
+        "name": "Save & Return",
+        "monthly": 33.6,
+        "deferred": 993
+      },
+      "plan": {
+        "name": "5G+ Popular",
+        "monthly": 105,
+        "data": "unlimited"
+      },
+      "connectionFee": 0,
+      "source": {
+        "label": "Rogers, build your plan",
+        "url": "https://www.rogers.com/phones/apple-iphone-18-pro/build-plan?tierType=UPFRONTEDGE&upfrontEdge=true&sku=IP18P256BUR&step=2&tier=RFIN3_ULTI&flowType=nac",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $5 autopay credit and a limited-time discount. No setup charge when bought online; $40 may apply in store."
+    },
+    {
+      "id": "18p-bell-60",
+      "phone": "iphone-18-pro-256",
+      "kind": "carrier",
+      "seller": "Bell",
+      "title": "SmartPay, 24 months",
+      "condition": "new",
+      "fullPrice": 1799.28,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 74.97,
+      "returnOption": {
+        "name": "Flex Option",
+        "monthly": 43.72,
+        "deferred": 750
+      },
+      "plan": {
+        "name": "Select",
+        "monthly": 85,
+        "data": "60 GB"
+      },
+      "connectionFee": 40,
+      "source": {
+        "label": "Bell, phone page (plans in “Pair it with a plan”)",
+        "url": "https://www.bell.ca/Mobility/Products/iPhone-18-Pro",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $10 autopay credit. The $40 device handling charge is counted as the one-time fee. If the phone is kept, Bell spreads the deferred amount over the following months."
+    },
+    {
+      "id": "18p-bell-unlimited",
+      "phone": "iphone-18-pro-256",
+      "kind": "carrier",
+      "seller": "Bell",
+      "title": "SmartPay, 24 months",
+      "condition": "new",
+      "fullPrice": 1799.28,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 74.97,
+      "returnOption": {
+        "name": "Flex Option",
+        "monthly": 33.72,
+        "deferred": 990
+      },
+      "plan": {
+        "name": "Ultra Unlimited US/Mexico",
+        "monthly": 105,
+        "data": "unlimited"
+      },
+      "connectionFee": 40,
+      "source": {
+        "label": "Bell, phone page (plans in “Pair it with a plan”)",
+        "url": "https://www.bell.ca/Mobility/Products/iPhone-18-Pro",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $10 autopay credit. The $40 device handling charge is counted as the one-time fee. If the phone is kept, Bell spreads the deferred amount over the following months."
+    },
+    {
+      "id": "18p-freedom-250",
+      "phone": "iphone-18-pro-256",
+      "kind": "carrier",
+      "seller": "Freedom Mobile",
+      "title": "MyTab, 24 months",
+      "condition": "new",
+      "fullPrice": 1749,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 62.88,
+      "returnOption": {
+        "name": "TradeUp",
+        "monthly": 34,
+        "deferred": 776.16
+      },
+      "plan": {
+        "name": "$60 plan",
+        "monthly": 60,
+        "data": "250 GB"
+      },
+      "connectionFee": 0,
+      "source": {
+        "label": "Freedom Mobile, plans for this phone",
+        "url": "https://shop.freedommobile.ca/en-CA/plans?sku=195951415369&deviceOption=TradeUp",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $5 digital discount (autopay). The device price depends on the plan. Keeping a TradeUp phone costs the $693 TradeUp amount plus tax, shown here with the tax. Freedom's own network covers less of BC than the big three's."
+    },
+    {
+      "id": "18p-freedom-175",
+      "phone": "iphone-18-pro-256",
+      "kind": "carrier",
+      "seller": "Freedom Mobile",
+      "title": "MyTab, 24 months",
+      "condition": "new",
+      "fullPrice": 1749,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 72.88,
+      "returnOption": {
+        "name": "TradeUp",
+        "monthly": 44,
+        "deferred": 776.16
+      },
+      "plan": {
+        "name": "$50 plan",
+        "monthly": 50,
+        "data": "175 GB"
+      },
+      "connectionFee": 0,
+      "source": {
+        "label": "Freedom Mobile, plans for this phone",
+        "url": "https://shop.freedommobile.ca/en-CA/plans?sku=195951415369&deviceOption=TradeUp",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $5 digital discount (autopay). The device price depends on the plan. Keeping a TradeUp phone costs the $693 TradeUp amount plus tax, shown here with the tax. Freedom's own network covers less of BC than the big three's."
+    },
+    {
+      "id": "18p-fido",
+      "phone": "iphone-18-pro-256",
+      "kind": "carrier",
+      "seller": "Fido",
+      "title": "Payment Program, 24 months",
+      "condition": "new",
+      "fullPrice": 1799.28,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 74.97,
+      "plan": {
+        "name": "60GB Talk & Text",
+        "monthly": 50,
+        "data": "60 GB"
+      },
+      "connectionFee": 0,
+      "source": {
+        "label": "Fido, iPhone 18 Pro",
+        "url": "https://www.fido.ca/phones/apple-iphone-18-pro",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $5 autopay credit. Fido has no return option for this phone. No setup charge when bought online."
+    },
+    {
+      "id": "18p-koodo",
+      "phone": "iphone-18-pro-256",
+      "kind": "carrier",
+      "seller": "Koodo",
+      "title": "Happy Tab Plus, 24 months",
+      "condition": "new",
+      "fullPrice": 1799,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 74.96,
+      "plan": {
+        "name": "60GB 5G",
+        "monthly": 60,
+        "data": "60 GB"
+      },
+      "connectionFee": 0,
+      "source": {
+        "label": "Koodo, iPhone 18 Pro",
+        "url": "https://www.koodomobile.com/en/phones/iphone-18-pro",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $10 auto-pay discount. Koodo has no return option. $25 shipping on online orders is not counted."
+    },
+    {
+      "id": "18p-virgin",
+      "phone": "iphone-18-pro-256",
+      "kind": "carrier",
+      "seller": "Virgin Plus",
+      "title": "Sweet Pay Lite, 24 months",
+      "condition": "new",
+      "fullPrice": 1799.28,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 74.97,
+      "plan": {
+        "name": "60GB",
+        "monthly": 50,
+        "data": "60 GB"
+      },
+      "connectionFee": 40,
+      "source": {
+        "label": "Virgin Plus, iPhone 18 Pro",
+        "url": "https://www.virginplus.ca/en/phones/phone-details.html#!/iphone18pro/Burgundy/256/FO9",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $10 autopay credit. Virgin Plus has no return option. The $40 device handling charge is counted as the one-time fee."
+    },
+    {
+      "id": "17p-bestbuy",
+      "phone": "iphone-17-pro-256",
+      "kind": "outright",
+      "seller": "Best Buy",
+      "title": "Unlocked",
+      "condition": "new",
+      "price": 1599.99,
+      "ehf": 0.2,
+      "source": {
+        "label": "Best Buy, iPhone 17 Pro 256GB Unlocked",
+        "url": "https://www.bestbuy.ca/en-ca/product/apple-iphone-17-pro-256gb-cosmic-orange-unlocked/19417084",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Apple and Costco no longer sell the iPhone 17 Pro.",
+      "check": {
+        "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/19417084/quote",
+        "fields": {
+          "price": "Web Code:\\s*\\d+\\s*\\$([\\d,.]+)"
+        }
+      }
+    },
+    {
+      "id": "17p-amazon-renewed",
+      "phone": "iphone-17-pro-256",
+      "kind": "outright",
+      "seller": "Amazon",
+      "title": "Amazon Renewed, unlocked",
+      "condition": "refurbished",
+      "price": 1376.1,
+      "ehf": 0,
+      "source": {
+        "label": "Amazon.ca, iPhone 17 Pro 256GB (Renewed)",
+        "url": "https://www.amazon.ca/s?k=apple+iphone+17+pro+256gb+unlocked",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Refurbished and sold by a marketplace seller under Amazon Renewed, not new. The price moves by colour and day. Amazon.ca doesn't sell this phone new."
+    },
+    {
+      "id": "17p-bestbuy-subscription",
+      "phone": "iphone-17-pro-256",
+      "kind": "subscription",
+      "seller": "Best Buy",
+      "title": "Monthly Subscription, unlocked",
+      "condition": "new",
+      "price": 1599.99,
+      "ehf": 0.2,
+      "adminFee": 129.99,
+      "keepAmount": 400,
+      "termMonths": 36,
+      "note": "Financed through Fairstone, subject to credit approval. Best Buy's quote tool gave the price, the $400 keep amount and the fee; the tax is worked out here, as its tax lookup failed for this phone when checked.",
+      "source": {
+        "label": "Best Buy's quote tool (Sidekick)",
+        "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/19417084/quote",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "check": {
+        "url": "https://www.bestbuy.ca/sidekick/en-ca/store/973/product/19417084/quote",
+        "fields": {
+          "price": "Web Code:\\s*\\d+\\s*\\$([\\d,.]+)",
+          "keepAmount": "Keep-the-Tech Amount\\s*[−-]\\s*\\$([\\d,.]+)",
+          "adminFee": "Admin fee\\s*\\$([\\d,.]+)"
+        }
+      }
+    },
+    {
+      "id": "17p-telus-60",
+      "phone": "iphone-17-pro-256",
+      "kind": "carrier",
+      "seller": "Telus",
+      "title": "Easy Payment, 24 months",
+      "condition": "new",
+      "fullPrice": 1644,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 63.5,
+      "returnOption": {
+        "name": "Bring-It-Back",
+        "monthly": 32,
+        "deferred": 570
+      },
+      "plan": {
+        "name": "Nationwide 5G+",
+        "monthly": 85,
+        "data": "60 GB"
+      },
+      "connectionFee": 0,
+      "source": {
+        "label": "Telus, customize your device and plan",
+        "url": "https://www.telus.com/mobility/configure?product=iphone-17-pro&sku=NAIP17P256BL",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $10 pre-authorized payment discount. Bring-It-Back carries its own discount, so paying it off at the end still costs less than plain financing. $25 shipping on online orders is not counted."
+    },
+    {
+      "id": "17p-telus-unlimited",
+      "phone": "iphone-17-pro-256",
+      "kind": "carrier",
+      "seller": "Telus",
+      "title": "Easy Payment, 24 months",
+      "condition": "new",
+      "fullPrice": 1644,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 63.5,
+      "returnOption": {
+        "name": "Bring-It-Back",
+        "monthly": 22,
+        "deferred": 570
+      },
+      "plan": {
+        "name": "US-Mexico Roaming 5G+",
+        "monthly": 105,
+        "data": "unlimited"
+      },
+      "connectionFee": 0,
+      "source": {
+        "label": "Telus, customize your device and plan",
+        "url": "https://www.telus.com/mobility/configure?product=iphone-17-pro&sku=NAIP17P256BL",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $10 pre-authorized payment discount. Bring-It-Back carries its own discount, so paying it off at the end still costs less than plain financing. $25 shipping on online orders is not counted."
+    },
+    {
+      "id": "17p-bell-60",
+      "phone": "iphone-17-pro-256",
+      "kind": "carrier",
+      "seller": "Bell",
+      "title": "SmartPay, 24 months",
+      "condition": "new",
+      "fullPrice": 1644.84,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 63.54,
+      "returnOption": {
+        "name": "Flex Option",
+        "monthly": 32,
+        "deferred": 756.84
+      },
+      "plan": {
+        "name": "Select",
+        "monthly": 85,
+        "data": "60 GB"
+      },
+      "connectionFee": 40,
+      "source": {
+        "label": "Bell, phone page (plans in “Pair it with a plan”)",
+        "url": "https://www.bell.ca/Mobility/Products/iPhone-17-Pro",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $10 autopay credit. The $40 device handling charge is counted as the one-time fee. If the phone is kept, Bell spreads the deferred amount over the following months."
+    },
+    {
+      "id": "17p-bell-unlimited",
+      "phone": "iphone-17-pro-256",
+      "kind": "carrier",
+      "seller": "Bell",
+      "title": "SmartPay, 24 months",
+      "condition": "new",
+      "fullPrice": 1644.84,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 63.54,
+      "returnOption": {
+        "name": "Flex Option",
+        "monthly": 22,
+        "deferred": 996.84
+      },
+      "plan": {
+        "name": "Ultra Unlimited US/Mexico",
+        "monthly": 105,
+        "data": "unlimited"
+      },
+      "connectionFee": 40,
+      "source": {
+        "label": "Bell, phone page (plans in “Pair it with a plan”)",
+        "url": "https://www.bell.ca/Mobility/Products/iPhone-17-Pro",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $10 autopay credit. The $40 device handling charge is counted as the one-time fee. If the phone is kept, Bell spreads the deferred amount over the following months."
+    },
+    {
+      "id": "17p-freedom-250",
+      "phone": "iphone-17-pro-256",
+      "kind": "carrier",
+      "seller": "Freedom Mobile",
+      "title": "MyTab, 24 months",
+      "condition": "new",
+      "fullPrice": 1599,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 51.62,
+      "returnOption": {
+        "name": "TradeUp",
+        "monthly": 30,
+        "deferred": 581.28
+      },
+      "plan": {
+        "name": "$60 plan",
+        "monthly": 60,
+        "data": "250 GB"
+      },
+      "connectionFee": 0,
+      "source": {
+        "label": "Freedom Mobile, plans for this phone",
+        "url": "https://shop.freedommobile.ca/en-CA/plans?sku=195950626490&deviceOption=TradeUp",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $5 digital discount (autopay). The device price depends on the plan. Keeping a TradeUp phone costs the $519 TradeUp amount plus tax, shown here with the tax. Freedom's own network covers less of BC than the big three's."
+    },
+    {
+      "id": "17p-freedom-175",
+      "phone": "iphone-17-pro-256",
+      "kind": "carrier",
+      "seller": "Freedom Mobile",
+      "title": "MyTab, 24 months",
+      "condition": "new",
+      "fullPrice": 1599,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 66.62,
+      "returnOption": {
+        "name": "TradeUp",
+        "monthly": 45,
+        "deferred": 581.28
+      },
+      "plan": {
+        "name": "$50 plan",
+        "monthly": 50,
+        "data": "175 GB"
+      },
+      "connectionFee": 0,
+      "source": {
+        "label": "Freedom Mobile, plans for this phone",
+        "url": "https://shop.freedommobile.ca/en-CA/plans?sku=195950626490&deviceOption=TradeUp",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $5 digital discount (autopay). The device price depends on the plan. Keeping a TradeUp phone costs the $519 TradeUp amount plus tax, shown here with the tax. Freedom's own network covers less of BC than the big three's."
+    },
+    {
+      "id": "17p-koodo",
+      "phone": "iphone-17-pro-256",
+      "kind": "carrier",
+      "seller": "Koodo",
+      "title": "Happy Tab Plus, 24 months",
+      "condition": "new",
+      "fullPrice": 1644,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 63.5,
+      "plan": {
+        "name": "60GB 5G",
+        "monthly": 60,
+        "data": "60 GB"
+      },
+      "connectionFee": 0,
+      "source": {
+        "label": "Koodo, iPhone 17 Pro",
+        "url": "https://www.koodomobile.com/en/phones/iphone-17-pro",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $10 auto-pay discount. Includes Koodo's $120 Tab Bonus. Koodo has no return option. $25 shipping on online orders is not counted."
+    },
+    {
+      "id": "17p-virgin",
+      "phone": "iphone-17-pro-256",
+      "kind": "carrier",
+      "seller": "Virgin Plus",
+      "title": "Sweet Pay Lite, 24 months",
+      "condition": "new",
+      "fullPrice": 1644.84,
+      "termMonths": 24,
+      "upfront": 0,
+      "monthlyKeep": 68.54,
+      "plan": {
+        "name": "60GB",
+        "monthly": 50,
+        "data": "60 GB"
+      },
+      "connectionFee": 40,
+      "source": {
+        "label": "Virgin Plus, iPhone 17 Pro",
+        "url": "https://www.virginplus.ca/en/phones/phone-details.html#!/iphone17pro/Silver/256/FO9",
+        "verified": "primary",
+        "checked": "2026-11-21"
+      },
+      "note": "Plan price is with the $10 autopay credit. Sweet Pay (not Lite) takes $120 off the phone but needs a plan $10 a month dearer. Virgin Plus has no return option. The $40 device handling charge is counted as the one-time fee."
+    }
+  ]
+}

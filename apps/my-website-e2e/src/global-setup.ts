@@ -10,6 +10,7 @@ const SIMULATIONS = ['blackhole', 'infall', 'lightspeed', 'wormhole'];
 const ROUTES = [
   '/',
   '/v1',
+  '/mobile',
   ...['', '/fr'].flatMap((prefix) => [prefix || '/', `${prefix}/ray-tracing`, ...SIMULATIONS.map((sim) => `${prefix}/ray-tracing/${sim}`)]),
 ];
 
