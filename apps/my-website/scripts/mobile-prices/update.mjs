@@ -1,9 +1,11 @@
 // Re-reads every phone's prices at every seller for /mobile. Run from the repo root:
 //   node apps/my-website/scripts/mobile-prices/update.mjs            compare only
 //   node apps/my-website/scripts/mobile-prices/update.mjs --write    save the result
-// Options: --only telus,koodo (seller modules by file name), --region bc (the
-// data file), --headless (some stores block a hidden browser, so a window is
-// the default).
+// Options: --only telus,koodo (seller modules by file name), --all (Best
+// Buy's modules too, which otherwise run only when --only names them),
+// --region bc (the data file), --headless (some stores block a hidden
+// browser, so a window is the default), --profile <folder> (the Chrome
+// profile kept between runs; by default %LOCALAPPDATA%\mobile-prices\chrome-profile).
 //
 // The phones come from src/mobile/data/devices.json. Each file in sellers/ is
 // one seller: it gets the phone list and a few helpers, finds which of those
@@ -20,7 +22,8 @@
 // Offers marked "manual": true in the data file (sellers with no module, like
 // Amazon) are kept as they are and listed at the end, to check by hand. Once
 // a seller has a module, its run replaces them.
-import { readFile, readdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { chromium } from "@playwright/test";
@@ -48,15 +51,49 @@ const only = option("only", "")
 const unknown = only.filter((name) => !moduleFiles.includes(`${name}.mjs`));
 if (unknown.length) throw new Error(`No seller module ${unknown.join(", ")}; there are ${moduleFiles.map((name) => name.replace(/\.mjs$/, "")).join(", ")}`);
 const modules = [];
+const skipped = [];
 for (const name of moduleFiles) {
   if (only.length && !only.includes(name.replace(/\.mjs$/, ""))) continue;
   const { default: seller } = await import(pathToFileURL(path.join(here, "sellers", name)).href);
+  // A module marked whenAsked (Best Buy's, which are slow and blocked readily)
+  // runs only when --only names it or with --all; otherwise its offers are kept
+  if (seller.whenAsked && !only.length && !flag("all")) {
+    skipped.push(name.replace(/\.mjs$/, ""));
+    continue;
+  }
   modules.push({ file: name, ...seller });
 }
+if (skipped.length) console.log(`Skipping ${skipped.join(", ")} (they run with --only ${skipped.join(",")} or --all); their saved offers are kept.\n`);
 
-// Installed Chrome, since Playwright's own Chromium may not be downloaded
-const browser = await chromium.launch({ channel: "chrome", headless: flag("headless") });
-const context = await browser.newContext({ locale: "en-CA", timezoneId: "America/Vancouver", viewport: { width: 1280, height: 900 } });
+// Installed Chrome, since Playwright's own Chromium may not be downloaded. It
+// keeps one profile from run to run (outside the repo), so the sellers see the
+// same browser with its cookies each time rather than a new one: Best Buy's
+// bot shield blocked a fresh profile sending a thousand requests a run.
+const profile = option("profile", path.join(process.env.LOCALAPPDATA ?? os.homedir(), "mobile-prices", "chrome-profile"));
+await mkdir(profile, { recursive: true });
+const context = await chromium.launchPersistentContext(profile, {
+  channel: "chrome",
+  headless: flag("headless"),
+  locale: "en-CA",
+  timezoneId: "America/Vancouver",
+  viewport: { width: 1280, height: 900 },
+});
+// It opens with a blank tab, left open: closing a window's last tab closes the
+// window, and then no tab can be opened
+
+// Requests to one site wait for each other, at least `pace` ms apart (a
+// module's `pace`), so a long run doesn't hammer a seller
+const lastAt = new Map();
+const paced = async (url, pace, request) => {
+  if (!pace) return request();
+  const { hostname } = new URL(url);
+  const turn = (lastAt.get(hostname) ?? Promise.resolve()).then(async () => {
+    await new Promise((resolve) => setTimeout(resolve, pace));
+  });
+  lastAt.set(hostname, turn.catch(() => undefined));
+  await turn;
+  return request();
+};
 
 // The module an offer comes from: its seller's, or for a carrier's deal sold
 // through a store (via), that store's carriers module ("Best Buy (carriers)")
@@ -119,9 +156,9 @@ const runSeller = async (module) => {
     devices,
     region: data.region,
     today,
-    open,
-    json,
-    text,
+    open: (url, options) => paced(url, module.pace, () => open(url, options)),
+    json: (page, options) => paced(page, module.pace, () => json(page, options)),
+    text: (url, options) => paced(url, module.pace, () => text(url, options)),
     log,
     match: (name) => matchDevice(devices, name),
     source: (label, url, verified = "primary") => ({ label, url, verified, checked: today }),
@@ -165,7 +202,7 @@ for (const pass of [modules.filter((module) => !module.after), modules.filter((m
     }),
   );
 }
-await browser.close();
+await context.close();
 
 // The new offer list: what each seller's module found, and the previous
 // offers of every other seller (a module that failed or didn't run, and the

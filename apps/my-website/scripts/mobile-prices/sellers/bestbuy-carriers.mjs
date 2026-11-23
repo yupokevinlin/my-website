@@ -35,6 +35,10 @@ export default {
   seller: "Best Buy (carriers)",
   // Runs after the carriers' own modules, whose plans it pairs with
   after: true,
+  // Best Buy's bot shield blocked fast runs: 1.5 s between requests, and only
+  // when asked (--only bestbuy-carriers or --all)
+  pace: 1_500,
+  whenAsked: true,
   async offers({ devices, open, json, source, offersOf, log }) {
     const giftCards = await readGiftCards(await open(PAGE), devices);
     // The deals page has always had some; none means it didn't draw them, and

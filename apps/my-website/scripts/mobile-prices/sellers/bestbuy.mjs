@@ -19,6 +19,10 @@ const LISTING_PREFIX = /^(open box|refurbished[^-]*|brand new)\s+-\s+/i;
 
 export default {
   seller: "Best Buy",
+  // Best Buy's bot shield blocked fast runs: 1.5 s between requests, and only
+  // when asked (--only bestbuy or --all)
+  pace: 1_500,
+  whenAsked: true,
   async offers({ devices, region, json, source, variant, log }) {
     const offers = [];
     for (const device of devices) {
