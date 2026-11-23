@@ -1,0 +1,189 @@
+import { type ReactNode, useMemo, useState } from "react";
+import Head from "next/head";
+import clsx from "clsx";
+import { sans } from "../v2/fonts";
+import { DEFAULT_REGION, regions } from "./regions";
+import { OUTRIGHT_MONTHS, costRows, groupBySeller } from "./tco";
+import type { RankBy, SortBy } from "./types";
+import { Choice } from "./components/Choice/Choice";
+import { ColourPicker } from "./components/ColourPicker/ColourPicker";
+import { DevicePicker } from "./components/DevicePicker/DevicePicker";
+import { PhonePicture } from "./components/PhonePicture/PhonePicture";
+import { NumberField } from "./components/NumberField/NumberField";
+import { OfferCards } from "./components/OfferCards/OfferCards";
+import { OfferTable } from "./components/OfferTable/OfferTable";
+import { OutrightCards } from "./components/OutrightCards/OutrightCards";
+import { OutrightTable } from "./components/OutrightTable/OutrightTable";
+
+const SORTS: { value: SortBy; label: string }[] = [
+  { value: "keep", label: "Keep it" },
+  { value: "returned", label: "Return it" },
+];
+
+// Totals cover different terms (Best Buy's subscription is 36 months, carriers
+// 24), so the cheapest total and the cheapest month can differ: Kevin chose
+// total as the default, with per month one click away
+const RANKS: { value: RankBy; label: string }[] = [
+  { value: "total", label: "Total" },
+  { value: "perMonth", label: "Per month" },
+];
+
+// /mobile: what a phone really costs in one province, from every place that
+// sells it, in two sections: unlocked phones paid in full, and phones paid by
+// the month, where each seller's plan tiers show returned under the seller's
+// program beside kept. The plan is counted everywhere. A private tool: not in the sitemap, not
+// linked, noindex. The prices are a snapshot (data/*.json), re-read by
+// scripts/mobile-prices/update.mjs.
+export const MobilePage = (): ReactNode => {
+  const data = regions[DEFAULT_REGION];
+  const { region } = data;
+  const [phoneId, setPhoneId] = useState(data.phones[0].id);
+  // The storage and colour chosen for the phone; unset, its defaults below
+  const [chosen, setChosen] = useState<{ storage?: string; colour?: string }>({});
+  const [sortBy, setSortBy] = useState<SortBy>("keep");
+  const [rankBy, setRankBy] = useState<RankBy>("total");
+  // Kevin's choice of starting amount; the visitor can change it
+  const [byodMonthly, setByodMonthly] = useState(60);
+
+  const phone = data.phones.find((candidate) => candidate.id === phoneId) ?? data.phones[0];
+  // A new phone starts at its smallest storage that someone sells, in its first colour
+  const pickPhone = (id: string): void => {
+    setPhoneId(id);
+    setChosen({});
+  };
+  const storage = chosen.storage ?? phone.storages.find((size) => data.offers.some((offer) => offer.phone === phone.id && offer.storage === size)) ?? phone.storages[0];
+  const colour = phone.colours.find((candidate) => candidate.name === chosen.colour) ?? phone.colours[0];
+  const { unlocked, monthly } = useMemo(() => {
+    const offers = data.offers.filter((offer) => offer.phone === phone.id && offer.storage === storage);
+    const settings = { byodMonthly };
+    return {
+      unlocked: costRows(
+        offers.filter((offer) => offer.kind === "outright"),
+        region,
+        settings,
+      ),
+      monthly: groupBySeller(
+        costRows(
+          offers.filter((offer) => offer.kind !== "outright"),
+          region,
+          settings,
+          sortBy,
+          rankBy,
+        ),
+      ),
+    };
+  }, [data.offers, phone.id, storage, region, byodMonthly, sortBy, rankBy]);
+  const name = `${phone.name} ${storage}`;
+
+  return (
+    <>
+      <Head>
+        <meta charSet="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+        <title>{`Phone prices in ${region.name}`}</title>
+        <meta name="robots" content="noindex, nofollow"/>
+      </Head>
+      {/* #__next doesn't scroll (globals.css), so the page scrolls in here.
+          relative: screen-reader-only text is positioned against this box;
+          without it, it stretched the document far below the page */}
+      <div className={clsx(sans.variable, "relative h-full overflow-y-auto [scrollbar-gutter:stable] bg-linear-to-br from-sky-50 via-blue-50 to-violet-100 [background-attachment:local] font-[family-name:var(--font-v2-sans),system-ui,sans-serif] text-slate-900")}>
+        <main className="mx-auto w-full max-w-[84rem] px-4 pb-16 pt-8 sm:px-6 sm:pt-12">
+          {/* Kevin asked for no visible header; the title stays for screen readers */}
+          <h1 className="sr-only">Phone prices in {region.name}</h1>
+
+          <section aria-labelledby="mobile-phone">
+            <h2 id="mobile-phone" className="w-fit bg-linear-to-r from-blue-700 to-violet-700 bg-clip-text text-transparent text-[22px] font-semibold">
+              Phone
+            </h2>
+            <div className="mt-3">
+              <DevicePicker phones={data.phones} selected={phone.id} onSelect={pickPhone} picture={colour?.image ?? phone.image} detail={`${storage}${colour ? ` · ${colour.name}` : ""}`}/>
+            </div>
+          </section>
+
+          {/* The chosen phone: its storage, which the prices are for, and its colour */}
+          <div className="mt-4 grid items-start gap-x-10 gap-y-6 rounded-2xl border border-blue-100 bg-linear-to-r from-white via-blue-50 to-violet-100 p-4 shadow-sm shadow-blue-100 sm:mt-8 sm:p-5 lg:grid-cols-[auto_minmax(0,1fr)_19rem]">
+            {/* On phones the menu's button above shows all this */}
+            <div className="hidden items-center gap-4 sm:flex">
+              <PhonePicture src={colour?.image ?? phone.image} size={112}/>
+              <div>
+                <p className="text-[14px] text-slate-600">{phone.brand}</p>
+                <p className="text-[26px] font-semibold leading-tight">{phone.name}</p>
+                <p className="text-[15px] text-slate-700">
+                  {storage}
+                  {colour ? ` · ${colour.name}` : null}
+                </p>
+              </div>
+            </div>
+            <div className="grid gap-4">
+              <div>
+                <p className="mb-1.5 text-[14px] font-medium text-slate-900">Storage</p>
+                <Choice label="Storage" options={phone.storages.map((size) => ({ value: size, label: size }))} value={storage} onChange={(size) => setChosen((current) => ({ ...current, storage: size }))}/>
+              </div>
+              {phone.colours.length ? (
+                <div>
+                  <p className="mb-1.5 text-[14px] font-medium text-slate-900">Colour</p>
+                  <ColourPicker colours={phone.colours} value={colour?.name ?? ""} onChange={(name) => setChosen((current) => ({ ...current, colour: name }))}/>
+                </div>
+              ) : null}
+            </div>
+            <div className="w-full max-w-[19rem]">
+              <NumberField label="Bring your own device plan" hint="Per month, before tax." value={byodMonthly} onChange={setByodMonthly}/>
+            </div>
+          </div>
+
+          <section aria-labelledby="mobile-unlocked" className="mt-10">
+            <h2 id="mobile-unlocked" className="w-fit bg-linear-to-r from-blue-700 to-violet-700 bg-clip-text text-transparent text-[22px] font-semibold">
+              Unlocked, paid in full
+            </h2>
+            <p className="mt-1 max-w-[46rem] text-[15px] text-slate-700">
+              Pay for the phone up front and use your own plan. Totals cover {OUTRIGHT_MONTHS} months.
+            </p>
+            <div className="mt-4">
+              {unlocked.length ? (
+                <>
+                  {/* A table from tablets up; cards on phones */}
+                  <div className="hidden md:block">
+                    <OutrightTable caption={`${name} unlocked in ${region.name}, paid in full`} rows={unlocked}/>
+                  </div>
+                  <div className="md:hidden">
+                    <OutrightCards caption={`${name} unlocked in ${region.name}, paid in full`} rows={unlocked}/>
+                  </div>
+                </>
+              ) :<p className="rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 p-4 text-[15px] text-slate-700">No store in the list sells the {name} unlocked and new.</p>}
+            </div>
+          </section>
+
+          <section aria-labelledby="mobile-monthly" className="mt-12">
+            <h2 id="mobile-monthly" className="w-fit bg-linear-to-r from-blue-700 to-violet-700 bg-clip-text text-transparent text-[22px] font-semibold">
+              Pay per month
+            </h2>
+            <p className="mt-1 max-w-[46rem] text-[15px] text-slate-700">
+              Pay for the phone over the term, plan included. Cheapest first.
+            </p>
+            <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+              <p id="mobile-sort" className="text-[14px] font-medium">
+                Cheapest first for
+              </p>
+              <Choice label="Cheapest first for" options={SORTS} value={sortBy} onChange={setSortBy}/>
+              <p className="ml-2 text-[14px] font-medium">by</p>
+              <Choice label="Cheapest by" options={RANKS} value={rankBy} onChange={setRankBy}/>
+            </div>
+            <div className="mt-4">
+              {monthly.length ? (
+                <>
+                  {/* A table from tablets up (it scrolls sideways below a laptop's width); cards on phones */}
+                  <div className="hidden md:block">
+                    <OfferTable caption={`${name} in ${region.name}, paid by the month: each plan returned and kept`} groups={monthly} rankBy={rankBy}/>
+                  </div>
+                  <div className="md:hidden">
+                    <OfferCards caption={`${name} in ${region.name}, paid by the month`} groups={monthly} rankBy={rankBy}/>
+                  </div>
+                </>
+              ) :<p className="rounded-2xl border border-blue-100 bg-white shadow-sm shadow-blue-100 p-4 text-[15px] text-slate-700">No carrier or store in the list sells the {name} by the month.</p>}
+            </div>
+          </section>
+        </main>
+      </div>
+    </>
+  );
+};

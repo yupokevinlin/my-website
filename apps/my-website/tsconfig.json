@@ -34,6 +34,7 @@
     "components/**/*.tsx",
     "src/**/*.ts",
     "src/**/*.tsx",
+    "src/**/*.json",
     "pages/**/*.ts",
     "pages/**/*.tsx",
     "styles/**/*.ts",

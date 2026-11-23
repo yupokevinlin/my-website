@@ -1,0 +1,100 @@
+import type { ReactNode } from "react";
+import clsx from "clsx";
+import { useDetails } from "../../../hooks/useDetails";
+import { dataLabel, money } from "../../../tco";
+import type { CostRow, Scenario } from "../../../types";
+import { DataMeter } from "../../DataMeter/DataMeter";
+import { DetailsRow } from "../../DetailsRow/DetailsRow";
+import { LowestBadge } from "../../LowestBadge/LowestBadge";
+import { SellerCell } from "../../SellerCell/SellerCell";
+
+export interface OfferRowProps {
+  row: CostRow;
+  // On the seller's first (cheapest) tier: how many tiers the seller has. That
+  // row carries the seller's logo, in one cell at the top beside all of its tiers.
+  groupSize?: number;
+  // The biggest measured data plan in the table, for the data bars
+  maxGb: number;
+  // This row has the lowest monthly cost of the table for that outcome
+  bestKeep: boolean;
+  bestReturn: boolean;
+  // The badge's words: "Lowest", or "Lowest per month"
+  badge: string;
+}
+
+const CELL = "border-blue-100 px-2 py-3 text-right align-top text-[14px] text-slate-900";
+const SMALL = "mt-0.5 block text-[12px] font-normal text-slate-600";
+
+// The term has its own column, so the average month is shown without it
+const total = (scenario: Scenario, best: boolean, badge: string, className: string): ReactNode => (
+  <td className={clsx(className, "font-semibold")}>
+    {money(scenario.total)}
+    <span className={clsx(SMALL, "whitespace-nowrap")}>{money(scenario.perMonth)}/mo</span>
+    {best ? <LowestBadge label={badge}/> : null}
+  </td>
+);
+
+// One plan tier of a seller's monthly deal: what it costs returned and kept.
+// "Details" opens the arithmetic, the fine print and the source.
+export const OfferRow = ({ row, groupSize, maxGb, bestKeep, bestReturn, badge }: OfferRowProps): ReactNode => {
+  const { offer, months, keep, returned } = row;
+  const details = useDetails();
+  // A line between a seller's tiers; the line between sellers is the tbody's
+  const cell = clsx(CELL, !groupSize && "border-t");
+  const plan = offer.kind === "carrier" ? offer.plan : undefined;
+  const subject = plan ? `${offer.seller}, ${plan.name}, ${dataLabel(plan.gb)}` : `${offer.seller}, your own plan`;
+  return (
+    <>
+      <tr>
+        {groupSize ? (
+          // Spans every tier of the seller: each tier is two rows, itself and its details
+          <SellerCell seller={offer.seller} title={offer.title} rowSpan={groupSize * 2} via={offer.kind === "carrier" ? offer.via : undefined}/>
+        ) : null}
+        <th scope="row" className={clsx("border-blue-100 px-2 py-3 text-left align-top text-[13.5px] font-medium text-slate-900", !groupSize && "border-t")}>
+          {plan ? plan.name : "Your own plan"}
+          {/* A gift card or bill credit, already taken off the totals */}
+          {offer.kind === "carrier" && offer.credit ? <span className="mt-1.5 block w-fit rounded-md bg-emerald-50 px-1.5 py-0.5 text-[12px] font-semibold leading-snug text-emerald-900">{offer.credit.label}</span> : null}
+          {plan ? (
+            plan.features.length ? (
+              <ul className="mt-1.5 flex flex-wrap gap-1 font-normal">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="rounded-md bg-blue-50 text-blue-950 px-1.5 py-0.5 text-[12px] leading-snug text-slate-800">
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            ) : null
+          ) : (
+            <span className={SMALL}>The phone is unlocked</span>
+          )}
+        </th>
+        <td className={clsx("border-blue-100 px-2 py-3 text-left align-top", !groupSize && "border-t")}>{plan ? <DataMeter gb={plan.gb} maxGb={maxGb}/> : <span className="text-[14px] text-slate-600">As your plan</span>}</td>
+        <td className={cell}>{money(keep.dueToday)}</td>
+        <td className={cell}>{months}</td>
+        {returned ? (
+          <>
+            <td className={cell}>
+              {money(returned.deviceMonthly)}
+              <span className={SMALL}>{returned.how}</span>
+            </td>
+            <td className={cell}>{money(returned.planMonthly)}</td>
+            {total(returned, bestReturn, badge, cell)}
+          </>
+        ) : (
+          <td colSpan={3} className={clsx("border-blue-100 px-2 py-3 text-center align-top text-[13.5px] text-slate-600", !groupSize && "border-t")}>
+            No return program
+          </td>
+        )}
+        <td className={cell}>
+          {money(keep.deviceMonthly)}
+          <span className={SMALL}>{keep.how}</span>
+        </td>
+        <td className={cell}>{money(keep.planMonthly)}</td>
+        <td className={cell}>{money(keep.dueAtEnd)}</td>
+        {total(keep, bestKeep, badge, cell)}
+        <td className={clsx("border-blue-100 px-1 py-2 text-right align-top", !groupSize && "border-t")}>{details.button(subject)}</td>
+      </tr>
+      <DetailsRow id={details.id} open={details.open} colSpan={12} row={row}/>
+    </>
+  );
+};
