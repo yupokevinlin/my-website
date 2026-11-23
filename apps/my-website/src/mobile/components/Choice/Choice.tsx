@@ -17,9 +17,12 @@ export interface ChoiceProps<T extends string | number> {
   onChange: (value: T) => void;
 }
 
-// A row of buttons where one is chosen: the phone, the filter, the months
+// A row of buttons where one is chosen: the brand, the storage, the order.
+// Every button in a row is as wide as the widest (equal grid columns); on a
+// narrow screen they shrink together, and a mark shrinks with its button.
+// Rows hold four buttons at most, so they never need to wrap.
 export const Choice = <T extends string | number>({ label, options, value, onChange }: ChoiceProps<T>): ReactNode => (
-  <div role="group" aria-label={label} className="flex flex-wrap gap-2">
+  <div role="group" aria-label={label} className="inline-grid max-w-full grid-flow-col auto-cols-[minmax(0,1fr)] gap-2">
     {options.map((option) => (
       <button
         key={option.value}
@@ -27,7 +30,7 @@ export const Choice = <T extends string | number>({ label, options, value, onCha
         aria-pressed={option.value === value}
         onClick={() => onChange(option.value)}
         className={clsx(
-          "inline-flex min-h-11 items-center justify-center rounded-full border px-4 text-[15px] font-medium",
+          "inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full border px-3 text-[15px] font-medium sm:px-4",
           option.value === value ? "border-transparent bg-linear-to-r from-blue-600 to-violet-600 text-white shadow-sm shadow-violet-200" : "border-blue-200 bg-white text-slate-800 hover:border-violet-400",
         )}
       >
@@ -39,7 +42,8 @@ export const Choice = <T extends string | number>({ label, options, value, onCha
               className="block bg-current"
               style={{
                 width: option.icon.width,
-                height: option.icon.height,
+                maxWidth: "100%",
+                aspectRatio: `${option.icon.width} / ${option.icon.height}`,
                 maskImage: `url(${option.icon.src})`,
                 WebkitMaskImage: `url(${option.icon.src})`,
                 maskSize: "contain",

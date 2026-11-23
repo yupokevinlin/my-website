@@ -20,7 +20,7 @@ const ALL = "All";
 // (Samsung and Google from Simple Icons, CC0); a brand without one shows its name
 const BRAND_ICONS: Record<string, ChoiceOption<string>["icon"]> = {
   Apple: { src: "/resources/images/mobile/apple.svg", width: 17, height: 20 },
-  Samsung: { src: "/resources/images/mobile/brand-samsung.svg", width: 78, height: 12 },
+  Samsung: { src: "/resources/images/mobile/brand-samsung.svg", width: 66, height: 10 },
   Google: { src: "/resources/images/mobile/brand-google.svg", width: 19, height: 19 },
 };
 
